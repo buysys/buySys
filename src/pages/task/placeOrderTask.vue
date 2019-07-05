@@ -42,7 +42,7 @@
 			</el-button>
 			<el-button type="success" size="medium" :disabled="disabled" @click="account"><i class="el-icon-sort"></i>重新分配买号
 			</el-button>
-			<el-button type="primary" size="medium" :disabled="disabled"><i class="el-icon-set-up"></i>补单
+			<el-button type="primary" size="medium" :disabled="disabled" @click='supplementSheet'><i class="el-icon-set-up"></i>补单
 			</el-button>
 			<el-button type="primary" size="medium" :disabled="disabled"><i class="el-icon-edit-outline"></i>修改执行时间
 			</el-button>
@@ -130,7 +130,15 @@
 			<span slot="footer" class="dialog-footer">
         <el-button type="primary" size="medium" @click='confirmSellerCancel'>确定</el-button>
         <el-button @click="sellerCancelModal=false" size="medium">取消</el-button>
-     </span>
+    </span>
+		</el-dialog>
+		<!--补单-->
+		<el-dialog title='补单' :visible.sync="sheetModal" :close-on-click-modal="false" width="80%">
+			<SupplementSheet></SupplementSheet>
+			<div class="modelRight mt20">
+				<el-button type='primary' @click='confirmSheet'>确定</el-button>
+				<el-button @click='sheetModal=false'>取消</el-button>
+			</div>
 		</el-dialog>
 		<!-- 重新分配买号-->
 		<el-dialog title="重新分配买号" :visible.sync="accountModel" width="90%" :close-on-click-modal="false">
@@ -473,11 +481,13 @@
 </template>
 
 <script>
+	import SupplementSheet from '../../common/SupplementSheet'
 	export default {
 		name: 'placeOrderTask',
 		data() {
 			return {
 				radio:'',
+				sheetModal: false, //补单
 				sellerCancelModal: false, //卖家取消
 				accountModel:false,
 				abnormalModal: false, //标记异常
@@ -539,10 +549,23 @@
 				active: '1'
 			}
 		},
+		components:{
+			SupplementSheet
+		},
 		created() {
 			this.getAllData()
 		},
 		methods: {
+			// 补单
+			supplementSheet(){
+				let _this = this
+				_this.sheetModal = true
+			},
+			// 补单确定
+			confirmSheet(){
+				let _this = this
+				_this.sheetModal = false
+			},
 			// 标记异常
 			abnormal(){
 				let _this = this
