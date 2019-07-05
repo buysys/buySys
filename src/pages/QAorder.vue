@@ -100,7 +100,7 @@
 				</el-form-item>
 			</el-form>
 		</el-dialog>
-		<!-- 查看任务-->
+		<!--查看任务-->
 		<el-dialog :title="title" :visible.sync="viewTaskModel" width="90%" :close-on-click-modal="false">
 		<viewTask></viewTask>
 		</el-dialog>
