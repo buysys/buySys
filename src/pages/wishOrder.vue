@@ -41,14 +41,14 @@
 			<!--      <el-button type="success" size="medium"><i class="el-icon-edit"></i>自动分配</el-button>-->
 			<el-button type="primary" size="medium"><i class="el-icon-folder-opened"></i>订单导入</el-button>
 			<el-button type="primary" size="medium"><i class="el-icon-document-delete"></i>导出</el-button>
-			<el-button size="medium" @click="searchShow"><i class="el-icon-search"></i>检索</el-button>
+			<el-input placeholder="搜索" prefix-icon="el-icon-search" class="listSearchInput" @click.native="searchShow" readonly></el-input>
 		</div>
 		<div class="tabList">
 			<ul class="tabBlock">
 				<li :class="active === 1 ? 'active':''" @click="getAllData()" :data-index="1">全部<span>({{allNum}})</span></li>
 				<li :class="active === 2 ? 'active':''" :data-index="2" @click="daiBuy">待付款<span>(0)</span></li>
 				<li :class="active === 3 ? 'active':''" :data-index="3" @click="daifh">待确认<span>(0)</span></li>
-				<li :class="active === 4 ? 'active':''" :data-index="4" @click="daish">待处理<span>(0)</span></li>
+				<li :class="active === 4 ? 'active':''" :data-index="4" @click="daicl">待处理<span>(0)</span></li>
 				<li :class="active === 5 ? 'active':''" :data-index="5" @click="daish">待分配<span>(0)</span></li>
 				<li :class="active === 6 ? 'active':''" :data-index="6" @click="daipj">已分配<span>(0)</span></li>
 				<li :class="active === 7 ? 'active':''" :data-index="7" @click="ywc">已完成<span>(0)</span></li>
@@ -56,7 +56,7 @@
 			</ul>
 		</div>
 		<div class="mt10">
-			<el-table v-loading="loading" :data="orderPlaceData" border style="width: 100%" @selection-change="handleSelectionChange">
+			<el-table v-loading="loading" :data="orderPlaceData" style="width: 100%" :header-cell-style="{background:'#fafafa'}" @selection-change="handleSelectionChange">
 				<el-table-column type="selection"></el-table-column>
 				<el-table-column prop="Numbers" label="下单单号" align="center" width="200">
 					<template slot-scope="scope">
@@ -310,28 +310,34 @@
 				_this.active = 3
 				_this.orderPlaceData = []
 			},
+			// 待处理
+			daicl() {
+				let _this = this
+				_this.active = 4
+				_this.orderPlaceData = []
+			},
 			// 待分配
 			daish() {
 				let _this = this
-				_this.active = 4
+				_this.active = 5
 				_this.orderPlaceData = []
 			},
 			// 已分配
 			daipj() {
 				let _this = this
-				_this.active = 5
+				_this.active = 6
 				_this.orderPlaceData = []
 			},
 			// 已完成
 			ywc() {
 				let _this = this
-				_this.active = 6
+				_this.active = 7
 				_this.orderPlaceData = []
 			},
 			// 已取消
 			errData() {
 				let _this = this
-				_this.active = 7
+				_this.active = 8
 				_this.orderPlaceData = []
 			},
 			// 下单开始时间

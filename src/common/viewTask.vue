@@ -35,7 +35,7 @@
 		<div class="mb20">
 			<el-button size="medium" @click="taskSearchShow"><i class="el-icon-search"></i>检索</el-button>
 		</div>
-		<el-table :data="orderPlaceData" border style="width: 100%" :default-sort="{prop: 'Numbers', order: 'descending'}">
+		<el-table :data="orderPlaceData" style="width: 100%" :header-cell-style="{background:'#fafafa'}" :default-sort="{prop: 'Numbers', order: 'descending'}">
 			<el-table-column prop="Numbers" label="任务编码" sortable align="center"></el-table-column>
 			<el-table-column prop="CountryId" label="平台/国家" sortable align="center"></el-table-column>
 			<el-table-column prop="ProductByASIN" label="产品ASIN" sortable align="center"></el-table-column>
