@@ -73,7 +73,7 @@
 			</div>
 		</div>
 		<div class="mt10">
-			<el-table :data="orderPlaceData" border style="width: 100%" @selection-change="handleSelectionChange" height="550">
+			<el-table :data="orderPlaceData"  style="width: 100%" :header-cell-style="{background:'#e2e2e2'}" @selection-change="handleSelectionChange" height="550">
 				<el-table-column type="selection"></el-table-column>
 				<el-table-column prop="Numbers" label="任务编码" align="center" width="200">
 					<template slot-scope="scope">
@@ -240,8 +240,11 @@
 		</el-dialog>
 		<!-- 重新分配买号-->
 		<el-dialog title="重新分配买号" :visible.sync="accountModel" width="90%" :close-on-click-modal="false">
-			<buyNum></buyNum>
-			
+			<buyNum v-on:listenTochildEvent="showMessageFromChild"></buyNum>
+			<div class="mt20 modelRight">
+				<el-button type="primary" @click="confirmCountry">确定</el-button>
+				<el-button @click="accountModel=false">取消</el-button>
+			</div>
 		</el-dialog>
 		<!-- 修改价格-->
 		<el-dialog title="修改价格" :visible.sync="editPricceModel" :close-on-click-modal="false" :before-close="closeModel">
@@ -572,7 +575,7 @@
 				disabled: true,
 				editPricceModel: false,
 				checkBoxData: [],
-				searchModel: false,
+				searchModel: true,
 				orderPlaceData: [],
 				test: {
 					text1: '',
@@ -635,6 +638,9 @@
 			this.getAllData()
 		},
 		methods: {
+			showMessageFromChild(data){
+				console.log(data.CountryId)
+			},
 			// 系统配置
 			systemConfig(index,row){
 				let _this = this
@@ -757,7 +763,12 @@
 					_this.accountModel = true
 				}
 			},
+			// 重新分配选择确定
+			confirmCountry() {
+				let _this = this
+				_this.accountModel = false
 
+			},
 //			showRow(row) {
 //				//赋值给radio
 //				this.radio = this.orderPlaceData.indexOf(row);
@@ -812,7 +823,6 @@
 			handleSelectionChange(val) {
 				let _this = this
 				_this.checkBoxData = val
-				console.log(val)
 				let checkNum = _this.checkBoxData.length
 				_this.test.test1 = val[0].countryId
 				_this.test.numbers = val[0].Numbers
