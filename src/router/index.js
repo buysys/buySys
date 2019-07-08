@@ -106,7 +106,13 @@ export default new Router({
           name: 'VirtualCard',
           component: resolve => require(['../pages/card/VirtualCard.vue'], resolve),
           meta: {title: '虚拟卡管理'}
-        }
+        },
+				{
+				  path: '/register',
+				  name: 'register',
+				  component: resolve => require(['../pages/register.vue'], resolve),
+				  meta: {title: '注册'}
+				}
       ]
     },
     {

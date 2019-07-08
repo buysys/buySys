@@ -63,6 +63,8 @@
           </el-submenu>
           <el-menu-item index="10" class="loginOut" @click="loginOut"><i class="el-icon-setting"></i>退出
           </el-menu-item>
+					<el-menu-item index="register" class="loginOut"><i class="el-icon-setting"></i>注册
+					</el-menu-item>
         </el-menu>
 <!--      </div >-->
     </div>
