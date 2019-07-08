@@ -83,7 +83,8 @@
 			</el-button>
 			<el-button type="warning" size="medium" @click="delHandel"><i class="el-icon-document-delete"></i>导出
 			</el-button>
-			<el-button size="medium" @click="searchShow"><i class="el-icon-search"></i>检索</el-button>
+			<el-input placeholder="搜索" prefix-icon="el-icon-search" class="listSearchInput" @click.native="searchShow"></el-input>
+			<!--<el-button size="medium" @click="searchShow"><i class="el-icon-search"></i>检索</el-button>-->
 		</div>
 		<div class="tabList">
 			<ul class="tabBlock">
@@ -108,10 +109,13 @@
 				<el-table-column prop="Status" label="状态" align="center"></el-table-column>
 				<el-table-column prop="OrderNote" label="是否留评" align="center"></el-table-column>
 				<el-table-column prop="OrderNote" label="绑定IP" align="center"></el-table-column>
-				<el-table-column label="操作" align="center">
+				<el-table-column label="操作" align="center" width='290'>
 					<template slot-scope="scope">
 						<el-button size="small" type="primary" @click="RedistributionAccount(scope.$index, scope.row)">打开浏览器
 						</el-button>
+						<el-button size="small"  @click="systemConfig(scope.$index, scope.row)">系统配置
+						</el-button>
+						<el-button size='small' @click="remark(scope.$index,scope.row)">备注</el-button>
 					</template>
 				</el-table-column>
 			</el-table>
@@ -320,6 +324,13 @@
         <el-button @click="delModel=false" size="medium">取消</el-button>
      </span>
 		</el-dialog>
+		<!--系统配置-->
+		<el-dialog :title='systemTitle' :visible.sync='systemConfigModal'>
+			<systemConfig></systemConfig>
+			<div class="modelRight">
+				<el-button type='primary' @click='systemConfigModal=false'>关闭</el-button>
+			</div>
+		</el-dialog>
 		<!--修改标签-->
 		<el-dialog title="修改标签" :visible.sync="updateTabModal" :close-on-click-modal="false">
 			<el-form :modal='tabForm' label-width="100px">
@@ -333,6 +344,18 @@
 					<el-button @click='updateTabModal=false'>取消</el-button>
 				</el-form-item>
 			</el-form>
+		</el-dialog>
+		<!--备注-->
+		<el-dialog title='备注' :visible.sync="remarkModal" :close-on-click-modal="false" width="25%">
+			<el-form :model='remarkForm'>
+				<el-form-item>
+					<el-input v-model='remarkForm.remark' type='textarea' placeholder="请填写您要备注的内容" :autosize="{ minRows: 4, maxRows: 10}"></el-input>
+				</el-form-item>
+			</el-form>
+			<div class="modelRight">
+				<el-button type='primary' size='medium'>确定</el-button>
+				<el-button @click='remarkModal=false' size='medium'>取消</el-button>
+			</div>
 		</el-dialog>
 		<!--修改状态-->
 		<el-dialog title="修改状态" :visible.sync="updateStatusModal" :close-on-click-modal="false" width="30%">
@@ -537,6 +560,7 @@
 </template>
 
 <script>
+	import systemConfig from '../../common/systemConfig'
 	export default {
 		name: 'registerAccount',
 		data() {
@@ -544,6 +568,9 @@
 				radio: '',
 				brushRadio: '',
 				title: '新建',
+				systemTitle:'',
+				remarkModal: false, //备注
+				systemConfigModal: false, //系统配置
 				buyNumLevelModel: false, //绑定买号等级
 				bindIpModal: false, //绑定IP
 				updateStatusModal: false, //修改状态弹窗
@@ -567,6 +594,10 @@
 				pickerStartDate: this.searchStartDate(),
 				tabForm: {
 					tabs: []
+				},
+				//备注
+				remarkForm:{
+					remark:''
 				},
 				//关联刷手搜索
 				brushSearch:{
@@ -665,10 +696,31 @@
 				active: '1'
 			}
 		},
+		components:{
+			systemConfig
+		},
 		created() {
 			this.getAllData()
 		},
 		methods: {
+			//备注
+			remark(index,row){
+				let _this = this
+				_this.remarkModal = true
+			},
+			//备注确定
+			confirmRemark(){
+				let _this = this
+				_this.remarkModal = false
+			},
+			//系统配置
+			systemConfig(index,row){
+				let _this = this
+				_this.systemConfigModal = true
+				let item = _this.buyNumData[index]
+				let num = item.Numbers
+				_this.systemTitle = '买号：' + num + '系统配置'
+			},
 			// 绑定买号等级
 			buyNumLevel(){
 				let _this = this

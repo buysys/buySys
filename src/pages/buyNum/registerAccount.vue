@@ -75,7 +75,8 @@
 			</el-button>
 			<el-button type="primary" size="medium" @click="delHandel"><i class="el-icon-takeaway-box"></i>自动注册
 			</el-button>
-			<el-button size="medium" @click="searchShow"><i class="el-icon-search"></i>检索</el-button>
+			<el-input placeholder="搜索" prefix-icon="el-icon-search" class="listSearchInput" @click.native="searchShow"></el-input>
+			<!--<el-button size="medium" @click="searchShow"><i class="el-icon-search"></i>检索</el-button>-->
 		</div>
 		<div class="mt10">
 			<el-table :data="buyNumData" border style="width: 100%" @selection-change="handleSelectionChange">
