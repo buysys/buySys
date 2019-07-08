@@ -93,6 +93,31 @@ ul{
 .disNone{
 	display: none;
 }
+/* 列表头部搜索框 */
+.listSearchInput{
+	width: 200px;
+	float: right;
+	cursor: pointer;
+}
+/* 导航条 */
+.navCon{
+	background: #001529;
+}
+.el-menu.el-menu--horizontal{
+	border-bottom:solid 1px #001529;
+}
+.el-menu--horizontal>.el-submenu .el-submenu__icon-arrow{
+	display: none;
+}
+.el-submenu.is-active .el-submenu__title{
+	border: none;
+}
+.el-menu--horizontal>.el-submenu.is-active .el-submenu__title{
+	border: none;
+}
+.el-menu--collapse .el-menu .el-submenu, .el-menu--popup{
+	min-width: 150px;
+}
 /*首页*/
 .indexTask .items{
   background: #fff;
