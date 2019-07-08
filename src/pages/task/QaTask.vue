@@ -26,7 +26,8 @@
 		<div class="mb20">
 			<el-button type="success" size="medium" :disabled="disabled" @click="account"><i class="el-icon-sort"></i>重新分配买号
 			</el-button>
-			<el-button size="medium" @click="searchShow"><i class="el-icon-search"></i>检索</el-button>
+			<!--<el-button size="medium" @click="searchShow"><i class="el-icon-search"></i>检索</el-button>-->
+			<el-input placeholder="搜索" prefix-icon="el-icon-search" class="listSearchInput" @click.native="searchShow"></el-input>
 		</div>
 		<div class="tabList">
 			<ul class="tabBlock">
@@ -56,9 +57,9 @@
 				<el-table-column prop="Status" label="客户编码" align="center"></el-table-column>
 				<el-table-column label="操作" align="center" width="320">
 					<template slot-scope="scope">
-						<el-button size="small" type="primary">查看任务</el-button>
+						<el-button size="small" type="primary" @click="viewTaskDetails(scope.$index,scope.row)">查看任务</el-button>
 						<el-button size="small">打开浏览器</el-button>
-						<el-button size="small">系统配置</el-button>
+						<el-button size="small" @click='systemConfig(scope.$index,scope.row)'>系统配置</el-button>
 						<el-button size="small" type="success" v-if="scope.row.Status==='待确认付款'">执行</el-button>
 					</template>
 				</el-table-column>
@@ -66,62 +67,84 @@
 		</div>
 		<!--重新分配账号-->
 		<el-dialog title="重新分配账号" :visible.sync="accountModel" width="90%" :close-on-click-modal="false">
-			<el-collapse-transition>
-				<div class="searchBox mb20" v-show="accountSearchModel">
-					<el-form ref="accountSearchForm" :model="accountSearchForm" class="form-item" label-width="80px">
-						<el-form-item label="标签类型" class="disInline">
-							<el-checkbox-group v-model="accountSearchForm.type">
-								<el-checkbox label="西班牙" name="type"></el-checkbox>
-								<el-checkbox label="新人注册号" name="type"></el-checkbox>
-								<el-checkbox label="加拿大" name="type"></el-checkbox>
-								<el-checkbox label="手机测试" name="type"></el-checkbox>
-							</el-checkbox-group>
-						</el-form-item>
-						<el-form-item label="注册时间">
-							<el-date-picker v-model="accountSearchForm.startTime" type="date" placeholder="选择开始时间" :picker-options="pickerStartDate" value-format="yyyy-MM-dd" class="mb10"></el-date-picker>
-							<el-date-picker v-model="accountSearchForm.endTime" type="date" placeholder="选择结束时间" :picker-options="pickerEndDate" value-format="yyyy-MM-dd"></el-date-picker>
-						</el-form-item>
-						<el-row>
-							<el-col :xs="24" :span="5" :sm="9" :md="8" :lg="5">
-								<el-form-item label="搜索内容">
-									<el-input v-model="accountSearchForm.searchKeyWords" placeholder="请输入关键字" class="disInline"></el-input>
-								</el-form-item>
-							</el-col>
-							<el-col :xs="24" :span="5" :sm="10" :md="8" :lg="5" class="ml20">
-								<el-button type="primary" size="medium">查询</el-button>
-								<el-button size="medium">重置</el-button>
-							</el-col>
-						</el-row>
-					</el-form>
-				</div>
-			</el-collapse-transition>
-			<div class="mb20">
-				<el-button size="medium" @click="accountSearchShow"><i class="el-icon-search"></i>检索</el-button>
-			</div>
-			<el-table :data="orderPlaceData" border style="width: 100%" @selection-change="handleSelectionChange">
-				<el-table-column show-overflow-tooltip width="50px">
-					<template slot-scope="scope">
-						<el-radio class="radio" v-model="radio" :label="scope.$index">&nbsp;</el-radio>
-					</template>
-				</el-table-column>
-				<el-table-column prop="Numbers" label="账号" align="center">
-				</el-table-column>
-				<el-table-column prop="CountryId" label="关联刷手" align="center"></el-table-column>
-				<el-table-column prop="ProductByASIN" label="未完成任务数" align="center"></el-table-column>
-				<el-table-column prop="ProductByASIN" label="标签" align="center"></el-table-column>
-				<el-table-column prop="ProductPrice" label="首次购买" align="center"></el-table-column>
-				<el-table-column prop="ServiceType" label="最近购买" align="center"></el-table-column>
-				<el-table-column prop="OrderNote" label="信用卡类型" align="center"></el-table-column>
-				<el-table-column prop="OrderNote" label="信用卡姓名" align="center"></el-table-column>
-				<el-table-column prop="OrderTime" label="信用卡剩余总额度" align="center"></el-table-column>
-				<el-table-column prop="Status" label="购物卡剩余总额度" align="center"></el-table-column>
-				<el-table-column prop="OrderTime" label="信用卡累积消费" align="center"></el-table-column>
-				<el-table-column prop="Status" label="购物卡累积消费" align="center"></el-table-column>
-			</el-table>
+			<buyNum v-on:listenTochildEvent="showMessageFromChild"></buyNum>
 			<div class="mt20 modelRight">
 				<el-button type="primary" @click="confirmCountry">确定</el-button>
 				<el-button @click="accountModel=false">关闭</el-button>
 			</div>
+		</el-dialog>
+		<!--系统配置-->
+		<el-dialog :title='buyNum' :visible.sync='systemConfigModal' :close-on-click-modal='false'>
+			<el-form class='viewMl50'>
+				<el-row>
+					<el-col :span='12' :xs='24'>
+						<el-form-item label='代理IP：'>
+							<span>112.0.23.2</span>
+						</el-form-item>
+					</el-col>
+					<el-col :span='12' :xs='24'>
+						<el-form-item label='内网IP：'>
+							<span>112.0.23.2</span>
+						</el-form-item>
+					</el-col>
+				</el-row>
+				<el-form-item label='默认网址：'>
+					<span>www.baidu.com</span>
+				</el-form-item>
+				<el-form-item label='买号ID：'>
+					<span>799b78de13f74c4295ed0acb98b96880</span>
+				</el-form-item>
+				<el-form-item label='登录账号：'>
+					<span>tamsindawson88@gmail.com</span>
+				</el-form-item>
+				<el-form-item label='登录密码：'>
+					<span>6880</span>
+				</el-form-item>
+				<el-form-item label='操作系统：'>
+					<span>Windows</span>
+				</el-form-item>
+				<el-form-item label='UserAgent：'>
+					<span>Mozilla/5.0 (Windows; U; Windows NT 6.0; en-US) AppleWebKit/530.4 (KHTML, like Gecko) Chrome/2.0.171.0 Safari/530.4</span>
+				</el-form-item>
+				<el-form-item label='浏览器版本号：'>
+					<span>5.0 (Windows; U; Windows NT 6.0; en-US) AppleWebKit/530.4 (KHTML, like Gecko) Chrome/2.0.171.0 Safari/530.4</span>
+				</el-form-item>
+				<el-form-item label='浏览器语言：'>
+					<span>EN</span>
+				</el-form-item>
+				<el-form-item label='浏览器插件：'>
+					<span>Chrome PDF Plugin,Chrome PDF Viewer,Native Client</span>
+				</el-form-item>
+				<el-form-item label='屏幕分辨率：'>
+					<span>1366*768</span>
+				</el-form-item>
+				<el-form-item label='CPU核心数：'>
+					<span>8</span>
+				</el-form-item>
+				<el-form-item label='系统字体数：'>
+					<span>311</span>
+				</el-form-item>
+				<el-form-item label='时区：'>
+					<span>UTC-05:00</span>
+				</el-form-item>
+				<el-row>
+					<el-col :span='8' :xs='24'>
+						<el-form-item label='屏幕颜色深度：'>
+							<span>323</span>
+						</el-form-item>
+					</el-col>
+					<el-col :span='8' :xs='24'>
+						<el-form-item label='授权账号：'>
+							<span>323</span>
+						</el-form-item>
+					</el-col>
+					<el-col :span='8' :xs='24'>
+						<el-form-item label='授权密码：'>
+							<span>323</span>
+						</el-form-item>
+					</el-col>
+				</el-row>
+			</el-form>
 		</el-dialog>
 		<!--查看任务详情-->
 		<el-dialog :title='orderTitle' :visible.sync="viewTaskDateilsModel" width="60%" :close-on-click-modal="false">
@@ -214,11 +237,14 @@
 </template>
 
 <script>
+	import buyNum from '../../common/buyNum'
 	export default {
 		name: 'QaTask',
 		data() {
 			return {
+				buyNum:'',
 				radio: '',
+				systemConfigModal: false, //配置信息
 				accountModel: false,
 				accountSearchModel: false,
 				orderTitle: '',
@@ -252,11 +278,18 @@
 				active: '1'
 			}
 		},
+		components:{
+			buyNum
+		},
 		created() {
 			this.getAllData()
 		},
 		methods: {
-				// 分配信息检索
+			// 子组件选中的
+			showMessageFromChild(data){
+				console.log(data.CountryId)
+			},
+			// 分配信息检索
 			accountSearchShow() {
 				let _this = this
 				let sear = _this.accountSearchModel
@@ -265,6 +298,14 @@
 				} else {
 					_this.accountSearchModel = true
 				}
+			},
+			// 系统配置
+			systemConfig(index, row) {
+				let _this = this
+				_this.systemConfigModal = true
+				let item = _this.orderPlaceData[index]
+				let num = item.Numbers
+				_this.buyNum = '买号：' + num + '系统配置'
 			},
 			showRow(row) {
 				//赋值给radio

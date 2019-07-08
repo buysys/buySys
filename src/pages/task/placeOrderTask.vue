@@ -9,18 +9,6 @@
 							<el-radio label="Amazon"></el-radio>
 						</el-radio-group>
 					</el-form-item>
-					<!--          <el-form-item label="国家">-->
-					<!--            <el-select placeholder="请选择" v-model="searchForm.countryId" class="minWid">-->
-					<!--              <el-option v-for="(item,index) in countryData" :key="index" :value="index"-->
-					<!--                         :label="item.country"></el-option>-->
-					<!--            </el-select>-->
-					<!--          </el-form-item>-->
-					<!--          <el-form-item label="下单时间">-->
-					<!--            <el-date-picker v-model="searchForm.orderStartTime" type="date" placeholder="选择开始时间" :picker-options="pickerStartDate"-->
-					<!--                            value-format="yyyy-MM-dd" class="mb10"></el-date-picker>-->
-					<!--            <el-date-picker v-model="searchForm.orderEndTime" type="date" placeholder="选择结束时间" :picker-options="pickerEndDate"-->
-					<!--                            value-format="yyyy-MM-dd"></el-date-picker>-->
-					<!--          </el-form-item>-->
 					<el-row>
 						<el-col :xs="24" :span="5" :sm="9" :md="8" :lg="4">
 							<el-form-item label="搜索内容">
@@ -52,7 +40,8 @@
 			</el-button>
 			<el-button type="primary" size="medium"><i class="el-icon-folder-opened"></i>任务导入</el-button>
 			<el-button type="primary" size="medium"><i class="el-icon-document-delete"></i>任务导出</el-button>
-			<el-button size="medium" @click="searchShow"><i class="el-icon-search"></i>检索</el-button>
+			<!--<el-button size="medium" @click="searchShow"><i class="el-icon-search"></i>检索</el-button>-->
+			<el-input placeholder="搜索" prefix-icon="el-icon-search" class="listSearchInput" @click.native="searchShow"></el-input>
 		</div>
 		<div class="tabList">
 			<div class="tabLeft">
@@ -73,7 +62,7 @@
 			</div>
 		</div>
 		<div class="mt10">
-			<el-table :data="orderPlaceData"  style="width: 100%" :header-cell-style="{background:'#e2e2e2'}" @selection-change="handleSelectionChange" height="550">
+			<el-table :data="orderPlaceData" style="width: 100%" :header-cell-style="{background:'#fafafa'}" @selection-change="handleSelectionChange" height="550">
 				<el-table-column type="selection"></el-table-column>
 				<el-table-column prop="Numbers" label="任务编码" align="center" width="200">
 					<template slot-scope="scope">
@@ -134,73 +123,10 @@
 		</el-dialog>
 		<!--系统配置-->
 		<el-dialog :title='buyNum' :visible.sync='systemConfigModal' :close-on-click-modal='false'>
-				<el-form class='viewMl50'>
-				<el-form-item label='代理IP：'>
-					<span>112.0.23.2</span>
-				</el-form-item>
-				<el-form-item label='内网IP：'>
-					<span>112.0.23.2</span>
-				</el-form-item>
-				<el-form-item label='默认网址：'>
-					<span>www.baidu.com</span>
-				</el-form-item>
-				<el-form-item label='买号ID：'>
-					<span>799b78de13f74c4295ed0acb98b96880</span>
-				</el-form-item>
-				<el-form-item label='登录账号：'>
-					<span>tamsindawson88@gmail.com</span>
-				</el-form-item>
-				<el-form-item label='登录密码：'>
-					<span>6880</span>
-				</el-form-item>
-				<el-form-item label='操作系统：'>
-					<span>Windows</span>
-				</el-form-item>
-				<el-form-item label='UserAgent：'>
-					<span>Mozilla/5.0 (Windows; U; Windows NT 6.0; en-US) AppleWebKit/530.4 (KHTML, like Gecko) Chrome/2.0.171.0 Safari/530.4</span>
-				</el-form-item>
-				<el-form-item label='浏览器版本号：'>
-					<span>5.0 (Windows; U; Windows NT 6.0; en-US) AppleWebKit/530.4 (KHTML, like Gecko) Chrome/2.0.171.0 Safari/530.4</span>
-				</el-form-item>
-				<el-form-item label='浏览器语言：'>
-					<span>EN</span>
-				</el-form-item>
-				<el-form-item label='浏览器插件：'>
-					<span>Chrome PDF Plugin,Chrome PDF Viewer,Native Client</span>
-				</el-form-item>
-				<el-form-item label='屏幕分辨率：'>
-					<span>1366*768</span>
-				</el-form-item>
-				<el-form-item label='CPU核心数：'>
-					<span>8</span>
-				</el-form-item>
-				<el-form-item label='系统字体数：'>
-					<span>311</span>
-				</el-form-item>
-				<el-form-item label='时区：'>
-					<span>UTC-05:00</span>
-				</el-form-item>
-				<el-form-item label='时区：'>
-					<span>UTC-05:00</span>
-				</el-form-item>
-				<el-row>
-					<el-col :span='8' :xs='24'>
-						<el-form-item label='屏幕颜色深度：'>
-							<span>323</span>
-						</el-form-item>
-					</el-col>
-					<el-col :span='8' :xs='24'>
-						<el-form-item label='授权账号：'>
-							<span>323</span>
-						</el-form-item>
-					</el-col>
-					<el-col :span='8' :xs='24'>
-						<el-form-item label='授权密码：'>
-							<span>323</span>
-						</el-form-item>
-					</el-col>
-				</el-row>
-			</el-form>
+			<systemConfig></systemConfig>
+			<div class="modelRight">
+				<el-button type='primary' @click='systemConfigModal=false'>关闭</el-button>
+			</div>
 		</el-dialog>
 		<!--确认发货-->
 		<el-dialog title='温馨提示' :visible.sync='confirmDeliveryModal' :close-on-click-modal="false" width='25%'>
@@ -548,13 +474,14 @@
 <script>
 	import SupplementSheet from '../../common/SupplementSheet'
 	import buyNum from '../../common/buyNum'
+	import systemConfig from '../../common/systemConfig'
 	export default {
 		name: 'placeOrderTask',
 		data() {
 			return {
 				radio: '',
 				tipMessage: '',
-				buyNum:'', //系统配置买号
+				buyNum: '', //系统配置买号
 				systemConfigModal: false, //系统配置
 				deliverShow: false, //收发货确定按钮
 				confirmDeliveryModal: false, //确认发货
@@ -575,7 +502,7 @@
 				disabled: true,
 				editPricceModel: false,
 				checkBoxData: [],
-				searchModel: true,
+				searchModel: false,
 				orderPlaceData: [],
 				test: {
 					text1: '',
@@ -585,12 +512,12 @@
 				timeForm: {
 					times: ''
 				},
-//				accountSearchForm: {
-//					type: [],
-//					startTime: '',
-//					endTime: '',
-//					searchKeyWords: ''
-//				},
+				//				accountSearchForm: {
+				//					type: [],
+				//					startTime: '',
+				//					endTime: '',
+				//					searchKeyWords: ''
+				//				},
 				abnormalForm: {
 					reason: '',
 					remark: ''
@@ -623,8 +550,8 @@
 					platform: '全部',
 					searchkeywords: ''
 				},
-//				pickerEndDate: this.pickerOptionsEnd(),
-//				pickerStartDate: this.searchStartDate(),
+				//				pickerEndDate: this.pickerOptionsEnd(),
+				//				pickerStartDate: this.searchStartDate(),
 				activeName: 'first',
 				allNum: '0',
 				active: 1,
@@ -632,19 +559,21 @@
 			}
 		},
 		components: {
-			SupplementSheet,buyNum
+			SupplementSheet,
+			buyNum,
+			systemConfig
 		},
 		created() {
 			this.getAllData()
 		},
 		methods: {
-			showMessageFromChild(data){
+			showMessageFromChild(data) {
 				console.log(data.CountryId)
 			},
 			// 系统配置
-			systemConfig(index,row){
+			systemConfig(index, row) {
 				let _this = this
-				_this.systemConfigModal=true
+				_this.systemConfigModal = true
 				let item = _this.orderPlaceData[index]
 				let num = item.Numbers
 				_this.buyNum = '买号：' + num + '系统配置'
@@ -769,21 +698,21 @@
 				_this.accountModel = false
 
 			},
-//			showRow(row) {
-//				//赋值给radio
-//				this.radio = this.orderPlaceData.indexOf(row);
-//				this.selected = row;
-//			},
-//			// 分配信息检索
-//			accountSearchShow() {
-//				let _this = this
-//				let sear = _this.accountSearchModel
-//				if(sear) {
-//					_this.accountSearchModel = false
-//				} else {
-//					_this.accountSearchModel = true
-//				}
-//			},
+			//			showRow(row) {
+			//				//赋值给radio
+			//				this.radio = this.orderPlaceData.indexOf(row);
+			//				this.selected = row;
+			//			},
+			//			// 分配信息检索
+			//			accountSearchShow() {
+			//				let _this = this
+			//				let sear = _this.accountSearchModel
+			//				if(sear) {
+			//					_this.accountSearchModel = false
+			//				} else {
+			//					_this.accountSearchModel = true
+			//				}
+			//			},
 			// 查看任务详情弹窗
 			viewTaskDetails(index, row) {
 				let _this = this
@@ -893,31 +822,31 @@
 				_this.times = '异常时间'
 				//				_this.orderPlaceData = []
 			},
-//			// 注册开始时间
-//			searchStartDate() {
-//				return {
-//					disabledDate: time => {
-//						let endDateVal = this.accountSearchForm.endTime
-//						if(endDateVal) {
-//							return time.getTime() > new Date(endDateVal).getTime()
-//						}
-//					}
-//				}
-//			},
-//			// 搜索下单结束时间
-//			pickerOptionsEnd() {
-//				return {
-//					disabledDate: time => {
-//						let beginDateVal = this.accountSearchForm.startTime
-//						if(beginDateVal) {
-//							return(
-//								time.getTime() <
-//								new Date(beginDateVal).getTime() - 1 * 24 * 60 * 60 * 1000
-//							)
-//						}
-//					}
-//				}
-//			}
+			//			// 注册开始时间
+			//			searchStartDate() {
+			//				return {
+			//					disabledDate: time => {
+			//						let endDateVal = this.accountSearchForm.endTime
+			//						if(endDateVal) {
+			//							return time.getTime() > new Date(endDateVal).getTime()
+			//						}
+			//					}
+			//				}
+			//			},
+			//			// 搜索下单结束时间
+			//			pickerOptionsEnd() {
+			//				return {
+			//					disabledDate: time => {
+			//						let beginDateVal = this.accountSearchForm.startTime
+			//						if(beginDateVal) {
+			//							return(
+			//								time.getTime() <
+			//								new Date(beginDateVal).getTime() - 1 * 24 * 60 * 60 * 1000
+			//							)
+			//						}
+			//					}
+			//				}
+			//			}
 		}
 	}
 </script>

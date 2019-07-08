@@ -8,6 +8,9 @@ body{
 ul{
 	list-style: none;
 }
+.navHead li{
+	background: #000;
+}
 .mt20{
   margin-top: 20px;
 }
@@ -63,9 +66,6 @@ ul{
   background: #fff;
   padding: 20px;
 }
-.navCon{
-  background: #2F4056;
-}
 .navHead{
   width: 90%;
   margin: 0 auto;
@@ -87,11 +87,41 @@ ul{
 .fz16{
 	font-size: 16px;
 }
+.fz50{
+	font-size: 50px;
+	color: #E6A23C;
+	transform: translateY(10px);
+}
 .txtCenter{
 	text-align: center;
 }
 .disNone{
 	display: none;
+}
+/* 列表头部搜索框 */
+.listSearchInput{
+	width: 200px;
+	float: right;
+}
+/* 列表头部搜索框 */
+.listSearchInput{
+	width: 200px;
+	float: right;
+	cursor: pointer;
+}
+/* 导航条 */
+.navCon{
+	background: #001529;
+}
+.el-menu.el-menu--horizontal{
+	border-bottom:solid 1px #001529;
+}
+.el-menu--horizontal>.el-submenu .el-submenu__icon-arrow{
+	display: none;
+}
+/*logo图片*/
+.imgLogo{
+	height: 40px;
 }
 /*首页*/
 .indexTask .items{
@@ -181,6 +211,9 @@ ul{
 .modelRight{
   text-align: right;
 }
+.viewMl50{
+	margin:0 50px;
+}
 /*买号管理*/
 .card .el-input__inner{
 	background: #eee;
@@ -250,6 +283,9 @@ ul{
 @media  screen and (max-width:414px ) {
 	.demo-item .el-form-item__label{
 		width: auto;
+	}
+	.viewMl50{
+		margin:0;
 	}
 	.el-form-item__label{
 		display: block;
