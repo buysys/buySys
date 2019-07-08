@@ -136,7 +136,7 @@
 		</el-dialog>
 		<!--查看任务详情-->
 		<el-dialog :title='orderTitle' :visible.sync="viewTaskDateilsModel" width="60%" :close-on-click-modal="false">
-			<orderDetail :orderData="this.orderDetail"></orderDetail>
+			<orderDetail :order-data="this.orderDetail"></orderDetail>
 		</el-dialog>
 	</div>
 </template>
