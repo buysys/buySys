@@ -48,7 +48,7 @@
           name: '',
           password : '',
           password2: '',
-          select:1,
+          select:'+86',
           checknum: ''
         }
       }
