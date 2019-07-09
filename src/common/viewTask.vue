@@ -48,9 +48,6 @@
 			<el-table-column prop="Status" label="任务状态" sortable align="center"></el-table-column>
 			<el-table-column prop="Remark" label="备注信息" align="center"></el-table-column>
 		</el-table>
-		<div class="mt20 modelRight">
-			<el-button @click="viewTaskModel=false" type="primary">关闭</el-button>
-		</div>
 	</div>
 </template>
 
