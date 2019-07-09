@@ -2,7 +2,6 @@
   <div class="navCon">
     <div class="navHead">
       <div class="line"></div>
-<!--      <div class="navs">-->
         <el-menu :default-active="onRoutes" background-color="#001529" text-color="#fff"
                  active-text-color="#5FB878" class="el-menu-demo navBox" mode="horizontal" @select="handleSelect"
                  unique-opened router>
@@ -69,7 +68,6 @@
 					<el-menu-item index="register" class="loginOut"><i class="el-icon-setting"></i>注册
 					</el-menu-item>
         </el-menu>
-<!--      </div >-->
     </div>
   </div>
 </template>
