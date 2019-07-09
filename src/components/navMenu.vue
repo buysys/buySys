@@ -6,6 +6,9 @@
         <el-menu :default-active="onRoutes" background-color="#001529" text-color="#fff"
                  active-text-color="#5FB878" class="el-menu-demo navBox" mode="horizontal" @select="handleSelect"
                  unique-opened router>
+					<el-menu-item>
+					<img class="imgLogo" src="../assets/image/logo.png" />
+					</el-menu-item>
           <el-menu-item index="index"><i class="el-icon-files"></i>首页</el-menu-item>
           <el-submenu index="2">
             <template slot="title"><i class="el-icon-document-checked"></i>订单管理</template>
