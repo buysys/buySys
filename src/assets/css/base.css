@@ -67,7 +67,7 @@ ul{
   padding: 20px;
 }
 .navHead{
-  width: 90%;
+  width: 95%;
   margin: 0 auto;
 }
 .loginOut{
@@ -86,6 +86,9 @@ ul{
 }
 .fz16{
 	font-size: 16px;
+}
+.fz14{
+	font-size: 14px;
 }
 .fz50{
 	font-size: 50px;

@@ -1,7 +1,12 @@
 <template>
   <div class="container">
+  <div class="mb20 fz14">
+	<span>买号管理</span>
+	<span>/</span>
+	<span>买号等级</span>
+</div>
     <el-collapse-transition>
-      <div class="searchBox mb20" v-show="searchModel">
+      <div class="searchBox mb20">
         <el-form ref="searchForm" :model="searchForm" class="form-item" label-width="80px">
           <el-row class="pt20">
             <el-col :xs="24" :span="7" :sm="9" :md="8" :lg="5">
@@ -24,7 +29,7 @@
       </el-button>
       <el-button type="danger" size="medium" :disabled="disabled" @click="delHandel"><i class="el-icon-delete"></i>删除
       </el-button>
-      <el-input placeholder="搜索" prefix-icon="el-icon-search" class="listSearchInput" @click.native="searchShow"></el-input>
+      <!--<el-input placeholder="搜索" prefix-icon="el-icon-search" class="listSearchInput" @click.native="searchShow"></el-input>-->
       <!--<el-button size="medium" @click="searchShow"><i class="el-icon-search"></i>检索</el-button>-->
     </div>
     <div class="mt10">
