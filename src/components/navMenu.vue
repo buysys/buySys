@@ -88,7 +88,7 @@
 				</el-menu-item>
 			</el-menu>
 		</div>
-	</div>
+</div>
 </template>
 
 <script>

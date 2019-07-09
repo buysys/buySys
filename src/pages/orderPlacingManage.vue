@@ -35,7 +35,7 @@
 		<div class="mb20">
 			<el-button type="success" size="medium" :disabled="disabled" @click="editPrice"><i class="el-icon-edit-outline"></i>修改价格
 			</el-button>
-			<!--      <el-button type="success" size="medium"><i class="el-icon-edit"></i>自动分配</el-button>-->
+			<!--<el-button type="success" size="medium"><i class="el-icon-edit"></i>自动分配</el-button>-->
 			<el-button type="primary" size="medium"><i class="el-icon-folder-opened"></i>订单导入</el-button>
 			<el-button type="primary" size="medium" @click="exportExcel"><i class="el-icon-document-delete"></i>导出</el-button>
 			<el-input placeholder="搜索" prefix-icon="el-icon-search" class="listSearchInput" @click.native="searchShow" readonly></el-input>

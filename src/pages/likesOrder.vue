@@ -29,16 +29,13 @@
 							<el-button size="medium" @click="resetSearch">重置</el-button>
 						</el-col>
 					</el-row>
-					<!--        <el-form-item>-->
-					<!--          -->
-					<!--        </el-form-item>-->
 				</el-form>
 			</div>
 		</el-collapse-transition>
 		<div class="mb20">
 			<el-button type="success" size="medium" :disabled="disabled" @click="editPrice"><i class="el-icon-edit-outline"></i>修改价格
 			</el-button>
-			<!--      <el-button type="success" size="medium"><i class="el-icon-edit"></i>自动分配</el-button>-->
+			<!--<el-button type="success" size="medium"><i class="el-icon-edit"></i>自动分配</el-button>-->
 			<el-button type="primary" size="medium"><i class="el-icon-folder-opened"></i>订单导入</el-button>
 			<el-button type="primary" size="medium"><i class="el-icon-document-delete"></i>导出</el-button>
 			<el-input placeholder="搜索" prefix-icon="el-icon-search" class="listSearchInput" @click.native="searchShow" readonly></el-input>
@@ -109,6 +106,9 @@
 		<!-- 查看任务-->
 		<el-dialog :title="title" :visible.sync="viewTaskModel" width="90%" :close-on-click-modal="false">
 		<viewTask></viewTask>
+		<div class="mt20 modelRight">
+			<el-button @click="viewTaskModel=false" type="primary">关闭</el-button>
+		</div>
 		</el-dialog>
 		<!-- 取消原因-->
 		<el-dialog title="取消原因" :visible.sync="reasonModel" :close-on-click-modal="false" width="40%">

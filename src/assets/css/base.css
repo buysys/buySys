@@ -111,15 +111,14 @@ ul{
 	background: #001529;
 }
 .el-menu.el-menu--horizontal{
-	border-bottom:solid 1px #001529;
+	border: none;
 }
 .el-menu--horizontal>.el-submenu .el-submenu__icon-arrow{
 	display: none;
 }
-.el-submenu.is-active .el-submenu__title{
-	border: none;
-}
-.el-menu--horizontal>.el-submenu.is-active .el-submenu__title{
+.el-menu--horizontal>.el-submenu .el-submenu__title,
+.el-menu--horizontal>.el-submenu.is-active .el-submenu__title
+{
 	border: none;
 }
 .el-menu--collapse .el-menu .el-submenu, .el-menu--popup{
