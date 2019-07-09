@@ -2,11 +2,7 @@
 	<div class="box">
 		<div class="logobox">
 			<img src="../assets/image/logo.png">
-<<<<<<< HEAD
-			<p class="infotxt">触动力是深圳最具影响力的企业</p>
-=======
 			<p class="infotxt">触动力是深圳最具影响力的公司</p>
->>>>>>> 8a9fa763956743be0248d0b5582b94a7cbe461af
 		</div>
 		<el-form ref="form" :model="form">
 			
