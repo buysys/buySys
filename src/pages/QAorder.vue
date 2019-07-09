@@ -103,6 +103,9 @@
 		<!--查看任务-->
 		<el-dialog :title="title" :visible.sync="viewTaskModel" width="90%" :close-on-click-modal="false">
 		<viewTask></viewTask>
+		<div class="mt20 modelRight">
+			<el-button @click="viewTaskModel=false" type="primary">关闭</el-button>
+		</div>
 		</el-dialog>
 		<!-- 取消原因-->
 		<el-dialog title="取消原因" :visible.sync="reasonModel" :close-on-click-modal="false" width="40%">

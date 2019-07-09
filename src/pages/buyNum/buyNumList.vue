@@ -1,5 +1,10 @@
 <template>
 	<div class="container">
+		<div class="mb20 fz14">
+			<span>买号管理</span>
+			<span>/</span>
+			<span>买号列表</span>
+		</div>
 		<el-collapse-transition>
 			<div class="searchBox mb20 pl30" v-show="searchModel">
 				<el-form ref="searchForm" :model="searchForm" class="form-item" label-width="100px">
@@ -113,7 +118,7 @@
 					<template slot-scope="scope">
 						<el-button size="small" type="primary" @click="RedistributionAccount(scope.$index, scope.row)">打开浏览器
 						</el-button>
-						<el-button size="small"  @click="systemConfig(scope.$index, scope.row)">系统配置
+						<el-button size="small" @click="systemConfig(scope.$index, scope.row)">系统配置
 						</el-button>
 						<el-button size='small' @click="remark(scope.$index,scope.row)">备注</el-button>
 					</template>
@@ -361,8 +366,8 @@
 		<el-dialog title="修改状态" :visible.sync="updateStatusModal" :close-on-click-modal="false" width="30%">
 			<div class="statusBox mb20 pl30">
 				<el-checkbox-group v-model="accountStatus">
-				<el-checkbox label="账号失效" name="type"></el-checkbox>
-			</el-checkbox-group>
+					<el-checkbox label="账号失效" name="type"></el-checkbox>
+				</el-checkbox-group>
 			</div>
 			<div class="modelRight">
 				<el-button type='primary'>确认</el-button>
@@ -371,7 +376,7 @@
 			</el-form>
 		</el-dialog>
 		<!--关联刷手-->
-		<el-dialog title="关联刷手" :visible.sync="RelationBrushModal" :close-on-click-modal="false"  width="60%">
+		<el-dialog title="关联刷手" :visible.sync="RelationBrushModal" :close-on-click-modal="false" width="60%">
 			<el-form :model="brushSearch" ref="brushSearch" class="demo-dynamic" label-width="100px">
 				<el-row>
 					<el-col :xs="24" :span="7" :sm="9" :md="8" :lg="10">
@@ -401,11 +406,11 @@
 			</el-table>
 			<div class="modelRight mt20">
 				<el-button type="primary" size="medium" @click="comfirBrush">确定</el-button>
-        <el-button @click="RelationBrushModal=false" size="medium">取消</el-button>
+				<el-button @click="RelationBrushModal=false" size="medium">取消</el-button>
 			</div>
 		</el-dialog>
 		<!--绑定IP-->
-		<el-dialog title="绑定静态IP" :visible.sync="bindIpModal" :close-on-click-modal="false"  width="60%">
+		<el-dialog title="绑定静态IP" :visible.sync="bindIpModal" :close-on-click-modal="false" width="60%">
 			<el-form :model="brushSearch" ref="brushSearch" class="demo-dynamic" label-width="100px">
 				<el-row>
 					<el-col :xs="24" :span="7" :sm="9" :md="8" :lg="10">
@@ -436,7 +441,7 @@
 			</el-table>
 			<div class="modelRight mt20">
 				<el-button type="primary" size="medium" @click="confirmBindIp">确定</el-button>
-        <el-button @click="bindIpModal=false" size="medium">取消</el-button>
+				<el-button @click="bindIpModal=false" size="medium">取消</el-button>
 			</div>
 		</el-dialog>
 		<!-- 重新分配-->
@@ -517,10 +522,10 @@
 					</template>
 				</el-table-column>
 			</el-table>
-				<div class="modelRight mt20">
-					<el-button type="primary" @click='BindBuyNumLevel'>确定</el-button>
-					<el-button @click="buyNumLevelModel=false">取消</el-button>
-				</div>
+			<div class="modelRight mt20">
+				<el-button type="primary" @click='BindBuyNumLevel'>确定</el-button>
+				<el-button @click="buyNumLevelModel=false">取消</el-button>
+			</div>
 		</el-dialog>
 		<!--购物卡-->
 		<el-dialog title="选择购物卡" :visible.sync="cardModal" :close-on-click-modal="false" width="70%">
@@ -568,7 +573,7 @@
 				radio: '',
 				brushRadio: '',
 				title: '新建',
-				systemTitle:'',
+				systemTitle: '',
 				remarkModal: false, //备注
 				systemConfigModal: false, //系统配置
 				buyNumLevelModel: false, //绑定买号等级
@@ -596,12 +601,12 @@
 					tabs: []
 				},
 				//备注
-				remarkForm:{
-					remark:''
+				remarkForm: {
+					remark: ''
 				},
 				//关联刷手搜索
-				brushSearch:{
-					brush:''
+				brushSearch: {
+					brush: ''
 				},
 				tabData: ['加拿大改地址', '西班牙(无会员)', '加拿大', '新人注册号', '手机测试', '菲律宾卡', '33卡', '安卓测试', '黑号', '差评', '加拿大改地址2', '西班牙2(无会员)', '加拿大2', '新人注册号2', '手机测试2', '菲律宾卡2', '33卡2', '安卓测试2', '黑号2', '差评2'],
 				buyNumberLevelData: [{
@@ -696,7 +701,7 @@
 				active: '1'
 			}
 		},
-		components:{
+		components: {
 			systemConfig
 		},
 		created() {
@@ -704,17 +709,17 @@
 		},
 		methods: {
 			//备注
-			remark(index,row){
+			remark(index, row) {
 				let _this = this
 				_this.remarkModal = true
 			},
 			//备注确定
-			confirmRemark(){
+			confirmRemark() {
 				let _this = this
 				_this.remarkModal = false
 			},
 			//系统配置
-			systemConfig(index,row){
+			systemConfig(index, row) {
 				let _this = this
 				_this.systemConfigModal = true
 				let item = _this.buyNumData[index]
@@ -722,46 +727,46 @@
 				_this.systemTitle = '买号：' + num + '系统配置'
 			},
 			// 绑定买号等级
-			buyNumLevel(){
+			buyNumLevel() {
 				let _this = this
 				_this.buyNumLevelModel = true
 			},
 			// 绑定买号等级确定
-			BindBuyNumLevel(){
+			BindBuyNumLevel() {
 				let _this = this
 				_this.buyNumLevelModel = false
 				_this.selected = {}
-				_this.brushSearch={
-					brush:''
+				_this.brushSearch = {
+					brush: ''
 				}
 			},
 			// 绑定IP
-			bindIp(){
-				let _this  = this
+			bindIp() {
+				let _this = this
 				_this.bindIpModal = true
 			},
 			// 绑定IP确定
-			confirmBindIp(){
+			confirmBindIp() {
 				let _this = this
 				_this.bindIpModal = false
 				_this.selected = {}
-				_this.brushSearch={
-					brush:''
+				_this.brushSearch = {
+					brush: ''
 				}
 			},
 			// 关联刷手
-			RelationBrush(){
+			RelationBrush() {
 				let _this = this
 				_this.RelationBrushModal = true
 			},
 			// 关联刷手确定
-			comfirBrush(){
+			comfirBrush() {
 				let _this = this
 				_this.RelationBrushModal = false
 				_this.selected = {}
 			},
 			// 修改状态
-			updateStatus(){
+			updateStatus() {
 				let _this = this
 				_this.updateStatusModal = true
 			},
@@ -776,7 +781,7 @@
 				this.selected = row;
 			},
 			// 关联刷手赋值radio
-			brushShowRow(row){
+			brushShowRow(row) {
 				let _this = this
 				_this.brushRadio = _this.buyNumData.indexOf(row)
 				_this.selected = row
