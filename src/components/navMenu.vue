@@ -9,7 +9,7 @@
 					<el-menu-item>
 					<img class="imgLogo" src="../assets/image/logo.png" />
 					</el-menu-item>
-          <el-menu-item index="index"><i class="el-icon-files"></i>首页</el-menu-item>
+          <el-menu-item index="index" style="border: none;"><i class="el-icon-files"></i>首页</el-menu-item>
           <el-submenu index="2">
             <template slot="title"><i class="el-icon-document-checked"></i>订单管理</template>
             <el-menu-item index="orderPlacingManage">下单管理</el-menu-item>
