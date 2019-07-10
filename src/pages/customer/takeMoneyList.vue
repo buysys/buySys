@@ -170,20 +170,10 @@
 						let _this = this
 						_this.okModel = true
 					},
-					//关闭确认弹窗
-					closeOkModel() {
-						let _this = this
-						_this.okModel = false
-					},
 					// 失败弹框
 					errModelShow() {
 						let _this = this
 						_this.errModel = true
-					},
-					//关闭失败弹窗
-					closeViewModel() {
-						let _this = this
-						_this.errModel = false
 					},
 					//分页
 					handleSizeChange(val) {

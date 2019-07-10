@@ -74,7 +74,7 @@
 		  </span>
 		</el-dialog>
 		<!-- 查看 -->
-		<el-dialog :title="title" :visible.sync="viewModel" :close-on-click-modal="false" :before-close="closeViewModel">
+		<el-dialog :title="title" :visible.sync="viewModel" :close-on-click-modal="false">
 			<el-form :model="viewForm" label-width="125px" status-icon>
 				<el-row>
 					<el-col :span="12" :xs="24"><el-form-item label="客户编号:"><label>{{viewForm.userNo}}</label></el-form-item></el-col>
@@ -95,7 +95,7 @@
 				<el-row>
 					<el-col :span="24" :xs="24"><el-form-item label="备注:"><label>{{viewForm.remark}}</label></el-form-item></el-col>
 				</el-row>
-				<p class="txtCenter"><el-button @click="closeViewModel">关闭</el-button></p>
+				<p class="txtCenter"><el-button @click="viewModel=false">关闭</el-button></p>
 			</el-form>
 		</el-dialog>
 	</div>
@@ -199,11 +199,6 @@
 						let _this = this
 						_this.okModel = true
 					},
-					//关闭确认弹窗
-					closeOkModel() {
-						let _this = this
-						_this.okModel = false
-					},
 					// 查看
 					viewModelShow(index, row) {
 						let _this = this;
@@ -220,11 +215,6 @@
 						_this.viewForm.refundAmount = item.CountryId
 						_this.viewForm.status = item.CountryId
 						_this.viewForm.remark = item.CountryId
-					},
-					//关闭查看弹窗
-					closeViewModel() {
-						let _this = this
-						_this.viewModel = false
 					},
 					//分页
 					handleSizeChange(val) {
