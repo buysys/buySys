@@ -124,6 +124,10 @@
 					</template>
 				</el-table-column>
 			</el-table>
+			<div class="mt30">
+				<el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage" :page-sizes="[10, 20, 30, 40]" :page-size="10" layout="total, sizes, prev, pager, next, jumper" :total="total">
+				</el-pagination>
+			</div>
 		</div>
 		<!-- 新建、修改-->
 		<el-dialog :title="title" :visible.sync="addBuyNumModel" :close-on-click-modal="false" :before-close="closeModel" width="60%">
@@ -570,6 +574,9 @@
 		name: 'registerAccount',
 		data() {
 			return {
+				currentPage: 1,
+				pageSize: '0',
+				total:100,
 				radio: '',
 				brushRadio: '',
 				title: '新建',
@@ -991,6 +998,12 @@
 				let _this = this
 				_this.active = 5
 				_this.buyNumData = []
+			},
+			handleSizeChange(val) {
+				console.log(`每页 ${val} 条`)
+			},
+			handleCurrentChange(val) {
+				console.log(`当前页: ${val}`)
 			}
 		}
 	}

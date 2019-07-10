@@ -1,6 +1,6 @@
 <template>
 	<div class="container">
-			<div class="mb20 fz14">
+		<div class="mb20 fz14">
 			<span>任务管理</span>
 			<span>/</span>
 			<span>QA任务</span>
@@ -8,12 +8,23 @@
 		<el-collapse-transition>
 			<div class="searchBox mb20" v-show="searchModel">
 				<el-form ref="searchForm" :model="searchForm" class="form-item" label-width="80px">
-					<el-form-item label="平台" class="disInline">
-						<el-radio-group v-model="searchForm.platform" class="disInline">
-							<el-radio label="全部"></el-radio>
-							<el-radio label="Amazon"></el-radio>
-						</el-radio-group>
-					</el-form-item>
+					<el-row>
+						<el-col :span='4' :xs='24'>
+							<el-form-item label="平台" class="disInline">
+								<el-radio-group v-model="searchForm.platform" class="disInline">
+									<el-radio label="全部"></el-radio>
+									<el-radio label="Amazon"></el-radio>
+								</el-radio-group>
+							</el-form-item>
+						</el-col>
+						<el-col :span='6' :xs='24'>
+							<el-form-item label="国家">
+								<el-select placeholder="请选择" v-model="searchForm.countryId" class="minWid">
+									<el-option v-for="(item,index) in countryData" :key="index" :value="index" :label="item.country"></el-option>
+								</el-select>
+							</el-form-item>
+						</el-col>
+					</el-row>
 					<el-row>
 						<el-col :xs="24" :span="5" :sm="9" :md="8" :lg="4">
 							<el-form-item label="搜索内容">
@@ -70,6 +81,10 @@
 					</template>
 				</el-table-column>
 			</el-table>
+			<div class="mt30">
+				<el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage" :page-sizes="[10, 20, 30, 40]" :page-size="10" layout="total, sizes, prev, pager, next, jumper" :total="total">
+				</el-pagination>
+			</div>
 		</div>
 		<!--重新分配账号-->
 		<el-dialog title="重新分配账号" :visible.sync="accountModel" width="90%" :close-on-click-modal="false">
@@ -191,13 +206,13 @@
 					</el-row>
 					<el-row class="items mb10">
 						<el-col :span='5' :xs="24" class="ml110">
-								<span>美国</span>
+							<span>美国</span>
 						</el-col>
 						<el-col :span='6' :xs='24' class="minMb10 minMt10">
-								<span>AD324254356546</span>
+							<span>AD324254356546</span>
 						</el-col>
 						<el-col :span='10' :xs="24">
-								<span>23424252</span>
+							<span>23424252</span>
 						</el-col>
 					</el-row>
 				</div>
@@ -242,34 +257,36 @@
 		<!--日志-->
 		<el-dialog title="操作日志" :visible.sync="logModel" :close-on-click-modal="false" center="" width="30%">
 			<div class="block">
-			  <el-timeline>
-				<el-timeline-item timestamp="2019/7/10" placement="top">
-				  <el-card>
-					<h4>评论</h4>
-					<p>王小虎 在 2019/7/10 20:55 评论</p>
-				  </el-card>
-				</el-timeline-item>
-				<el-timeline-item timestamp="2019/7/9" placement="top">
-				  <el-card>
-					<h4>评价</h4>
-					<p>王小虎 在 2019/7/9 20:46 评价</p>
-				  </el-card>
-				</el-timeline-item>
-				<el-timeline-item timestamp="2019/7/8" placement="top">
-				  <el-card>
-					<h4>付款</h4>
-					<p>王小虎 在 2019/7/8 14:25 付款</p>
-				  </el-card>
-				</el-timeline-item>
-				<el-timeline-item timestamp="2019/7/7" placement="top">
-				  <el-card>
-					<h4>下单</h4>
-					<p>王小虎 在 2019/7/7 15:55 下单</p>
-				  </el-card>
-				</el-timeline-item>
-			  </el-timeline>
+				<el-timeline>
+					<el-timeline-item timestamp="2019/7/10" placement="top">
+						<el-card>
+							<h4>评论</h4>
+							<p>王小虎 在 2019/7/10 20:55 评论</p>
+						</el-card>
+					</el-timeline-item>
+					<el-timeline-item timestamp="2019/7/9" placement="top">
+						<el-card>
+							<h4>评价</h4>
+							<p>王小虎 在 2019/7/9 20:46 评价</p>
+						</el-card>
+					</el-timeline-item>
+					<el-timeline-item timestamp="2019/7/8" placement="top">
+						<el-card>
+							<h4>付款</h4>
+							<p>王小虎 在 2019/7/8 14:25 付款</p>
+						</el-card>
+					</el-timeline-item>
+					<el-timeline-item timestamp="2019/7/7" placement="top">
+						<el-card>
+							<h4>下单</h4>
+							<p>王小虎 在 2019/7/7 15:55 下单</p>
+						</el-card>
+					</el-timeline-item>
+				</el-timeline>
 			</div>
-			<p style="text-align: center;"><el-button @click="logModel=false" size="medium">关闭</el-button></p>
+			<p style="text-align: center;">
+				<el-button @click="logModel=false" size="medium">关闭</el-button>
+			</p>
 		</el-dialog>
 	</div>
 </template>
@@ -280,9 +297,12 @@
 		name: 'QaTask',
 		data() {
 			return {
-				buyNum:'',
+				currentPage: 1,
+				pageSize: '0',
+				total: 100,
+				buyNum: '',
 				radio: '',
-				logModel: false,//日志
+				logModel: false, //日志
 				systemConfigModal: false, //配置信息
 				accountModel: false,
 				accountSearchModel: false,
@@ -310,6 +330,7 @@
 				],
 				searchForm: {
 					platform: '全部',
+					countryId: '',
 					searchkeywords: ''
 				},
 				activeName: 'first',
@@ -317,7 +338,7 @@
 				active: '1'
 			}
 		},
-		components:{
+		components: {
 			buyNum
 		},
 		created() {
@@ -325,7 +346,7 @@
 		},
 		methods: {
 			// 子组件选中的
-			showMessageFromChild(data){
+			showMessageFromChild(data) {
 				console.log(data.CountryId)
 			},
 			// 分配信息检索
@@ -427,7 +448,7 @@
 				_this.active = 3
 				_this.orderPlaceData = []
 			},
-						// 注册开始时间
+			// 注册开始时间
 			searchStartDate() {
 				return {
 					disabledDate: time => {
@@ -451,6 +472,12 @@
 						}
 					}
 				}
+			},
+			handleSizeChange(val) {
+				console.log(`每页 ${val} 条`)
+			},
+			handleCurrentChange(val) {
+				console.log(`当前页: ${val}`)
 			}
 		}
 	}

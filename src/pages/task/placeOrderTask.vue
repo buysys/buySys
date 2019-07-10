@@ -1,6 +1,6 @@
 <template>
 	<div class="container">
-	<div class="mb20 fz14">
+		<div class="mb20 fz14">
 			<span>任务管理</span>
 			<span>/</span>
 			<span>下单任务</span>
@@ -8,14 +8,25 @@
 		<el-collapse-transition>
 			<div class="searchBox mb20" v-show="searchModel">
 				<el-form ref="searchForm" :model="searchForm" class="form-item" label-width="80px">
-					<el-form-item label="平台" class="disInline">
-						<el-radio-group v-model="searchForm.platform" class="disInline">
-							<el-radio label="全部"></el-radio>
-							<el-radio label="Amazon"></el-radio>
-						</el-radio-group>
-					</el-form-item>
 					<el-row>
-						<el-col :xs="24" :span="5" :sm="9" :md="8" :lg="4">
+						<el-col :span='4' :xs='24'>
+							<el-form-item label="平台" class="disInline">
+								<el-radio-group v-model="searchForm.platform" class="disInline">
+									<el-radio label="全部"></el-radio>
+									<el-radio label="Amazon"></el-radio>
+								</el-radio-group>
+							</el-form-item>
+						</el-col>
+						<el-col :span='6' :xs='24'>
+							<el-form-item label="国家">
+								<el-select placeholder="请选择" v-model="searchForm.countryId" class="minWid">
+									<el-option v-for="(item,index) in countryData" :key="index" :value="index" :label="item.country"></el-option>
+								</el-select>
+							</el-form-item>
+						</el-col>
+					</el-row>
+					<el-row>
+						<el-col :xs="24" :span="6" :sm="9" :md="8" :lg="5">
 							<el-form-item label="搜索内容">
 								<el-input v-model="searchForm.searchkeywords" placeholder="请输入关键字" class="disInline"></el-input>
 							</el-form-item>
@@ -99,6 +110,10 @@
 					</template>
 				</el-table-column>
 			</el-table>
+			<div class="mt30">
+				<el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage" :page-sizes="[10, 20, 30, 40]" :page-size="10" layout="total, sizes, prev, pager, next, jumper" :total="total">
+				</el-pagination>
+			</div>
 		</div>
 		<!--标记异常-->
 		<el-dialog title='标记异常' :visible.sync='abnormalModal' :close-on-click-modal="false" width='40%'>
@@ -477,34 +492,36 @@
 		<!--日志-->
 		<el-dialog title="操作日志" :visible.sync="logModel" :close-on-click-modal="false" center="" width="30%">
 			<div class="block">
-			  <el-timeline>
-				<el-timeline-item timestamp="2019/7/10" placement="top">
-				  <el-card>
-					<h4>评论</h4>
-					<p>王小虎 在 2019/7/10 20:55 评论</p>
-				  </el-card>
-				</el-timeline-item>
-				<el-timeline-item timestamp="2019/7/9" placement="top">
-				  <el-card>
-					<h4>评价</h4>
-					<p>王小虎 在 2019/7/9 20:46 评价</p>
-				  </el-card>
-				</el-timeline-item>
-				<el-timeline-item timestamp="2019/7/8" placement="top">
-				  <el-card>
-					<h4>付款</h4>
-					<p>王小虎 在 2019/7/8 14:25 付款</p>
-				  </el-card>
-				</el-timeline-item>
-				<el-timeline-item timestamp="2019/7/7" placement="top">
-				  <el-card>
-					<h4>下单</h4>
-					<p>王小虎 在 2019/7/7 15:55 下单</p>
-				  </el-card>
-				</el-timeline-item>
-			  </el-timeline>
+				<el-timeline>
+					<el-timeline-item timestamp="2019/7/10" placement="top">
+						<el-card>
+							<h4>评论</h4>
+							<p>王小虎 在 2019/7/10 20:55 评论</p>
+						</el-card>
+					</el-timeline-item>
+					<el-timeline-item timestamp="2019/7/9" placement="top">
+						<el-card>
+							<h4>评价</h4>
+							<p>王小虎 在 2019/7/9 20:46 评价</p>
+						</el-card>
+					</el-timeline-item>
+					<el-timeline-item timestamp="2019/7/8" placement="top">
+						<el-card>
+							<h4>付款</h4>
+							<p>王小虎 在 2019/7/8 14:25 付款</p>
+						</el-card>
+					</el-timeline-item>
+					<el-timeline-item timestamp="2019/7/7" placement="top">
+						<el-card>
+							<h4>下单</h4>
+							<p>王小虎 在 2019/7/7 15:55 下单</p>
+						</el-card>
+					</el-timeline-item>
+				</el-timeline>
 			</div>
-			<p style="text-align: center;"><el-button @click="logModel=false" size="medium">关闭</el-button></p>
+			<p style="text-align: center;">
+				<el-button @click="logModel=false" size="medium">关闭</el-button>
+			</p>
 		</el-dialog>
 	</div>
 </template>
@@ -517,10 +534,13 @@
 		name: 'placeOrderTask',
 		data() {
 			return {
+				currentPage: 1,
+				pageSize: '0',
+				total:100,
 				radio: '',
 				tipMessage: '',
 				buyNum: '', //系统配置买号
-				logModel: false,//日志
+				logModel: false, //日志
 				systemConfigModal: false, //系统配置
 				deliverShow: false, //收发货确定按钮
 				confirmDeliveryModal: false, //确认发货
@@ -551,12 +571,6 @@
 				timeForm: {
 					times: ''
 				},
-				//				accountSearchForm: {
-				//					type: [],
-				//					startTime: '',
-				//					endTime: '',
-				//					searchKeyWords: ''
-				//				},
 				abnormalForm: {
 					reason: '',
 					remark: ''
@@ -587,6 +601,7 @@
 				},
 				searchForm: {
 					platform: '全部',
+					countryId: '',
 					searchkeywords: ''
 				},
 				//				pickerEndDate: this.pickerOptionsEnd(),
@@ -866,31 +881,12 @@
 				_this.times = '异常时间'
 				//				_this.orderPlaceData = []
 			},
-			//			// 注册开始时间
-			//			searchStartDate() {
-			//				return {
-			//					disabledDate: time => {
-			//						let endDateVal = this.accountSearchForm.endTime
-			//						if(endDateVal) {
-			//							return time.getTime() > new Date(endDateVal).getTime()
-			//						}
-			//					}
-			//				}
-			//			},
-			//			// 搜索下单结束时间
-			//			pickerOptionsEnd() {
-			//				return {
-			//					disabledDate: time => {
-			//						let beginDateVal = this.accountSearchForm.startTime
-			//						if(beginDateVal) {
-			//							return(
-			//								time.getTime() <
-			//								new Date(beginDateVal).getTime() - 1 * 24 * 60 * 60 * 1000
-			//							)
-			//						}
-			//					}
-			//				}
-			//			}
+			handleSizeChange(val) {
+				console.log(`每页 ${val} 条`)
+			},
+			handleCurrentChange(val) {
+				console.log(`当前页: ${val}`)
+			}
 		}
 	}
 </script>

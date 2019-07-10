@@ -112,6 +112,24 @@ export default new Router({
 				  name: 'register',
 				  component: resolve => require(['../pages/register.vue'], resolve),
 				  meta: {title: '注册'}
+				},
+				{
+					path:'/partnerManage',
+					name: 'partnerManage',
+					component: resolve =>require(['../pages/Cooperativepartner/partnerManage.vue'], resolve),
+					meta: {title: '伙伴管理'}
+				},
+				{
+					path:'/returnOrder',
+					name: 'returnOrder',
+					component: resolve =>require(['../pages/Cooperativepartner/returnOrder.vue'], resolve),
+					meta: {title: '返利订单'}
+				},
+				{
+					path:'/DiscountRecord',
+					name: 'DiscountRecord',
+					component: resolve =>require(['../pages/Cooperativepartner/DiscountRecord.vue'], resolve),
+					meta: {title: '提现记录'}
 				}
       ]
     },
