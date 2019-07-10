@@ -24,7 +24,7 @@
 						<el-date-picker v-model="searchForm.orderEndTime" type="date" placeholder="选择结束时间" :picker-options="pickerEndDate" value-format="yyyy-MM-dd"></el-date-picker>
 					</el-form-item>
 					<el-row>
-						<el-col :xs="24" :span="5" :sm="9" :md="8" :lg="4">
+						<el-col :xs="24" :span="5" :sm="10" :md="8" :lg="5">
 							<el-form-item label="关键字">
 								<el-input v-model="searchForm.searchkeywords" placeholder="请输入关键字" class="disInline"></el-input>
 							</el-form-item>

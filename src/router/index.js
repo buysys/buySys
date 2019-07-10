@@ -112,6 +112,30 @@ export default new Router({
 				  name: 'register',
 				  component: resolve => require(['../pages/register.vue'], resolve),
 				  meta: {title: '注册'}
+				},
+				{
+				  path: '/customerList',
+				  name: 'customerList',
+				  component: resolve => require(['../pages/customer/customerList.vue'], resolve),
+				  meta: {title: '客户列表'}
+				},
+				{
+				  path: '/refundOrder',
+				  name: 'refundOrder',
+				  component: resolve => require(['../pages/customer/refundOrder.vue'], resolve),
+				  meta: {title: '退款订单'}
+				},
+				{
+				  path: '/takeMoneyList',
+				  name: 'takeMoneyList',
+				  component: resolve => require(['../pages/customer/takeMoneyList.vue'], resolve),
+				  meta: {title: '提现记录'}
+				},
+				{
+				  path: '/takeMoneySet',
+				  name: 'takeMoneySet',
+				  component: resolve => require(['../pages/customer/takeMoneySet.vue'], resolve),
+				  meta: {title: '提现配置'}
 				}
       ]
     },
