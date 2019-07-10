@@ -128,6 +128,13 @@ ul{
 .imgLogo{
 	height: 40px;
 }
+/*登录页*/
+.login_box .el-tabs__header {margin: 0 0 24px;text-align: center;}
+.login_box .el-tabs__nav-wrap::after {background-color:transparent;}
+.login_box .el-tabs__nav {display: inline-block;float: initial;}
+.login_box .el-form-item {margin: 0 0 24px;}
+.login_box .ml28 {margin-left: 2.8%;}
+.login_box .el-checkbox__input.is-checked+.el-checkbox__label {color: inherit;}
 /*首页*/
 .indexTask .items{
   background: #fff;

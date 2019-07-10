@@ -105,7 +105,13 @@ export default new Router({
           path: '/VirtualCard',
           name: 'VirtualCard',
           component: resolve => require(['../pages/card/VirtualCard.vue'], resolve),
-          meta: {title: '虚拟卡管理'}
+          meta: {title: '虚拟信用卡'}
+        },
+        {
+          path: '/practicalCard',
+          name: 'practicalCard',
+          component: resolve => require(['../pages/card/practicalCard.vue'], resolve),
+          meta: {title: '实体信用卡'}
         },
 				{
 				  path: '/register',

@@ -32,7 +32,7 @@
 				<el-submenu index="5">
 					<template slot="title"><i class="el-icon-bank-card"></i>卡片管理</template>
 					<el-menu-item index="VirtualCard">虚拟信用卡</el-menu-item>
-					<el-menu-item index="">实体信用卡</el-menu-item>
+					<el-menu-item index="practicalCard">实体信用卡</el-menu-item>
 				</el-submenu>
 				<el-submenu index="6">
 					<template slot="title"><i class="el-icon-s-custom"></i>客户管理</template>

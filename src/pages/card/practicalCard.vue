@@ -3,22 +3,22 @@
 		<div class="mb20 fz14">
 			<span>卡片管理</span>
 			<span>/</span>
-			<span>虚拟信用卡</span>
+			<span>实体信用卡</span>
 		</div>
 		<el-collapse-transition>
 			<div class="searchBox mb20 pl30" v-show="searchModel">
 				<el-form ref="searchForm" :model="searchForm" class="form-item" label-width="80px">
 					<el-row>
 						<el-col :xs="24" :span="7" :sm="9" :md="8" :lg="5">
-							<el-form-item label="主卡号" class="pt20">
-								<el-input v-model="searchForm.CardNo" placeholder="请输入信用卡卡号" class="disInline"></el-input>
+							<el-form-item label="卡号" class="pt20">
+								<el-input v-model="searchForm.CardNo" placeholder="请输入卡号" class="disInline"></el-input>
 							</el-form-item>
 						</el-col>
 					</el-row>
 					<el-row>
 						<el-col :xs="24" :span="7" :sm="9" :md="8" :lg="5">
 							<el-form-item label="姓名">
-								<el-input v-model="searchForm.username" placeholder="请输入信用卡姓名" class="disInline"></el-input>
+								<el-input v-model="searchForm.userName" placeholder="请输入姓名" class="disInline"></el-input>
 							</el-form-item>
 						</el-col>
 						<el-col :xs="24" :span="5" :sm="10" :md="8" :lg="5" class="ml20">
@@ -31,18 +31,11 @@
 		</el-collapse-transition>
 		<div class="mb20">
 			<el-button type="success" size="medium" @click="addLevel"><i class="el-icon-plus"></i>新建</el-button>
-			<el-button type="primary" size="medium" :disabled="disabled" @click="editLevel"><i class="el-icon-edit-outline"></i>修改
-			</el-button>
-			<el-button type="danger" size="medium" :disabled="disabled" @click="delHandel"><i class="el-icon-delete"></i>删除
-			</el-button>
-			<el-button type="warning" size="medium" @click="importHandle"><i class="el-icon-folder-opened"></i>导入
-			</el-button>
-			<el-button type="warning" size="medium" @click=""><i class="el-icon-document-delete"></i>导出
-			</el-button>
-			<el-button type="primary" size="medium" @click="reserCardHandel" :disabled="disabled"><i class="el-icon-takeaway-box"></i>重置虚拟卡
-			</el-button>
-			<el-button type="primary" size="medium" @click="quotaHandle" :disabled="disabled"><i class="el-icon-edit-outline"></i>修改额度
-			</el-button>
+			<el-button type="primary" size="medium" :disabled="disabled" @click="editLevel"><i class="el-icon-edit-outline"></i>修改</el-button>
+			<el-button type="danger" size="medium" :disabled="disabled" @click="delHandle"><i class="el-icon-delete"></i>删除</el-button>
+			<el-button type="warning" size="medium" @click="importHandle"><i class="el-icon-folder-opened"></i>导入</el-button>
+			<el-button type="warning" size="medium" @click=""><i class="el-icon-document-delete"></i>导出</el-button>
+			<el-button type="primary" size="medium" :disabled="disabled" @click="quotaHandle"><i class="el-icon-edit-outline"></i>修改额度</el-button>
 			<el-button size="medium" @click="searchShow"><i class="el-icon-search"></i>检索</el-button>
 		</div>
 		<div class="mt10">
@@ -53,14 +46,14 @@
 				<el-table-column prop="ProductByASIN" label="有效期" align="center" sortable></el-table-column>
 				<el-table-column prop="ProductByASIN" label="安全码" align="center" sortable></el-table-column>
 				<el-table-column prop="ProductPrice" label="姓名" align="center" sortable></el-table-column>
-				<el-table-column prop="ServiceType" label="已绑虚拟卡数" align="center" sortable></el-table-column>
-				<el-table-column prop="OrderNote" label="未绑虚拟卡数" align="center" sortable></el-table-column>
-				<el-table-column prop="OrderNote" label="总额度($)" align="center" sortable></el-table-column>
+				<el-table-column prop="ServiceType" label="总额度($)" align="center" sortable></el-table-column>
 				<el-table-column prop="OrderNote" label="已用额度($)" align="center" sortable></el-table-column>
 				<el-table-column prop="OrderNote" label="剩余额度($)" align="center" sortable></el-table-column>
 				<el-table-column prop="OrderNote" label="累积使用($)" align="center" sortable></el-table-column>
-				<el-table-column prop="Status" label="状态" align="center"></el-table-column>
-				<el-table-column label="操作" align="center">
+				<el-table-column prop="OrderNote" label="状态" align="center" sortable></el-table-column>
+				<el-table-column prop="OrderNote" label="买家状态" align="center" sortable></el-table-column>
+				<el-table-column prop="Stautuy" label="买号状态" align="center" sortable></el-table-column>
+				<el-table-column prop="Status" label="操作" align="center">
 					<template slot-scope="scope">
 						<el-button size="small" type="primary" @click="RedistributionAccount(scope.$index, scope.row)">还款
 						</el-button>
@@ -68,75 +61,38 @@
 				</el-table-column>
 			</el-table>
 		</div>
-		<!-- 新建、修改-->
+		<!--新建、修改-->
 		<el-dialog :title="title" :visible.sync="cardModel" :close-on-click-modal="false" :before-close="closeModel" width="70%">
 			<el-form :model="cardForm" ref="cardForm" :rules="editRules" class="demo-dynamic" label-width="88px" status-icon>
-				<el-form-item label="名称" prop="names">
-					<el-input v-model="cardForm.names">
-					</el-input>
+				<el-form-item label="名称" prop="name">
+					<el-input v-model="cardForm.name"></el-input>
 				</el-form-item>
-				<el-form-item label="主卡卡号" prop="cardNo">
+				<el-form-item label="卡号" prop="cardNo">
 					<el-input v-model="cardForm.cardNo"></el-input>
 				</el-form-item>
 				<el-form-item label="有效期" prop="validity">
 					<el-input v-model="cardForm.validity"></el-input>
+					<!--<el-date-picker v-model="cardForm.validity" type="date" placeholder="选择日期" size="large"></el-date-picker>-->
 				</el-form-item>
 				<el-form-item label="安全码" prop="safetyCode">
 					<el-input v-model="cardForm.safetyCode"></el-input>
 				</el-form-item>
-				<el-form-item label="姓名" prop="username">
-					<el-input v-model="cardForm.username"></el-input>
+				<el-form-item label="姓名" prop="userName">
+					<el-input v-model="cardForm.userName"></el-input>
 				</el-form-item>
-				<el-form-item label="总额度($)" prop="totalAmount">
+				<el-form-item label="总额度" prop="totalAmount">
 					<el-input v-model="cardForm.totalAmount"></el-input>
 				</el-form-item>
-				<el-form-item label="备注">
-					<el-input type="textarea" v-model="cardForm.remark"></el-input>
+				<el-form-item label="备注" prop="remark">
+					<el-input v-model="cardForm.remark"></el-input>
 				</el-form-item>
-				<el-tabs type="border-card" class="mb20">
-					<el-tab-pane label="虚拟信用卡管理">
-						<div class="mb10">
-							<el-button size="small" @click="addCard">新增</el-button>
-						</div>
-						<div class="cardBox">
-							<ul class="listTitle">
-								<li>虚拟卡号</li>
-								<li>有效期</li>
-								<li>安全码</li>
-								<li>虚拟卡额度($)</li>
-								<li class="lastLi">
-									<el-button type="danger" size="small" style="visibility: hidden;">删除</el-button>
-								</li>
-							</ul>
-							<div v-for="(index,item) in cardListData">
-								<ul class="cardCon">
-									<li>
-										<el-input class="inpWid" v-model="item.cardNo"></el-input>
-									</li>
-									<li>
-										<el-input class="inpWid" v-model="item.validity"></el-input>
-									</li>
-									<li>
-										<el-input class="inpWid" v-model="item.safetyCode"></el-input>
-									</li>
-									<li>
-										<el-input class="inpWid" v-model="item.amount"></el-input>
-									</li>
-									<li class="lastLi">
-										<el-button type="danger" size="small" @click=removeCardList(item,index)>删除</el-button>
-									</li>
-								</ul>
-							</div>
-						</div>
-					</el-tab-pane>
-				</el-tabs>
 				<div class="textCen">
 					<el-button type="primary">确定</el-button>
 					<el-button @click="closeModel">取消</el-button>
 				</div>
 			</el-form>
 		</el-dialog>
-		<!-- 删除-->
+		<!--删除-->
 		<el-dialog title="系统提示" :visible.sync="delModel" :close-on-click-modal="false" center="" width="20%">
 			<div class="del-dialog-cnt textCen">此操作会删除信用卡和买号绑定关系，<br /><br />确认要删除该信用卡管理记录吗？</div>
 			<span slot="footer" class="dialog-footer">
@@ -144,16 +100,8 @@
         		<el-button @click="delModel=false" size="medium">取消</el-button>
       		</span>
 		</el-dialog>
-		<!--重置虚拟卡-->
-		<el-dialog title="系统提示" :visible.sync="resetCardModel" :close-on-click-modal="false" center="" width="22%">
-			<div class="del-dialog-cnt textCen">此操作会重置选中主卡的所有虚拟卡额度，<br /><br />确认要重置选中的信用卡吗？</div>
-			<span slot="footer" class="dialog-footer">
-        		<el-button type="primary" size="medium">确定</el-button>
-        		<el-button @click="resetCardModel=false" size="medium">取消</el-button>
-      		</span>
-		</el-dialog>
 		<!--导入数据-->
-		<el-dialog title="导入数据" :visible.sync="importModel" :close-on-click-modal="false" :before-close="closeImportModel" center="" width="25%">
+		<el-dialog title="导入数据" :visible.sync="importModel" :close-on-click-modal="false" :before-close="closeImportModel" center="" width="30%">
 			<div class="del-dialog-cnt textCen">
 				<el-upload class="upload-demo" action="https://jsonplaceholder.typicode.com/posts/" ref="upload" multiple :limit="3" :file-list="fileList">
 					<el-button size="mini">选择文件</el-button>
@@ -178,36 +126,29 @@
         		<el-button @click="quotaModel=false" size="medium">取消</el-button>
       		</span>
 		</el-dialog>
-		<!--自动注册-->
-		<el-dialog title="温馨提示" :visible.sync="automaticLogonModal" :close-on-click-modal="false" center="" width="30%">
-			<div class="del-dialog-cnt textCen">确认要自动注册所有未注册的账号吗？</div>
-			<span slot="footer" class="dialog-footer">
-        <el-button type="primary" size="medium">确定</el-button>
-        <el-button @click="automaticLogonModal=false" size="medium">取消</el-button>
-      </span>
-		</el-dialog>
 	</div>
 </template>
 
 <script>
 	export default {
-		name: 'VirtualCard',
+		name: 'practicalCard',
 		data() {
 			return {
 				loading: true,
 				title: '新建',
-				automaticLogonModal: false,
-				disabled: true,
-				disabled1: true,
 				cardModel: false,
+				disabled: true,
+				searchModel: false,
 				delModel: false,
 				importModel: false,
-				resetCardModel: false,
 				quotaModel: false,
 				checkBoxData: [],
 				fileList: [],
-				searchModel: false,
 				buyNumData: [],
+				searchForm: {
+					CardNo: '',
+					username: ''
+				},
 				cardForm: {
 					names: '',
 					cardNo: '',
@@ -218,12 +159,6 @@
 					remark: ''
 				},
 				quotaForm: {amount:''},
-				cardListData: [{
-					cardNo: '',
-					validity: '',
-					safetyCode: '',
-					amount: ''
-				}],
 				editRules: {
 					validity: [{
 						required: true,
@@ -240,10 +175,6 @@
 						message: '请输入总额度',
 						trigger: 'blur'
 					}]
-				},
-				searchForm: {
-					CardNo: '',
-					username: ''
 				}
 			}
 		},
@@ -251,27 +182,19 @@
 			this.getAllData()
 		},
 		methods: {
-			//新增虚拟卡
-			addCard() {
-				let _this = this
-				_this.cardListData.push({
-					cardNo: '',
-					validity: '',
-					safetyCode: '',
-					amount: ''
-				})
-			},
-			//新增虚拟卡删除
-			removeCardList(item, index) {
-				let _this = this
-				_this.index = _this.cardListData.indexOf(item)
-				if(index !== -1) {
-					_this.cardListData.splice(index, 1)
+			//检索
+			searchShow() {
+				let _this = this;
+				let sear = _this.searchModel;
+				if(sear) {
+					_this.searchModel = false;
+				} else {
+					_this.searchModel = true;
 				}
 			},
-			// 重置
+			//重置
 			resetSearch() {
-				let _this = this
+				let _this = this;
 				_this.searchForm = {
 					platform: '全部',
 					searchkeywords: '',
@@ -280,36 +203,35 @@
 					status: ''
 				}
 			},
-
 			// 新建弹窗
 			addLevel() {
-				let _this = this
-				_this.cardModel = true
+				let _this = this;
+				_this.cardModel = true;
 			},
 			// 修改弹窗
 			editLevel() {
-				let _this = this
-				_this.cardModel = true
-				_this.title = '修改'
+				let _this = this;
+				_this.cardModel = true;
+				_this.title = "修改";
 			},
-			// 关闭修改价格弹窗
+			//关闭修改价格弹窗
 			closeModel() {
-				let _this = this
-				_this.cardModel = false
+				let _this = this;
+				_this.cardModel = false;
 				_this.cardForm = {
-					names: '',
+					name: '',
 					cardNo: '',
 					validity: '',
 					safetyCode: '',
-					username: '',
+					userName: '',
 					totalAmount: '',
 					remark: ''
 				}
 			},
-			// 删除记录
-			delHandel() {
-				let _this = this
-				_this.delModel = true
+			//删除弹窗
+			delHandle() {
+				let _this = this;
+				_this.delModel = true;
 			},
 			//导入弹窗
 			importHandle() {
@@ -323,11 +245,6 @@
 				_this.importModel = false;
 				_this.fileList = [];
 			},
-			//重置虚拟卡弹窗
-			reserCardHandel() {
-				let _this =this;
-				_this.resetCardModel = true;
-			},
 			//修改额度弹窗
 			quotaHandle() {
 				let _this = this;
@@ -336,10 +253,10 @@
 			//关闭修改额度弹窗
 			closeQuotaModel() {
 				let _this = this;
-				_this.quotaModel = false,
+				_this.quotaModel = false;
 				_this.quotaForm = {amout: ''}
 			},
-			// 是否有选中
+			//是否选中
 			handleSelectionChange(val) {
 				this.checkBoxData = val
 				let checkNum = this.checkBoxData.length
@@ -348,16 +265,6 @@
 					this.disabled = true
 				} else {
 					this.disabled = false
-				}
-			},
-			// 检索
-			searchShow() {
-				let _this = this
-				let sear = _this.searchModel
-				if(sear) {
-					_this.searchModel = false
-				} else {
-					_this.searchModel = true
 				}
 			},
 			getAllData() {
@@ -372,6 +279,13 @@
 		}
 	}
 </script>
-<style>
 
+<style scoped>
+	.el-date-editor.el-input {
+		width: 100%;
+	}
+	
+	.del-dialog-cnt .el-input__inner {
+		border: none;
+	}
 </style>

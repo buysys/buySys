@@ -1,6 +1,6 @@
 <template>
 	<div class="container">
-	<div class="mb20 fz14">
+		<div class="mb20 fz14">
 			<span>任务管理</span>
 			<span>/</span>
 			<span>下单任务</span>
@@ -477,34 +477,36 @@
 		<!--日志-->
 		<el-dialog title="操作日志" :visible.sync="logModel" :close-on-click-modal="false" center="" width="30%">
 			<div class="block">
-			  <el-timeline>
-				<el-timeline-item timestamp="2019/7/10" placement="top">
-				  <el-card>
-					<h4>评论</h4>
-					<p>王小虎 在 2019/7/10 20:55 评论</p>
-				  </el-card>
-				</el-timeline-item>
-				<el-timeline-item timestamp="2019/7/9" placement="top">
-				  <el-card>
-					<h4>评价</h4>
-					<p>王小虎 在 2019/7/9 20:46 评价</p>
-				  </el-card>
-				</el-timeline-item>
-				<el-timeline-item timestamp="2019/7/8" placement="top">
-				  <el-card>
-					<h4>付款</h4>
-					<p>王小虎 在 2019/7/8 14:25 付款</p>
-				  </el-card>
-				</el-timeline-item>
-				<el-timeline-item timestamp="2019/7/7" placement="top">
-				  <el-card>
-					<h4>下单</h4>
-					<p>王小虎 在 2019/7/7 15:55 下单</p>
-				  </el-card>
-				</el-timeline-item>
-			  </el-timeline>
+				<el-timeline>
+					<el-timeline-item timestamp="2019/7/10" placement="top">
+						<el-card>
+							<h4>评论</h4>
+							<p>王小虎 在 2019/7/10 20:55 评论</p>
+						</el-card>
+					</el-timeline-item>
+					<el-timeline-item timestamp="2019/7/9" placement="top">
+						<el-card>
+							<h4>评价</h4>
+							<p>王小虎 在 2019/7/9 20:46 评价</p>
+						</el-card>
+					</el-timeline-item>
+					<el-timeline-item timestamp="2019/7/8" placement="top">
+						<el-card>
+							<h4>付款</h4>
+							<p>王小虎 在 2019/7/8 14:25 付款</p>
+						</el-card>
+					</el-timeline-item>
+					<el-timeline-item timestamp="2019/7/7" placement="top">
+						<el-card>
+							<h4>下单</h4>
+							<p>王小虎 在 2019/7/7 15:55 下单</p>
+						</el-card>
+					</el-timeline-item>
+				</el-timeline>
 			</div>
-			<p style="text-align: center;"><el-button @click="logModel=false" size="medium">关闭</el-button></p>
+			<p style="text-align: center;">
+				<el-button @click="logModel=false" size="medium">关闭</el-button>
+			</p>
 		</el-dialog>
 	</div>
 </template>
@@ -520,7 +522,7 @@
 				radio: '',
 				tipMessage: '',
 				buyNum: '', //系统配置买号
-				logModel: false,//日志
+				logModel: false, //日志
 				systemConfigModal: false, //系统配置
 				deliverShow: false, //收发货确定按钮
 				confirmDeliveryModal: false, //确认发货
