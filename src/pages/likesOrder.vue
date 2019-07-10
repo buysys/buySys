@@ -1,5 +1,10 @@
 <template>
 	<div class="container">
+		<div class="mb20 fz14">
+			<span>订单管理</span>
+			<span>/</span>
+			<span>点赞订单</span>
+		</div>
 		<el-collapse-transition>
 			<div class="searchBox mb20" v-show="searchModel">
 				<el-form ref="searchForm" :model="searchForm" class="form-item" label-width="80px">
@@ -19,7 +24,7 @@
 						<el-date-picker v-model="searchForm.orderEndTime" type="date" placeholder="选择结束时间" :picker-options="pickerEndDate" value-format="yyyy-MM-dd"></el-date-picker>
 					</el-form-item>
 					<el-row>
-						<el-col :xs="24" :span="5" :sm="9" :md="8" :lg="4">
+						<el-col :xs="24" :span="5" :sm="10" :md="8" :lg="5">
 							<el-form-item label="关键字">
 								<el-input v-model="searchForm.searchkeywords" placeholder="请输入关键字" class="disInline"></el-input>
 							</el-form-item>
