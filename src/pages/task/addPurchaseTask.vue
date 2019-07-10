@@ -8,14 +8,25 @@
 		<el-collapse-transition>
 			<div class="searchBox mb20" v-show="searchModel">
 				<el-form ref="searchForm" :model="searchForm" class="form-item" label-width="80px">
-					<el-form-item label="平台" class="disInline">
-						<el-radio-group v-model="searchForm.platform" class="disInline">
-							<el-radio label="全部"></el-radio>
-							<el-radio label="Amazon"></el-radio>
-						</el-radio-group>
-					</el-form-item>
 					<el-row>
-						<el-col :xs="24" :span="5" :sm="9" :md="8" :lg="4">
+						<el-col :span='4' :xs='24'>
+							<el-form-item label="平台" class="disInline">
+								<el-radio-group v-model="searchForm.platform" class="disInline">
+									<el-radio label="全部"></el-radio>
+									<el-radio label="Amazon"></el-radio>
+								</el-radio-group>
+							</el-form-item>
+						</el-col>
+						<el-col :span='6' :xs='24'>
+							<el-form-item label="国家">
+								<el-select placeholder="请选择" v-model="searchForm.countryId" class="minWid">
+									<el-option v-for="(item,index) in countryData" :key="index" :value="index" :label="item.country"></el-option>
+								</el-select>
+							</el-form-item>
+						</el-col>
+					</el-row>
+					<el-row>
+						<el-col :xs="24" :span="5" :sm="9" :md="8" :lg="5">
 							<el-form-item label="搜索内容">
 								<el-input v-model="searchForm.searchkeywords" placeholder="请输入关键字" class="disInline"></el-input>
 							</el-form-item>
@@ -68,6 +79,10 @@
 					</template>
 				</el-table-column>
 			</el-table>
+			<div class="mt30">
+				<el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage" :page-sizes="[10, 20, 30, 40]" :page-size="10" layout="total, sizes, prev, pager, next, jumper" :total="total">
+				</el-pagination>
+			</div>
 		</div>
 		<!-- 重新分配买号-->
 		<el-dialog title="重新分配买号" :visible.sync="accountModel" width="90%" :close-on-click-modal="false">
@@ -283,6 +298,9 @@
 		name: 'addPurchaseTask',
 		data() {
 			return {
+				currentPage: 1,
+				pageSize: '0',
+				total:100,
 				buyNum: '',
 				radio: '',
 				logModel: false,//日志
@@ -313,6 +331,7 @@
 				],
 				searchForm: {
 					platform: '全部',
+					countryId: '',
 					searchkeywords: ''
 				},
 				activeName: 'first',
@@ -454,6 +473,12 @@
 						}
 					}
 				}
+			},
+			handleSizeChange(val) {
+				console.log(`每页 ${val} 条`)
+			},
+			handleCurrentChange(val) {
+				console.log(`当前页: ${val}`)
 			}
 		}
 	}

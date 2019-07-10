@@ -43,9 +43,9 @@
 				</el-submenu>
 				<el-submenu index="7">
 					<template slot="title"><i class="el-icon-news"></i>合作伙伴</template>
-					<el-menu-item index="">伙伴管理</el-menu-item>
-					<el-menu-item index="">返利订单</el-menu-item>
-					<el-menu-item index="">提现记录</el-menu-item>
+					<el-menu-item index="partnerManage">伙伴管理</el-menu-item>
+					<el-menu-item index="returnOrder">返利订单</el-menu-item>
+					<el-menu-item index="DiscountRecord">提现记录</el-menu-item>
 				</el-submenu>
 				<el-submenu index="8">
 					<template slot="title"><i class="el-icon-s-finance"></i>财务管理</template>
@@ -54,7 +54,7 @@
 				</el-submenu>
 				<el-submenu index="9">
 					<template slot="title"><i class="el-icon-s-tools"></i>参数配置</template>
-					<el-menu-item index="">增值费服务</el-menu-item>
+					<el-menu-item index="ParameterService">增值费服务</el-menu-item>
 					<el-menu-item index="">货币汇率</el-menu-item>
 					<el-menu-item index="">国家管理</el-menu-item>
 					<el-menu-item index="">平台管理</el-menu-item>
