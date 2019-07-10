@@ -54,7 +54,7 @@
 				</el-submenu>
 				<el-submenu index="9">
 					<template slot="title"><i class="el-icon-s-tools"></i>参数配置</template>
-					<el-menu-item index="">增值费服务</el-menu-item>
+					<el-menu-item index="ParameterService">增值费服务</el-menu-item>
 					<el-menu-item index="">货币汇率</el-menu-item>
 					<el-menu-item index="">国家管理</el-menu-item>
 					<el-menu-item index="">平台管理</el-menu-item>
