@@ -14,6 +14,9 @@ ul{
 .mt20{
   margin-top: 20px;
 }
+.mt30{
+	margin-top: 30px;
+}
 .mt10{
   margin-top: 10px;
 }
@@ -100,6 +103,9 @@ ul{
 }
 .disNone{
 	display: none;
+}
+.demo-form{
+	margin:0 40px;
 }
 /* 列表头部搜索框 */
 .listSearchInput{
