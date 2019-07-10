@@ -37,7 +37,7 @@
 			</el-button>
 			<el-button type="warning" size="medium" @click="importHandle"><i class="el-icon-folder-opened"></i>导入
 			</el-button>
-			<el-button type="warning" size="medium" @click=""><i class="el-icon-document-delete"></i>导出
+			<el-button type="primary" size="medium" @click="exportExcel"><i class="el-icon-document-delete"></i>导出
 			</el-button>
 			<el-button type="primary" size="medium" @click="reserCardHandel" :disabled="disabled"><i class="el-icon-takeaway-box"></i>重置虚拟卡
 			</el-button>
@@ -46,7 +46,7 @@
 			<el-button size="medium" @click="searchShow"><i class="el-icon-search"></i>检索</el-button>
 		</div>
 		<div class="mt10">
-			<el-table v-loading="loading" :data="buyNumData" border style="width: 100%" @selection-change="handleSelectionChange">
+			<el-table v-loading="loading" :data="buyNumData" id="exportOrder" border style="width: 100%" @selection-change="handleSelectionChange">
 				<el-table-column type="selection"></el-table-column>
 				<el-table-column prop="Numbers" label="主卡卡号" align="center" sortable></el-table-column>
 				<el-table-column prop="CountryId" label="名称" align="center" sortable></el-table-column>
@@ -163,7 +163,7 @@
 			<span slot="footer" class="dialog-footer">
 				<el-button size="medium" type="primary">下载模板</el-button>
         		<el-button size="medium" type="primary">确定</el-button>
-        		<el-button @click="importModel=false" size="medium">取消</el-button>
+        		<el-button size="medium" @click="closeImportModel">取消</el-button>
       		</span>
 		</el-dialog>
 		<!--修改额度-->
@@ -175,28 +175,22 @@
 			</el-form>	
 			<span slot="footer" class="dialog-footer">
         		<el-button type="primary" size="medium">确定</el-button>
-        		<el-button @click="quotaModel=false" size="medium">取消</el-button>
+        		<el-button @click="closeQuotaModel" size="medium">取消</el-button>
       		</span>
-		</el-dialog>
-		<!--自动注册-->
-		<el-dialog title="温馨提示" :visible.sync="automaticLogonModal" :close-on-click-modal="false" center="" width="30%">
-			<div class="del-dialog-cnt textCen">确认要自动注册所有未注册的账号吗？</div>
-			<span slot="footer" class="dialog-footer">
-        <el-button type="primary" size="medium">确定</el-button>
-        <el-button @click="automaticLogonModal=false" size="medium">取消</el-button>
-      </span>
 		</el-dialog>
 	</div>
 </template>
 
 <script>
+	import FileSaver from 'file-saver'
+	import XLSX from 'xlsx'
+	
 	export default {
 		name: 'VirtualCard',
 		data() {
 			return {
 				loading: true,
 				title: '新建',
-				automaticLogonModal: false,
 				disabled: true,
 				disabled1: true,
 				cardModel: false,
@@ -318,10 +312,33 @@
 			},
 			//关闭导入弹窗
 			closeImportModel() {
-				console.log("aa");
 				let _this = this;
 				_this.importModel = false;
 				_this.fileList = [];
+			},
+			// 导出
+			exportExcel() {
+				var xlsxParam = {
+					raw: true
+				} // 导出的内容只做解析，不进行格式转换
+				var wb = XLSX.utils.table_to_book(document.querySelector('#exportOrder'), xlsxParam)
+
+				/* get binary string as output */
+				var wbout = XLSX.write(wb, {
+					bookType: 'xlsx',
+					bookSST: true,
+					type: 'array'
+				})
+				try {
+					FileSaver.saveAs(new Blob([wbout], {
+						type: 'application/octet-stream'
+					}), '下单管理表.xlsx')
+				} catch(e) {
+					if(typeof console !== 'undefined') {
+						console.log(e, wbout)
+					}
+				}
+				return wbout
 			},
 			//重置虚拟卡弹窗
 			reserCardHandel() {
