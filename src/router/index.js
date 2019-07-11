@@ -26,7 +26,7 @@ export default new Router({
 				{
 					path: '/orderPlacingManage',
 					name: 'orderPlacingManage',
-					component: resolve => require(['../pages/orderPlacingManage.vue'], resolve),
+					component: resolve => require(['../pages/order/orderPlacingManage.vue'], resolve),
 					meta: {
 						title: '下单管理'
 					}
@@ -34,7 +34,7 @@ export default new Router({
 				{
 					path: '/AdditionalOrder',
 					name: 'AdditionalOrder',
-					component: resolve => require(['../pages/AdditionalOrder.vue'], resolve),
+					component: resolve => require(['../pages/order/AdditionalOrder.vue'], resolve),
 					meta: {
 						title: '加购订单'
 					}
@@ -42,7 +42,7 @@ export default new Router({
 				{
 					path: '/wishOrder',
 					name: 'wishOrder',
-					component: resolve => require(['../pages/wishOrder.vue'], resolve),
+					component: resolve => require(['../pages/order/wishOrder.vue'], resolve),
 					meta: {
 						title: '心愿订单'
 					}
@@ -50,7 +50,7 @@ export default new Router({
 				{
 					path: '/likesOrder',
 					name: 'likesOrder',
-					component: resolve => require(['../pages/likesOrder.vue'], resolve),
+					component: resolve => require(['../pages/order/likesOrder.vue'], resolve),
 					meta: {
 						title: '点赞订单'
 					}
@@ -58,7 +58,7 @@ export default new Router({
 				{
 					path: '/QAorder',
 					name: 'QAorder',
-					component: resolve => require(['../pages/QAorder.vue'], resolve),
+					component: resolve => require(['../pages/order/QAorder.vue'], resolve),
 					meta: {
 						title: 'QA订单'
 					}
@@ -136,20 +136,11 @@ export default new Router({
 					}
 				},
 				{
-          path: '/practicalCard',
-          name: 'practicalCard',
-          component: resolve => require(['../pages/card/practicalCard.vue'], resolve),
-          meta: {title: '实体卡管理'}
-        },
-				{
-					path: '/register',
-					name: 'register',
-					component: resolve => require(['../pages/register.vue'], resolve),
-					meta: {
-						title: '注册'
-					}
+					path: '/practicalCard',
+					name: 'practicalCard',
+					component: resolve => require(['../pages/card/practicalCard.vue'], resolve),
+					meta: {title: '实体卡管理'}
 				},
-				,
 				{
 				  path: '/customerList',
 				  name: 'customerList',
@@ -197,21 +188,59 @@ export default new Router({
 					meta: {
 						title: '提现记录'
 					}
-				}, {
+				},
+				{
 					path: '/ParameterService',
 					name: 'ParameterService',
 					component: resolve => require(['../pages/ParameterConfig/ParameterService.vue'], resolve),
 					meta: {
 						title: '增值费服务'
 					}
+				},
+				{
+					path: '/dynamicIP',
+					name: 'dynamicIP',
+					component: resolve => require(['../pages/ParameterConfig/dynamicIP.vue'], resolve),
+					meta: {
+						title: '动态IP池'
+					}
+				},
+				{
+					path: '/platform',
+					name: 'platform',
+					component: resolve => require(['../pages/ParameterConfig/platform.vue'], resolve),
+					meta: {
+						title: '平台管理'
+					}
+				},
+				{
+					path: '/autoShare',
+					name: 'autoShare',
+					component: resolve => require(['../pages/ParameterConfig/autoShare.vue'], resolve),
+					meta: {
+						title: '自动分配'
+					}
+				},
+				{
+					path: '/commentType',
+					name: 'commentType',
+					component: resolve => require(['../pages/ParameterConfig/commentType.vue'], resolve),
+					meta: {
+						title: '自动分配'
+					}
 				}
       ]
     },
     {
       path: '/login',
-      name: 'name',
+      name: 'login',
       component: resolve => require(['../pages/login.vue'], resolve)
-    }
+    },
+	{
+		path: '/register',
+		name: 'register',
+		component: resolve => require(['../pages/register.vue'], resolve)
+	}
   ]
 })
 // function requireAuth (to, from, next) {

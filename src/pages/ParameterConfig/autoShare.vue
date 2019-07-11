@@ -1,9 +1,9 @@
 <template>
 	<div class="container">
 		<div class="mb20 fz14">
-			<span>客户管理</span>
+			<span>参数配置</span>
 			<span>/</span>
-			<span>提现设置</span>
+			<span>自动分配</span>
 		</div>
 		<el-collapse-transition>
 			<div class="searchBox mb20" v-show="searchModel">
@@ -26,6 +26,7 @@
 			<el-button type="success" size="medium" @click="addModelShow"><i class="el-icon-plus"></i>新增</el-button>
 			<el-button type="primary" size="medium" @click="editModelShow" :disabled="editDisabled"><i class="el-icon-edit-outline"></i>修改</el-button>
 			<el-button type="danger" size="medium" @click="delData" :disabled="delDisabled"><i class="el-icon-delete"></i>删除</el-button>
+			<el-button type="primary" size="medium" @click="drModelShow"><i class="el-icon-caret-right"></i>导入</el-button>
 			<el-button type="warning" size="medium" @click="exportExcel"><i class="el-icon-document-delete"></i>导出</el-button>
 			<el-input placeholder="搜索" prefix-icon="el-icon-search" class="listSearchInput" @click.native="searchShow" readonly></el-input>
 		</div>
@@ -40,7 +41,7 @@
 				<el-table-column prop="CountryId" label="名称" align="center"></el-table-column>
 				<el-table-column prop="CountryId" label="值" align="center"></el-table-column>
 				<el-table-column prop="OrderNumber" label="备注信息" align="center"></el-table-column>
-				<el-table-column prop="OrderNumber" label="状态" align="center"></el-table-column>
+				<el-table-column prop="OrderNumber" label="状态" align="center"  class-name="red"></el-table-column>
 				<el-table-column prop="" label="操作" align="center"><el-link type="primary" :underline="false" @click="forbidModelShow">禁用</el-link></el-table-column>
 		</el-table>
 		<div class="mt30">
@@ -94,6 +95,16 @@
 		    <el-button @click="delModel=false" size="medium">取消</el-button>
 		  </span>
 		</el-dialog>
+		<!-- 导入-->
+		<el-dialog title="导入数据" :visible.sync="drModel" :close-on-click-modal="false" center="" width="30%">
+		  <div class="del-dialog-cnt textCen"><input type="file" /></div><br>
+		  <div class="del-dialog-cnt textCen">导入文件不能超过5M，仅允许导入“xls”或“xlsx”格式文件！</div>
+		  <span slot="footer" class="dialog-footer">
+			<el-button type="success" size="medium">下载模板</el-button>
+		    <el-button type="primary" size="medium">确定</el-button>
+		    <el-button @click="drModel=false" size="medium">取消</el-button>
+		  </span>
+		</el-dialog>
 		<!-- 禁用-->
 		<el-dialog title="温馨提示" :visible.sync="forbidModel" :close-on-click-modal="false" center="" width="30%">
 		  <div class="del-dialog-cnt textCen">确定要禁用吗？</div>
@@ -117,6 +128,7 @@
 				editModel: false,
 				delModel: false,
 				viewModel: false,
+				drModel: false,
 				forbidModel: false,
 				editDisabled: true,
 				delDisabled: true,
@@ -220,7 +232,7 @@
 					addModelShow() {
 						let _this = this
 						_this.editModel = true
-						_this.title = '提现配置新增'
+						_this.title = '自动分配新增'
 					},
 					// 修改
 					editModelShow() {
@@ -228,7 +240,7 @@
 						_this.editModel = true
 						let item = _this.checkBoxData[0]
 						let num = item.Numbers
-						_this.title = num + ' 提现配置修改'
+						_this.title = num + ' 自动分配修改'
 						_this.editForm.type = item.CountryId;
 						_this.editForm.name = item.CountryId;
 						_this.editForm.val = item.CountryId;
@@ -241,7 +253,7 @@
 						_this.viewModel = true
 						let item = _this.tableData[index]
 						let num = item.Numbers
-						_this.title = num + ' 提现配置详情'
+						_this.title = num + ' 自动分配详情'
 						_this.viewForm.type = item.CountryId,
 						_this.viewForm.name = item.CountryId,
 						_this.viewForm.val = item.CountryId,
@@ -252,6 +264,11 @@
 					delData () {
 					  let _this = this
 					  _this.delModel = true
+					},
+					// 导入
+					drModelShow () {
+					  let _this = this
+					  _this.drModel = true
 					},
 					// 禁用
 					forbidModelShow () {

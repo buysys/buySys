@@ -305,7 +305,7 @@
 </template>
 
 <script>
-	import viewTask from '../common/viewTask'
+	import viewTask from '../../common/viewTask'
 	export default {
 		name: 'QAorder',
 		data() {

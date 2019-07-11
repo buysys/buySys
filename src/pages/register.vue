@@ -2,7 +2,7 @@
 	<div class="box">
 		<div class="logobox">
 			<img src="../assets/image/logo.png">
-			<p class="infotxt">触动力是深圳最具影响力的公司</p>
+			<p class="infotxt">Accelpower 是深圳最具影响力的企业</p>
 		</div>
 		<el-form ref="form" :model="form">
 			
@@ -19,12 +19,11 @@
 			</el-form-item>
 			
 			<el-form-item>
-			<el-input placeholder="手机号" v-model="form.phone" class="input-with-select">
-			<el-select v-model="form.select" slot="prepend" placeholder="请选择">
-			  <el-option label="+86" value="1"></el-option>
-			  <el-option label="+87" value="2"></el-option>
+			<el-select class="phone-area" v-model="form.select" placeholder="请选择">
+				<el-option label="+86" value="1"></el-option>
+				<el-option label="+87" value="2"></el-option>
 			</el-select>
-			</el-input>
+			<el-input class="phone-num" v-model="form.phone" placeholder="手机号"></el-input>
 			</el-form-item>
 			
 			<el-form-item>
@@ -34,7 +33,7 @@
 			
 			<el-form-item>
 			<el-button class="regbtn" type="primary" @click="onSubmit">注册</el-button>
-			<el-link :underline="false" class="gologintxt" type="primary">使用已有账户登录</el-link>
+			<el-link :underline="false" class="gologintxt" type="primary" @click="goLogin">使用已有账户登录</el-link>
 			 </el-form-item>
 		</el-form>
   </div>
@@ -48,12 +47,15 @@
           name: '',
           password : '',
           password2: '',
-          select:'+86',
+          select:'1',
           checknum: ''
         }
       }
     },
     methods: {
+	  goLogin() {
+		  this.$router.push({path:'/login'})
+	  },
       onSubmit() {
         console.log('submit!');
       }
@@ -68,7 +70,7 @@
 	}
 	.logobox{
 		text-align: center;
-		margin: 50px 0;
+		margin: 80px 0;
 	}
 	.logobox img{
 		width: 200px;
@@ -92,5 +94,12 @@
 		width: 30%;
 		float: right;
 		text-align: right;
+	}
+	.phone-area{
+		width: 30%;
+	}
+	.phone-num{
+		width: 68%;
+		float: right;
 	}
 </style>

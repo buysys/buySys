@@ -57,11 +57,11 @@
 					<el-menu-item index="ParameterService">增值费服务</el-menu-item>
 					<el-menu-item index="">货币汇率</el-menu-item>
 					<el-menu-item index="">国家管理</el-menu-item>
-					<el-menu-item index="">平台管理</el-menu-item>
-					<el-menu-item index="">动态IP池</el-menu-item>
-					<el-menu-item index="">推荐码</el-menu-item>
+					<el-menu-item index="platform">平台管理</el-menu-item>
+					<el-menu-item index="dynamicIP">动态IP池</el-menu-item>
+					<el-menu-item index="commentType">留评类型</el-menu-item>
 					<el-menu-item index="">配置管理</el-menu-item>
-					<el-menu-item index="">自动分配</el-menu-item>
+					<el-menu-item index="autoShare">自动分配</el-menu-item>
 					<el-menu-item index="">网站配置</el-menu-item>
 				</el-submenu>
 				<el-submenu index="10">
@@ -83,8 +83,6 @@
 					<el-menu-item index="">安全退出</el-menu-item>
 				</el-submenu>
 				<el-menu-item index="12" class="loginOut" @click="loginOut"><i class="el-icon-setting"></i>退出
-				</el-menu-item>
-				<el-menu-item index="register" class="loginOut"><i class="el-icon-setting"></i>注册
 				</el-menu-item>
 			</el-menu>
 		</div>
