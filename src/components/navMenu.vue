@@ -66,13 +66,9 @@
 				</el-submenu>
 				<el-submenu index="10">
 					<template slot="title"><i class="el-icon-setting"></i>系统设置</template>
-					<el-menu-item index="">支付类型</el-menu-item>
-					<el-menu-item index="">支付方式</el-menu-item>
-					<el-menu-item index="">用户管理</el-menu-item>
-					<el-menu-item index="">机构管理</el-menu-item>
-					<el-menu-item index="">区域管理</el-menu-item>
-					<el-menu-item index="">角色管理</el-menu-item>
-					<el-menu-item index="">帮助中心</el-menu-item>
+					<el-menu-item index="userManage">用户管理</el-menu-item>
+					<el-menu-item index="roleManage">角色管理</el-menu-item>
+					<!--<el-menu-item index="">帮助中心</el-menu-item>-->
 				</el-submenu>
 				<el-submenu index="11" class="userInfoBox">
 					<template slot="title"><i class="el-icon-s-custom"></i>kyumin</template>

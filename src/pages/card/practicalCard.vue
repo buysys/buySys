@@ -36,7 +36,7 @@
 			<el-button type="warning" size="medium" @click="importHandle"><i class="el-icon-folder-opened"></i>导入</el-button>
 			<el-button type="primary" size="medium" @click="exportExcel"><i class="el-icon-document-delete"></i>导出</el-button>
 			<el-button type="primary" size="medium" :disabled="disabled" @click="quotaHandle"><i class="el-icon-edit-outline"></i>修改额度</el-button>
-			<el-button size="medium" @click="searchShow"><i class="el-icon-search"></i>检索</el-button>
+			<el-input placeholder="搜索" prefix-icon="el-icon-search" class="listSearchInput" @click.native="searchShow" readonly></el-input>
 		</div>
 		<div class="mt10">
 			<el-table v-loading="loading" :data="buyNumData" id="exportOrder" border style="width: 100%" @selection-change="handleSelectionChange">
@@ -55,11 +55,15 @@
 				<el-table-column prop="Stautuy" label="买号状态" align="center" sortable></el-table-column>
 				<el-table-column prop="Status" label="操作" align="center">
 					<template slot-scope="scope">
-						<el-button size="small" type="primary" @click="RedistributionAccount(scope.$index, scope.row)">还款
+						<el-button size="small" type="primary" @click="repaymentHandle">还款
 						</el-button>
 					</template>
 				</el-table-column>
 			</el-table>
+			<div class="mt30">
+				<el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage" :page-sizes="[100, 200, 300, 500]" :page-size="10" layout="total, sizes, prev, pager, next, jumper" :total="total">
+				</el-pagination>
+			</div>
 		</div>
 		<!--新建、修改-->
 		<el-dialog :title="title" :visible.sync="cardModel" :close-on-click-modal="false" :before-close="closeModel" width="70%">
@@ -126,6 +130,18 @@
         		<el-button @click="closeQuotaModel" size="medium">取消</el-button>
       		</span>
 		</el-dialog>
+		<!--还款-->
+		<el-dialog title="请输入还款金额" :visible.sync="repaymentModel" :close-on-click-modal="false" :before-close="closeRepaymentModel" center="" width="25%">
+			<el-form :model="repaymentForm" ref="repaymentForm" class="demo-dynamic">
+				<el-form-item prop="amount">
+					<el-input v-model="repaymentForm.amount" ></el-input>
+				</el-form-item>
+			</el-form>	
+			<span slot="footer" class="dialog-footer">
+        		<el-button type="primary" size="medium">确定</el-button>
+        		<el-button @click="closeRepaymentModel" size="medium">取消</el-button>
+      		</span>
+		</el-dialog>
 	</div>
 </template>
 
@@ -145,6 +161,10 @@
 				delModel: false,
 				importModel: false,
 				quotaModel: false,
+				currentPage: 1,
+				repaymentModel: false,
+				pageSize: '0',
+				total:100,
 				checkBoxData: [],
 				fileList: [],
 				buyNumData: [],
@@ -162,6 +182,7 @@
 					remark: ''
 				},
 				quotaForm: {amount:''},
+				repaymentForm: {amount:''},
 				editRules: {
 					validity: [{
 						required: true,
@@ -216,6 +237,14 @@
 				let _this = this;
 				_this.cardModel = true;
 				_this.title = "修改";
+				let item = _this.checkBoxData[0];
+				_this.cardForm.name = item.CountryID;
+				_this.cardForm.cardNo = item.Numbers;
+				_this.cardForm.validity = item.ProductByASIN;
+				_this.cardForm.safetyCode = item.ProductByASIN;
+				_this.cardForm.userName = item.ProductByASIN;
+				_this.cardForm.totalAmount = item.ProductByASIN;
+				_this.cardForm.remark = item.remark;	
 			},
 			//关闭修改价格弹窗
 			closeModel() {
@@ -267,7 +296,6 @@
 			},
 			//关闭导入弹窗
 			closeImportModel() {
-				console.log("关闭导入");
 				let _this = this;
 				_this.importModel = false;
 				_this.fileList = [];
@@ -284,6 +312,19 @@
 				_this.quotaModel = false;
 				_this.quotaForm = {amout: ''}
 			},
+			//还款弹窗
+			repaymentHandle() {
+				let _this = this;
+//				let item = _this.checkBoxData[0];
+				_this.repaymentModel = true;
+//				_this.repaymentForm.amount = item.amount;
+			},
+			//关闭还款弹窗
+			closeRepaymentModel() {
+				let _this = this;
+				_this.repaymentModel = false;
+				_this.repaymentForm = {amount:''};
+			},
 			//是否选中
 			handleSelectionChange(val) {
 				this.checkBoxData = val
@@ -294,6 +335,13 @@
 				} else {
 					this.disabled = false
 				}
+			},
+			//分页
+			handleSizeChange(val) {
+				console.log(`每页 ${val} 条`)
+			},
+			handleCurrentChange(val) {
+				console.log(`当前页: ${val}`)
 			},
 			getAllData() {
 				let _this = this

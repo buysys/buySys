@@ -136,11 +136,13 @@ export default new Router({
 					}
 				},
 				{
-          path: '/practicalCard',
-          name: 'practicalCard',
-          component: resolve => require(['../pages/card/practicalCard.vue'], resolve),
-          meta: {title: '实体卡管理'}
-        },
+					path: '/practicalCard',
+					name: 'practicalCard',
+					component: resolve => require(['../pages/card/practicalCard.vue'], resolve),
+					meta: {
+						title: '实体卡管理'
+					}
+				},
 				{
 					path: '/register',
 					name: 'register',
@@ -148,31 +150,38 @@ export default new Router({
 					meta: {
 						title: '注册'
 					}
-				},
-				,
+				}, ,
 				{
-				  path: '/customerList',
-				  name: 'customerList',
-				  component: resolve => require(['../pages/customer/customerList.vue'], resolve),
-				  meta: {title: '客户列表'}
-				},
-				{
-				  path: '/refundOrder',
-				  name: 'refundOrder',
-				  component: resolve => require(['../pages/customer/refundOrder.vue'], resolve),
-				  meta: {title: '退款订单'}
+					path: '/customerList',
+					name: 'customerList',
+					component: resolve => require(['../pages/customer/customerList.vue'], resolve),
+					meta: {
+						title: '客户列表'
+					}
 				},
 				{
-				  path: '/takeMoneyList',
-				  name: 'takeMoneyList',
-				  component: resolve => require(['../pages/customer/takeMoneyList.vue'], resolve),
-				  meta: {title: '提现记录'}
+					path: '/refundOrder',
+					name: 'refundOrder',
+					component: resolve => require(['../pages/customer/refundOrder.vue'], resolve),
+					meta: {
+						title: '退款订单'
+					}
 				},
 				{
-				  path: '/takeMoneySet',
-				  name: 'takeMoneySet',
-				  component: resolve => require(['../pages/customer/takeMoneySet.vue'], resolve),
-				  meta: {title: '提现配置'}
+					path: '/takeMoneyList',
+					name: 'takeMoneyList',
+					component: resolve => require(['../pages/customer/takeMoneyList.vue'], resolve),
+					meta: {
+						title: '提现记录'
+					}
+				},
+				{
+					path: '/takeMoneySet',
+					name: 'takeMoneySet',
+					component: resolve => require(['../pages/customer/takeMoneySet.vue'], resolve),
+					meta: {
+						title: '提现配置'
+					}
 				},
 				{
 					path: '/partnerManage',
@@ -197,22 +206,40 @@ export default new Router({
 					meta: {
 						title: '提现记录'
 					}
-				}, {
+				}, 
+				{
 					path: '/ParameterService',
 					name: 'ParameterService',
 					component: resolve => require(['../pages/ParameterConfig/ParameterService.vue'], resolve),
 					meta: {
 						title: '增值费服务'
 					}
+				},
+				{
+					path: '/userManage',
+					name: 'userManage',
+					component: resolve => require(['../pages/systemSettings/userManage.vue'], resolve),
+					meta: {
+						title: '用户管理'
+					}
+				},
+				{
+					path: '/roleManage',
+					name: 'roleManage',
+					component: resolve => require(['../pages/systemSettings/roleManage.vue'], resolve),
+					meta: {
+						title: '角色管理'
+					}
 				}
-      ]
-    },
-    {
-      path: '/login',
-      name: 'name',
-      component: resolve => require(['../pages/login.vue'], resolve)
-    }
-  ]
+				
+			]
+		},
+		{
+			path: '/login',
+			name: 'name',
+			component: resolve => require(['../pages/login.vue'], resolve)
+		}
+	]
 })
 // function requireAuth (to, from, next) {
 //   if (auth.loggedIn() === 'null' || auth.loggedIn() === null) {
