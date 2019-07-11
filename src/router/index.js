@@ -224,6 +224,14 @@ export default new Router({
 					meta: {
 						title: '货币汇率'
 					}
+				},
+				{
+					path: '/headPortrait',
+					name: 'headPortrait',
+					component: resolve => require(['../pages/personal/headPortrait.vue'], resolve),
+					meta: {
+						title: '修改头像'
+					}
 				}
 			]
 		},

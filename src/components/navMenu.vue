@@ -71,7 +71,7 @@
 				</el-submenu>
 				<el-submenu index="11" class="userInfoBox">
 					<template slot="title"><i class="el-icon-s-custom"></i>kyumin</template>
-					<el-menu-item index="">修改头像</el-menu-item>
+					<el-menu-item index="headPortrait">修改头像</el-menu-item>
 					<el-menu-item index="">个人资料</el-menu-item>
 				</el-submenu>
 				<el-menu-item index="12" class="loginOut" @click="loginOut"><i class="el-icon-setting"></i>退出
