@@ -174,20 +174,41 @@
             </span>
 		</el-dialog>
 		<!--导入-->
-		<el-dialog title='导入数据' :visible.sync='importDataModal' :close-on-click-modal='false' width='25%'>
+		<!--<el-dialog title='导入数据' :visible.sync='importDataModal' :close-on-click-modal='false' width='25%'>
 			<div class="del-dialog-cnt textCen">
-				<!--<el-upload class="upload-demo" action="" :on-change="importf(this)" :on-exceed="handleExceed" :on-remove="handleRemove" :limit="1" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel"
-					 :auto-upload="false">
+				<el-upload class="upload-demo" action="" :on-change="importf(this)" :on-exceed="handleExceed" :on-remove="handleRemove" :limit="1" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel" :auto-upload="false">
 					<el-button size="small" type="primary">点击上传</el-button>
 					<div slot="tip" class="el-upload__tip">只 能 上 传 xlsx / xls 文 件</div>
-				</el-upload>-->
+				</el-upload>
 			</div>
 
 			<span slot="footer" class="dialog-footer">
                 <el-button type="primary" size="medium">确定</el-button>
                 <el-button @click="importDataModal=false" size="medium">取消</el-button>
             </span>
-		</el-dialog>
+		</el-dialog>-->
+		<!--<el-dialog title="导入" :visible.sync="dialogImportVisible" :modal-append-to-body="false" :close-on-click-modal="false" class="dialog-import">
+			<div :class="{'import-content': importFlag === 1, 'hide-dialog': importFlag !== 1}">
+				<el-upload class="upload-demo" :action="importUrl" :name="name" :headers="importHeaders" :on-preview="handlePreview" :on-remove="handleRemove" :before-upload="beforeUpload" :on-error="uploadFail" :on-success="uploadSuccess" :file-list="fileList" :with-credentials="withCredentials">
+					<el-button size="small" type="primary" :disabled="processing">{{uploadTip}}</el-button>
+					<div slot="tip" class="el-upload__tip">只能上传excel文件</div>
+				</el-upload>
+				<div class="download-template">
+					<a class="btn-download" @click="download">
+						<i class="icon-download"></i>下载模板</a>
+				</div>
+			</div>
+			<div :class="{'import-failure': importFlag === 2, 'hide-dialog': importFlag !== 2}">
+				<div class="failure-tips">
+					<i class="el-icon-warning"></i>导入失败</div>
+				<div class="failure-reason">
+					<h4>失败原因</h4>
+					<ul>
+						<li v-for="(error,index) in errorResults" :key="index">第{{error.rowIdx + 1}}行，错误：{{error.column}},{{error.value}},{{error.errorInfo}}</li>
+					</ul>
+				</div>
+			</div>
+		</el-dialog>-->
 	</div>
 </template>
 
@@ -197,6 +218,18 @@
 		name: 'exchangeRate',
 		data() {
 			return {
+//				importHeaders: {
+//					enctype: 'multipart/form-data',
+//					cityCode: ''
+//				},
+//				name: 'import',
+//				fileList: [],
+//				withCredentials: true,
+//				processing: false,
+//				uploadTip: '点击上传',
+//				importFlag: 1,
+//				errorResults: []
+//				importUrl: 'http://192.168.111.103:52019',
 				fileTemp: null,
 				serviceTitle: '',
 				currencyTitle: '',
@@ -214,6 +247,7 @@
 				currencyModal: false, //解除关联
 				importDataModal: false, //导入
 				returnShow: false,
+				dialogImportVisible: false,
 				tipMessage: '',
 				currencyData: [],
 				checkBoxData: [], //选中信息
@@ -286,7 +320,8 @@
 			//导入弹窗
 			importData() {
 				let _this = this
-				_this.importDataModal = true
+				//				_this.importDataModal = true
+				_this.dialogImportVisible = true
 			},
 			//解除关联
 			relieveAssociation() {
@@ -418,59 +453,59 @@
 				console.log(`当前页: ${val}`)
 			},
 			//导入
-//			importf(obj) {     
-//				let _this = this;
-//				// 通过DOM取文件数据
-//				this.file = obj
-//				var rABS = false; //是否将文件读取为二进制字符串
-//				var f = this.file;
-//				var reader = new FileReader();
-//				//if (!FileReader.prototype.readAsBinaryString) {
-//				FileReader.prototype.readAsBinaryString = function(f) {
-//					var binary = "";
-//					var rABS = false; //是否将文件读取为二进制字符串
-//					var pt = this;
-//					var wb; //读取完成的数据
-//					var outdata;
-//					var reader = new FileReader();
-//					reader.onload = function(e) {
-//						var bytes = new Uint8Array(reader.result);
-//						var length = bytes.byteLength;
-//						for(var i = 0; i < length; i++) {
-//							binary += String.fromCharCode(bytes[i]);
-//						}
-//						var XLSX = require('xlsx');
-//						if(rABS) {
-//							wb = XLSX.read(btoa(fixdata(binary)), { //手动转化
-//								type: 'base64'
-//							});
-//						} else {
-//							wb = XLSX.read(binary, {
-//								type: 'binary'
-//							});
-//						}
-//						outdata = XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]]); //outdata就是你想要的东西
-//						this.currencyData = [...outdata]
-//						let arr = []
-//						this.currencyData.map(v => {
-//							let obj = {}
-//							obj.CountryId = v['货币名称']
-//							obj.Numbers = v['货币编码']
-//							obj.ProductByASIN = v['货币符号']
-//							obj.Status = v['汇率']
-//							arr.push(obj)
-//						})
-//						return arr
-//					}
-//					reader.readAsArrayBuffer(f);
-//				}
-//
-//				if(rABS) {
-//					reader.readAsArrayBuffer(f);
-//				} else {
-//					reader.readAsBinaryString(f);
-//				}
-//			}
+			//			importf(obj) {     
+			//				let _this = this;
+			//				// 通过DOM取文件数据
+			//				this.file = obj
+			//				var rABS = false; //是否将文件读取为二进制字符串
+			//				var f = this.file;
+			//				var reader = new FileReader();
+			//				//if (!FileReader.prototype.readAsBinaryString) {
+			//				FileReader.prototype.readAsBinaryString = function(f) {
+			//					var binary = "";
+			//					var rABS = false; //是否将文件读取为二进制字符串
+			//					var pt = this;
+			//					var wb; //读取完成的数据
+			//					var outdata;
+			//					var reader = new FileReader();
+			//					reader.onload = function(e) {
+			//						var bytes = new Uint8Array(reader.result);
+			//						var length = bytes.byteLength;
+			//						for(var i = 0; i < length; i++) {
+			//							binary += String.fromCharCode(bytes[i]);
+			//						}
+			//						var XLSX = require('xlsx');
+			//						if(rABS) {
+			//							wb = XLSX.read(btoa(fixdata(binary)), { //手动转化
+			//								type: 'base64'
+			//							});
+			//						} else {
+			//							wb = XLSX.read(binary, {
+			//								type: 'binary'
+			//							});
+			//						}
+			//						outdata = XLSX.utils.sheet_to_json(wb.Sheets[wb.SheetNames[0]]); //outdata就是你想要的东西
+			//						this.currencyData = [...outdata]
+			//						let arr = []
+			//						this.currencyData.map(v => {
+			//							let obj = {}
+			//							obj.CountryId = v['货币名称']
+			//							obj.Numbers = v['货币编码']
+			//							obj.ProductByASIN = v['货币符号']
+			//							obj.Status = v['汇率']
+			//							arr.push(obj)
+			//						})
+			//						return arr
+			//					}
+			//					reader.readAsArrayBuffer(f);
+			//				}
+			//
+			//				if(rABS) {
+			//					reader.readAsArrayBuffer(f);
+			//				} else {
+			//					reader.readAsBinaryString(f);
+			//				}
+			//			}
 		}
 	}
 </script>
