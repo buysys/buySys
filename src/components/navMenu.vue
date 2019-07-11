@@ -41,28 +41,28 @@
 					<el-menu-item index="takeMoneyList">提现记录</el-menu-item>
 					<el-menu-item index="takeMoneySet">提现配置</el-menu-item>
 				</el-submenu>
-				<el-submenu index="7">
+				<!--<el-submenu index="7">
 					<template slot="title"><i class="el-icon-news"></i>合作伙伴</template>
 					<el-menu-item index="partnerManage">伙伴管理</el-menu-item>
 					<el-menu-item index="returnOrder">返利订单</el-menu-item>
 					<el-menu-item index="DiscountRecord">提现记录</el-menu-item>
-				</el-submenu>
-				<el-submenu index="8">
+				</el-submenu>-->
+				<!--<el-submenu index="8">
 					<template slot="title"><i class="el-icon-s-finance"></i>财务管理</template>
 					<el-menu-item index="">财务报表</el-menu-item>
-
-				</el-submenu>
+				</el-submenu>-->
 				<el-submenu index="9">
 					<template slot="title"><i class="el-icon-s-tools"></i>参数配置</template>
+					<el-menu-item index="commentType">留评类型</el-menu-item>
 					<el-menu-item index="ParameterService">增值费服务</el-menu-item>
-					<el-menu-item index="">货币汇率</el-menu-item>
-					<el-menu-item index="">国家管理</el-menu-item>
-					<el-menu-item index="">平台管理</el-menu-item>
-					<el-menu-item index="">动态IP池</el-menu-item>
-					<el-menu-item index="">推荐码</el-menu-item>
-					<el-menu-item index="">配置管理</el-menu-item>
-					<el-menu-item index="">自动分配</el-menu-item>
-					<el-menu-item index="">网站配置</el-menu-item>
+					<el-menu-item index="exchangeRate">货币汇率</el-menu-item>
+					<el-menu-item index="countryManage">国家管理</el-menu-item>
+					<el-menu-item index="platform">平台管理</el-menu-item>
+					<el-menu-item index="dynamicIP">动态IP池</el-menu-item>
+					<el-menu-item index="autoShare">自动分配</el-menu-item>
+					<!--<el-menu-item index="">推荐码</el-menu-item>-->
+					<!--<el-menu-item index="">配置管理</el-menu-item>
+					<el-menu-item index="">网站配置</el-menu-item>-->
 				</el-submenu>
 				<el-submenu index="10">
 					<template slot="title"><i class="el-icon-setting"></i>系统设置</template>
@@ -74,13 +74,8 @@
 					<template slot="title"><i class="el-icon-s-custom"></i>kyumin</template>
 					<el-menu-item index="">修改头像</el-menu-item>
 					<el-menu-item index="">个人资料</el-menu-item>
-					<el-menu-item index="">我的通讯录</el-menu-item>
-					<el-menu-item index="">信箱</el-menu-item>
-					<el-menu-item index="">安全退出</el-menu-item>
 				</el-submenu>
 				<el-menu-item index="12" class="loginOut" @click="loginOut"><i class="el-icon-setting"></i>退出
-				</el-menu-item>
-				<el-menu-item index="register" class="loginOut"><i class="el-icon-setting"></i>注册
 				</el-menu-item>
 			</el-menu>
 		</div>

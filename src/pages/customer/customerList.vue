@@ -102,7 +102,7 @@
 			</el-form>
 		</el-dialog>
 		<!-- 查看 -->
-		<el-dialog :title="title" :visible.sync="viewModel" :close-on-click-modal="false" :before-close="closeViewModel">
+		<el-dialog :title="title" :visible.sync="viewModel" :close-on-click-modal="false">
 			<el-form :model="viewForm" label-width="125px" status-icon>
 				<el-row>
 					<el-col :span="12" :xs="24"><el-form-item label="客户账号:"><label>{{viewForm.userName}}</label></el-form-item></el-col>
@@ -135,7 +135,7 @@
 				<el-row>
 					<el-col :span="24" :xs="24"><el-form-item label="备注:"><label>{{viewForm.remark}}</label></el-form-item></el-col>
 				</el-row>
-				<p class="txtCenter"><el-button @click="closeViewModel">关闭</el-button></p>
+				<p class="txtCenter"><el-button @click="viewModel=false">关闭</el-button></p>
 			</el-form>
 		</el-dialog>
 		<!-- 删除-->
@@ -341,11 +341,6 @@
 						let _this = this
 						_this.editModel = false
 						_this.editForm = {}
-					},
-					//关闭查看弹窗
-					closeViewModel() {
-						let _this = this
-						_this.viewModel = false
 					},
 					//分页
 					handleSizeChange(val) {

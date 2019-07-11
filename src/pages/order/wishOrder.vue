@@ -3,7 +3,7 @@
 		<div class="mb20 fz14">
 			<span>订单管理</span>
 			<span>/</span>
-			<span>下单管理</span>
+			<span>心愿订单</span>
 		</div>
 		<el-collapse-transition>
 			<div class="searchBox mb20" v-show="searchModel">
@@ -42,7 +42,7 @@
 			</el-button>
 			<!--<el-button type="success" size="medium"><i class="el-icon-edit"></i>自动分配</el-button>-->
 			<el-button type="primary" size="medium"><i class="el-icon-folder-opened"></i>订单导入</el-button>
-			<el-button type="primary" size="medium" @click="exportExcel"><i class="el-icon-document-delete"></i>导出</el-button>
+			<el-button type="primary" size="medium"><i class="el-icon-document-delete"></i>导出</el-button>
 			<el-input placeholder="搜索" prefix-icon="el-icon-search" class="listSearchInput" @click.native="searchShow" readonly></el-input>
 		</div>
 		<div class="tabList">
@@ -58,8 +58,7 @@
 			</ul>
 		</div>
 		<div class="mt10">
-			<el-table v-loading="loading" :data="orderPlaceData" id="exportOrder" style="width: 100%" :header-cell-style="{background:'#fafafa'}"
- @selection-change="handleSelectionChange">
+			<el-table v-loading="loading" :data="orderPlaceData" style="width: 100%" :header-cell-style="{background:'#fafafa'}" @selection-change="handleSelectionChange">
 				<el-table-column type="selection"></el-table-column>
 				<el-table-column prop="Numbers" label="下单单号" align="center" width="200">
 					<template slot-scope="scope">
@@ -79,14 +78,14 @@
 				<el-table-column prop="OrderNote" label="客户编码" align="center"></el-table-column>
 				<el-table-column prop="OrderTime" label="下单时间" align="center"></el-table-column>
 				<el-table-column prop="Status" label="订单状态" align="center" width="100"></el-table-column>
-				<el-table-column label="操作" align="center" width="410">
+				<el-table-column label="操作" align="center" width="380">
 					<template slot-scope="scope">
 						<el-button size="small" type="primary" @click="viewTask(scope.$index,scope.row)">查看任务</el-button>
 						<el-button size="small" @click="cancelReason(scope.$index,scope.row)">取消原因</el-button>
-						<el-button size="small" type="success" v-if="scope.row.Status==='已分配'" @click="confirmPayHandel(scope.$index,scope.row)">确认付款
+						<el-button size="small" type="success" v-if="scope.row.Status==='待确认付款'" @click="confirmPayHandel(scope.$index,scope.row)">确认付款
 						</el-button>
 						<el-button size="small" type="warning" v-if="scope.row.Status ==='待确认付款'">分配买号</el-button>
-						<el-button size="small" type="danger" v-if="scope.row.Status === '已分配'" @click="cancelHandel(scope.$index, scope.row)">取消
+						<el-button size="small" type="danger" v-if="scope.row.Status === '待确认付款'" @click="cancelHandel(scope.$index, scope.row)">取消
 						</el-button>
 					</template>
 				</el-table-column>
@@ -94,14 +93,8 @@
 		</div>
 		<el-dialog title="修改价格" :visible.sync="editPricceModel" :close-on-click-modal="false" :before-close="closeModel">
 			<el-form :model="editPriceForm" :rules="editRules" label-width="125px" status-icon>
-				<el-form-item label="feedback服务费" prop="fbServiceFree">
-					<el-input v-model="editPriceForm.fbServiceFree"></el-input>
-				</el-form-item>
-				<el-form-item label="cpc服务费" prop="cpcServiceFree">
-					<el-input v-model="editPriceForm.cpcServiceFree"></el-input>
-				</el-form-item>
-				<el-form-item label="留评服务费" prop="lpServiceFree">
-					<el-input v-model="editPriceForm.lpServiceFree"></el-input>
+				<el-form-item label="心愿单服务费" prop="wishServiceFree">
+					<el-input v-model="editPriceForm.wishServiceFree"></el-input>
 				</el-form-item>
 				<el-form-item label="汇率" prop="exchangeRate">
 					<el-input v-model="editPriceForm.exchangeRate"></el-input>
@@ -155,31 +148,25 @@
 </template>
 
 <script>
-	// import { compareDown } from "@/config/mUtils";
-	// import { exportTb } from '@/config/mUtils';
-	// import { getStore } from "@/config/mUtils";
-	import FileSaver from 'file-saver'
-	import XLSX from 'xlsx'
-	
-	import viewTask from '../common/viewTask'
-	import orderDetail from '../common/orderDetail'
-	
+	import viewTask from '../../common/viewTask'
+	import orderDetail from '../../common/orderDetail'
 	export default {
-		name: 'orderPlacingManage',
+		name: 'wishOrder',
 		data() {
 			return {
+				loading: true,
 				title: '',
 				orderTitle: '',
 				viewTaskDateilsModel: false,
 				confirmPaymentModel: false,
 				cancelPaymentModel: false,
-				loading: true,
-				disabled: true,
 				reasonModel: false,
+				viewTaskModel: false,
+				disabled: true,
 				editPricceModel: false,
 				searchModel: false,
-				viewTaskModel: false,
 				orderPlaceData: [],
+				taskDetails: [],
 				countryData: [{
 						country: '美国'
 					},
@@ -195,26 +182,14 @@
 					countryId: ''
 				},
 				editPriceForm: {
-					fbServiceFree: '',
-					cpcServiceFree: '',
-					lpServiceFree: '',
+					wishServiceFree: '',
 					exchangeRate: '',
 					remark: ''
 				},
 				editRules: {
-					fbServiceFree: [{
+					wishServiceFree: [{
 						required: true,
-						message: '请输入feedback服务费',
-						trigger: 'blur'
-					}],
-					cpcServiceFree: [{
-						required: true,
-						message: '请输cpc服务费',
-						trigger: 'blur'
-					}],
-					lpServiceFree: [{
-						required: true,
-						message: '请输留评服务费',
+						message: '请输入心愿单服务费',
 						trigger: 'blur'
 					}],
 					exchangeRate: [{
@@ -262,30 +237,6 @@
 					orderEndTime: '',
 					countryId: ''
 				}
-			},
-			// 导出
-			exportExcel() {
-				var xlsxParam = {
-					raw: true
-				} // 导出的内容只做解析，不进行格式转换
-				var wb = XLSX.utils.table_to_book(document.querySelector('#exportOrder'), xlsxParam)
-
-				/* get binary string as output */
-				var wbout = XLSX.write(wb, {
-					bookType: 'xlsx',
-					bookSST: true,
-					type: 'array'
-				})
-				try {
-					FileSaver.saveAs(new Blob([wbout], {
-						type: 'application/octet-stream'
-					}), '虚拟信用卡管理.xlsx')
-				} catch(e) {
-					if(typeof console !== 'undefined') {
-						console.log(e, wbout)
-					}
-				}
-				return wbout
 			},
 			// 取消弹窗
 			cancelHandel(index, row) {
@@ -424,7 +375,5 @@
 </script>
 
 <style scoped>
-	.red {
-		color: #f00;
-	}
+
 </style>

@@ -1,31 +1,38 @@
 <template>
 	<div class="container">
 		<div class="mb20 fz14">
-			<span>客户管理</span>
+			<span>参数配置</span>
 			<span>/</span>
-			<span>提现记录</span>
+			<span>动态IP池</span>
 		</div>
 		<el-collapse-transition>
 			<div class="searchBox mb20" v-show="searchModel">
 				<el-form ref="searchForm" :model="searchForm" class="form-item" label-width="80px">
 					<el-row>
-						<el-col :xs="24" :span="8" :sm="8" :md="8" :lg="8">
-							<el-form-item label="搜索内容">
-								<el-input v-model="searchForm.searchkeywords" placeholder="请输入提现记录号|客户名称|客户编码|客户手机搜索" class="disInline"></el-input>
-							</el-form-item>
-						</el-col>
 						<el-col :xs="24" :span="5" :sm="10" :md="8" :lg="5">
-							<el-form-item label="提现状态">
+							<el-form-item label="国家">
 								<template>
-								  <el-select v-model="statusValue" placeholder="请选择">
+								  <el-select v-model="countryValue" placeholder="请选择">
 									<el-option
-									  v-for="item in statusOptions"
+									  v-for="item in countryOptions"
 									  :key="item.value"
 									  :label="item.label"
 									  :value="item.value">
 									</el-option>
 								  </el-select>
 								</template>
+							</el-form-item>
+						</el-col>
+						<el-col :xs="24" :span="5" :sm="10" :md="8" :lg="5">
+							<el-form-item label="端口">
+								<el-input v-model="searchForm.start" placeholder="开始端口" class="disInline" style="width: 100px;"></el-input>
+								---
+								<el-input v-model="searchForm.end" placeholder="结束端口" class="disInline" style="width: 100px;"></el-input>
+							</el-form-item>
+						</el-col>
+						<el-col :xs="24" :span="7" :sm="7" :md="7" :lg="7">
+							<el-form-item label="搜索内容">
+								<el-input v-model="searchForm.searchkeywords" placeholder="请输入IP/端口/买家账号搜索" class="disInline"></el-input>
 							</el-form-item>
 						</el-col>
 						<el-col :xs="24" :span="5" :sm="10" :md="8" :lg="5" class="ml20">
@@ -37,46 +44,27 @@
 			</div>
 		</el-collapse-transition>
 		<div class="mb20">
-			<el-button type="primary" size="medium" @click="okModelShow" :disabled="disabled"><i class="el-icon-circle-check"></i>确认付款</el-button>
-			<el-button type="danger" size="medium" @click="errModelShow" :disabled="disabled"><i class="el-icon-circle-close"></i>付款失败</el-button>
 			<el-button type="warning" size="medium" @click="exportExcel"><i class="el-icon-document-delete"></i>导出</el-button>
+			<span class="tabStatus tabStatus-o">
+				<span>总数</span><span class="txtCol ml10 mr30">230</span>
+				<span>已使用</span><span class="txtCol  ml10 mr30">150</span>
+				<span>剩余</span><span class="txtCol  ml10 mr30">80</span>
+			</span>
 			<el-input placeholder="搜索" prefix-icon="el-icon-search" class="listSearchInput" @click.native="searchShow" readonly></el-input>
 		</div>
 		<div class="mt10">
 		<el-table v-loading="loading" :data="tableData" id="exportData" style="width: 100%" :header-cell-style="{background:'#fafafa'}" @selection-change="handleSelectionChange">
 			<el-table-column type="selection"></el-table-column>
-				<el-table-column prop="Numbers" label="提现记录号" align="center"></el-table-column>
-			    <el-table-column prop="ProductByASIN" label="客户名称" align="center"></el-table-column>
-				<el-table-column prop="CountryId" label="客户编号" align="center"></el-table-column>
-				<el-table-column prop="CountryId" label="客户手机" align="center"></el-table-column>
-				<el-table-column prop="OrderNumber" label="提现金额" align="center"  class-name="red"></el-table-column>
-				<el-table-column prop="OrderNumber" label="提现状态" align="center"></el-table-column>
-				<el-table-column prop="OrderNumber" label="提现时间" align="center"></el-table-column>
-				<el-table-column prop="OrderNumber" label="开户银行" align="center"></el-table-column>
-				<el-table-column prop="CountryId" label="开户名" align="center"></el-table-column>
-				<el-table-column prop="ProductPrice" label="开户银行账号" align="center"></el-table-column>
+				<el-table-column prop="Numbers" label="IP" align="center"></el-table-column>
+			    <el-table-column prop="ProductByASIN" label="端口" align="center"></el-table-column>
+				<el-table-column prop="CountryId" label="国家" align="center"></el-table-column>
+				<el-table-column prop="OrderNumber" label="买家账号" align="center"></el-table-column>
 		</el-table>
 		<div class="mt30">
 			<el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage" :page-sizes="[100, 200, 300, 500]" :page-size="10" layout="total, sizes, prev, pager, next, jumper" :total="total">
 			</el-pagination>
 		</div>
 		</div>
-		<!-- 确认付款-->
-		<el-dialog title="确认付款" :visible.sync="okModel" :close-on-click-modal="false" center="" width="30%">
-		  <div class="del-dialog-cnt textCen">确定要付款选中的数据吗？</div>
-		  <span slot="footer" class="dialog-footer">
-		    <el-button type="primary" size="medium">确定</el-button>
-		    <el-button @click="okModel=false" size="medium">取消</el-button>
-		  </span>
-		</el-dialog>
-		<!-- 付款失败-->
-		<el-dialog title="付款失败原因" :visible.sync="errModel" :close-on-click-modal="false" center="" width="30%">
-			<el-input type="textarea" v-model='errRemrk'></el-input>
-			<span slot="footer" class="dialog-footer">
-		    <el-button type="primary" size="medium">确定</el-button>
-		    <el-button @click="errModel=false" size="medium">取消</el-button>
-			</span>
-		</el-dialog>
 	</div>
 </template>
 
@@ -89,9 +77,6 @@
 			return {
 				loading:true,
 				searchModel: false,
-				okModel: false,
-				errModel: false,
-				disabled: true,
 				tableData: [],
 				checkBoxData:[],
 				title:'',
@@ -99,26 +84,25 @@
 				active: 1,
 				currentPage: 1,
 				pageSize: '0',
-				total: 100,
-				errRemrk: '',
+				total:100,
 				searchForm: {
 					platform: '全部',
 					searchkeywords: ''
 						},
-				statusOptions: [{
+				countryOptions: [{
 				  value: '1',
-				  label: '全部'
+				  label: '加拿大'
 				}, {
 				  value: '2',
-				  label: '已申请'
+				  label: '中国'
 				}, {
 				  value: '3',
-				  label: '已完成'
+				  label: '美国'
 				}, {
 				  value: '4',
-				  label: '失败'
+				  label: '英国'
 				}],
-				statusValue: '1'
+				countryValue: ''
 					}
 				},
 				created() {
@@ -165,16 +149,6 @@
 						} else {
 							_this.disabled = false
 						}
-					},
-					// 确认弹窗
-					okModelShow() {
-						let _this = this
-						_this.okModel = true
-					},
-					// 失败弹框
-					errModelShow() {
-						let _this = this
-						_this.errModel = true
 					},
 					//分页
 					handleSizeChange(val) {
