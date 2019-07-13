@@ -34,12 +34,16 @@
 		<div class="mt10">
 		<el-table v-loading="loading" :data="tableData" id="exportData" style="width: 100%" :header-cell-style="{background:'#fafafa'}" @selection-change="handleSelectionChange">
 			<el-table-column type="selection"></el-table-column>
-				<el-table-column prop="CountryId" label="平台名称" align="center"></el-table-column>
+				<el-table-column prop="Forum" label="平台名称" align="center"></el-table-column>
 				<el-table-column prop="Numbers" label="国家数量" align="center">
 					<template slot-scope="scope">
 						<el-button type="text" @click="glListModelShow(scope.$index,scope.row)">{{scope.row.Numbers}}</el-button>
 					</template>
 				</el-table-column>
+<<<<<<< HEAD
+=======
+				<el-table-column prop="OrderNumber" label="订单任务" align="center"><el-button type="success" size="medium" @click="OrderTaskModelShow">订单任务</el-button></el-table-column>
+>>>>>>> 08dcb68ee8c019894a5e50ecb6ebb977e5bdae24
 		</el-table>
 		<div class="mt30">
 			<el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage" :page-sizes="[100, 200, 300, 500]" :page-size="10" layout="total, sizes, prev, pager, next, jumper" :total="total">
@@ -51,9 +55,6 @@
 			<el-form :model="editForm" :rules="editRules" label-width="125px" status-icon>
 				<el-form-item label="平台" prop="name">
 					<el-input v-model="editForm.name"></el-input>
-				</el-form-item>
-				<el-form-item label="备注">
-					<el-input type="textarea" v-model="editForm.remark"></el-input>
 				</el-form-item>
 				<p class="txtCenter">
 					<el-button type="primary">确定</el-button>
@@ -152,7 +153,7 @@
 		  </span>
 		</el-dialog>
 		<!-- 解除关联-->
-		<el-dialog title="温馨提示" :visible.sync="jcModel" :close-on-click-modal="false" center="" width="30%">
+		<el-dialog title="温馨提示" :visible.sync="jcModel" :close-on-click-modal="false" center width="30%">
 		  <div class="del-dialog-cnt textCen">确认要解除关联吗？</div>
 		  <span slot="footer" class="dialog-footer">
 		    <el-button type="primary" size="medium">确定</el-button>
@@ -160,11 +161,19 @@
 		  </span>
 		</el-dialog>
 		<!-- 绑定网址-->
-		<el-dialog title="绑定网址" :visible.sync="bindModel" :close-on-click-modal="false" center="" width="30%">
+		<el-dialog title="绑定网址" :visible.sync="bindModel" :close-on-click-modal="false" center width="30%">
 			<el-input v-model='webAddres' placeholder="请输入网址"></el-input>
 			<span slot="footer" class="dialog-footer">
 		    <el-button type="primary" size="medium">确定</el-button>
 		    <el-button @click="bindModel=false" size="medium">取消</el-button>
+			</span>
+		</el-dialog>
+		<!-- 订单任务 -->
+		<el-dialog title="订单任务" :visible.sync="OrderTaskModel" :close-on-click-modal="false">
+			<OrderTask></OrderTask>
+			<span slot="footer" class="dialog-footer">
+		    <el-button type="primary" size="medium">确定</el-button>
+		    <el-button @click="OrderTaskModel=false" size="medium">取消</el-button>
 			</span>
 		</el-dialog>
 	</div>
@@ -173,6 +182,8 @@
 <script>
 	import FileSaver from 'file-saver'
 	import XLSX from 'xlsx'
+	
+	import OrderTask from '../../common/OrderTask'
 	export default {
 		name: 'customer',
 		data() {
@@ -186,6 +197,7 @@
 				glListModel: false,	//关联国家列表弹框(国家数量)
 				jcModel: false,		//解除关联弹框
 				bindModel: false,	//绑定网址弹框
+				OrderTaskModel: false, //订单任务
 				editDisabled: true,
 				delDisabled: true,
 				jcDisabled: true,
@@ -217,6 +229,9 @@
 					}]
 				},
 					}
+				},
+				components:{
+					OrderTask
 				},
 				created() {
 					this.getAllData()
@@ -305,11 +320,7 @@
 						let item = _this.checkBoxData[0]
 						let num = item.Numbers
 						_this.title = num + ' 平台修改'
-						_this.editForm.type = item.CountryId;
-						_this.editForm.name = item.CountryId;
-						_this.editForm.val = item.CountryId;
-						_this.editForm.status = '1';
-						_this.editForm.remark = item.CountryId;
+						_this.editForm.name = item.Forum;
 					},
 					// 删除
 					delData () {
@@ -343,6 +354,11 @@
 					bindModelShow () {
 					  let _this = this
 					  _this.bindModel = true
+					},
+					// 订单任务
+					OrderTaskModelShow () {
+					  let _this = this
+					  _this.OrderTaskModel = true
 					},
 					//关闭新增修改弹窗
 					closeModel() {

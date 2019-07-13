@@ -107,6 +107,15 @@ ul{
 .demo-form{
 	margin:0 40px;
 }
+/* 模态框纵向外滚动条改为内滚动条 */
+.el-dialog__wrapper{
+	max-height: 100%;
+	overflow: hidden;
+}
+.el-dialog__body{
+	max-height: 78vh;
+	overflow: auto;
+}
 /* 列表头部搜索框 */
 .listSearchInput{
 	width: 200px;

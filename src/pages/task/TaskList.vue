@@ -1,40 +1,45 @@
 <template>
 	<div class="container">
-		<div class="mb20 fz14">
-			<span>任务管理</span>
-			<span>/</span>
-			<span>下单任务</span>
-		</div>
 		<el-collapse-transition>
-			<div class="searchBox mb20" v-show="searchModel">
+			<div class="searchBox mb20">
 				<el-form ref="searchForm" :model="searchForm" class="form-item" label-width="80px">
 					<el-row>
-						<el-col :span='4' :xs='24'>
-							<el-form-item label="平台" class="disInline">
-								<el-radio-group v-model="searchForm.platform" class="disInline">
-									<el-radio label="全部"></el-radio>
-									<el-radio label="Amazon"></el-radio>
-								</el-radio-group>
-							</el-form-item>
-						</el-col>
-						<el-col :span='6' :xs='24'>
-							<el-form-item label="国家">
-								<el-select placeholder="请选择" v-model="searchForm.countryId" class="minWid">
-									<el-option v-for="(item,index) in countryData" :key="index" :value="index" :label="item.country"></el-option>
-								</el-select>
-							</el-form-item>
-						</el-col>
+					<el-col :xs="24" :span="5">
+						<el-form-item label="平台">
+							<template>
+							  <el-select v-model="searchForm.platform" placeholder="请选择">
+								<el-option v-for="(item,index) in platformOptions" :key="index" :value="item.value" :label="item.label"></el-option>
+							  </el-select>
+							</template>
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :span="5">
+						<el-form-item label="任务类型">
+							<template>
+							  <el-select v-model="searchForm.orderTypeValue" placeholder="请选择">
+								<el-option v-for="(item,index) in orderTypeOptions" :key="index" :value="item.value" :label="item.label"></el-option>
+							  </el-select>
+							</template>
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :span="5">
+					<el-form-item label="国家">
+						<el-select placeholder="请选择" v-model="searchForm.countryId" class="minWid">
+							<el-option v-for="(item,index) in countryData" :key="index" :value="index" :label="item.country"></el-option>
+						</el-select>
+					</el-form-item>
+					</el-col>
 					</el-row>
 					<el-row>
-						<el-col :xs="24" :span="6" :sm="9" :md="8" :lg="5">
-							<el-form-item label="搜索内容">
-								<el-input v-model="searchForm.searchkeywords" placeholder="请输入关键字" class="disInline"></el-input>
-							</el-form-item>
-						</el-col>
-						<el-col :xs="24" :span="5" :sm="10" :md="8" :lg="5" class="ml20">
-							<el-button type="primary" size="medium">查询</el-button>
-							<el-button size="medium" @click="resetSearch">重置</el-button>
-						</el-col>
+					<el-col :xs="24" :span="5">
+						<el-form-item label="关键字">
+							<el-input v-model="searchForm.searchkeywords" placeholder="请输入关键字" class="disInline"></el-input>
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :span="5" class="ml20">
+						<el-button type="primary" size="medium">查询</el-button>
+						<el-button size="medium" @click="resetSearch">重置</el-button>
+					</el-col>
 					</el-row>
 				</el-form>
 			</div>
@@ -48,16 +53,14 @@
 			</el-button>
 			<el-button type="primary" size="medium" :disabled="disabled" @click='supplementSheet'><i class="el-icon-set-up"></i>补单
 			</el-button>
-			<el-button type="primary" size="medium" :disabled="disabled" @click='updateTime'><i class="el-icon-edit-outline"></i>修改执行时间
+			<el-button type="danger" size="medium" :disabled="disabled" @click='updateTime'><i class="el-icon-edit-outline"></i>修改执行时间
 			</el-button>
-			<el-button type="primary" size="medium" :disabled="disabled" @click='deliver'><i class="el-icon-truck"></i>确认发货
+			<el-button type="warning" size="medium" :disabled="disabled" @click='deliver'><i class="el-icon-truck"></i>确认发货
 			</el-button>
-			<el-button type="primary" size="medium" :disabled="disabled" @click='receiving'><i class="el-icon-check"></i>确认收货
+			<el-button type="success" size="medium" :disabled="disabled" @click='receiving'><i class="el-icon-check"></i>确认收货
 			</el-button>
-			<el-button type="primary" size="medium"><i class="el-icon-folder-opened"></i>任务导入</el-button>
-			<el-button type="primary" size="medium"><i class="el-icon-document-delete"></i>任务导出</el-button>
-			<!--<el-button size="medium" @click="searchShow"><i class="el-icon-search"></i>检索</el-button>-->
-			<el-input placeholder="搜索" prefix-icon="el-icon-search" class="listSearchInput" @click.native="searchShow"></el-input>
+			<el-button type="primary" size="medium"><i class="el-icon-folder-opened"></i>导入</el-button>
+			<el-button type="primary" size="medium"><i class="el-icon-document-delete"></i>导出</el-button>
 		</div>
 		<div class="tabList">
 			<div class="tabLeft">
@@ -68,10 +71,10 @@
 					<li :class="active === 4 ? 'active':''" :data-index="4" @click="daish">待收货<span>(0)</span></li>
 					<li :class="active === 5 ? 'active':''" :data-index="5" @click="daipj">待评价<span>(0)</span></li>
 					<li :class="active === 6 ? 'active':''" :data-index="6" @click="ywc">已完成<span>(0)</span></li>
-					<li :class="active === 7 ? 'active':''" :data-index="7" @click="errData">订单异常<span>(0)</span></li>
+					<li :class="active === 7 ? 'active':''" :data-index="7" @click="errData">异常<span>(0)</span></li>
 				</ul>
 			</div>
-			<div class="tabLeft tabStatus">
+			<div class="tabLeft tabStatus" style="position: absolute;right: 20px;">
 				<span>今日未完成</span><span class="txtCol ml10 mr30">23</span>
 				<span>逾期未完成</span><span class="txtCol  ml10 mr30">23</span>
 				<span>今日限评数</span><span class="txtCol  ml10 mr30">23</span>
@@ -87,7 +90,7 @@
 				</el-table-column>
 				<el-table-column prop="CountryId" label="平台/国家" align="center"></el-table-column>
 				<el-table-column prop="ProductByASIN" label="终端平台" align="center"></el-table-column>
-				<el-table-column prop="ProductByASIN" label="留评类型" align="center"></el-table-column>
+				<el-table-column prop="ProductByASIN" label="服务类型" align="center"></el-table-column>
 				<el-table-column prop="Picture" :label="times" align="center" v-if="this.active!=1 && this.active!=2"></el-table-column>
 				<el-table-column prop="ProductByASIN" label="产品ASIN" align="center"></el-table-column>
 				<el-table-column prop="ProductByASIN" label="产品名称" align="center"></el-table-column>
@@ -97,16 +100,10 @@
 				<el-table-column prop="OrderNote" label="刷手" align="center"></el-table-column>
 				<el-table-column prop="OrderTime" label="执行时间" align="center"></el-table-column>
 				<el-table-column prop="Status" label="任务状态" align="center"></el-table-column>
-				<el-table-column prop="OrderNote" label="客户编码" align="center"></el-table-column>
-				<el-table-column label="操作" align="center" width="410">
+				<el-table-column prop="OrderNote" label="客户名称" align="center"></el-table-column>
+				<el-table-column label="操作" align="center">
 					<template slot-scope="scope">
-						<el-button size="small" type="primary" @click="viewTaskDetails(scope.$index,scope.row)">查看任务</el-button>
-						<el-button size="small">打开浏览器</el-button>
-						<el-button size="small" v-if="scope.row.OrderNote==='待付款'" @click='systemConfig(scope.$index,scope.row)'>系统配置</el-button>
-						<el-button size="small" type="success" @click="confirmBuyHandel(scope.$index,scope.row)">确认购买</el-button>
-						<el-button size="small" type="warning" v-if="scope.row.Status ==='待确认付款'">填写评价</el-button>
-						<!--<el-button size="small" type="danger" v-if="scope.row.Status === '待确认付款'">取消</el-button>-->
-						<el-button size="small" type="primary" @click="logHandel(scope.$index, scope.row)">日志</el-button>
+						<el-button size="small" type="primary" @click="logHandel(scope.$index, scope.row)">查看日志</el-button>
 					</template>
 				</el-table-column>
 			</el-table>
@@ -141,13 +138,6 @@
                 <el-button type="primary" size="medium" @click='confirmSellerCancel'>确定</el-button>
                 <el-button @click="sellerCancelModal=false" size="medium">取消</el-button>
             </span>
-		</el-dialog>
-		<!--系统配置-->
-		<el-dialog :title='buyNum' :visible.sync='systemConfigModal' :close-on-click-modal='false'>
-			<systemConfig></systemConfig>
-			<div class="modelRight">
-				<el-button type='primary' @click='systemConfigModal=false'>关闭</el-button>
-			</div>
 		</el-dialog>
 		<!--确认发货-->
 		<el-dialog title='温馨提示' :visible.sync='confirmDeliveryModal' :close-on-click-modal="false" width='25%'>
@@ -211,129 +201,8 @@
 				</el-form-item>
 			</el-form>
 		</el-dialog>
-		<!-- 确认购买-->
-		<el-dialog :title="title" :visible.sync="confirmBuyModel" :close-on-click-modal="false" width='50%'>
-			<el-form :model="confirmBuyForm" class='demo-item' label-width='100px'>
-				<div class="fz16 mb20">任务信息</div>
-				<el-row>
-					<el-col :span="12" :xs="24">
-						<el-form-item label="任务编码">
-							<span>23424242</span>
-						</el-form-item>
-					</el-col>
-					<el-col :span="12" :xs="24">
-						<el-form-item label="任务状态">
-							<span>待购买</span>
-						</el-form-item>
-					</el-col>
-				</el-row>
-				<el-row>
-					<el-col :span="12" :xs="24">
-						<el-form-item label="平台">
-							<span>Amazon</span>
-						</el-form-item>
-					</el-col>
-					<el-col :span="12" :xs="24">
-						<el-form-item label="国家">
-							<span>美国</span>
-						</el-form-item>
-					</el-col>
-				</el-row>
-				<el-row>
-					<el-col :span="12" :xs="24">
-						<el-form-item label="店铺">
-							<span>Versatek-JP</span>
-						</el-form-item>
-					</el-col>
-					<el-col :span="12" :xs="24">
-						<el-form-item label="品牌">
-							<span>nike</span>
-						</el-form-item>
-					</el-col>
-				</el-row>
-				<el-row>
-					<el-col :span="12" :xs="24">
-						<el-form-item label="产品名称">
-							<span>Diyife ダイヤル式 4桁 暗証番号</span>
-						</el-form-item>
-					</el-col>
-					<el-col :span="12" :xs="24">
-						<el-form-item label="产品ASIN">
-							<span>B07SQYW622</span>
-						</el-form-item>
-					</el-col>
-				</el-row>
-				<el-row>
-					<el-col :span="12" :xs="24">
-						<el-form-item label="产品价格">
-							<span>1200.0</span>
-						</el-form-item>
-					</el-col>
-					<el-col :span="12" :xs="24">
-						<el-form-item label="产品链接">
-							<span>http://www.amazon.co.jp/dp/B07SQYW622</span>
-						</el-form-item>
-					</el-col>
-				</el-row>
-				<el-row>
-					<el-col :span="12" :xs="24">
-						<el-form-item label="关键词">
-							<span>暗証番号</span>
-						</el-form-item>
-					</el-col>
-					<el-col :span="12" :xs="24">
-						<el-form-item label="CPC关键词">
-							<span>暗証番号</span>
-						</el-form-item>
-					</el-col>
-				</el-row>
-				<el-row>
-					<el-col :span="12" :xs="24">
-						<el-form-item label="买家账号">
-							<span>kaylee.macduff.2019@mail.ru</span>
-						</el-form-item>
-					</el-col>
-				</el-row>
-				<el-row>
-					<el-col>
-
-					</el-col>
-				</el-row>
-				<div class="mb20 fz16">购买信息</div>
-				<el-row class="dataInp">
-					<el-col :span='12' :xs='24'>
-						<el-form-item label="购买时间">
-							<el-date-picker v-model='confirmBuyForm.buyTime' type="datetime" placeholder="选择购买日期时间"></el-date-picker>
-						</el-form-item>
-					</el-col>
-				</el-row>
-				<el-row>
-					<el-col :span='12' :xs='24'>
-						<el-form-item label='订单单号' class='inpWid'>
-							<el-input v-model='confirmBuyForm.orderNo'></el-input>
-						</el-form-item>
-					</el-col>
-				</el-row>
-				<el-row>
-					<el-col :span='12' :xs='24'>
-						<el-form-item label='产品金额' class='inpWid'>
-							<el-input v-model='confirmBuyForm.proPrice'></el-input>
-						</el-form-item>
-					</el-col>
-					<el-col :span='12' :xs='24'>
-						<el-form-item label='运费' class='inpWid'>
-							<el-input v-model='confirmBuyForm.proFreight'></el-input>
-						</el-form-item>
-					</el-col>
-				</el-row>
-				<el-form-item class='modelRight'>
-					<el-button type='primary'>确认</el-button>
-					<el-button @click='confirmBuyModel=false'>取消</el-button>
-				</el-form-item>
-			</el-form>
-		</el-dialog>
 		<!--查看任务详情-->
-		<el-dialog :title='orderTitle' :visible.sync="viewTaskDateilsModel" width="60%" :close-on-click-modal="false">
+		<el-dialog :title='orderTitle' :visible.sync="viewTaskDateilsModel" :close-on-click-modal="false" width="90%" top="5vh">
 			<el-form class="demo-item">
 				<div class="fz16">任务信息</div>
 				<el-row>
@@ -490,35 +359,8 @@
 			</el-form>
 		</el-dialog>
 		<!--日志-->
-		<el-dialog title="操作日志" :visible.sync="logModel" :close-on-click-modal="false" center="" width="30%">
-			<div class="block">
-				<el-timeline>
-					<el-timeline-item timestamp="2019/7/10" placement="top">
-						<el-card>
-							<h4>评论</h4>
-							<p>王小虎 在 2019/7/10 20:55 评论</p>
-						</el-card>
-					</el-timeline-item>
-					<el-timeline-item timestamp="2019/7/9" placement="top">
-						<el-card>
-							<h4>评价</h4>
-							<p>王小虎 在 2019/7/9 20:46 评价</p>
-						</el-card>
-					</el-timeline-item>
-					<el-timeline-item timestamp="2019/7/8" placement="top">
-						<el-card>
-							<h4>付款</h4>
-							<p>王小虎 在 2019/7/8 14:25 付款</p>
-						</el-card>
-					</el-timeline-item>
-					<el-timeline-item timestamp="2019/7/7" placement="top">
-						<el-card>
-							<h4>下单</h4>
-							<p>王小虎 在 2019/7/7 15:55 下单</p>
-						</el-card>
-					</el-timeline-item>
-				</el-timeline>
-			</div>
+		<el-dialog title="订单日志" :visible.sync="logModel" :close-on-click-modal="false" center>
+			<OrderLog></OrderLog>
 			<p style="text-align: center;">
 				<el-button @click="logModel=false" size="medium">关闭</el-button>
 			</p>
@@ -529,7 +371,7 @@
 <script>
 	import SupplementSheet from '../../common/SupplementSheet'
 	import buyNum from '../../common/buyNum'
-	import systemConfig from '../../common/systemConfig'
+	import OrderLog from '../../common/OrderLog'
 	export default {
 		name: 'placeOrderTask',
 		data() {
@@ -561,7 +403,6 @@
 				disabled: true,
 				editPricceModel: false,
 				checkBoxData: [],
-				searchModel: false,
 				orderPlaceData: [],
 				test: {
 					text1: '',
@@ -575,13 +416,54 @@
 					reason: '',
 					remark: ''
 				},
-				countryData: [{
+				platformOptions: [
+					{
+						value: '1',
+						label: '全部'
+					},
+					{
+						value: '2',
+						label: 'Amazon'
+					}
+				],
+				orderTypeOptions: [
+					{
+						value: '1',
+						label: 'FBA订单'
+					},
+					{
+						value: '2',
+						label: '加购订单'
+					},
+					{
+						value: '3',
+						label: '心愿订单'
+					},
+					{
+						value: '4',
+						label: '点赞订单'
+					},
+					{
+						value: '5',
+						label: 'QA订单'
+					}
+				],
+				countryData: [
+					{
 						country: '美国'
 					},
 					{
 						country: '加拿大'
 					}
 				],
+				searchForm: {
+					platform: '1',
+					searchkeywords: '',
+					orderStartTime: '',
+					orderEndTime: '',
+					countryId: '',
+					orderTypeValue: '1',
+				},
 				editPriceForm: {
 					addServiceFree: '',
 					exchangeRate: '',
@@ -615,7 +497,7 @@
 		components: {
 			SupplementSheet,
 			buyNum,
-			systemConfig
+			OrderLog
 		},
 		created() {
 			this.getAllData()
@@ -788,14 +670,6 @@
 					searchkeywords: ''
 				}
 			},
-			// 确认购买
-			confirmBuyHandel(index, row) {
-				let _this = this
-				let item = _this.orderPlaceData[index]
-				let num = item.Numbers
-				_this.title = '任务：' + num + '填写购买信息'
-				_this.confirmBuyModel = true
-			},
 			// 修改价格弹窗
 			editPrice() {
 				let _this = this
@@ -818,16 +692,6 @@
 					_this.disabled = true
 				} else {
 					_this.disabled = false
-				}
-			},
-			// 检索
-			searchShow() {
-				let _this = this
-				let sear = _this.searchModel
-				if(sear) {
-					_this.searchModel = false
-				} else {
-					_this.searchModel = true
 				}
 			},
 			getAllData() {
