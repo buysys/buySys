@@ -207,6 +207,14 @@ export default new Router({
 					meta: {
 						title: '卡片管理'
 					}
+				},
+				{
+					path: '/headPortrait',
+					name: 'headPortrait',
+					component: resolve => require(['../pages/personal/headPortrait.vue'], resolve),
+					meta: {
+						title: '修改头像'
+					}
 				}
 			]
 		},

@@ -46,7 +46,7 @@
 			</el-table>
 		</div>
 		<!--新建、修改-->
-		<el-dialog :title="title" :visible.sync="roleModel " :close-on-click-modal="false" :before-cloes="cloesRoleModel" center="" width="50% ">
+		<el-dialog :title="title" :visible.sync="roleModel " :close-on-click-modal="false" :before-cloes="cloesRoleModel" center width="50% ">
 			<el-form :model="roleForm " ref="roleForm " :rules="rules" label-width="100px ">
 				<el-row>
 					<el-col :span="12 ">
@@ -100,7 +100,7 @@
 			</el-form>
 		</el-dialog>
 		<!--查看角色-->
-		<el-dialog title="查看角色" :visible.sync="roleViewModel " :close-on-click-modal="false" center=" " width="50% ">
+		<el-dialog title="查看角色" :visible.sync="roleViewModel " :close-on-click-modal="false" center width="50% ">
 			<el-form :model="roleForm " ref="roleForm " label-width="100px ">
 				<el-row>
 					<el-col :span="12 ">

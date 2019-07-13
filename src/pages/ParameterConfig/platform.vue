@@ -39,7 +39,14 @@
 						<el-button type="text" @click="glListModelShow(scope.$index,scope.row)">{{scope.row.Numbers}}</el-button>
 					</template>
 				</el-table-column>
+<<<<<<< HEAD
 				<el-table-column prop="OrderNumber" label="查看任务" align="center"><el-button type="success" size="small" @click="OrderTaskModelShow">查看任务</el-button></el-table-column>
+=======
+<<<<<<< HEAD
+=======
+				<el-table-column prop="OrderNumber" label="订单任务" align="center"><el-button type="success" size="medium" @click="OrderTaskModelShow">订单任务</el-button></el-table-column>
+>>>>>>> 08dcb68ee8c019894a5e50ecb6ebb977e5bdae24
+>>>>>>> c5b6b8c9b3982388c5380cf0a1a15c4ebe4edeff
 		</el-table>
 		<div class="mt30">
 			<el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage" :page-sizes="[100, 200, 300, 500]" :page-size="10" layout="total, sizes, prev, pager, next, jumper" :total="total">
