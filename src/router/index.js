@@ -15,7 +15,8 @@ export default new Router({
 			path: '/home',
 			name: 'home',
 			component: resolve => require(['../components/home.vue'], resolve),
-			children: [{
+			children: [
+				{
 					path: '/index',
 					name: 'index',
 					component: resolve => require(['../pages/index.vue'], resolve),
@@ -24,83 +25,19 @@ export default new Router({
 					}
 				},
 				{
-					path: '/orderPlacingManage',
-					name: 'orderPlacingManage',
-					component: resolve => require(['../pages/order/orderPlacingManage.vue'], resolve),
+					path: '/orderList',
+					name: 'orderList',
+					component: resolve => require(['../pages/order/orderList.vue'], resolve),
 					meta: {
-						title: '下单管理'
+						title: '订单管理'
 					}
 				},
 				{
-					path: '/AdditionalOrder',
-					name: 'AdditionalOrder',
-					component: resolve => require(['../pages/order/AdditionalOrder.vue'], resolve),
+					path: '/TaskList',
+					name: 'TaskList',
+					component: resolve => require(['../pages/task/TaskList.vue'], resolve),
 					meta: {
-						title: '加购订单'
-					}
-				},
-				{
-					path: '/wishOrder',
-					name: 'wishOrder',
-					component: resolve => require(['../pages/order/wishOrder.vue'], resolve),
-					meta: {
-						title: '心愿订单'
-					}
-				},
-				{
-					path: '/likesOrder',
-					name: 'likesOrder',
-					component: resolve => require(['../pages/order/likesOrder.vue'], resolve),
-					meta: {
-						title: '点赞订单'
-					}
-				},
-				{
-					path: '/QAorder',
-					name: 'QAorder',
-					component: resolve => require(['../pages/order/QAorder.vue'], resolve),
-					meta: {
-						title: 'QA订单'
-					}
-				},
-				{
-					path: '/placeOrderTask',
-					name: 'placeOrderTask',
-					component: resolve => require(['../pages/task/placeOrderTask.vue'], resolve),
-					meta: {
-						title: '下单任务'
-					}
-				},
-				{
-					path: '/addPurchaseTask',
-					name: 'addPurchaseTask',
-					component: resolve => require(['../pages/task/addPurchaseTask.vue'], resolve),
-					meta: {
-						title: '加购任务'
-					}
-				},
-				{
-					path: '/wishTask',
-					name: 'wishTask',
-					component: resolve => require(['../pages/task/wishTask.vue'], resolve),
-					meta: {
-						title: '心愿单任务'
-					}
-				},
-				{
-					path: '/likesTask',
-					name: 'likesTask',
-					component: resolve => require(['../pages/task/likesTask.vue'], resolve),
-					meta: {
-						title: '点赞任务'
-					}
-				},
-				{
-					path: '/QaTask',
-					name: 'QaTask',
-					component: resolve => require(['../pages/task/QaTask.vue'], resolve),
-					meta: {
-						title: 'QA任务'
+						title: '任务管理'
 					}
 				},
 				{
@@ -198,29 +135,13 @@ export default new Router({
 					meta: {
 						title: '提现记录'
 					}
-				}, 
+				},
 				{
 					path: '/ParameterService',
 					name: 'ParameterService',
 					component: resolve => require(['../pages/ParameterConfig/ParameterService.vue'], resolve),
 					meta: {
 						title: '增值费服务'
-					}
-				},
-				{
-					path: '/userManage',
-					name: 'userManage',
-					component: resolve => require(['../pages/systemSettings/userManage.vue'], resolve),
-					meta: {
-						title: '用户管理'
-					}
-				},
-				{
-					path: '/roleManage',
-					name: 'roleManage',
-					component: resolve => require(['../pages/systemSettings/roleManage.vue'], resolve),
-					meta: {
-						title: '角色管理'
 					}
 				},
 				{
@@ -248,11 +169,11 @@ export default new Router({
 					}
 				},
 				{
-					path: '/commentType',
-					name: 'commentType',
-					component: resolve => require(['../pages/ParameterConfig/commentType.vue'], resolve),
+					path: '/serviceType',
+					name: 'serviceType',
+					component: resolve => require(['../pages/ParameterConfig/serviceType.vue'], resolve),
 					meta: {
-						title: '留评类型'
+						title: '服务类型'
 					}
 				},
 				{
@@ -285,7 +206,7 @@ export default new Router({
 			meta: {
 				title: '注册'
 			}
-		}
+		},
 	]
 })
 // function requireAuth (to, from, next) {

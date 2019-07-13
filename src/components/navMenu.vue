@@ -6,23 +6,9 @@
 				<el-menu-item>
 					<img class="imgLogo" src="../assets/image/logo.png" />
 				</el-menu-item>
-				<el-menu-item index="index" style="border: none;"><i class="el-icon-files"></i>首页</el-menu-item>
-				<el-submenu index="2">
-					<template slot="title"><i class="el-icon-document-checked"></i>订单管理</template>
-					<el-menu-item index="orderPlacingManage">下单管理</el-menu-item>
-					<el-menu-item index="AdditionalOrder">加购订单</el-menu-item>
-					<el-menu-item index="wishOrder">心愿订单</el-menu-item>
-					<el-menu-item index="likesOrder">点赞订单</el-menu-item>
-					<el-menu-item index="QAorder">QA订单</el-menu-item>
-				</el-submenu>
-				<el-submenu index="3">
-					<template slot="title"><i class="el-icon-suitcase"></i>任务管理</template>
-					<el-menu-item index="placeOrderTask">下单任务</el-menu-item>
-					<el-menu-item index="addPurchaseTask">加购任务</el-menu-item>
-					<el-menu-item index="wishTask">心愿任务</el-menu-item>
-					<el-menu-item index="likesTask">点赞任务</el-menu-item>
-					<el-menu-item index="QaTask">QA任务</el-menu-item>
-				</el-submenu>
+				<el-menu-item index="index"><i class="el-icon-files"></i>首页</el-menu-item>
+				<el-menu-item index="orderList"><i class="el-icon-document-checked"></i>订单管理</el-menu-item>
+				<el-menu-item index="TaskList"><i class="el-icon-suitcase"></i>任务管理</el-menu-item>
 				<el-submenu index="4">
 					<template slot="title"><i class="el-icon-s-check"></i>买号管理</template>
 					<el-menu-item index="buyNumLevel">买号等级</el-menu-item>
@@ -53,7 +39,7 @@
 				</el-submenu>-->
 				<el-submenu index="9">
 					<template slot="title"><i class="el-icon-s-tools"></i>参数配置</template>
-					<el-menu-item index="commentType">留评类型</el-menu-item>
+					<el-menu-item index="serviceType">服务类型</el-menu-item>
 					<el-menu-item index="ParameterService">增值费服务</el-menu-item>
 					<el-menu-item index="exchangeRate">货币汇率</el-menu-item>
 					<el-menu-item index="countryManage">国家管理</el-menu-item>
