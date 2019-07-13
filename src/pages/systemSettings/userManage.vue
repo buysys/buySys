@@ -377,4 +377,5 @@
 	.tree {
 		border: 1px solid #eee;
 	}
+	.el-select {width: 100%;}
 </style>

@@ -270,12 +270,20 @@ export default new Router({
 					meta: {
 						title: '货币汇率'
 					}
-				}
+				},
+				{
+					path: '/personalData',
+					name: 'personalData',
+					component: resolve => require(['../pages/personalData.vue'], resolve),
+					meta: {
+						title: '个人资料'
+					}
+				},
 			]
 		},
 		{
 			path: '/login',
-			name: 'name',
+			name: 'login',
 			component: resolve => require(['../pages/login.vue'], resolve)
 		},
 		{

@@ -23,12 +23,13 @@
 					<el-menu-item index="likesTask">点赞任务</el-menu-item>
 					<el-menu-item index="QaTask">QA任务</el-menu-item>
 				</el-submenu>
-				<el-submenu index="4">
-					<template slot="title"><i class="el-icon-s-check"></i>买号管理</template>
+				<!--<el-submenu index="4">
+					<template slot="title"><i class="el-icon-s-check"></i>账号管理</template>
 					<el-menu-item index="buyNumLevel">买号等级</el-menu-item>
 					<el-menu-item index="buyNumList">买号列表</el-menu-item>
 					<el-menu-item index="registerAccount">注册账号</el-menu-item>
-				</el-submenu>
+				</el-submenu>-->
+				<el-menu-item index="buyNumList" style="border: none;"><i class="el-icon-s-check"></i>账号管理</el-menu-item>
 				<el-submenu index="5">
 					<template slot="title"><i class="el-icon-bank-card"></i>卡片管理</template>
 					<el-menu-item index="VirtualCard">虚拟信用卡</el-menu-item>
@@ -72,8 +73,7 @@
 				</el-submenu>
 				<el-submenu index="11" class="userInfoBox">
 					<template slot="title"><i class="el-icon-s-custom"></i>kyumin</template>
-					<el-menu-item index="">修改头像</el-menu-item>
-					<el-menu-item index="">个人资料</el-menu-item>
+					<el-menu-item index="personalData">个人资料</el-menu-item>
 				</el-submenu>
 				<el-menu-item index="12" class="loginOut" @click="loginOut"><i class="el-icon-setting"></i>退出
 				</el-menu-item>
