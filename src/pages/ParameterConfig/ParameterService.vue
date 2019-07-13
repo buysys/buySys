@@ -5,30 +5,6 @@
 			<span>/</span>
 			<span>增值费服务</span>
 		</div>
-		<el-collapse-transition>
-			<div class="searchBox mb20">
-				<el-form ref="searchForm" :model="searchForm" class="form-item" label-width="80px">
-					<el-row>
-						<el-col :xs="24" :span="7" :sm="9" :md="8" :lg="6">
-							<el-form-item label="开始区间">
-								<el-input v-model='searchForm.startSection' placeholder='开始区间'></el-input>
-							</el-form-item>
-						</el-col>
-					</el-row>
-					<el-row>
-						<el-col :xs="24" :span="7" :sm="9" :md="8" :lg="6">
-							<el-form-item label="结束区间">
-								<el-input v-model="searchForm.endSection" placeholder="结束区间" class="disInline"></el-input>
-							</el-form-item>
-						</el-col>
-						<el-col :xs="24" :span="5" :sm="10" :md="8" :lg="5" class="ml20">
-							<el-button type="primary" size="medium">查询</el-button>
-							<el-button size="medium">重置</el-button>
-						</el-col>
-					</el-row>
-				</el-form>
-			</div>
-		</el-collapse-transition>
 		<div class="mb20">
 			<el-button type="success" size="medium" @click="addService"><i class="el-icon-plus"></i>新建</el-button>
 			<el-button type="primary" size="medium" :disabled="disabled" @click="editService"><i class="el-icon-edit-outline"></i>修改
@@ -42,12 +18,6 @@
 				<el-table-column prop="Numbers" sortable label="开始区间($)" align="center"></el-table-column>
 				<el-table-column prop="CountryId" sortable label="结束区间($)" align="center"></el-table-column>
 				<el-table-column prop="ProductByASIN" sortable label="增值服务费($)" align="center"></el-table-column>
-				<el-table-column prop="OrderNote" label="备注" align="center"></el-table-column>
-				<el-table-column label="操作" align="center" width="410">
-					<template slot-scope="scope">
-						<el-button size="small" type="primary" @click='viewDetails(scope.$index,scope.row)'>查看详情</el-button>
-					</template>
-				</el-table-column>
 			</el-table>
 			<div class="mt30">
 				<el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage" :page-sizes="[10, 20, 30, 40]" :page-size="10" layout="total, sizes, prev, pager, next, jumper" :total="total">
@@ -75,27 +45,7 @@
 				</el-form-item>
 			</el-form>
 		</el-dialog>
-		<!--查看详情-->
-		<el-dialog title='增值服务费详情信息' :visible.sync='viewServiceModal' :close-on-click-modal='false'>
-			<el-form :model='serviceForm' ref='serviceForm' label-width='120px'>
-				<el-form-item label='开始区间$：'>
-					<span>{{serviceForm.startSection}}</span>
-				</el-form-item>
-				<el-form-item label='结束区间$：'>
-					<span>{{serviceForm.endSection}}</span>
-				</el-form-item>
-				<el-form-item label='增值服务费(￥)：'>
-					<span>{{serviceForm.service}}</span>
-				</el-form-item>
-				<el-form-item label='备注：'>
-					<span>{{serviceForm.remark}}</span>
-				</el-form-item>
-				<el-form-item class='txtCenter'>
-					<el-button type='primary' @click='viewServiceModal=false'>关闭</el-button>
-				</el-form-item>
-			</el-form>
-		</el-dialog>
-		<!--无效订单-->
+		<!--删除-->
 		<el-dialog title='系统提示' :visible.sync='delServiceModal' :close-on-click-modal='false' width='25%'>
 			<div class="del-dialog-cnt textCen"><i class='el-icon-warning-outline fz50'></i>确认要删除该增值服务费记录吗？</div>
 			<span slot="footer" class="dialog-footer">
@@ -119,15 +69,9 @@
 				loading: true,
 				addServiceModal: false, //新增
 				delServiceModal: false, //删除
-				viewServiceModal: false, //查看详情
-				returnShow: false,
 				tipMessage: '',
 				returnOrderData: [],
 				checkBoxData: [], //选中信息
-				searchForm: {
-					startSection: '',
-					endSection: ''
-				},
 				serviceForm: {
 					startSection: '',
 					endSection: '',
@@ -157,11 +101,6 @@
 			this.getAllData()
 		},
 		methods: {
-			//查看详情
-			viewDetails(index,row){
-				let _this = this
-				_this.viewServiceModal= true
-			},
 			//新建弹窗
 			addService() {
 				let _this = this
@@ -198,7 +137,7 @@
 					this.disabled = false
 				}
 			},
-			//无效订单
+			//删除
 			delHandel() {
 				let _this = this
 				_this.delServiceModal = true

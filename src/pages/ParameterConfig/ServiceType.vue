@@ -3,7 +3,7 @@
 		<div class="mb20 fz14">
 			<span>参数配置</span>
 			<span>/</span>
-			<span>留评类型</span>
+			<span>服务类型</span>
 		</div>
 		<el-collapse-transition>
 			<div class="searchBox mb20" v-show="searchModel">

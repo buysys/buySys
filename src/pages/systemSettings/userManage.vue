@@ -54,7 +54,7 @@
 				</div>
 			</div>
 			<!--新建、修改-->
-			<el-dialog :title="title " :visible.sync="userModel " :close-on-click-modal="false" :before-close="cloesUserModel" center="" width="70% ">
+			<el-dialog :title="title " :visible.sync="userModel " :close-on-click-modal="false" :before-close="cloesUserModel" center width="70% ">
 				<el-form :model="userForm " ref="userForm " label-width="100px " :rules="editRules">
 					<el-row>
 						<el-col :span="12 ">
@@ -144,7 +144,7 @@
 				</el-form>
 			</el-dialog>
 			<!--删除-->
-			<el-dialog title="系统提示 " :visible.sync="delModel " :close-on-click-modal="false" center="" width="16% ">
+			<el-dialog title="系统提示 " :visible.sync="delModel " :close-on-click-modal="false" center width="16% ">
 				<div class="del-dialog-cnt textCen ">确认要删除选中用户吗？</div>
 				<span slot="footer " class="dialog-footer ">
         					<el-button type="primary " size="medium ">是</el-button>
@@ -152,7 +152,7 @@
       					</span>
 			</el-dialog>
 			<!--导入数据-->
-			<el-dialog title="导入数据" :visible.sync="importModel" :close-on-click-modal="false" :before-close="closeImportModel " center="" width="30%">
+			<el-dialog title="导入数据" :visible.sync="importModel" :close-on-click-modal="false" :before-close="closeImportModel " center width="30%">
 				<div class="del-dialog-cnt textCen ">
 					<el-upload class="upload-demo " action="https://jsonplaceholder.typicode.com/posts/ " ref="upload " multiple :limit="3 " :file-list="fileList ">
 						<el-button size="mini ">选择文件</el-button>

@@ -3,10 +3,10 @@
 		<div class="mb20 fz14">
 			<span>参数配置</span>
 			<span>/</span>
-			<span>动态IP池</span>
+			<span>IP池管理</span>
 		</div>
 		<el-collapse-transition>
-			<div class="searchBox mb20" v-show="searchModel">
+			<div class="searchBox mb20">
 				<el-form ref="searchForm" :model="searchForm" class="form-item" label-width="80px">
 					<el-row>
 						<el-col :xs="24" :span="5" :sm="10" :md="8" :lg="5">
@@ -44,13 +44,7 @@
 			</div>
 		</el-collapse-transition>
 		<div class="mb20">
-			<el-button type="warning" size="medium" @click="exportExcel"><i class="el-icon-document-delete"></i>导出</el-button>
-			<span class="tabStatus tabStatus-o">
-				<span>总数</span><span class="txtCol ml10 mr30">230</span>
-				<span>已使用</span><span class="txtCol  ml10 mr30">150</span>
-				<span>剩余</span><span class="txtCol  ml10 mr30">80</span>
-			</span>
-			<el-input placeholder="搜索" prefix-icon="el-icon-search" class="listSearchInput" @click.native="searchShow" readonly></el-input>
+			<el-button type="primary" size="medium" @click="exportExcel"><i class="el-icon-document-delete"></i>导出</el-button>
 		</div>
 		<div class="mt10">
 		<el-table v-loading="loading" :data="tableData" id="exportData" style="width: 100%" :header-cell-style="{background:'#fafafa'}" @selection-change="handleSelectionChange">
@@ -76,7 +70,6 @@
 		data() {
 			return {
 				loading:true,
-				searchModel: false,
 				tableData: [],
 				checkBoxData:[],
 				title:'',
@@ -120,16 +113,6 @@
 						}).catch((error) => {
 							console.log(error)
 						})
-					},
-					// 检索
-					searchShow() {
-						let _this = this
-						let sear = _this.searchModel
-						if(sear) {
-							_this.searchModel = false
-						} else {
-							_this.searchModel = true
-						}
 					},
 					// 重置
 					resetSearch() {
