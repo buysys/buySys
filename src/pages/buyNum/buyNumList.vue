@@ -1,36 +1,50 @@
 <template>
 	<div class="container">
 		<div class="mb20 fz14">
-			<span>买号管理</span>
-			<span>/</span>
-			<span>买号列表</span>
+			<span>账号管理</span>
 		</div>
 		<el-collapse-transition>
-			<div class="searchBox mb20 pl30" v-show="searchModel">
+			<div class="searchBox mb20 pl30">
 				<el-form ref="searchForm" :model="searchForm" class="form-item" label-width="100px">
 					<el-form-item label="标签类型">
-						<el-checkbox-group v-model="searchForm.type">
-							<el-checkbox label="西班牙" name="type"></el-checkbox>
-							<el-checkbox label="新人注册号" name="type"></el-checkbox>
-							<el-checkbox label="加拿大" name="type"></el-checkbox>
-							<el-checkbox label="手机测试" name="type"></el-checkbox>
-						</el-checkbox-group>
+						<el-row>
+							<el-col :span="8">
+								<el-checkbox-group v-model="searchForm.type">
+									<el-checkbox label="西班牙" name="type"></el-checkbox>
+									<el-checkbox label="新人注册号" name="type"></el-checkbox>
+									<el-checkbox label="加拿大" name="type"></el-checkbox>
+									<el-checkbox label="手机测试" name="type"></el-checkbox>
+								</el-checkbox-group>
+							</el-col>
+							<el-col :span="4">
+								<el-button type="success" size="mini" @click="addTagHandle"><i class="el-icon-plus"></i>新建</el-button>
+								<el-button type="danger" size="mini"  @click="delTagHandle"><i class="el-icon-delete"></i>删除</el-button>
+							</el-col>
+						</el-row>						
 					</el-form-item>
 					<el-row>
 						<el-col :span='4' :xs='24'>
-							<el-form-item label="平台" class="pt20 disInline">
-								<el-radio-group v-model="searchForm.platform" class="disInline">
-									<el-radio label="全部"></el-radio>
-									<el-radio label="Amazon"></el-radio>
-								</el-radio-group>
+							<el-form-item label="平台" class="disInline">
+								<el-select v-model="searchForm.platform" placeholder="请选择">
+									<el-option label="全部" value="全部"></el-option>
+									<el-option label="Amazon" value="Amazon"></el-option>
+								</el-select>
 							</el-form-item>
 						</el-col>
-						<el-col :span='6' :xs='24'>
-							<el-form-item label="是否留评" class="pt20 disInline">
-								<el-radio-group v-model="searchForm.isComment" class="disInline">
-									<el-radio label="是"></el-radio>
-									<el-radio label="否"></el-radio>
-								</el-radio-group>
+						<el-col :span='4' :xs='24'>
+							<el-form-item label="国家" class="disInline">
+								<el-select v-model="searchForm.country" placeholder="请选择">
+									<el-option label="美国" value="美国"></el-option>
+									<el-option label="加拿大" value="加拿大"></el-option>
+								</el-select>
+							</el-form-item>
+						</el-col>
+						<el-col :span="4" :xs="24">
+							<el-form-item label="是否留评">
+								<el-select v-model="searchForm.isComment"  placeholder="请选择">
+									<el-option label="是" value="是"></el-option>
+									<el-option label="否" value="否"></el-option>
+								</el-select>								
 							</el-form-item>
 						</el-col>
 					</el-row>
@@ -42,25 +56,19 @@
 								</el-select>
 							</el-form-item>
 						</el-col>
-						<el-col :span='6' :xs='24'>
+						<el-col :span='4' :xs='24'>
 							<el-form-item label="买号等级">
 								<el-select placeholder="请选择" v-model="searchForm.buyNumberLevel" class="minWid">
 									<el-option v-for="(item,index) in buyNumberLevelData" :key="index" :value="index" :label="item.level"></el-option>
 								</el-select>
-							</el-form-item>
+							</el-form-item>		
 						</el-col>
-					</el-row>
-					<el-form-item label="注册时间">
-						<el-date-picker v-model="searchForm.orderStartTime" type="date" placeholder="选择开始时间" :picker-options="pickerStartDate" value-format="yyyy-MM-dd" class="mb10"></el-date-picker>
-						<el-date-picker v-model="searchForm.orderEndTime" type="date" placeholder="选择结束时间" :picker-options="pickerEndDate" value-format="yyyy-MM-dd"></el-date-picker>
-					</el-form-item>
-					<el-row>
-						<el-col :xs="24" :span="7" :sm="9" :md="8" :lg="5">
+						<el-col :span='4' :xs='24'>
 							<el-form-item label="搜索内容">
 								<el-input v-model="searchForm.searchkeywords" placeholder="请输入买家账号/姓名" class="disInline"></el-input>
 							</el-form-item>
 						</el-col>
-						<el-col :xs="24" :span="5" :sm="10" :md="8" :lg="5" class="ml20">
+						<el-col :xs="24" :span="4" class="ml20">
 							<el-button type="primary" size="medium">查询</el-button>
 							<el-button size="medium" @click="resetSearch">重置</el-button>
 						</el-col>
@@ -87,9 +95,9 @@
 			<el-button type="warning" size="medium" @click="delHandel"><i class="el-icon-folder-opened"></i>导入
 			</el-button>
 			<el-button type="warning" size="medium" @click="delHandel"><i class="el-icon-document-delete"></i>导出
-			</el-button>
-			<el-input placeholder="搜索" prefix-icon="el-icon-search" class="listSearchInput" @click.native="searchShow"></el-input>
-			<!--<el-button size="medium" @click="searchShow"><i class="el-icon-search"></i>检索</el-button>-->
+		</el-button>
+		<el-button type="primary" size="medium" @click="setBuyLevelHandel"><i class="el-icon-setting"></i>设置买号等级
+		</el-button>
 		</div>
 		<div class="tabList">
 			<ul class="tabBlock">
@@ -136,10 +144,10 @@
 				<el-row>
 					<el-col :span='12' :xs='24'>
 						<el-form-item label="平台" prop="platform">
-							<el-radio-group v-model="buyNumForm.platform">
-								<el-radio label="全部"></el-radio>
-								<el-radio label="Amazon"></el-radio>
-							</el-radio-group>
+							<el-select v-model="buyNumForm.platform">
+								<el-option label="全部" value="全部"></el-option>
+								<el-option label="Amazon" value="Amazon"></el-option>
+							</el-select>
 						</el-form-item>
 					</el-col>
 					<el-col :span='12' :xs='24'>
@@ -585,6 +593,30 @@
 				<el-button @click="cardModal=false">取消</el-button>
 			</div>
 		</el-dialog>
+		<!--买号等级设置-->
+		<el-dialog title="买号等级设置" :visible.sync="setBuyLevelModel" :close-on-click-modal="false" width="90%">
+			<buyNumLevel></buyNumLevel>
+		</el-dialog>
+		<!--新建标签-->
+		<el-dialog title="新建标签" :visible.sync="addTagModel" :close-on-click-modal="false" :before-cloes="closeTagModel" width="20%" center>
+			<el-form :model="tagData" ref="tagData" class="demo-dynamic" label-width="88px" :rules="tagRules">
+				<el-form-item label="新建标签" prop="tag">
+					<el-input v-model="tagData.tag"></el-input>
+				</el-form-item>
+			</el-form>
+			<span slot="footer" class="dialog-footer">
+        		<el-button type="primary" size="medium">确定</el-button>
+        		<el-button @click="closeTagModel" size="medium">取消</el-button>
+      		</span>
+		</el-dialog>
+		<!--删除标签-->
+		<el-dialog title="系统提示" :visible.sync="delTagModel" :close-on-click-modal="false" width="20%" center>
+			<div class="del-dialog-cnt textCen">确认要删除该标签记录吗？</div>
+			<span slot="footer" class="dialog-footer">
+        		<el-button type="primary" size="medium">确定</el-button>
+        		<el-button @click="delTagModel=false" size="medium">取消</el-button>
+      		</span>
+		</el-dialog>
 		<!--选择虚拟卡-->
 		<el-dialog title="选择虚拟卡" :visible.sync="virtuaModal" :close-on-click-modal="false" width="70%">
 			<el-form :model="cardData" ref="cardData" class="demo-dynamic" label-width="100px">
@@ -648,12 +680,14 @@
 				<el-button type="primary" @click="confirmVirtuaCard">确定</el-button>
 				<el-button @click="entityCardModal=false">取消</el-button>
 			</div>
+>>>>>>> 32e2d853ba3f62ad67ae0bd184af9835baa1881d
 		</el-dialog>
 	</div>
 </template>
 
 <script>
 	import systemConfig from '../../common/systemConfig'
+	import buyNumLevel from '../../common/buyNumLevel'
 	export default {
 		name: 'registerAccount',
 		data() {
@@ -685,16 +719,26 @@
 				accountModel: false,
 				paramModel: false,
 				accountSearchModel: false,
+				setBuyLevelModel: false,
+				addTagModel: false,
+				delTagModel: false,
+				tagData: {
+					tag: ''
+				},
 				checkBoxData: [],
 				buyCheckData: [],
-				searchModel: false,
 				buyNumData: [],
 				vertuaCardData: [], //虚拟卡
 				selected: {},
-				pickerEndDate: this.pickerOptionsEnd(),
-				pickerStartDate: this.searchStartDate(),
 				tabForm: {
 					tabs: []
+				},
+				tagRules: {
+					tag:[{
+						required: true,
+						message: '请输入标签名称',
+						trigger: 'blur'
+					}]
 				},
 				//备注
 				remarkForm: {
@@ -776,11 +820,10 @@
 				},
 				searchForm: {
 					type: [],
-					platform: '全部',
-					isComment: '是',
+					platform: '',
+					country: '',
+					isComment: '',
 					searchkeywords: '',
-					orderStartTime: '',
-					orderEndTime: '',
 					CreditCard: '',
 					buyNumberLevel: ''
 				},
@@ -799,7 +842,8 @@
 			}
 		},
 		components: {
-			systemConfig
+			systemConfig,
+			buyNumLevel
 		},
 		created() {
 			this.getAllData()
@@ -948,36 +992,10 @@
 			resetSearch() {
 				let _this = this
 				_this.searchForm = {
-					platform: '全部',
+					platform: '',
+					country: '请选择国家',
 					searchkeywords: '',
-					orderStartTime: '',
-					orderEndTime: '',
 					status: ''
-				}
-			},
-			// 下单开始时间
-			searchStartDate() {
-				return {
-					disabledDate: time => {
-						let endDateVal = this.searchForm.orderEndTime
-						if(endDateVal) {
-							return time.getTime() > new Date(endDateVal).getTime()
-						}
-					}
-				}
-			},
-			// 搜索下单结束时间
-			pickerOptionsEnd() {
-				return {
-					disabledDate: time => {
-						let beginDateVal = this.searchForm.orderStartTime
-						if(beginDateVal) {
-							return(
-								time.getTime() <
-								new Date(beginDateVal).getTime() - 1 * 24 * 60 * 60 * 1000
-							)
-						}
-					}
 				}
 			},
 			// 修改参数值
@@ -1020,7 +1038,7 @@
 				let _this = this
 				_this.addBuyNumModel = false
 				_this.buyNumForm = {
-					platform: '全部',
+					platform: '',
 					countryId: '',
 					isComment: '可留评',
 					account: '',
@@ -1066,6 +1084,10 @@
 					this.disabled = false
 				}
 			},
+			setBuyLevelHandel() {
+				let _this = this;
+				_this.setBuyLevelModel = true;
+			},
 			// 买号等级分配是否有选中
 			buyHandleSelectionChange(val) {
 				let _this = this
@@ -1077,15 +1099,23 @@
 					_this.disabled1 = false
 				}
 			},
-			// 检索
-			searchShow() {
-				let _this = this
-				let sear = _this.searchModel
-				if(sear) {
-					_this.searchModel = false
-				} else {
-					_this.searchModel = true
+			//新建标签
+			addTagHandle() {
+				let _this = this;
+				_this.addTagModel = true;
+			},
+			//关闭新建标签
+			closeTagModel() {
+				let _this = this;
+				_this.addTagModel = false;
+				_this.tagData = {
+					tag: ''
 				}
+			},
+			//删除标签
+			delTagHandle() {
+				let _this = this;
+				_this.delTagModel = true;
 			},
 			getAllData() {
 				let _this = this

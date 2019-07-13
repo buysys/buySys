@@ -201,26 +201,26 @@ export default new Router({
 					}
 				},
 				{
+					path: '/personalData',
+					name: 'personalData',
+					component: resolve => require(['../pages/personalData.vue'], resolve),
+					meta: {
+						title: '个人资料'
+					}
+				},
+				{
 					path: '/CardManage',
 					name: 'CardManage',
 					component: resolve => require(['../pages/card/CardManage.vue'], resolve),
 					meta: {
 						title: '卡片管理'
 					}
-				},
-				{
-					path: '/headPortrait',
-					name: 'headPortrait',
-					component: resolve => require(['../pages/personal/headPortrait.vue'], resolve),
-					meta: {
-						title: '修改头像'
-					}
 				}
 			]
 		},
 		{
 			path: '/login',
-			name: 'name',
+			name: 'login',
 			component: resolve => require(['../pages/login.vue'], resolve)
 		},
 		{
