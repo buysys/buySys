@@ -81,6 +81,14 @@ export default new Router({
 					}
 				},
 				{
+					path: '/userManage',
+					name: 'userManage',
+					component: resolve => require(['../pages/systemSettings/userManage.vue'], resolve),
+					meta: {
+						title: '用户管理'
+					}
+				},
+				{
 					path: '/customerList',
 					name: 'customerList',
 					component: resolve => require(['../pages/customer/customerList.vue'], resolve),
