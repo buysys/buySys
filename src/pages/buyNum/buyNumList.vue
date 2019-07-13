@@ -282,32 +282,53 @@
 				<el-row>
 					<el-col :span='12' :xs='24'>
 						<el-form-item label="信用卡类型">
-							<el-select v-model="buyNumForm.CreditCardType" placeholder="请选择信用卡类型" class="selectWid">
+							<el-select v-model="buyNumForm.CreditCardType" @change='selectCardType' placeholder="请选择信用卡类型" class="selectWid">
 								<el-option label="虚拟信用卡" value="虚拟信用卡"></el-option>
 								<el-option label="实体信用卡" value="实体信用卡"></el-option>
 							</el-select>
 						</el-form-item>
 					</el-col>
-					<el-col :span='12' :xs='24'>
+					<!--<el-col :span='12' :xs='24'>
 						<el-form-item label="购物卡" class='inpWid'>
 							<el-input v-model="buyNumForm.shopingCard" class="card" @focus="selectCard" placeholder='请选择购物卡'>
 								<el-button slot="append" style="background: #3A8EE6;border-radius: 0;" @click="selectCard"><i class="el-icon-search btnCol"></i></el-button>
 							</el-input>
 						</el-form-item>
-					</el-col>
+					</el-col>-->
 				</el-row>
-				<!--<el-row>
-					<el-col :span='12' :xs='24'>
-						<el-form-item label="主卡" class='inpWid'>
-							<el-input type="text" v-model="buyNumForm.masterCard"></el-input>
-						</el-form-item>
-					</el-col>
-					<el-col :span='12' :xs='24'>
-						<el-form-item label="虚拟信用卡" class='inpWid'>
-							<el-input type="text" v-model="buyNumForm.VirtualCreditCard"></el-input>
-						</el-form-item>
-					</el-col>
-				</el-row>-->
+				<div v-show='xnShow'>
+					<el-row>
+						<el-col :span='12' :xs='24'>
+							<el-form-item label="主卡" class='inpWid'>
+								<el-input type="text" v-model="buyNumForm.masterCard" class="card" @focus="selectCard" placeholder='请选择主卡'>
+									<el-button slot="append" style="background: #3A8EE6;border-radius: 0;" @click="selectCard"><i class="el-icon-search btnCol"></i></el-button>
+								</el-input>
+							</el-form-item>
+						</el-col>
+					</el-row>
+					<el-row>
+						<el-col :span='12' :xs='24'>
+							<el-form-item label="虚拟信用卡" class='inpWid'>
+								<el-input type="text" v-model="buyNumForm.VirtualCreditCard" class="card" placeholder='请选择虚拟信用卡' @focus='selectVirtua'>
+									<el-button slot="append" style="background: #3A8EE6;border-radius: 0;" @click="selectVirtua"><i class="el-icon-search btnCol"></i></el-button>
+								</el-input>
+								</el-input>
+							</el-form-item>
+						</el-col>
+					</el-row>
+				</div>
+				<div v-show='entityShow'>
+					<el-row>
+						<el-col :span='12' :xs='24'>
+							<el-form-item label="实体信用卡" class='inpWid'>
+								<el-input type="text" v-model="buyNumForm.entityCard" class="card" placeholder='请选择实体信用卡' @focus='selectEntityCard'>
+									<el-button slot="append" style="background: #3A8EE6;border-radius: 0;" @click="selectEntityCard"><i class="el-icon-search btnCol"></i></el-button>
+								</el-input>
+								</el-input>
+							</el-form-item>
+						</el-col>
+					</el-row>
+				</div>
 				<div class="mb20 fz16">IP信息</div>
 				<el-row>
 					<el-col :span='12' :xs='24'>
@@ -531,12 +552,12 @@
 				<el-button @click="buyNumLevelModel=false">取消</el-button>
 			</div>
 		</el-dialog>
-		<!--购物卡-->
-		<el-dialog title="选择购物卡" :visible.sync="cardModal" :close-on-click-modal="false" width="70%">
+		<!--选择主卡-->
+		<el-dialog title="选择主卡" :visible.sync="cardModal" :close-on-click-modal="false" width="70%">
 			<el-form :model="cardData" ref="cardData" class="demo-dynamic" label-width="100px">
 				<el-row>
 					<el-col :xs="24" :span="7" :sm="9" :md="8" :lg="10">
-						<el-form-item label="购物卡">
+						<el-form-item label="主卡">
 							<el-input type="text" v-model="cardData.card"></el-input>
 						</el-form-item>
 					</el-col>
@@ -552,17 +573,80 @@
 						<el-radio class="radio" v-model="radio" :label="scope.$index">&nbsp;</el-radio>
 					</template>
 				</el-table-column>
-				<el-table-column prop="CountryId" label="平台" align="center"></el-table-column>
-				<el-table-column prop="CountryId" label="国家" align="center"></el-table-column>
-				<el-table-column prop="Numbers" label="购物卡号" align="center"></el-table-column>
-				<el-table-column prop="ProductPrice" label="总金额" align="center"></el-table-column>
-				<el-table-column prop="ProductPrice" label="已使用金额" align="center"></el-table-column>
-				<el-table-column prop="Numbers" label="剩余金额" align="center"></el-table-column>
+				<el-table-column prop="Numbers" label="主卡卡号" align="center"></el-table-column>
+				<el-table-column prop="CountryId" label="姓名" align="center"></el-table-column>
+				<el-table-column prop="Numbers" label="总额度" align="center"></el-table-column>
+				<el-table-column prop="ProductPrice" label="已用额度" align="center"></el-table-column>
+				<el-table-column prop="Numbers" label="剩余额度" align="center"></el-table-column>
 				<el-table-column prop="Numbers" label="累积使用" align="center"></el-table-column>
 			</el-table>
 			<div class="mt20 modelRight">
 				<el-button type="primary" @click="confirmCard">确定</el-button>
 				<el-button @click="cardModal=false">取消</el-button>
+			</div>
+		</el-dialog>
+		<!--选择虚拟卡-->
+		<el-dialog title="选择虚拟卡" :visible.sync="virtuaModal" :close-on-click-modal="false" width="70%">
+			<el-form :model="cardData" ref="cardData" class="demo-dynamic" label-width="100px">
+				<el-row>
+					<el-col :xs="24" :span="7" :sm="9" :md="8" :lg="10">
+						<el-form-item label="虚拟信用卡">
+							<el-input type="text" v-model="cardData.card"></el-input>
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :span="5" :sm="10" :md="8" :lg="5" class="ml20">
+						<el-button type="primary">搜索</el-button>
+						<el-button>重置</el-button>
+					</el-col>
+				</el-row>
+			</el-form>
+			<el-table :data="vertuaCardData" border style="width: 100%" @row-click="showRow">
+				<el-table-column show-overflow-tooltip width="50px">
+					<template slot-scope="scope">
+						<el-radio class="radio" v-model="radio" :label="scope.$index">&nbsp;</el-radio>
+					</template>
+				</el-table-column>
+				<el-table-column prop="Numbers" label="虚拟卡号" align="center"></el-table-column>
+				<el-table-column prop="CountryId" label="信用卡额度" align="center"></el-table-column>
+				<el-table-column prop="ProductPrice" label="已使用额度" align="center"></el-table-column>
+				<el-table-column prop="Numbers" label="剩余额度" align="center"></el-table-column>
+				<el-table-column prop="Numbers" label="累积使用" align="center"></el-table-column>
+			</el-table>
+			<div class="mt20 modelRight">
+				<el-button type="primary" @click="confirmVirtuaCard">确定</el-button>
+				<el-button @click="virtuaModal=false">取消</el-button>
+			</div>
+		</el-dialog>
+		<!--实体行用卡-->
+		<el-dialog title="选择实体信用卡" :visible.sync="entityCardModal" :close-on-click-modal="false" width="70%">
+			<el-form :model="cardData" ref="cardData" class="demo-dynamic" label-width="100px">
+				<el-row>
+					<el-col :xs="24" :span="7" :sm="9" :md="8" :lg="10">
+						<el-form-item label="实体信用卡">
+							<el-input type="text" v-model="cardData.card"></el-input>
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :span="5" :sm="10" :md="8" :lg="5" class="ml20">
+						<el-button type="primary">搜索</el-button>
+						<el-button>重置</el-button>
+					</el-col>
+				</el-row>
+			</el-form>
+			<el-table :data="vertuaCardData" border style="width: 100%" @row-click="showRow">
+				<el-table-column show-overflow-tooltip width="50px">
+					<template slot-scope="scope">
+						<el-radio class="radio" v-model="radio" :label="scope.$index">&nbsp;</el-radio>
+					</template>
+				</el-table-column>
+				<el-table-column prop="Numbers" label="虚拟卡号" align="center"></el-table-column>
+				<el-table-column prop="CountryId" label="信用卡额度" align="center"></el-table-column>
+				<el-table-column prop="ProductPrice" label="已使用额度" align="center"></el-table-column>
+				<el-table-column prop="Numbers" label="剩余额度" align="center"></el-table-column>
+				<el-table-column prop="Numbers" label="累积使用" align="center"></el-table-column>
+			</el-table>
+			<div class="mt20 modelRight">
+				<el-button type="primary" @click="confirmVirtuaCard">确定</el-button>
+				<el-button @click="entityCardModal=false">取消</el-button>
 			</div>
 		</el-dialog>
 	</div>
@@ -574,9 +658,13 @@
 		name: 'registerAccount',
 		data() {
 			return {
+				entityShow: false,
+				entityCardModal: false, //实体信用卡弹窗
+				virtuaModal: false, //选择虚拟卡弹窗
+				xnShow: false, //选择信用卡类型
 				currentPage: 1,
 				pageSize: '0',
-				total:100,
+				total: 100,
 				radio: '',
 				brushRadio: '',
 				title: '新建',
@@ -601,6 +689,7 @@
 				buyCheckData: [],
 				searchModel: false,
 				buyNumData: [],
+				vertuaCardData: [], //虚拟卡
 				selected: {},
 				pickerEndDate: this.pickerOptionsEnd(),
 				pickerStartDate: this.searchStartDate(),
@@ -651,9 +740,10 @@
 					postalCode: '',
 					address: '',
 					CreditCardType: '',
-					shopingCard: '',
+					//					shopingCard: '',
 					masterCard: '',
 					VirtualCreditCard: '',
+					entityCard: '',
 					registerIp: '',
 					remark: ''
 				},
@@ -715,6 +805,35 @@
 			this.getAllData()
 		},
 		methods: {
+			//选择实体信用卡
+			selectEntityCard(){
+				let _this = this
+				_this.entityCardModal = true
+			},
+			//选择实体卡确定
+			confirmEntity(){
+				let _this = this
+				let numbers = _this.selected.Numbers
+				_this.buyNumForm.entityCard = numbers
+			},
+			//虚拟信用卡
+			selectVirtua(){
+				let _this = this
+				_this.virtuaModal = true
+				_this.getvertuaCard()
+			},
+			//信用卡类型
+			selectCardType() {
+				let _this = this
+				let card = _this.buyNumForm.CreditCardType
+				if(card == '虚拟信用卡') {
+					_this.xnShow = true
+					_this.entityShow = false
+				} else if(card == '实体信用卡') {
+					_this.xnShow = false
+					_this.entityShow = true
+				}
+			},
 			//备注
 			remark(index, row) {
 				let _this = this
@@ -793,12 +912,21 @@
 				_this.brushRadio = _this.buyNumData.indexOf(row)
 				_this.selected = row
 			},
-			// 选择国家确定
+            // 选择主卡确定
 			confirmCard() {
 				let _this = this
 				_this.cardModal = false
 				let numbers = _this.selected.Numbers
-				_this.buyNumForm.shopingCard = numbers
+				_this.buyNumForm.masterCard = numbers
+
+			},
+			//选择虚拟卡确定
+			confirmVirtuaCard() {
+				let _this = this
+				_this.virtuaModal = false
+				let numbers = _this.selected.Numbers
+				_this.buyNumForm.VirtualCreditCard = numbers
+				_this.selected = {}
 
 			},
 			// 选择购物卡弹窗
@@ -806,14 +934,15 @@
 				let _this = this
 				let pt = _this.buyNumForm.platform
 				let country = _this.buyNumForm.countryId
-				if(pt == '') {
-					_this.$message.error('请选择平台')
-
-				} else if(country == '') {
-					_this.$message.error('请选择国家')
-				} else {
-					_this.cardModal = true
-				}
+				_this.cardModal = true
+				//				if(pt == '') {
+				//					_this.$message.error('请选择平台')
+				//
+				//				} else if(country == '') {
+				//					_this.$message.error('请选择国家')
+				//				} else {
+				//					_this.cardModal = true
+				//				}
 			},
 			// 重置
 			resetSearch() {
@@ -913,7 +1042,7 @@
 					postalCode: '',
 					address: '',
 					CreditCardType: '',
-					shopingCard: '',
+					//					shopingCard: '',
 					masterCard: '',
 					VirtualCreditCard: '',
 					registerIp: '',
@@ -964,6 +1093,16 @@
 				_this.axios.get(_this.GLOBAL.BASE_URL + 'api/OrderManagement/AddOrderByType').then((res) => {
 					_this.buyNumData = res.data.data
 					_this.allNum = res.data.data.length
+				}).catch((error) => {
+					console.log(error)
+				})
+			},
+			//获取虚拟卡
+			getvertuaCard() {
+				let _this = this
+				_this.active = 1
+				_this.axios.get(_this.GLOBAL.BASE_URL + 'api/OrderManagement/AddOrderByType').then((res) => {
+					_this.vertuaCardData = res.data.data
 				}).catch((error) => {
 					console.log(error)
 				})
