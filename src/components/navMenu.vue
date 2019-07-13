@@ -7,43 +7,9 @@
 					<img class="imgLogo" src="../assets/image/logo.png" />
 				</el-menu-item>
 				<el-menu-item index="index" style="border: none;"><i class="el-icon-files"></i>首页</el-menu-item>
-				<el-submenu index="2">
-					<template slot="title"><i class="el-icon-document-checked"></i>订单管理</template>
-					<el-menu-item index="orderPlacingManage">下单管理</el-menu-item>
-					<el-menu-item index="AdditionalOrder">加购订单</el-menu-item>
-					<el-menu-item index="wishOrder">心愿订单</el-menu-item>
-					<el-menu-item index="likesOrder">点赞订单</el-menu-item>
-					<el-menu-item index="QAorder">QA订单</el-menu-item>
-				</el-submenu>
-				<el-submenu index="3">
-					<template slot="title"><i class="el-icon-suitcase"></i>任务管理</template>
-					<el-menu-item index="placeOrderTask">下单任务</el-menu-item>
-					<el-menu-item index="addPurchaseTask">加购任务</el-menu-item>
-					<el-menu-item index="wishTask">心愿任务</el-menu-item>
-					<el-menu-item index="likesTask">点赞任务</el-menu-item>
-					<el-menu-item index="QaTask">QA任务</el-menu-item>
-				</el-submenu>
-				<!--<el-submenu index="4">
-					<template slot="title"><i class="el-icon-s-check"></i>账号管理</template>
-					<el-menu-item index="buyNumLevel">买号等级</el-menu-item>
-					<el-menu-item index="buyNumList">买号列表</el-menu-item>
-					<el-menu-item index="registerAccount">注册账号</el-menu-item>
-				</el-submenu>-->
 				<el-menu-item index="buyNumList" style="border: none;"><i class="el-icon-s-check"></i>账号管理</el-menu-item>
-				<el-submenu index="5">
-					<template slot="title"><i class="el-icon-bank-card"></i>卡片管理</template>
-					<el-menu-item index="VirtualCard">虚拟信用卡</el-menu-item>
-					<el-menu-item index="practicalCard">实体信用卡</el-menu-item>
-				</el-submenu>
-				<el-menu-item index="index"><i class="el-icon-files"></i>首页</el-menu-item>
 				<el-menu-item index="orderList"><i class="el-icon-document-checked"></i>订单管理</el-menu-item>
 				<el-menu-item index="TaskList"><i class="el-icon-suitcase"></i>任务管理</el-menu-item>
-				<el-submenu index="4">
-					<template slot="title"><i class="el-icon-s-check"></i>买号管理</template>
-					<el-menu-item index="buyNumLevel">买号等级</el-menu-item>
-					<el-menu-item index="buyNumList">买号列表</el-menu-item>
-					<el-menu-item index="registerAccount">注册账号</el-menu-item>
-				</el-submenu>
 				<el-menu-item index="CardManage"><i class="el-icon-bank-card"></i>卡片管理</el-menu-item>
 				<el-submenu index="6">
 					<template slot="title"><i class="el-icon-s-custom"></i>客户管理</template>
@@ -66,8 +32,6 @@
 				<el-submenu index="11" class="userInfoBox">
 					<template slot="title"><i class="el-icon-s-custom"></i>kyumin</template>
 					<el-menu-item index="personalData">个人资料</el-menu-item>
-					<el-menu-item index="headPortrait">修改头像</el-menu-item>
-					<el-menu-item index="">个人资料</el-menu-item>
 				</el-submenu>
 				<el-menu-item index="12" class="loginOut" @click="loginOut"><i class="el-icon-setting"></i>退出
 				</el-menu-item>
