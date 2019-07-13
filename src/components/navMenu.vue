@@ -6,7 +6,7 @@
 				<el-menu-item>
 					<img class="imgLogo" src="../assets/image/logo.png" />
 				</el-menu-item>
-				<el-menu-item index="index" style="border: none;"><i class="el-icon-files"></i>首页</el-menu-item>
+				<el-menu-item index="index"><i class="el-icon-files"></i>首页</el-menu-item>
 				<el-submenu index="2">
 					<template slot="title"><i class="el-icon-document-checked"></i>订单管理</template>
 					<el-menu-item index="orderPlacingManage">下单管理</el-menu-item>
@@ -53,21 +53,22 @@
 				</el-submenu>-->
 				<el-submenu index="9">
 					<template slot="title"><i class="el-icon-s-tools"></i>参数配置</template>
-					<el-menu-item index="">留评类型</el-menu-item>
+					<el-menu-item index="commentType">留评类型</el-menu-item>
 					<el-menu-item index="ParameterService">增值费服务</el-menu-item>
 					<el-menu-item index="exchangeRate">货币汇率</el-menu-item>
 					<el-menu-item index="countryManage">国家管理</el-menu-item>
-					<el-menu-item index="">平台管理</el-menu-item>
-					<el-menu-item index="">动态IP池</el-menu-item>
-					<el-menu-item index="">自动分配</el-menu-item>
+					<el-menu-item index="platform">平台管理</el-menu-item>
+					<el-menu-item index="dynamicIP">动态IP池</el-menu-item>
+					<el-menu-item index="autoShare">自动分配</el-menu-item>
 					<!--<el-menu-item index="">推荐码</el-menu-item>-->
 					<!--<el-menu-item index="">配置管理</el-menu-item>
 					<el-menu-item index="">网站配置</el-menu-item>-->
 				</el-submenu>
 				<el-submenu index="10">
 					<template slot="title"><i class="el-icon-setting"></i>系统设置</template>
-					<el-menu-item index="">用户管理</el-menu-item>
-					<el-menu-item index="">角色管理</el-menu-item>
+					<el-menu-item index="userManage">用户管理</el-menu-item>
+					<el-menu-item index="roleManage">角色管理</el-menu-item>
+					<!--<el-menu-item index="">帮助中心</el-menu-item>-->
 				</el-submenu>
 				<el-submenu index="11" class="userInfoBox">
 					<template slot="title"><i class="el-icon-s-custom"></i>kyumin</template>

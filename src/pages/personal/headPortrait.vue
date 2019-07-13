@@ -44,6 +44,9 @@
 		border: #ccc dashed 2px;
 		margin: 0 auto;
 	}
+	.avatar-uploader{
+		margin: 0 auto;
+	}
 	.avatar-uploader .el-upload {
     border: 1px dashed #d9d9d9;
     border-radius: 6px;

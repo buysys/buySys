@@ -147,8 +147,8 @@
 </template>
 
 <script>
-	import viewTask from '../common/viewTask'
-	import orderDetail from '../common/orderDetail'
+	import viewTask from '../../common/viewTask'
+	import orderDetail from '../../common/orderDetail'
 	export default {
 		name: 'AdditionalOrder',
 		data() {
