@@ -15,11 +15,7 @@
 					<el-menu-item index="buyNumList">买号列表</el-menu-item>
 					<el-menu-item index="registerAccount">注册账号</el-menu-item>
 				</el-submenu>
-				<el-submenu index="5">
-					<template slot="title"><i class="el-icon-bank-card"></i>卡片管理</template>
-					<el-menu-item index="VirtualCard">虚拟信用卡</el-menu-item>
-					<el-menu-item index="practicalCard">实体信用卡</el-menu-item>
-				</el-submenu>
+				<el-menu-item index="CardManage"><i class="el-icon-bank-card"></i>卡片管理</el-menu-item>
 				<el-submenu index="6">
 					<template slot="title"><i class="el-icon-s-custom"></i>客户管理</template>
 					<el-menu-item index="customerList">客户列表</el-menu-item>
@@ -27,16 +23,6 @@
 					<el-menu-item index="takeMoneyList">提现记录</el-menu-item>
 					<el-menu-item index="takeMoneySet">提现配置</el-menu-item>
 				</el-submenu>
-				<!--<el-submenu index="7">
-					<template slot="title"><i class="el-icon-news"></i>合作伙伴</template>
-					<el-menu-item index="partnerManage">伙伴管理</el-menu-item>
-					<el-menu-item index="returnOrder">返利订单</el-menu-item>
-					<el-menu-item index="DiscountRecord">提现记录</el-menu-item>
-				</el-submenu>-->
-				<!--<el-submenu index="8">
-					<template slot="title"><i class="el-icon-s-finance"></i>财务管理</template>
-					<el-menu-item index="">财务报表</el-menu-item>
-				</el-submenu>-->
 				<el-menu-item index="userManage"><i class="el-icon-user"></i>用户管理</el-menu-item>
 				<el-submenu index="10">
 					<template slot="title"><i class="el-icon-s-tools"></i>系统设置</template>
@@ -47,15 +33,7 @@
 					<el-menu-item index="platform">平台管理</el-menu-item>
 					<el-menu-item index="dynamicIP">IP池管理</el-menu-item>
 					<el-menu-item index="autoShare">自动分配</el-menu-item>
-					<!--<el-menu-item index="">推荐码</el-menu-item>-->
-					<!--<el-menu-item index="">配置管理</el-menu-item>
-					<el-menu-item index="">网站配置</el-menu-item>-->
 				</el-submenu>
-				<!-- <el-submenu index="10">
-					<template slot="title"><i class="el-icon-setting"></i>系统设置</template>
-					<el-menu-item index="userManage">用户管理</el-menu-item>
-					<el-menu-item index="roleManage">角色管理</el-menu-item>
-				</el-submenu> -->
 				<el-submenu index="11" class="userInfoBox">
 					<template slot="title"><i class="el-icon-s-custom"></i>kyumin</template>
 					<el-menu-item index="">修改头像</el-menu-item>

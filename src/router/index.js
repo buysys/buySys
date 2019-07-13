@@ -199,6 +199,14 @@ export default new Router({
 					meta: {
 						title: '货币汇率'
 					}
+				},
+				{
+					path: '/CardManage',
+					name: 'CardManage',
+					component: resolve => require(['../pages/card/CardManage.vue'], resolve),
+					meta: {
+						title: '卡片管理'
+					}
 				}
 			]
 		},
