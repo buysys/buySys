@@ -40,7 +40,7 @@
 						<el-button type="text" @click="glListModelShow(scope.$index,scope.row)">{{scope.row.Numbers}}</el-button>
 					</template>
 				</el-table-column>
-				<el-table-column prop="OrderNumber" label="添加订单" align="center"><el-button type="success" size="medium" @click="OrderTaskModelShow">查看任务</el-button></el-table-column>
+				<el-table-column prop="OrderNumber" label="订单任务" align="center"><el-button type="success" size="medium" @click="OrderTaskModelShow">订单任务</el-button></el-table-column>
 		</el-table>
 		<div class="mt30">
 			<el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage" :page-sizes="[100, 200, 300, 500]" :page-size="10" layout="total, sizes, prev, pager, next, jumper" :total="total">
@@ -150,7 +150,7 @@
 		  </span>
 		</el-dialog>
 		<!-- 解除关联-->
-		<el-dialog title="温馨提示" :visible.sync="jcModel" :close-on-click-modal="false" center="" width="30%">
+		<el-dialog title="温馨提示" :visible.sync="jcModel" :close-on-click-modal="false" center width="30%">
 		  <div class="del-dialog-cnt textCen">确认要解除关联吗？</div>
 		  <span slot="footer" class="dialog-footer">
 		    <el-button type="primary" size="medium">确定</el-button>
@@ -158,19 +158,19 @@
 		  </span>
 		</el-dialog>
 		<!-- 绑定网址-->
-		<el-dialog title="绑定网址" :visible.sync="bindModel" :close-on-click-modal="false" center="" width="30%">
+		<el-dialog title="绑定网址" :visible.sync="bindModel" :close-on-click-modal="false" center width="30%">
 			<el-input v-model='webAddres' placeholder="请输入网址"></el-input>
 			<span slot="footer" class="dialog-footer">
 		    <el-button type="primary" size="medium">确定</el-button>
 		    <el-button @click="bindModel=false" size="medium">取消</el-button>
 			</span>
 		</el-dialog>
-		<!-- 查看任务 -->
-		<el-dialog title="查看任务" :visible.sync="OrderTaskModel" :close-on-click-modal="false" center="" width="30%">
-			<el-input v-model='webAddres' placeholder="请输入网址"></el-input>
+		<!-- 订单任务 -->
+		<el-dialog title="订单任务" :visible.sync="OrderTaskModel" :close-on-click-modal="false">
+			<OrderTask></OrderTask>
 			<span slot="footer" class="dialog-footer">
 		    <el-button type="primary" size="medium">确定</el-button>
-		    <el-button @click="bindModel=false" size="medium">取消</el-button>
+		    <el-button @click="OrderTaskModel=false" size="medium">取消</el-button>
 			</span>
 		</el-dialog>
 	</div>
@@ -179,6 +179,8 @@
 <script>
 	import FileSaver from 'file-saver'
 	import XLSX from 'xlsx'
+	
+	import OrderTask from '../../common/OrderTask'
 	export default {
 		name: 'customer',
 		data() {
@@ -192,6 +194,7 @@
 				glListModel: false,	//关联国家列表弹框(国家数量)
 				jcModel: false,		//解除关联弹框
 				bindModel: false,	//绑定网址弹框
+				OrderTaskModel: false, //订单任务
 				editDisabled: true,
 				delDisabled: true,
 				jcDisabled: true,
@@ -223,6 +226,9 @@
 					}]
 				},
 					}
+				},
+				components:{
+					OrderTask
 				},
 				created() {
 					this.getAllData()
@@ -345,6 +351,11 @@
 					bindModelShow () {
 					  let _this = this
 					  _this.bindModel = true
+					},
+					// 订单任务
+					OrderTaskModelShow () {
+					  let _this = this
+					  _this.OrderTaskModel = true
 					},
 					//关闭新增修改弹窗
 					closeModel() {

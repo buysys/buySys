@@ -149,7 +149,7 @@ export default new Router({
 					name: 'dynamicIP',
 					component: resolve => require(['../pages/ParameterConfig/dynamicIP.vue'], resolve),
 					meta: {
-						title: '动态IP池'
+						title: 'IP池管理'
 					}
 				},
 				{

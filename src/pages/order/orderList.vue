@@ -130,11 +130,11 @@
 			</span>
 		</el-dialog>
 		<!--查看任务详情-->
-		<el-dialog :title='orderTitle' :visible.sync="viewTaskDateilsModel" width="60%" :close-on-click-modal="false">
+		<el-dialog :title='orderTitle' :visible.sync="viewTaskDateilsModel" :close-on-click-modal="false" width="90%" top="5vh">
 			<orderDetail :order-data="this.orderDetail"></orderDetail>
 		</el-dialog>
 		<!-- 删除-->
-		<el-dialog title="温馨提示" :visible.sync="delModel" :close-on-click-modal="false" center="" width="30%">
+		<el-dialog title="温馨提示" :visible.sync="delModel" :close-on-click-modal="false" center width="30%">
 			<div class="del-dialog-cnt textCen">确认要删除该订单吗？</div>
 			<span slot="footer" class="dialog-footer">
 			<el-button type="primary" size="medium">是</el-button>
@@ -151,7 +151,6 @@
 	import FileSaver from 'file-saver'
 	import XLSX from 'xlsx'
 	
-	import viewTask from '../../common/viewTask'
 	import orderDetail from '../../common/orderDetail'
 	import OrderLog from '../../common/OrderLog'
 	
@@ -168,7 +167,6 @@
 				disabled: true,
 				reasonModel: false,
 				editPricceModel: false,
-				viewTaskModel: false,
 				logModel: false,
 				delModel: false,
 				orderPlaceData: [],
@@ -261,7 +259,6 @@
 			}
 		},
 		components:{
-			viewTask,
 			orderDetail,
 			OrderLog
 		},

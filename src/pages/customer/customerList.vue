@@ -57,7 +57,7 @@
 		</div>
 		</div>
 		<!-- 新增修改 -->
-		<el-dialog :title="title" :visible.sync="editModel" :close-on-click-modal="false" :before-close="closeModel">
+		<el-dialog :title="title" :visible.sync="editModel" :close-on-click-modal="false" :before-close="closeModel" top="5vh">
 			<el-form :model="editForm" :rules="editRules" label-width="125px" status-icon>
 				<el-form-item label="名称">
 					<el-input v-model="editForm.name"></el-input>

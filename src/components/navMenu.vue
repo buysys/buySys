@@ -37,25 +37,25 @@
 					<template slot="title"><i class="el-icon-s-finance"></i>财务管理</template>
 					<el-menu-item index="">财务报表</el-menu-item>
 				</el-submenu>-->
-				<el-submenu index="9">
-					<template slot="title"><i class="el-icon-s-tools"></i>参数配置</template>
+				<el-menu-item index="userManage"><i class="el-icon-user"></i>用户管理</el-menu-item>
+				<el-submenu index="10">
+					<template slot="title"><i class="el-icon-s-tools"></i>系统设置</template>
 					<el-menu-item index="serviceType">服务类型</el-menu-item>
 					<el-menu-item index="ParameterService">增值费服务</el-menu-item>
 					<el-menu-item index="exchangeRate">货币汇率</el-menu-item>
 					<el-menu-item index="countryManage">国家管理</el-menu-item>
 					<el-menu-item index="platform">平台管理</el-menu-item>
-					<el-menu-item index="dynamicIP">动态IP池</el-menu-item>
+					<el-menu-item index="dynamicIP">IP池管理</el-menu-item>
 					<el-menu-item index="autoShare">自动分配</el-menu-item>
 					<!--<el-menu-item index="">推荐码</el-menu-item>-->
 					<!--<el-menu-item index="">配置管理</el-menu-item>
 					<el-menu-item index="">网站配置</el-menu-item>-->
 				</el-submenu>
-				<el-submenu index="10">
+				<!-- <el-submenu index="10">
 					<template slot="title"><i class="el-icon-setting"></i>系统设置</template>
 					<el-menu-item index="userManage">用户管理</el-menu-item>
 					<el-menu-item index="roleManage">角色管理</el-menu-item>
-					<!--<el-menu-item index="">帮助中心</el-menu-item>-->
-				</el-submenu>
+				</el-submenu> -->
 				<el-submenu index="11" class="userInfoBox">
 					<template slot="title"><i class="el-icon-s-custom"></i>kyumin</template>
 					<el-menu-item index="">修改头像</el-menu-item>

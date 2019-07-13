@@ -1,38 +1,12 @@
 <template>
 	<div class="container">
-		<div class="mb20 fz14">
-			<span>参数配置</span>
-			<span>/</span>
-			<span>IP池管理</span>
-		</div>
 		<el-collapse-transition>
 			<div class="searchBox mb20" v-show="searchModel">
 				<el-form ref="searchForm" :model="searchForm" class="form-item" label-width="80px">
 					<el-row>
-						<el-col :xs="24" :span="5" :sm="10" :md="8" :lg="5">
-							<el-form-item label="国家">
-								<template>
-								  <el-select v-model="countryValue" placeholder="请选择">
-									<el-option
-									  v-for="item in countryOptions"
-									  :key="item.value"
-									  :label="item.label"
-									  :value="item.value">
-									</el-option>
-								  </el-select>
-								</template>
-							</el-form-item>
-						</el-col>
-						<el-col :xs="24" :span="5" :sm="10" :md="8" :lg="5">
-							<el-form-item label="端口">
-								<el-input v-model="searchForm.start" placeholder="开始端口" class="disInline" style="width: 100px;"></el-input>
-								---
-								<el-input v-model="searchForm.end" placeholder="结束端口" class="disInline" style="width: 100px;"></el-input>
-							</el-form-item>
-						</el-col>
-						<el-col :xs="24" :span="7" :sm="7" :md="7" :lg="7">
-							<el-form-item label="搜索内容">
-								<el-input v-model="searchForm.searchkeywords" placeholder="请输入IP/端口/买家账号搜索" class="disInline"></el-input>
+						<el-col :xs="24" :span="8" :sm="8" :md="8" :lg="8">
+							<el-form-item label="类型">
+								<el-input v-model="searchForm.searchkeywords" placeholder="请输入类型搜索" class="disInline"></el-input>
 							</el-form-item>
 						</el-col>
 						<el-col :xs="24" :span="5" :sm="10" :md="8" :lg="5" class="ml20">
@@ -44,27 +18,50 @@
 			</div>
 		</el-collapse-transition>
 		<div class="mb20">
+			<el-button type="success" size="medium" @click="addModelShow"><i class="el-icon-plus"></i>新增</el-button>
+			<el-button type="primary" size="medium" @click="editModelShow" :disabled="editDisabled"><i class="el-icon-edit-outline"></i>修改</el-button>
+			<el-button type="danger" size="medium" @click="delData" :disabled="delDisabled"><i class="el-icon-delete"></i>删除</el-button>
 			<el-button type="warning" size="medium" @click="exportExcel"><i class="el-icon-document-delete"></i>导出</el-button>
-			<span class="tabStatus tabStatus-o">
-				<span>总数</span><span class="txtCol ml10 mr30">230</span>
-				<span>已使用</span><span class="txtCol  ml10 mr30">150</span>
-				<span>剩余</span><span class="txtCol  ml10 mr30">80</span>
-			</span>
 			<el-input placeholder="搜索" prefix-icon="el-icon-search" class="listSearchInput" @click.native="searchShow" readonly></el-input>
 		</div>
 		<div class="mt10">
 		<el-table v-loading="loading" :data="tableData" id="exportData" style="width: 100%" :header-cell-style="{background:'#fafafa'}" @selection-change="handleSelectionChange">
 			<el-table-column type="selection"></el-table-column>
-				<el-table-column prop="Numbers" label="IP" align="center"></el-table-column>
-			    <el-table-column prop="ProductByASIN" label="端口" align="center"></el-table-column>
-				<el-table-column prop="CountryId" label="国家" align="center"></el-table-column>
-				<el-table-column prop="OrderNumber" label="买家账号" align="center"></el-table-column>
+				<el-table-column prop="CountryId" label="任务类型" align="center"></el-table-column>
+				<el-table-column prop="OrderNumber" label="费用" align="center"></el-table-column>
+				<el-table-column prop="OrderNumber" label="备注信息" align="center"></el-table-column>
 		</el-table>
 		<div class="mt30">
 			<el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage" :page-sizes="[100, 200, 300, 500]" :page-size="10" layout="total, sizes, prev, pager, next, jumper" :total="total">
 			</el-pagination>
 		</div>
 		</div>
+		<!-- 新增修改 -->
+		<el-dialog :title="title" :visible.sync="editModel" :close-on-click-modal="false" :before-close="closeModel">
+			<el-form :model="editForm" :rules="editRules" label-width="125px" status-icon>
+				<el-form-item label="任务类型" prop="type">
+					<el-input v-model="editForm.type"></el-input>
+				</el-form-item>
+				<el-form-item label="费用" prop="money">
+					<el-input v-model="editForm.money"></el-input>
+				</el-form-item>
+				<el-form-item label="备注">
+					<el-input type="textarea" v-model="editForm.remark"></el-input>
+				</el-form-item>
+				<p class="txtCenter">
+					<el-button type="primary">确定</el-button>
+					<el-button @click="closeModel">取消</el-button>
+				</p>
+			</el-form>
+		</el-dialog>
+		<!-- 删除-->
+		<el-dialog title="温馨提示" :visible.sync="delModel" :close-on-click-modal="false" center="" width="30%">
+		  <div class="del-dialog-cnt textCen">确认要删除该数据吗？</div>
+		  <span slot="footer" class="dialog-footer">
+		    <el-button type="primary" size="medium">确定</el-button>
+		    <el-button @click="delModel=false" size="medium">取消</el-button>
+		  </span>
+		</el-dialog>
 	</div>
 </template>
 
@@ -72,11 +69,15 @@
 	import FileSaver from 'file-saver'
 	import XLSX from 'xlsx'
 	export default {
-		name: 'customer',
+		name: 'OrderTask',
 		data() {
 			return {
 				loading:true,
 				searchModel: false,
+				editModel: false,
+				delModel: false,
+				editDisabled: true,
+				delDisabled: true,
 				tableData: [],
 				checkBoxData:[],
 				title:'',
@@ -89,20 +90,23 @@
 					platform: '全部',
 					searchkeywords: ''
 						},
-				countryOptions: [{
-				  value: '1',
-				  label: '加拿大'
-				}, {
-				  value: '2',
-				  label: '中国'
-				}, {
-				  value: '3',
-				  label: '美国'
-				}, {
-				  value: '4',
-				  label: '英国'
-				}],
-				countryValue: ''
+				editForm: {
+					type: '',
+					money: '',
+					remark: ''
+				},
+				editRules: {
+					type: [{
+						required: true,
+						message: '请输入类型',
+						trigger: 'blur'
+					}],
+					money: [{
+						required: true,
+						message: '请输入费用',
+						trigger: 'blur'
+					}]
+				},
 					}
 				},
 				created() {
@@ -144,11 +148,45 @@
 						let _this = this
 						_this.checkBoxData = val
 						let checkNum = _this.checkBoxData.length
-						if(checkNum !== 1) {
-							_this.disabled = true
-						} else {
-							_this.disabled = false
+						if(checkNum ==1) {
+							_this.editDisabled = false
+							_this.delDisabled = false
 						}
+						else if(checkNum > 1) {
+							_this.editDisabled = true
+							_this.delDisabled = false
+						} else {
+							_this.editDisabled = true
+							_this.delDisabled = true
+						}
+					},
+					// 新增
+					addModelShow() {
+						let _this = this
+						_this.editModel = true
+						_this.title = '订单任务新增'
+					},
+					// 修改
+					editModelShow() {
+						let _this = this
+						_this.editModel = true
+						let item = _this.checkBoxData[0]
+						let num = item.Forum
+						_this.title = num + ' 订单任务修改'
+						_this.editForm.type = item.CountryId;
+						_this.editForm.money = item.CountryId;
+						_this.editForm.remark = item.CountryId;
+					},
+					// 删除
+					delData () {
+					  let _this = this
+					  _this.delModel = true
+					},
+					//关闭新增修改弹窗
+					closeModel() {
+						let _this = this
+						_this.editModel = false
+						_this.editForm = {}
 					},
 					//分页
 					handleSizeChange(val) {

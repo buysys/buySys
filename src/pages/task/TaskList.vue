@@ -202,7 +202,7 @@
 			</el-form>
 		</el-dialog>
 		<!--查看任务详情-->
-		<el-dialog :title='orderTitle' :visible.sync="viewTaskDateilsModel" :close-on-click-modal="false" class="abow_dialog" width="80%">
+		<el-dialog :title='orderTitle' :visible.sync="viewTaskDateilsModel" :close-on-click-modal="false" width="90%" top="5vh">
 			<el-form class="demo-item">
 				<div class="fz16">任务信息</div>
 				<el-row>
