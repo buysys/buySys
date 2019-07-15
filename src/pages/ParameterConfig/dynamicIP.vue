@@ -9,7 +9,7 @@
 			<div class="searchBox mb20">
 				<el-form ref="searchForm" :model="searchForm" class="form-item" label-width="80px">
 					<el-row>
-						<el-col :xs="24" :span="5" :sm="10" :md="8" :lg="5">
+						<el-col :xs="24" :span="4">
 							<el-form-item label="国家">
 								<template>
 								  <el-select v-model="countryValue" placeholder="请选择">
@@ -23,16 +23,16 @@
 								</template>
 							</el-form-item>
 						</el-col>
-						<el-col :xs="24" :span="5" :sm="10" :md="8" :lg="5">
+						<el-col :xs="24" :span="5">
 							<el-form-item label="端口">
 								<el-input v-model="searchForm.start" placeholder="开始端口" class="disInline" style="width: 100px;"></el-input>
 								---
 								<el-input v-model="searchForm.end" placeholder="结束端口" class="disInline" style="width: 100px;"></el-input>
 							</el-form-item>
 						</el-col>
-						<el-col :xs="24" :span="7" :sm="7" :md="7" :lg="7">
+						<el-col :xs="24" :span="4">
 							<el-form-item label="搜索内容">
-								<el-input v-model="searchForm.searchkeywords" placeholder="请输入IP/端口/买家账号搜索" class="disInline"></el-input>
+								<el-input v-model="searchForm.searchkeywords" placeholder="请输入IP/端口/买家账号" class="disInline"></el-input>
 							</el-form-item>
 						</el-col>
 						<el-col :xs="24" :span="5" :sm="10" :md="8" :lg="5" class="ml20">
@@ -146,7 +146,7 @@
 							raw: true
 						} // 导出的内容只做解析，不进行格式转换
 						var wb = XLSX.utils.table_to_book(document.querySelector('#exportData'), xlsxParam)
-					
+
 						/* get binary string as output */
 						var wbout = XLSX.write(wb, {
 							bookType: 'xlsx',

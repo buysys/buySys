@@ -1,20 +1,15 @@
 <template>
 	<div class="container">
-		<div class="mb20 fz14">
-			<span>客户管理</span>
-			<span>/</span>
-			<span>提现记录</span>
-		</div>
 		<el-collapse-transition>
-			<div class="searchBox mb20" v-show="searchModel">
+			<div class="searchBox mb20">
 				<el-form ref="searchForm" :model="searchForm" class="form-item" label-width="80px">
 					<el-row>
-						<el-col :xs="24" :span="8" :sm="8" :md="8" :lg="8">
+						<el-col :xs="24" :span="8">
 							<el-form-item label="搜索内容">
-								<el-input v-model="searchForm.searchkeywords" placeholder="请输入提现记录号|客户名称|客户编码|客户手机搜索" class="disInline"></el-input>
+								<el-input v-model="searchForm.searchkeywords" placeholder="请输入提现记录号/客户名称/客户编码/客户手机" class="disInline"></el-input>
 							</el-form-item>
 						</el-col>
-						<el-col :xs="24" :span="5" :sm="10" :md="8" :lg="5">
+						<el-col :xs="24" :span="4">
 							<el-form-item label="提现状态">
 								<template>
 								  <el-select v-model="statusValue" placeholder="请选择">
@@ -28,7 +23,7 @@
 								</template>
 							</el-form-item>
 						</el-col>
-						<el-col :xs="24" :span="5" :sm="10" :md="8" :lg="5" class="ml20">
+						<el-col :xs="24" :span="4" class="ml20">
 							<el-button type="primary" size="medium">查询</el-button>
 							<el-button size="medium" @click="resetSearch">重置</el-button>
 						</el-col>
@@ -62,7 +57,7 @@
 		</div>
 		</div>
 		<!-- 确认付款-->
-		<el-dialog title="确认付款" :visible.sync="okModel" :close-on-click-modal="false" center="" width="30%">
+		<el-dialog title="确认付款" :visible.sync="okModel" :close-on-click-modal="false" center="" width="30%" :modal-append-to-body="false" :append-to-body="true">
 		  <div class="del-dialog-cnt textCen">确定要付款选中的数据吗？</div>
 		  <span slot="footer" class="dialog-footer">
 		    <el-button type="primary" size="medium">确定</el-button>
@@ -70,7 +65,7 @@
 		  </span>
 		</el-dialog>
 		<!-- 付款失败-->
-		<el-dialog title="付款失败原因" :visible.sync="errModel" :close-on-click-modal="false" center="" width="30%">
+		<el-dialog title="付款失败原因" :visible.sync="errModel" :close-on-click-modal="false" center="" width="30%" :modal-append-to-body="false" :append-to-body="true">
 			<el-input type="textarea" v-model='errRemrk'></el-input>
 			<span slot="footer" class="dialog-footer">
 		    <el-button type="primary" size="medium">确定</el-button>
@@ -88,7 +83,6 @@
 		data() {
 			return {
 				loading:true,
-				searchModel: false,
 				okModel: false,
 				errModel: false,
 				disabled: true,
@@ -137,16 +131,6 @@
 							console.log(error)
 						})
 					},
-					// 检索
-					searchShow() {
-						let _this = this
-						let sear = _this.searchModel
-						if(sear) {
-							_this.searchModel = false
-						} else {
-							_this.searchModel = true
-						}
-					},
 					// 重置
 					resetSearch() {
 						let _this = this
@@ -189,7 +173,7 @@
 							raw: true
 						} // 导出的内容只做解析，不进行格式转换
 						var wb = XLSX.utils.table_to_book(document.querySelector('#exportData'), xlsxParam)
-					
+
 						/* get binary string as output */
 						var wbout = XLSX.write(wb, {
 							bookType: 'xlsx',

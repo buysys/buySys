@@ -6,22 +6,20 @@
 			<span>实体信用卡</span>
 		</div>
 		<el-collapse-transition>
-			<div class="searchBox mb20 pl30" v-show="searchModel">
+			<div class="searchBox mb20 pl30">
 				<el-form ref="searchForm" :model="searchForm" class="form-item" label-width="80px">
 					<el-row>
-						<el-col :xs="24" :span="7" :sm="9" :md="8" :lg="5">
-							<el-form-item label="卡号" class="pt20">
-								<el-input v-model="searchForm.CardNo" placeholder="请输入卡号" class="disInline"></el-input>
+						<el-col :xs="24" :span="4">
+							<el-form-item label="卡号">
+								<el-input v-model="searchForm.CardNo" placeholder="请输入信用卡卡号" class="disInline"></el-input>
 							</el-form-item>
 						</el-col>
-					</el-row>
-					<el-row>
-						<el-col :xs="24" :span="7" :sm="9" :md="8" :lg="5">
+						<el-col :xs="24" :span="4">
 							<el-form-item label="姓名">
-								<el-input v-model="searchForm.userName" placeholder="请输入姓名" class="disInline"></el-input>
+								<el-input v-model="searchForm.username" placeholder="请输入信用卡姓名" class="disInline"></el-input>
 							</el-form-item>
 						</el-col>
-						<el-col :xs="24" :span="5" :sm="10" :md="8" :lg="5" class="ml20">
+						<el-col :xs="24" :span="4" class="ml20">
 							<el-button type="primary" size="medium">查询</el-button>
 							<el-button size="medium" @click="resetSearch">重置</el-button>
 						</el-col>
@@ -36,7 +34,6 @@
 			<el-button type="warning" size="medium" @click="importHandle"><i class="el-icon-folder-opened"></i>导入</el-button>
 			<el-button type="primary" size="medium" @click="exportExcel"><i class="el-icon-document-delete"></i>导出</el-button>
 			<el-button type="primary" size="medium" :disabled="disabled" @click="quotaHandle"><i class="el-icon-edit-outline"></i>修改额度</el-button>
-			<el-input placeholder="搜索" prefix-icon="el-icon-search" class="listSearchInput" @click.native="searchShow" readonly></el-input>
 		</div>
 		<div class="mt10">
 			<el-table v-loading="loading" :data="buyNumData" id="exportOrder" border style="width: 100%" @selection-change="handleSelectionChange">
@@ -66,7 +63,7 @@
 			</div>
 		</div>
 		<!--新建、修改-->
-		<el-dialog :title="title" :visible.sync="cardModel" :close-on-click-modal="false" :before-close="closeModel" width="70%">
+		<el-dialog :title="title" :visible.sync="cardModel" :close-on-click-modal="false" :before-close="closeModel">
 			<el-form :model="cardForm" ref="cardForm" :rules="editRules" class="demo-dynamic" label-width="88px" status-icon>
 				<el-form-item label="名称" prop="name">
 					<el-input v-model="cardForm.name"></el-input>
@@ -97,7 +94,7 @@
 			</el-form>
 		</el-dialog>
 		<!--删除-->
-		<el-dialog title="系统提示" :visible.sync="delModel" :close-on-click-modal="false" center="" width="20%">
+		<el-dialog title="系统提示" :visible.sync="delModel" :close-on-click-modal="false" center="" width="30%">
 			<div class="del-dialog-cnt textCen">此操作会删除信用卡和买号绑定关系，<br /><br />确认要删除该信用卡管理记录吗？</div>
 			<span slot="footer" class="dialog-footer">
         		<el-button type="primary" size="medium">确定</el-button>
@@ -119,24 +116,24 @@
       		</span>
 		</el-dialog>
 		<!--修改额度-->
-		<el-dialog title="请输入信用卡额度" :visible.sync="quotaModel" :close-on-click-modal="false" :before-close="closeQuotaModel" center="" width="25%">
+		<el-dialog title="请输入信用卡额度" :visible.sync="quotaModel" :close-on-click-modal="false" :before-close="closeQuotaModel" center="" width="30%">
 			<el-form :model="quotaForm" ref="quotaForm" class="demo-dynamic">
 				<el-form-item prop="amount">
 					<el-input v-model="quotaForm.amount" ></el-input>
 				</el-form-item>
-			</el-form>	
+			</el-form>
 			<span slot="footer" class="dialog-footer">
         		<el-button type="primary" size="medium">确定</el-button>
         		<el-button @click="closeQuotaModel" size="medium">取消</el-button>
       		</span>
 		</el-dialog>
 		<!--还款-->
-		<el-dialog title="请输入还款金额" :visible.sync="repaymentModel" :close-on-click-modal="false" :before-close="closeRepaymentModel" center="" width="25%">
+		<el-dialog title="请输入还款金额" :visible.sync="repaymentModel" :close-on-click-modal="false" :before-close="closeRepaymentModel" center="" width="30%">
 			<el-form :model="repaymentForm" ref="repaymentForm" class="demo-dynamic">
 				<el-form-item prop="amount">
-					<el-input v-model="repaymentForm.amount" ></el-input>
+					<el-input v-model="repaymentForm.amount" autofocus="true"></el-input>
 				</el-form-item>
-			</el-form>	
+			</el-form>
 			<span slot="footer" class="dialog-footer">
         		<el-button type="primary" size="medium">确定</el-button>
         		<el-button @click="closeRepaymentModel" size="medium">取消</el-button>
@@ -148,7 +145,7 @@
 <script>
 	import FileSaver from 'file-saver'
 	import XLSX from 'xlsx'
-	
+
 	export default {
 		name: 'practicalCard',
 		data() {
@@ -157,7 +154,6 @@
 				title: '新建',
 				cardModel: false,
 				disabled: true,
-				searchModel: false,
 				delModel: false,
 				importModel: false,
 				quotaModel: false,
@@ -206,16 +202,6 @@
 			this.getAllData()
 		},
 		methods: {
-			//检索
-			searchShow() {
-				let _this = this;
-				let sear = _this.searchModel;
-				if(sear) {
-					_this.searchModel = false;
-				} else {
-					_this.searchModel = true;
-				}
-			},
 			//重置
 			resetSearch() {
 				let _this = this;
@@ -244,7 +230,7 @@
 				_this.cardForm.safetyCode = item.ProductByASIN;
 				_this.cardForm.userName = item.ProductByASIN;
 				_this.cardForm.totalAmount = item.ProductByASIN;
-				_this.cardForm.remark = item.remark;	
+				_this.cardForm.remark = item.remark;
 			},
 			//关闭修改价格弹窗
 			closeModel() {
@@ -360,7 +346,7 @@
 	.el-date-editor.el-input {
 		width: 100%;
 	}
-	
+
 	.del-dialog-cnt .el-input__inner {
 		border: none;
 	}

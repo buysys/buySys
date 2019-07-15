@@ -97,25 +97,9 @@ export default new Router({
 					}
 				},
 				{
-					path: '/refundOrder',
-					name: 'refundOrder',
-					component: resolve => require(['../pages/customer/refundOrder.vue'], resolve),
-					meta: {
-						title: '退款订单'
-					}
-				},
-				{
-					path: '/takeMoneyList',
-					name: 'takeMoneyList',
-					component: resolve => require(['../pages/customer/takeMoneyList.vue'], resolve),
-					meta: {
-						title: '提现记录'
-					}
-				},
-				{
 					path: '/takeMoneySet',
 					name: 'takeMoneySet',
-					component: resolve => require(['../pages/customer/takeMoneySet.vue'], resolve),
+					component: resolve => require(['../pages/ParameterConfig/takeMoneySet.vue'], resolve),
 					meta: {
 						title: '提现配置'
 					}

@@ -9,12 +9,12 @@
 			<div class="searchBox mb20">
 				<el-form ref="searchForm" :model="searchForm" class="form-item" label-width="80px">
 					<el-row>
-						<el-col :xs="24" :span="8" :sm="8" :md="8" :lg="8">
+						<el-col :xs="24" :span="4">
 							<el-form-item label="平台名称">
-								<el-input v-model="searchForm.searchkeywords" placeholder="请输入平台名称搜索" class="disInline"></el-input>
+								<el-input v-model="searchForm.searchkeywords" placeholder="请输入平台名称" class="disInline"></el-input>
 							</el-form-item>
 						</el-col>
-						<el-col :xs="24" :span="5" :sm="10" :md="8" :lg="5" class="ml20">
+						<el-col :xs="24" :span="4" class="ml20">
 							<el-button type="primary" size="medium">查询</el-button>
 							<el-button size="medium" @click="resetSearch">重置</el-button>
 						</el-col>
@@ -39,14 +39,7 @@
 						<el-button type="text" @click="glListModelShow(scope.$index,scope.row)">{{scope.row.Numbers}}</el-button>
 					</template>
 				</el-table-column>
-<<<<<<< HEAD
 				<el-table-column prop="OrderNumber" label="查看任务" align="center"><el-button type="success" size="small" @click="OrderTaskModelShow">查看任务</el-button></el-table-column>
-=======
-<<<<<<< HEAD
-=======
-				<el-table-column prop="OrderNumber" label="订单任务" align="center"><el-button type="success" size="medium" @click="OrderTaskModelShow">订单任务</el-button></el-table-column>
->>>>>>> 08dcb68ee8c019894a5e50ecb6ebb977e5bdae24
->>>>>>> c5b6b8c9b3982388c5380cf0a1a15c4ebe4edeff
 		</el-table>
 		<div class="mt30">
 			<el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage" :page-sizes="[100, 200, 300, 500]" :page-size="10" layout="total, sizes, prev, pager, next, jumper" :total="total">
@@ -66,7 +59,7 @@
 			</el-form>
 		</el-dialog>
 		<!-- 删除-->
-		<el-dialog title="温馨提示" :visible.sync="delModel" :close-on-click-modal="false" center="" width="30%">
+		<el-dialog title="温馨提示" :visible.sync="delModel" :close-on-click-modal="false" center width="30%">
 		  <div class="del-dialog-cnt textCen">确认要删除该数据吗？</div>
 		  <span slot="footer" class="dialog-footer">
 		    <el-button type="primary" size="medium">确定</el-button>
@@ -78,12 +71,12 @@
 		  	<div class="searchBox mb20">
 		  		<el-form ref="searchForm" class="form-item" label-width="80px">
 		  			<el-row>
-		  				<el-col :xs="24" :span="16" :sm="12" :md="12" :lg="12">
+		  				<el-col :xs="24" :span="8">
 		  					<el-form-item label="国家">
-		  						<el-input v-model="searchForm.searchkeywords" placeholder="请输入国家搜索" class="disInline"></el-input>
+		  						<el-input v-model="searchForm.searchkeywords" placeholder="请输入国家" class="disInline"></el-input>
 		  					</el-form-item>
 		  				</el-col>
-		  				<el-col :xs="24" :span="8" :sm="8" :md="8" :lg="8" class="ml20">
+		  				<el-col :xs="24" :span="8" class="ml20">
 		  					<el-button type="primary" size="medium">查询</el-button>
 		  					<el-button size="medium" @click="resetSearch">重置</el-button>
 		  				</el-col>
@@ -108,7 +101,7 @@
 		  </span>
 		</el-dialog>
 		<!-- 导入-->
-		<el-dialog title="导入数据" :visible.sync="drModel" :close-on-click-modal="false" center="" width="30%">
+		<el-dialog title="导入数据" :visible.sync="drModel" :close-on-click-modal="false" center width="30%">
 		  <div class="del-dialog-cnt textCen"><input type="file" /></div><br>
 		  <div class="del-dialog-cnt textCen">导入文件不能超过5M，仅允许导入“xls”或“xlsx”格式文件！</div>
 		  <span slot="footer" class="dialog-footer">
@@ -122,12 +115,12 @@
 		  	<div class="searchBox mb20">
 		  		<el-form ref="searchForm" class="form-item" label-width="80px">
 		  			<el-row>
-		  				<el-col :xs="24" :span="16" :sm="12" :md="12" :lg="12">
+		  				<el-col :xs="24" :span="8">
 		  					<el-form-item label="国家">
-		  						<el-input v-model="searchForm.searchkeywords" placeholder="请输入国家搜索" class="disInline"></el-input>
+		  						<el-input v-model="searchForm.searchkeywords" placeholder="请输入国家" class="disInline"></el-input>
 		  					</el-form-item>
 		  				</el-col>
-		  				<el-col :xs="24" :span="8" :sm="8" :md="8" :lg="8" class="ml20">
+		  				<el-col :xs="24" :span="8" class="ml20">
 		  					<el-button type="primary" size="medium">查询</el-button>
 		  					<el-button size="medium" @click="resetSearch">重置</el-button>
 		  				</el-col>
@@ -185,7 +178,7 @@
 <script>
 	import FileSaver from 'file-saver'
 	import XLSX from 'xlsx'
-	
+
 	import OrderTask from '../../common/OrderTask'
 	export default {
 		name: 'customer',
@@ -207,7 +200,7 @@
 				tableData: [],
 				checkBoxData:[],
 				checkBoxData2:[], //关联国家选中数据
-				checkBoxData3:[], //关联国家列表选中数据	
+				checkBoxData3:[], //关联国家列表选中数据
 				title:'',
 				allNum: 0,
 				active: 1,
@@ -371,7 +364,7 @@
 							raw: true
 						} // 导出的内容只做解析，不进行格式转换
 						var wb = XLSX.utils.table_to_book(document.querySelector('#exportData'), xlsxParam)
-					
+
 						/* get binary string as output */
 						var wbout = XLSX.write(wb, {
 							bookType: 'xlsx',
