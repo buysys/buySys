@@ -1,10 +1,5 @@
 <template>
-	<div class="container">
-		<div class="mb20 fz14">
-			<span>参数配置</span>
-			<span>/</span>
-			<span>IP池管理</span>
-		</div>
+	<div>
 		<el-collapse-transition>
 			<div class="searchBox mb20">
 				<el-form ref="searchForm" :model="searchForm" class="form-item" label-width="80px">
