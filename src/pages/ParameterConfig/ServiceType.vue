@@ -6,10 +6,10 @@
 			<span>服务类型</span>
 		</div>
 		<el-collapse-transition>
-			<div class="searchBox mb20" v-show="searchModel">
+			<div class="searchBox mb20">
 				<el-form ref="searchForm" :model="searchForm" class="form-item" label-width="80px">
 					<el-row>
-						<el-col :xs="24" :span="5" :sm="10" :md="8" :lg="5">
+						<el-col :xs="24" :span="4">
 							<el-form-item label="平台">
 								<template>
 								  <el-select v-model="sPlatformValue" placeholder="请选择">
@@ -23,12 +23,12 @@
 								</template>
 							</el-form-item>
 						</el-col>
-						<el-col :xs="24" :span="8" :sm="8" :md="8" :lg="8">
+						<el-col :xs="24" :span="4">
 							<el-form-item label="搜索内容">
 								<el-input v-model="searchForm.searchkeywords" placeholder="请输入编码/类型搜索" class="disInline"></el-input>
 							</el-form-item>
 						</el-col>
-						<el-col :xs="24" :span="5" :sm="10" :md="8" :lg="5" class="ml20">
+						<el-col :xs="24" :span="4" class="ml20">
 							<el-button type="primary" size="medium">查询</el-button>
 							<el-button size="medium" @click="resetSearch">重置</el-button>
 						</el-col>
@@ -42,7 +42,6 @@
 			<el-button type="danger" size="medium" @click="delData" :disabled="delDisabled"><i class="el-icon-delete"></i>删除</el-button>
 			<el-button type="primary" size="medium" @click="drModelShow"><i class="el-icon-caret-right"></i>导入</el-button>
 			<el-button type="warning" size="medium" @click="exportExcel"><i class="el-icon-document-delete"></i>导出</el-button>
-			<el-input placeholder="搜索" prefix-icon="el-icon-search" class="listSearchInput" @click.native="searchShow" readonly></el-input>
 		</div>
 		<div class="mt10">
 		<el-table v-loading="loading" :data="tableData" id="exportData" style="width: 100%" :header-cell-style="{background:'#fafafa'}" @selection-change="handleSelectionChange">
@@ -63,10 +62,11 @@
 		</div>
 		<!-- 新增修改 -->
 		<el-dialog :title="title" :visible.sync="editModel" :close-on-click-modal="false" :before-close="closeModel">
+      <div v-show="LpModel">
 			<el-form :model="editForm" :rules="editRules" label-width="125px" status-icon>
 				<el-form-item label="归属类型" prop="ascriptionType">
 					<template>
-					  <el-select v-model="editForm.ascriptionType" placeholder="请选择归属类型" style="width: 100%;">
+					  <el-select v-model="editForm.ascriptionType" placeholder="请选择归属类型" style="width: 100%;" @change="changeForm">
 						<el-option
 						  v-for="item in aTypeOptions"
 						  :key="item.value"
@@ -120,6 +120,36 @@
 					<el-button @click="closeModel">取消</el-button>
 				</p>
 			</el-form>
+      </div>
+      <div v-show="XtModel">
+        <el-form :model="editForm" :rules="editRules" label-width="125px" status-icon>
+        	<el-form-item label="归属类型" prop="ascriptionType">
+        		<template>
+        		  <el-select v-model="editForm.ascriptionType" placeholder="请选择归属类型" style="width:100%;" @change="changeForm">
+        			<el-option
+        			  v-for="item in aTypeOptions"
+        			  :key="item.value"
+        			  :label="item.label"
+        			  :value="item.value">
+        			</el-option>
+        		  </el-select>
+        		</template>
+        	</el-form-item>
+        	<el-form-item label="编码" prop="num">
+        		<el-input v-model="editForm.num"></el-input>
+        	</el-form-item>
+        	<el-form-item label="类型" prop="type">
+        		<el-input v-model="editForm.type"></el-input>
+        	</el-form-item>
+        	<el-form-item label="服务费" prop="serviceCharge">
+        		<el-input v-model="editForm.serviceCharge"></el-input>
+        	</el-form-item>
+        	<p class="txtCenter">
+        		<el-button type="primary">确定</el-button>
+        		<el-button @click="closeModel">取消</el-button>
+        	</p>
+        </el-form>
+      </div>
 		</el-dialog>
 		<!-- 删除-->
 		<el-dialog title="温馨提示" :visible.sync="delModel" :close-on-click-modal="false" center="" width="30%">
@@ -150,12 +180,13 @@
 		data() {
 			return {
 				loading:true,
-				searchModel: false,
 				editModel: false,
 				delModel: false,
 				viewModel: false,
 				drModel: false,
 				forbidModel: false,
+        LpModel:true,
+        XtModel:false,
 				editDisabled: true,
 				delDisabled: true,
 				tableData: [],
@@ -230,7 +261,7 @@
 				  label: 'Amazon'
 				}],
 				sPlatformValue: '1',
-				
+
 				//新增修改归属类型下拉框
 				aTypeOptions: [{
 				  value: '1',
@@ -277,16 +308,22 @@
 							console.log(error)
 						})
 					},
-					// 检索
-					searchShow() {
-						let _this = this
-						let sear = _this.searchModel
-						if(sear) {
-							_this.searchModel = false
-						} else {
-							_this.searchModel = true
-						}
-					},
+          //切换form
+          changeForm(){
+            let _this = this
+            let active = _this.editForm.ascriptionType
+            console.log(active)
+            if (active == '1'){
+              _this.LpModel = true
+              _this.XtModel = false
+              _this.ascriptionType = '2'
+            }
+            if (active == '2'){
+              _this.LpModel = false
+              _this.XtModel = true
+              _this.ascriptionType = '1'
+            }
+          },
 					// 重置
 					resetSearch() {
 						let _this = this
@@ -363,7 +400,7 @@
 							raw: true
 						} // 导出的内容只做解析，不进行格式转换
 						var wb = XLSX.utils.table_to_book(document.querySelector('#exportData'), xlsxParam)
-					
+
 						/* get binary string as output */
 						var wbout = XLSX.write(wb, {
 							bookType: 'xlsx',

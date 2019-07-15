@@ -1,10 +1,13 @@
 <template>
 	<div class="container">
+    <div class="mb20 fz14">
+    	<span>任务管理</span>
+    </div>
 		<el-collapse-transition>
 			<div class="searchBox mb20">
 				<el-form ref="searchForm" :model="searchForm" class="form-item" label-width="80px">
 					<el-row>
-					<el-col :xs="24" :span="5">
+					<el-col :xs="24" :span="4">
 						<el-form-item label="平台">
 							<template>
 							  <el-select v-model="searchForm.platform" placeholder="请选择">
@@ -13,7 +16,7 @@
 							</template>
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :span="5">
+					<el-col :xs="24" :span="4">
 						<el-form-item label="任务类型">
 							<template>
 							  <el-select v-model="searchForm.orderTypeValue" placeholder="请选择">
@@ -22,21 +25,19 @@
 							</template>
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :span="5">
+					<el-col :xs="24" :span="4">
 					<el-form-item label="国家">
 						<el-select placeholder="请选择" v-model="searchForm.countryId" class="minWid">
 							<el-option v-for="(item,index) in countryData" :key="index" :value="index" :label="item.country"></el-option>
 						</el-select>
 					</el-form-item>
 					</el-col>
-					</el-row>
-					<el-row>
-					<el-col :xs="24" :span="5">
+					<el-col :xs="24" :span="4">
 						<el-form-item label="关键字">
 							<el-input v-model="searchForm.searchkeywords" placeholder="请输入关键字" class="disInline"></el-input>
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :span="5" class="ml20">
+					<el-col :xs="24" :span="4" class="ml20">
 						<el-button type="primary" size="medium">查询</el-button>
 						<el-button size="medium" @click="resetSearch">重置</el-button>
 					</el-col>
@@ -81,7 +82,7 @@
 			</div>
 		</div>
 		<div class="mt10">
-			<el-table :data="orderPlaceData" style="width: 100%" :header-cell-style="{background:'#fafafa'}" @selection-change="handleSelectionChange" height="550">
+			<el-table :data="orderPlaceData" style="width: 100%" :header-cell-style="{background:'#fafafa'}" @selection-change="handleSelectionChange">
 				<el-table-column type="selection"></el-table-column>
 				<el-table-column prop="Numbers" label="任务编码" align="center" width="200">
 					<template slot-scope="scope">
@@ -101,8 +102,9 @@
 				<el-table-column prop="OrderTime" label="执行时间" align="center"></el-table-column>
 				<el-table-column prop="Status" label="任务状态" align="center"></el-table-column>
 				<el-table-column prop="OrderNote" label="客户名称" align="center"></el-table-column>
-				<el-table-column label="操作" align="center">
+				<el-table-column label="操作" align="center" width="200">
 					<template slot-scope="scope">
+						<el-button size="small" type="danger" @click="refundModelShow(scope.$index, scope.row)">退款</el-button>
 						<el-button size="small" type="primary" @click="logHandel(scope.$index, scope.row)">查看日志</el-button>
 					</template>
 				</el-table-column>
@@ -113,7 +115,7 @@
 			</div>
 		</div>
 		<!--标记异常-->
-		<el-dialog title='标记异常' :visible.sync='abnormalModal' :close-on-click-modal="false" width='40%'>
+		<el-dialog title='标记异常' :visible.sync='abnormalModal' :close-on-click-modal="false">
 			<el-form :model='abnormalForm' ref="abnormalForm" label-width='100px'>
 				<el-form-item label='异常原因：'>
 					<el-select v-model="abnormalForm.reason" placeholder="请选择异常原因">
@@ -132,7 +134,7 @@
 			</el-form>
 		</el-dialog>
 		<!--卖家取消-->
-		<el-dialog title="温馨提示" :visible.sync="sellerCancelModal" :close-on-click-modal="false" center="" width="30%">
+		<el-dialog title="温馨提示" :visible.sync="sellerCancelModal" :close-on-click-modal="false" center width="30%">
 			<div class="del-dialog-cnt textCen">确认要取消任务吗？</div>
 			<span slot="footer" class="dialog-footer">
                 <el-button type="primary" size="medium" @click='confirmSellerCancel'>确定</el-button>
@@ -140,7 +142,7 @@
             </span>
 		</el-dialog>
 		<!--确认发货-->
-		<el-dialog title='温馨提示' :visible.sync='confirmDeliveryModal' :close-on-click-modal="false" width='25%'>
+		<el-dialog title='温馨提示' :visible.sync='confirmDeliveryModal' :close-on-click-modal="false" width='30%'>
 			<div class="del-dialog-cnt textCen">{{tipMessage}}</div>
 			<span slot="footer" class="dialog-footer">
                 <el-button type="primary" size="medium" @click='confirmDeliver' v-if='deliverShow'>确定</el-button>
@@ -365,6 +367,21 @@
 				<el-button @click="logModel=false" size="medium">关闭</el-button>
 			</p>
 		</el-dialog>
+    <!--退款-->
+    <el-dialog title="订单退款" :visible.sync="refundModel" :close-on-click-modal="false">
+    	<el-form :rules="editRules" label-width="125px" status-icon>
+    		<el-form-item label="退款金额">
+    			<el-input v-model="editPriceForm.exchangeRate"></el-input>
+    		</el-form-item>
+    		<el-form-item label="退款备注">
+    			<el-input type="textarea" v-model="editPriceForm.remark"></el-input>
+    		</el-form-item>
+    		<el-form-item class="txtCenter">
+    			<el-button type="primary">确定</el-button>
+    			<el-button @click="refundModel=false">取消</el-button>
+    		</el-form-item>
+    	</el-form>
+    </el-dialog>
 	</div>
 </template>
 
@@ -392,6 +409,7 @@
 				sellerCancelModal: false, //卖家取消
 				accountModel: false,
 				abnormalModal: false, //标记异常
+        refundModel: false, //退款
 				title: '填写购买信息',
 				orderTitle: '',
 				confirmBuyModel: false,
@@ -486,8 +504,6 @@
 					countryId: '',
 					searchkeywords: ''
 				},
-				//				pickerEndDate: this.pickerOptionsEnd(),
-				//				pickerStartDate: this.searchStartDate(),
 				activeName: 'first',
 				allNum: '0',
 				active: 1,
@@ -670,6 +686,11 @@
 					searchkeywords: ''
 				}
 			},
+      // 退款
+      refundModelShow() {
+      	let _this = this
+      	_this.refundModel = true
+      },
 			// 修改价格弹窗
 			editPrice() {
 				let _this = this
