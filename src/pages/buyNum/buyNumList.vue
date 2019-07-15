@@ -138,7 +138,7 @@
 			</div>
 		</div>
 		<!-- 新建、修改-->
-		<el-dialog :title="title" :visible.sync="addBuyNumModel" :close-on-click-modal="false" :before-close="closeModel" width="60%">
+		<el-dialog :title="title" :visible.sync="addBuyNumModel" :close-on-click-modal="false" :before-close="closeModel" width="90%" top='5vh'>
 			<el-form :model="buyNumForm" ref="buyNumForm" :rules="editRules" class="demo-dynamic" label-width="140px" status-icon>
 				<div class="mb20 fz16">账号信息</div>
 				<el-row>
@@ -152,7 +152,7 @@
 					</el-col>
 					<el-col :span='12' :xs='24'>
 						<el-form-item label="国家" prop="countryId">
-							<el-select v-model="buyNumForm.countryId" placeholder="请选择国家" class="selectWid">
+							<el-select v-model="buyNumForm.countryId" placeholder="请选择国家">
 								<el-option label="美国" value="美国"></el-option>
 								<el-option label="加拿大" value="加拿大"></el-option>
 							</el-select>
@@ -346,7 +346,7 @@
 					</el-col>
 				</el-row>
 				<el-form-item label="备注">
-					<el-input type="textarea" v-model="buyNumForm.remark" placeholder='请输入备注'></el-input>
+					<el-input type="textarea" v-model="buyNumForm.remark" placeholder='请输入备注' class='inpWid'></el-input>
 				</el-form-item>
 				<div class="textCen">
 					<el-button type="primary">确定</el-button>
@@ -649,7 +649,7 @@
 				<el-button @click="virtuaModal=false">取消</el-button>
 			</div>
 		</el-dialog>
-		<!--实体行用卡-->
+		<!--实体信用卡-->
 		<el-dialog title="选择实体信用卡" :visible.sync="entityCardModal" :close-on-click-modal="false" width="70%">
 			<el-form :model="cardData" ref="cardData" class="demo-dynamic" label-width="100px">
 				<el-row>
@@ -680,7 +680,6 @@
 				<el-button type="primary" @click="confirmVirtuaCard">确定</el-button>
 				<el-button @click="entityCardModal=false">取消</el-button>
 			</div>
->>>>>>> 32e2d853ba3f62ad67ae0bd184af9835baa1881d
 		</el-dialog>
 	</div>
 </template>

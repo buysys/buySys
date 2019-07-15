@@ -8,17 +8,12 @@
 				</el-menu-item>
 
 				<el-menu-item index="index" style="border: none;"><i class="el-icon-files"></i>首页</el-menu-item>
-				<el-menu-item index="buyNumList" style="border: none;"><i class="el-icon-s-check"></i>账号管理</el-menu-item>
+				
 				<el-menu-item index="orderList"><i class="el-icon-document-checked"></i>订单管理</el-menu-item>
 				<el-menu-item index="TaskList"><i class="el-icon-suitcase"></i>任务管理</el-menu-item>
+				<el-menu-item index="buyNumList" style="border: none;"><i class="el-icon-s-check"></i>账号管理</el-menu-item>
 				<el-menu-item index="CardManage"><i class="el-icon-bank-card"></i>卡片管理</el-menu-item>
-				<el-submenu index="6">
-					<template slot="title"><i class="el-icon-s-custom"></i>客户管理</template>
-					<el-menu-item index="customerList">客户列表</el-menu-item>
-					<el-menu-item index="refundOrder">退款订单</el-menu-item>
-					<el-menu-item index="takeMoneyList">提现记录</el-menu-item>
-					<el-menu-item index="takeMoneySet">提现配置</el-menu-item>
-				</el-submenu>
+				<el-menu-item index="customerList"><i class="el-icon-s-custom"></i>客户管理</el-menu-item>
 				<el-menu-item index="userManage"><i class="el-icon-user"></i>用户管理</el-menu-item>
 				<el-submenu index="10">
 					<template slot="title"><i class="el-icon-s-tools"></i>系统设置</template>
@@ -29,6 +24,7 @@
 					<el-menu-item index="platform">平台管理</el-menu-item>
 					<el-menu-item index="dynamicIP">IP池管理</el-menu-item>
 					<el-menu-item index="autoShare">自动分配</el-menu-item>
+					<el-menu-item index="takeMoneySet">提现配置</el-menu-item>
 				</el-submenu>
 				<el-submenu index="11" class="userInfoBox">
 					<template slot="title"><i class="el-icon-s-custom"></i>kyumin</template>
