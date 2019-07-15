@@ -1,10 +1,5 @@
 <template>
-	<div class="container">
-		<div class="mb20 fz14">
-			<span>参数设置</span>
-			<span>/</span>
-			<span>增值费服务</span>
-		</div>
+	<div>
 		<div class="mb20">
 			<el-button type="success" size="medium" @click="addService"><i class="el-icon-plus"></i>新建</el-button>
 			<el-button type="primary" size="medium" :disabled="disabled" @click="editService"><i class="el-icon-edit-outline"></i>修改

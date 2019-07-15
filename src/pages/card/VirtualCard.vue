@@ -1,10 +1,5 @@
 <template>
-	<div class="container">
-		<div class="mb20 fz14">
-			<span>卡片管理</span>
-			<span>/</span>
-			<span>虚拟信用卡</span>
-		</div>
+	<div>
 		<el-collapse-transition>
 			<div class="searchBox mb20 pl30">
 				<el-form ref="searchForm" :model="searchForm" class="form-item" label-width="80px">
