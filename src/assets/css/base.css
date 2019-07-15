@@ -180,7 +180,7 @@ ul{
   padding: 20px 20px 10px 20px;
 }
 .tabList{
-  width: calc(100% - 100px);
+  /*width: calc(100% - 100px);*/
   overflow-X: auto;
 }
 .tabBlock{
@@ -188,7 +188,9 @@ ul{
   clear: both;
   overflow: hidden;
   margin: 0;
-  padding: 0;
+  padding: 10px 10px 0 10px;
+  background: #eef1f6;
+  box-sizing: border-box;
 }
 .tabBlock li{
   width: 86px;
@@ -197,16 +199,15 @@ ul{
   float: left;
   list-style: none;
   padding: 0 10px;
-  background: #fff;
+  background: transparent;
   color: #000;
   font-size: 14px;
   cursor: pointer;
-  border-bottom: 1px solid #e2e2e2;
 }
 .tabBlock .active{
   color: #409EFF;
-  border: 1px solid #e2e2e2;
   border-bottom: none;
+  background: #fff;
 }
 .txtCol{
   color: #f00;
@@ -292,10 +293,10 @@ ul{
 	width: 90%;
 }
 .selectWid{
-	width: 87%;
+	width: 88%;
 }
 .dataInp .el-date-editor.el-input, .el-date-editor.el-input__inner{
-	width: 87%;
+	width: 88%;
 }
 @media screen and (max-width: 1024px) {
 	.el-dialog{
