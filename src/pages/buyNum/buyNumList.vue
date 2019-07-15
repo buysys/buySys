@@ -8,19 +8,18 @@
 				<el-form ref="searchForm" :model="searchForm" class="form-item" label-width="100px">
 					<el-form-item label="标签类型">
 						<el-row>
-							<el-col :span="8">
-								<el-checkbox-group v-model="searchForm.type">
-									<el-checkbox label="西班牙" name="type"></el-checkbox>
-									<el-checkbox label="新人注册号" name="type"></el-checkbox>
-									<el-checkbox label="加拿大" name="type"></el-checkbox>
-									<el-checkbox label="手机测试" name="type"></el-checkbox>
-								</el-checkbox-group>
-							</el-col>
-							<el-col :span="4">
-								<el-button type="success" size="mini" @click="addTagHandle"><i class="el-icon-plus"></i>新建</el-button>
-								<el-button type="danger" size="mini"  @click="delTagHandle"><i class="el-icon-delete"></i>删除</el-button>
-							</el-col>
-						</el-row>						
+							<el-collapse-transition>
+								<el-row v-show="tagGroupShow">
+									<el-checkbox-group v-model="searchForm.type">
+										<el-checkbox label="西班牙" name="type"></el-checkbox>
+										<el-checkbox label="新人注册号" name="type"></el-checkbox>
+										<el-checkbox label="加拿大" name="type"></el-checkbox>
+										<el-checkbox label="手机测试" name="type"></el-checkbox>
+									</el-checkbox-group>
+								</el-row>
+							</el-collapse-transition>
+							<el-button size="medium" @click="showTagGroup">展开标签列表<i class="el-icon-arrow-down el-icon--right"></i></el-button>
+						</el-row>
 					</el-form-item>
 					<el-row>
 						<el-col :span='4' :xs='24'>
@@ -41,10 +40,10 @@
 						</el-col>
 						<el-col :span="4" :xs="24">
 							<el-form-item label="是否留评">
-								<el-select v-model="searchForm.isComment"  placeholder="请选择">
+								<el-select v-model="searchForm.isComment" placeholder="请选择">
 									<el-option label="是" value="是"></el-option>
 									<el-option label="否" value="否"></el-option>
-								</el-select>								
+								</el-select>
 							</el-form-item>
 						</el-col>
 					</el-row>
@@ -61,7 +60,7 @@
 								<el-select placeholder="请选择" v-model="searchForm.buyNumberLevel" class="minWid">
 									<el-option v-for="(item,index) in buyNumberLevelData" :key="index" :value="index" :label="item.level"></el-option>
 								</el-select>
-							</el-form-item>		
+							</el-form-item>
 						</el-col>
 						<el-col :span='4' :xs='24'>
 							<el-form-item label="搜索内容">
@@ -95,9 +94,11 @@
 			<el-button type="warning" size="medium" @click="delHandel"><i class="el-icon-folder-opened"></i>导入
 			</el-button>
 			<el-button type="warning" size="medium" @click="delHandel"><i class="el-icon-document-delete"></i>导出
-		</el-button>
-		<el-button type="primary" size="medium" @click="setBuyLevelHandel"><i class="el-icon-setting"></i>设置买号等级
-		</el-button>
+			</el-button>
+			<el-button type="primary" size="medium" @click="setBuyLevelHandel"><i class="el-icon-setting"></i>设置买号等级
+			</el-button>
+			<el-button type="primary" size="medium" @click="setBuyTagHandel"><i class="el-icon-setting"></i>买号标签管理
+			</el-button>
 		</div>
 		<div class="tabList">
 			<ul class="tabBlock">
@@ -598,24 +599,8 @@
 			<buyNumLevel></buyNumLevel>
 		</el-dialog>
 		<!--新建标签-->
-		<el-dialog title="新建标签" :visible.sync="addTagModel" :close-on-click-modal="false" :before-cloes="closeTagModel" width="20%" center>
-			<el-form :model="tagData" ref="tagData" class="demo-dynamic" label-width="88px" :rules="tagRules">
-				<el-form-item label="新建标签" prop="tag">
-					<el-input v-model="tagData.tag"></el-input>
-				</el-form-item>
-			</el-form>
-			<span slot="footer" class="dialog-footer">
-        		<el-button type="primary" size="medium">确定</el-button>
-        		<el-button @click="closeTagModel" size="medium">取消</el-button>
-      		</span>
-		</el-dialog>
-		<!--删除标签-->
-		<el-dialog title="系统提示" :visible.sync="delTagModel" :close-on-click-modal="false" width="20%" center>
-			<div class="del-dialog-cnt textCen">确认要删除该标签记录吗？</div>
-			<span slot="footer" class="dialog-footer">
-        		<el-button type="primary" size="medium">确定</el-button>
-        		<el-button @click="delTagModel=false" size="medium">取消</el-button>
-      		</span>
+		<el-dialog title="买号标签管理" :visible.sync="addTagModel" :close-on-click-modal="false" width="70%" center>
+			<buyTagList></buyTagList>
 		</el-dialog>
 		<!--选择虚拟卡-->
 		<el-dialog title="选择虚拟卡" :visible.sync="virtuaModal" :close-on-click-modal="false" width="70%">
@@ -687,6 +672,8 @@
 <script>
 	import systemConfig from '../../common/systemConfig'
 	import buyNumLevel from '../../common/buyNumLevel'
+	import buyTagList from './buyTagList'
+
 	export default {
 		name: 'registerAccount',
 		data() {
@@ -695,6 +682,7 @@
 				entityCardModal: false, //实体信用卡弹窗
 				virtuaModal: false, //选择虚拟卡弹窗
 				xnShow: false, //选择信用卡类型
+				tagGroupShow: false,
 				currentPage: 1,
 				pageSize: '0',
 				total: 100,
@@ -715,12 +703,11 @@
 				disabled1: true,
 				addBuyNumModel: false, //新建
 				delModel: false, //删除
+				addTagModel: false,
 				accountModel: false,
 				paramModel: false,
 				accountSearchModel: false,
 				setBuyLevelModel: false,
-				addTagModel: false,
-				delTagModel: false,
 				tagData: {
 					tag: ''
 				},
@@ -733,7 +720,7 @@
 					tabs: []
 				},
 				tagRules: {
-					tag:[{
+					tag: [{
 						required: true,
 						message: '请输入标签名称',
 						trigger: 'blur'
@@ -842,25 +829,36 @@
 		},
 		components: {
 			systemConfig,
-			buyNumLevel
+			buyNumLevel,
+			buyTagList
 		},
 		created() {
 			this.getAllData()
 		},
 		methods: {
+			//展开标签区域
+			showTagGroup() {
+				let _this = this;
+				let show = _this.tagGroupShow;
+				if(show) {
+					_this.tagGroupShow = false;
+				} else {
+					_this.tagGroupShow = true;
+				}
+			},
 			//选择实体信用卡
-			selectEntityCard(){
+			selectEntityCard() {
 				let _this = this
 				_this.entityCardModal = true
 			},
 			//选择实体卡确定
-			confirmEntity(){
+			confirmEntity() {
 				let _this = this
 				let numbers = _this.selected.Numbers
 				_this.buyNumForm.entityCard = numbers
 			},
 			//虚拟信用卡
-			selectVirtua(){
+			selectVirtua() {
 				let _this = this
 				_this.virtuaModal = true
 				_this.getvertuaCard()
@@ -955,7 +953,7 @@
 				_this.brushRadio = _this.buyNumData.indexOf(row)
 				_this.selected = row
 			},
-            // 选择主卡确定
+			// 选择主卡确定
 			confirmCard() {
 				let _this = this
 				_this.cardModal = false
@@ -1083,6 +1081,7 @@
 					this.disabled = false
 				}
 			},
+			//设置买号等级
 			setBuyLevelHandel() {
 				let _this = this;
 				_this.setBuyLevelModel = true;
@@ -1098,23 +1097,10 @@
 					_this.disabled1 = false
 				}
 			},
-			//新建标签
-			addTagHandle() {
+			//设置买号标签
+			setBuyTagHandel() {
 				let _this = this;
 				_this.addTagModel = true;
-			},
-			//关闭新建标签
-			closeTagModel() {
-				let _this = this;
-				_this.addTagModel = false;
-				_this.tagData = {
-					tag: ''
-				}
-			},
-			//删除标签
-			delTagHandle() {
-				let _this = this;
-				_this.delTagModel = true;
 			},
 			getAllData() {
 				let _this = this

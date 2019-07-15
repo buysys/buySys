@@ -6,26 +6,14 @@
 				<el-menu-item>
 					<img class="imgLogo" src="../assets/image/logo.png" />
 				</el-menu-item>
-
 				<el-menu-item index="index" style="border: none;"><i class="el-icon-files"></i>首页</el-menu-item>
-				
 				<el-menu-item index="orderList"><i class="el-icon-document-checked"></i>订单管理</el-menu-item>
 				<el-menu-item index="TaskList"><i class="el-icon-suitcase"></i>任务管理</el-menu-item>
-				<el-menu-item index="buyNumList" style="border: none;"><i class="el-icon-s-check"></i>账号管理</el-menu-item>
+				<el-menu-item index="buyNumList"><i class="el-icon-files"></i>账号管理</el-menu-item>
 				<el-menu-item index="CardManage"><i class="el-icon-bank-card"></i>卡片管理</el-menu-item>
 				<el-menu-item index="customerList"><i class="el-icon-s-custom"></i>客户管理</el-menu-item>
 				<el-menu-item index="userManage"><i class="el-icon-user"></i>用户管理</el-menu-item>
-				<el-submenu index="10">
-					<template slot="title"><i class="el-icon-s-tools"></i>系统设置</template>
-					<el-menu-item index="serviceType">服务类型</el-menu-item>
-					<el-menu-item index="ParameterService">增值费服务</el-menu-item>
-					<el-menu-item index="exchangeRate">货币汇率</el-menu-item>
-					<el-menu-item index="countryManage">国家管理</el-menu-item>
-					<el-menu-item index="platform">平台管理</el-menu-item>
-					<el-menu-item index="dynamicIP">IP池管理</el-menu-item>
-					<el-menu-item index="autoShare">自动分配</el-menu-item>
-					<el-menu-item index="takeMoneySet">提现配置</el-menu-item>
-				</el-submenu>
+				<el-menu-item index="systemSettings"><i class="el-icon-user"></i>系统设置</el-menu-item>
 				<el-submenu index="11" class="userInfoBox">
 					<template slot="title"><i class="el-icon-s-custom"></i>kyumin</template>
 					<el-menu-item index="personalData">个人资料</el-menu-item>

@@ -9,47 +9,47 @@
 			<div class="searchBox mb20 pl30" v-show="searchModel">
 				<el-form ref="searchForm" :model="searchForm" class="form-item" label-width="100px">
 					<el-form-item label="标签类型">
-							<el-checkbox-group v-model="searchForm.type">
-								<el-checkbox label="西班牙" name="type"></el-checkbox>
-								<el-checkbox label="新人注册号" name="type"></el-checkbox>
-								<el-checkbox label="加拿大" name="type"></el-checkbox>
-								<el-checkbox label="手机测试" name="type"></el-checkbox>
-							</el-checkbox-group>
-						</el-form-item>
+						<el-checkbox-group v-model="searchForm.type">
+							<el-checkbox label="西班牙" name="type"></el-checkbox>
+							<el-checkbox label="新人注册号" name="type"></el-checkbox>
+							<el-checkbox label="加拿大" name="type"></el-checkbox>
+							<el-checkbox label="手机测试" name="type"></el-checkbox>
+						</el-checkbox-group>
+					</el-form-item>
 					<el-row>
-				   <el-col :span='4' :xs='24'>
-				   	<el-form-item label="平台" class="pt20 disInline">
-						<el-radio-group v-model="searchForm.platform" class="disInline">
-							<el-radio label="全部"></el-radio>
-							<el-radio label="Amazon"></el-radio>
-						</el-radio-group>
-					</el-form-item>
-				   </el-col>
-					<el-col :span='6' :xs='24'>
-						<el-form-item label="是否留评" class="pt20 disInline">
-						<el-radio-group v-model="searchForm.isComment" class="disInline">
-							<el-radio label="是"></el-radio>
-							<el-radio label="否"></el-radio>
-						</el-radio-group>
-					</el-form-item>
-					</el-col>
+						<el-col :span='4' :xs='24'>
+							<el-form-item label="平台" class="pt20 disInline">
+								<el-radio-group v-model="searchForm.platform" class="disInline">
+									<el-radio label="全部"></el-radio>
+									<el-radio label="Amazon"></el-radio>
+								</el-radio-group>
+							</el-form-item>
+						</el-col>
+						<el-col :span='6' :xs='24'>
+							<el-form-item label="是否留评" class="pt20 disInline">
+								<el-radio-group v-model="searchForm.isComment" class="disInline">
+									<el-radio label="是"></el-radio>
+									<el-radio label="否"></el-radio>
+								</el-radio-group>
+							</el-form-item>
+						</el-col>
 					</el-row>
 					<el-row>
 						<el-col :span='4' :xs='24'>
 							<el-form-item label="信用卡类型">
-						<el-select placeholder="请选择" v-model="searchForm.CreditCard" class="minWid">
-							<el-option v-for="(item,index) in CreditCardData" :key="index" :value="index" :label="item.types"></el-option>
-						</el-select>
-					</el-form-item>
+								<el-select placeholder="请选择" v-model="searchForm.CreditCard" class="minWid">
+									<el-option v-for="(item,index) in CreditCardData" :key="index" :value="index" :label="item.types"></el-option>
+								</el-select>
+							</el-form-item>
 						</el-col>
 						<el-col :span='6' :xs='24'>
 							<el-form-item label="买号等级">
-						<el-select placeholder="请选择" v-model="searchForm.buyNumberLevel" class="minWid">
-							<el-option v-for="(item,index) in buyNumberLevelData" :key="index" :value="index" :label="item.level"></el-option>
-						</el-select>
-					</el-form-item>
+								<el-select placeholder="请选择" v-model="searchForm.buyNumberLevel" class="minWid">
+									<el-option v-for="(item,index) in buyNumberLevelData" :key="index" :value="index" :label="item.level"></el-option>
+								</el-select>
+							</el-form-item>
 						</el-col>
-					</el-row>					
+					</el-row>
 					<el-form-item label="注册时间">
 						<el-date-picker v-model="searchForm.orderStartTime" type="date" placeholder="选择开始时间" :picker-options="pickerStartDate" value-format="yyyy-MM-dd" class="mb10"></el-date-picker>
 						<el-date-picker v-model="searchForm.orderEndTime" type="date" placeholder="选择结束时间" :picker-options="pickerEndDate" value-format="yyyy-MM-dd"></el-date-picker>
@@ -121,8 +121,8 @@
 				</el-form-item>
 				<el-form-item label="国家" prop="countryId" class="country">
 					<el-select v-model="registerForm.countryId" placeholder="请选择国家" style="width: 100%;">
-								<el-option label="美国" value="美国"></el-option>
-								<el-option label="加拿大" value="加拿大"></el-option>
+						<el-option label="美国" value="美国"></el-option>
+						<el-option label="加拿大" value="加拿大"></el-option>
 					</el-select>
 				</el-form-item>
 				<el-form-item label="默认网址">
@@ -289,7 +289,7 @@
 				pickerStartDate: this.searchStartDate(),
 				buyNumberLevelData: [{
 					level: 'A'
-				},{
+				}, {
 					level: 'B'
 				}],
 				CreditCardData: [{

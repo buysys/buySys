@@ -199,6 +199,22 @@ export default new Router({
 					meta: {
 						title: '卡片管理'
 					}
+				},
+				{
+					path: '/buyTagList',
+					name: 'buyTagList',
+					component: resolve => require(['../pages/buyNum/buyTagList.vue'], resolve),
+					meta: {
+						title: '买号标签'
+					}
+				},
+				{
+					path: '/systemSettings',
+					name: 'systemSettings',
+					component: resolve => require(['../pages/ParameterConfig/systemSettings.vue'], resolve),
+					meta: {
+						title: '系统设置'
+					}
 				}
 			]
 		},
