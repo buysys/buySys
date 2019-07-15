@@ -123,7 +123,7 @@
 		data() {
 			return {
 				loading:true,
-				searchModel: false,
+				viewModel: false,
 				editModel: false,
 				delModel: false,
 				drModel: false,

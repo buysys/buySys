@@ -5,12 +5,12 @@
 				<div class="searchBox mb20 pl30">
 					<el-form ref="searchForm" :model="searchForm" class="form-item" label-width="80px">
 						<el-row :gutter="20">
-							<el-col xs="24" :span="4">
+							<el-col :xs="24" :span="4">
 								<el-form-item label="角色名称">
 									<el-input v-model="searchForm.roleName" class="disInline" placeholder="请输入角色名称"></el-input>
 								</el-form-item>
 							</el-col>
-							<el-col xs="24" :span="4">
+							<el-col :xs="24" :span="4">							
 								<el-button type="primary " size="medium">查询</el-button>
 								<el-button size="medium " @click="resetSearch">重置</el-button>
 							</el-col>
