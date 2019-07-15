@@ -1,10 +1,13 @@
 <template>
 	<div class="container">
+    <div class="mb20 fz14">
+    	<span>订单管理</span>
+    </div>
 		<el-collapse-transition>
 			<div class="searchBox mb20">
 				<el-form ref="searchForm" :model="searchForm" class="form-item" label-width="80px">
 					<el-row>
-					<el-col :xs="24" :span="5">
+					<el-col :xs="24" :span="4">
 						<el-form-item label="平台">
 							<template>
 							  <el-select v-model="searchForm.platform" placeholder="请选择">
@@ -13,7 +16,7 @@
 							</template>
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :span="5">
+					<el-col :xs="24" :span="4">
 						<el-form-item label="任务类型">
 							<template>
 							  <el-select v-model="searchForm.orderTypeValue" placeholder="请选择">
@@ -22,21 +25,19 @@
 							</template>
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :span="5">
+					<el-col :xs="24" :span="4">
 					<el-form-item label="国家">
 						<el-select placeholder="请选择" v-model="searchForm.countryId" class="minWid">
 							<el-option v-for="(item,index) in countryData" :key="index" :value="index" :label="item.country"></el-option>
 						</el-select>
 					</el-form-item>
 					</el-col>
-					</el-row>
-					<el-row>
-					<el-col :xs="24" :span="5">
+					<el-col :xs="24" :span="4">
 						<el-form-item label="关键字">
 							<el-input v-model="searchForm.searchkeywords" placeholder="请输入关键字" class="disInline"></el-input>
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :span="5" class="ml20">
+					<el-col :xs="24" :span="4" class="ml20">
 						<el-button type="primary" size="medium">查询</el-button>
 						<el-button size="medium" @click="resetSearch">重置</el-button>
 					</el-col>
@@ -150,10 +151,10 @@
 	// import { getStore } from "@/config/mUtils";
 	import FileSaver from 'file-saver'
 	import XLSX from 'xlsx'
-	
+
 	import orderDetail from '../../common/orderDetail'
 	import OrderLog from '../../common/OrderLog'
-	
+
 	export default {
 		name: 'orderPlacingManage',
 		data() {

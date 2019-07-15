@@ -1,23 +1,18 @@
 <template>
 	<div class="container">
-		<div class="mb20 fz14">
-			<span>系统设置</span>
-			<span>/</span>
-			<span>角色管理</span>
-		</div>
 		<div class="mt10">
 			<el-collapse-transition>
-				<div class="searchBox mb20 pl30" v-show="searchModel">
+				<div class="searchBox mb20 pl30">
 					<el-form ref="searchForm" :model="searchForm" class="form-item" label-width="80px">
 						<el-row :gutter="20">
-							<el-col :span="6">
+							<el-col xs="24" :span="4">
 								<el-form-item label="角色名称">
-									<el-input v-model="searchForm.roleName" class="disInline"></el-input>
+									<el-input v-model="searchForm.roleName" class="disInline" placeholder="请输入角色名称"></el-input>
 								</el-form-item>
 							</el-col>
-							<el-col :span="4">
-								<el-button type="primary " size="medium ">查询</el-button>
-								<el-button size="medium " @click="resetSearch ">重置</el-button>
+							<el-col xs="24" :span="4">
+								<el-button type="primary " size="medium">查询</el-button>
+								<el-button size="medium " @click="resetSearch">重置</el-button>
 							</el-col>
 						</el-row>
 					</el-form>
@@ -28,7 +23,6 @@
 			<el-button type="success " size="medium " @click="addRole"><i class="el-icon-plus "></i>新建</el-button>
 			<el-button type="primary " size="medium " :disabled="disabled " @click="editRole"><i class="el-icon-edit-outline "></i>修改</el-button>
 			<el-button type="danger " size="medium " :disabled="disabled " @click="delHandle"><i class="el-icon-delete "></i>删除</el-button>
-			<el-input placeholder="搜索 " prefix-icon="el-icon-search " class="listSearchInput " @click.native="searchShow" readonly></el-input>
 		</div>
 		<div class="mt10 ">
 			<el-table v-loading="loading" :data="roleData" border style="width: 100%" @selection-change="handleSelectionChange">
@@ -46,7 +40,7 @@
 			</el-table>
 		</div>
 		<!--新建、修改-->
-		<el-dialog :title="title" :visible.sync="roleModel " :close-on-click-modal="false" :before-cloes="cloesRoleModel" center width="50% ">
+		<el-dialog :title="title" :visible.sync="roleModel " :close-on-click-modal="false" :before-cloes="cloesRoleModel" center :modal-append-to-body="false" :append-to-body="true">
 			<el-form :model="roleForm " ref="roleForm " :rules="rules" label-width="100px ">
 				<el-row>
 					<el-col :span="12 ">
@@ -100,8 +94,8 @@
 			</el-form>
 		</el-dialog>
 		<!--查看角色-->
-		<el-dialog title="查看角色" :visible.sync="roleViewModel " :close-on-click-modal="false" center width="50% ">
-			<el-form :model="roleForm " ref="roleForm " label-width="100px ">
+		<el-dialog title="查看角色" :visible.sync="roleViewModel " :close-on-click-modal="false" center :modal-append-to-body="false" :append-to-body="true">
+			<el-form :model="roleForm " ref="roleForm " label-width="100px">
 				<el-row>
 					<el-col :span="12 ">
 						<el-form-item label="角色名称 ">
@@ -150,7 +144,7 @@
 			</el-form>
 		</el-dialog>
 		<!--删除-->
-		<el-dialog title="系统提示 " :visible.sync="delModel " :close-on-click-modal="false " center="" width="16% ">
+		<el-dialog title="系统提示 " :visible.sync="delModel " :close-on-click-modal="false " center width="30%" :modal-append-to-body="false" :append-to-body="true">
 			<div class="del-dialog-cnt textCen ">确认要删除选中角色吗？</div>
 			<span slot="footer" class="dialog-footer">
         		<el-button type="primary" size="medium">是</el-button>
@@ -158,7 +152,7 @@
       		</span>
 		</el-dialog>
 		<!--权限分配-->
-		<el-dialog title="菜单权限" :visible.sync="permissionModel " :close-on-click-modal="false " center="" width="16% ">
+		<el-dialog title="菜单权限" :visible.sync="permissionModel " :close-on-click-modal="false " center width="30%" :modal-append-to-body="false" :append-to-body="true">
 			<el-tabs v-model="activeName">
 				<el-tab-pane label="菜单权限" name="menuPermission" :key="'menuPermission'">
 					<el-tree :data="treeData" show-checkbox node-key="id" :default-expanded-keys="[2, 3]" :default-checked-keys="[5]" :props="defaultProps">
@@ -184,7 +178,6 @@
 				title: "新建",
 				roleModel: false,
 				delModel: false,
-				searchModel: false,
 				roleViewModel: false,
 				permissionModel: false,
 				activeName: "menuPermission",
@@ -262,16 +255,6 @@
 				_this.searchForm = {
 					roleName: ''
 				};
-			},
-			//检索
-			searchShow() {
-				let _this = this;
-				let sear = _this.searchModel;
-				if(sear) {
-					_this.searchModel = false;
-				} else {
-					_this.searchModel = true;
-				}
 			},
 			//新建
 			addRole() {

@@ -2,19 +2,17 @@
 	<div class="container">
 		<div class="mb20 fz14">
 			<span>客户管理</span>
-			<span>/</span>
-			<span>客户列表</span>
 		</div>
 		<el-collapse-transition>
-			<div class="searchBox mb20" v-show="searchModel">
+			<div class="searchBox mb20">
 				<el-form ref="searchForm" :model="searchForm" class="form-item" label-width="80px">
 					<el-row>
-						<el-col :xs="24" :span="8" :sm="8" :md="8" :lg="8">
+						<el-col :xs="24" :span="8">
 							<el-form-item label="搜索内容">
 								<el-input v-model="searchForm.searchkeywords" placeholder="请输入客户账号/编码/名称/手机号码/邮箱/微信/QQ" class="disInline"></el-input>
 							</el-form-item>
 						</el-col>
-						<el-col :xs="24" :span="5" :sm="9" :md="8" :lg="4" class="ml20">
+						<el-col :xs="24" :span="4" class="ml20">
 							<el-button type="primary" size="medium">查询</el-button>
 							<el-button size="medium" @click="resetSearch">重置</el-button>
 						</el-col>
@@ -27,7 +25,6 @@
 			<el-button type="primary" size="medium" @click="editModelShow" :disabled="editDisabled"><i class="el-icon-edit-outline"></i>修改</el-button>
 			<el-button type="danger" size="medium" @click="delData" :disabled="delDisabled"><i class="el-icon-delete"></i>删除</el-button>
 			<el-button type="warning" size="medium" @click="exportExcel"><i class="el-icon-document-delete"></i>导出</el-button>
-			<el-input placeholder="搜索" prefix-icon="el-icon-search" class="listSearchInput" @click.native="searchShow" readonly></el-input>
 		</div>
 		<div class="mt10">
 		<el-table v-loading="loading" :data="tableData" id="exportData" style="width: 100%" :header-cell-style="{background:'#fafafa'}" @selection-change="handleSelectionChange">
@@ -37,7 +34,7 @@
 						<el-button type="text" @click="viewModelShow(scope.$index,scope.row)">{{scope.row.Numbers}}</el-button>
 					</template>
 				</el-table-column>
-			    <el-table-column prop="ProductByASIN" label="编码" align="center"></el-table-column>
+			   <el-table-column prop="ProductByASIN" label="编码" align="center"></el-table-column>
 				<el-table-column prop="CountryId" label="名称" align="center"></el-table-column>
 				<el-table-column prop="CountryId" label="性别" align="center"></el-table-column>
 				<el-table-column prop="OrderNumber" label="手机号码" align="center"></el-table-column>
@@ -46,10 +43,15 @@
 				<el-table-column prop="OrderNumber" label="QQ" align="center"></el-table-column>
 				<el-table-column prop="CountryId" label="所属用户" align="center"></el-table-column>
 				<el-table-column prop="ProductPrice" label="余额" align="center" class-name="red"></el-table-column>
-				<el-table-column prop="OrderNote" label="备注" align="center"></el-table-column>
 				<el-table-column prop="OrderNumber" label="最后登录IP" align="center"></el-table-column>
 				<el-table-column prop="OrderTime" label="最后登录时间" align="center"></el-table-column>
 				<el-table-column prop="Status" label="是否可登录" align="center"></el-table-column>
+        <el-table-column label="操作" align="center" width="200">
+        		<template slot-scope="scope">
+        			<el-button size="small" type="success" @click="TkModelShow(scope.$index,scope.row)">退款订单</el-button>
+        			<el-button size="small" type="primary" @click="TxModelShow(scope.$index, scope.row)">提现记录</el-button>
+        		</template>
+        </el-table-column>
 		</el-table>
 		<div class="mt30">
 			<el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage" :page-sizes="[100, 200, 300, 500]" :page-size="10" layout="total, sizes, prev, pager, next, jumper" :total="total">
@@ -146,21 +148,33 @@
 		    <el-button @click="delModel=false" size="medium">取消</el-button>
 		  </span>
 		</el-dialog>
+    <!-- 退款订单 -->
+    <el-dialog title="退款订单" :visible.sync="TkModel" :close-on-click-modal="false" width="90%" top="5vh">
+    	<refundOrder></refundOrder>
+    </el-dialog>
+    <!-- 提现记录 -->
+    <el-dialog title="提现记录" :visible.sync="TxModel" :close-on-click-modal="false" width="90%" top="5vh">
+    	<takeMoneyList></takeMoneyList>
+    </el-dialog>
 	</div>
 </template>
 
 <script>
 	import FileSaver from 'file-saver'
 	import XLSX from 'xlsx'
+
+  import refundOrder from './refundOrder'
+  import takeMoneyList from './takeMoneyList'
 	export default {
 		name: 'customer',
 		data() {
 			return {
 				loading:true,
-				searchModel: false,
 				editModel: false,
 				delModel: false,
 				viewModel: false,
+        TkModel: false, //退款订单
+        TxModel: false, //提现记录
 				editDisabled: true,
 				delDisabled: true,
 				tableData: [],
@@ -230,6 +244,10 @@
 				},
 					}
 				},
+        components:{
+        	refundOrder,
+          takeMoneyList
+        },
 				created() {
 					this.getAllData()
 				},
@@ -245,16 +263,6 @@
 						}).catch((error) => {
 							console.log(error)
 						})
-					},
-					// 检索
-					searchShow() {
-						let _this = this
-						let sear = _this.searchModel
-						if(sear) {
-							_this.searchModel = false
-						} else {
-							_this.searchModel = true
-						}
 					},
 					// 重置
 					resetSearch() {
@@ -336,6 +344,16 @@
 					  let _this = this
 					  _this.delModel = true
 					},
+          // 退款订单
+          TkModelShow () {
+            let _this = this
+            _this.TkModel = true
+          },
+          // 提现订单
+          TxModelShow () {
+            let _this = this
+            _this.TxModel = true
+          },
 					//关闭新增修改弹窗
 					closeModel() {
 						let _this = this
@@ -355,7 +373,7 @@
 							raw: true
 						} // 导出的内容只做解析，不进行格式转换
 						var wb = XLSX.utils.table_to_book(document.querySelector('#exportData'), xlsxParam)
-					
+
 						/* get binary string as output */
 						var wbout = XLSX.write(wb, {
 							bookType: 'xlsx',

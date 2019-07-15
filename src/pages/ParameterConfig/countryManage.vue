@@ -9,12 +9,12 @@
 			<div class="searchBox mb20">
 				<el-form ref="searchForm" :model="searchForm" class="form-item" label-width="80px">
 					<el-row>
-						<el-col :xs="24" :span="7" :sm="9" :md="8" :lg="6">
+						<el-col :xs="24" :span="4">
 							<el-form-item label="国家">
 								<el-input v-model="searchForm.countryId" placeholder="请输入国家" class="disInline"></el-input>
 							</el-form-item>
 						</el-col>
-						<el-col :xs="24" :span="5" :sm="10" :md="8" :lg="5" class="ml20">
+						<el-col :xs="24" :span="4" class="ml20">
 							<el-button type="primary" size="medium">查询</el-button>
 							<el-button size="medium" @click='resetBtn'>重置</el-button>
 						</el-col>

@@ -1,44 +1,43 @@
 <template>
 	<div class="container">
 		<div class="mb20 fz14">
-			<span>系统设置</span>
-			<span>/</span>
 			<span>用户管理</span>
 		</div>
 		<div class="mt10">
 			<el-collapse-transition>
-				<div class="searchBox mb20 pl30" v-show="searchModel">
+				<div class="searchBox mb20 pl30">
 					<el-form ref="searchForm" :model="searchForm" class="form-item" label-width="80px">
 						<el-row :gutter="10">
-							<el-col :xs="24" :span="8">
+							<el-col :xs="24" :span="4">
 								<el-form-item label="登录名">
-									<el-input v-model="searchForm.userLoginName" class="disInline"></el-input>
+									<el-input v-model="searchForm.userLoginName" class="disInline" placeholder="请输入登录名"></el-input>
 								</el-form-item>
 							</el-col>
-							<el-col :xs="24" :span="8">
+							<el-col :xs="24" :span="4">
 								<el-form-item label="姓名 ">
-									<el-input v-model="searchForm.username " class="disInline "></el-input>
+									<el-input v-model="searchForm.username" class="disInline" placeholder="请输入姓名"></el-input>
 								</el-form-item>
 							</el-col>
-							<el-col :xs="24" :span="6">
-								<el-button type="primary " size="medium ">查询</el-button>
-								<el-button size="medium " @click="resetSearch ">重置</el-button>
+							<el-col :xs="24" :span="4" class="ml20">
+								<el-button type="primary" size="medium">查询</el-button>
+								<el-button size="medium" @click="resetSearch ">重置</el-button>
 							</el-col>
 						</el-row>
 					</el-form>
 				</div>
 			</el-collapse-transition>
 			<div class="mb20 ">
-				<el-button type="success " size="medium " @click="addUser "><i class="el-icon-plus "></i>新建</el-button>
-				<el-button type="primary " size="medium " :disabled="disabled " @click="editUser "><i class="el-icon-edit-outline "></i>修改
+				<el-button type="success" size="medium" @click="addUser "><i class="el-icon-plus "></i>新建</el-button>
+				<el-button type="primary" size="medium" :disabled="disabled " @click="editUser "><i class="el-icon-edit-outline"></i>修改
 				</el-button>
-				<el-button type="danger " size="medium " :disabled="disabled " @click="delHandle "><i class="el-icon-delete "></i>删除
+				<el-button type="danger" size="medium" :disabled="disabled " @click="delHandle "><i class="el-icon-delete"></i>删除
 				</el-button>
-				<el-button type="warning " size="medium " @click="importHandle "><i class="el-icon-folder-opened "></i>导入
+				<el-button type="warning" size="medium" @click="importHandle "><i class="el-icon-folder-opened"></i>导入
 				</el-button>
-				<el-button type="primary " size="medium " @click="exportExcel "><i class="el-icon-document-delete "></i>导出
+				<el-button type="primary" size="medium" @click="exportExcel "><i class="el-icon-document-delete"></i>导出
 				</el-button>
-				<el-input placeholder="搜索 " prefix-icon="el-icon-search " class="listSearchInput " @click.native="searchShow" readonly></el-input>
+        <el-button type="success" size="medium" @click="roleModelShow" style="float: right;"><i class="el-icon-set-up"></i>角色管理
+        </el-button>
 			</div>
 			<div class="mt10 ">
 				<el-table v-loading="loading" :data="userData" id="exportOrder" border style="width: 100%" @selection-change="handleSelectionChange">
@@ -54,7 +53,7 @@
 				</div>
 			</div>
 			<!--新建、修改-->
-			<el-dialog :title="title " :visible.sync="userModel " :close-on-click-modal="false" :before-close="cloesUserModel" center width="70% ">
+			<el-dialog :title="title " :visible.sync="userModel " :close-on-click-modal="false" :before-close="cloesUserModel" center width="70%">
 				<el-form :model="userForm " ref="userForm " label-width="100px " :rules="editRules">
 					<el-row>
 						<el-col :span="12 ">
@@ -128,7 +127,7 @@
 									<el-checkbox label="注册账号 " name="type "></el-checkbox>
 									<el-checkbox label="财务 " name="type "></el-checkbox>
 									<el-checkbox label="部门管理员 " name="type "></el-checkbox>
-								</el-checkbox-group>								
+								</el-checkbox-group>
 							</el-form-item>
 						</el-col>
 						<el-col :span="12 ">
@@ -165,6 +164,10 @@
         					<el-button @click="closeImportModel " size="medium ">取消</el-button>
       					</span>
 			</el-dialog>
+      <!--角色管理-->
+      <el-dialog title="角色管理" :visible.sync="roleModel" :close-on-click-modal="false" center width="90%">
+      	<roleManage></roleManage>
+      </el-dialog>
 		</div>
 	</div>
 </template>
@@ -173,15 +176,16 @@
 	import FileSaver from 'file-saver'
 	import XLSX from 'xlsx'
 
+  import roleManage from './roleManage'
 	export default {
 		name: 'userManage',
 		data() {
 			return {
-				searchModel: false,
 				disabled: true,
 				loading: true,
 				delModel: false,
 				importModel: false,
+        roleModel: false,
 				fileList: [],
 				currentPage: 1,
 				pageSize: '0',
@@ -247,6 +251,9 @@
 				}
 			};
 		},
+    components:{
+      roleManage
+    },
 		created() {
 			this.getAllData()
 		},
@@ -259,16 +266,6 @@
 					department: '',
 					userLoginName: '',
 					userName: ''
-				}
-			},
-			//检索
-			searchShow() {
-				let _this = this;
-				let sear = _this.searchModel;
-				if(sear) {
-					_this.searchModel = false;
-				} else {
-					_this.searchModel = true;
 				}
 			},
 			//新建
@@ -311,6 +308,11 @@
 				let _this = this;
 				_this.importModel = true;
 			},
+      //角色管理
+      roleModelShow() {
+      	let _this = this;
+      	_this.roleModel = true;
+      },
 			//关闭导入弹窗
 			closeImportModel() {
 				let _this = this;
