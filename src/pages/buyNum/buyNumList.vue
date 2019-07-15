@@ -649,7 +649,7 @@
 				<el-button @click="virtuaModal=false">取消</el-button>
 			</div>
 		</el-dialog>
-		<!--实体行用卡-->
+		<!--实体信用卡-->
 		<el-dialog title="选择实体信用卡" :visible.sync="entityCardModal" :close-on-click-modal="false" width="70%">
 			<el-form :model="cardData" ref="cardData" class="demo-dynamic" label-width="100px">
 				<el-row>
@@ -680,7 +680,6 @@
 				<el-button type="primary" @click="confirmVirtuaCard">确定</el-button>
 				<el-button @click="entityCardModal=false">取消</el-button>
 			</div>
->>>>>>> 32e2d853ba3f62ad67ae0bd184af9835baa1881d
 		</el-dialog>
 	</div>
 </template>
