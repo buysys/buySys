@@ -1,5 +1,5 @@
 <template>
-	<div class="container">
+	<div class="container">		
 		<div class="mb20 fz14">
 			<span>参数配置</span>
 			<span>/</span>
