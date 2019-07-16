@@ -61,7 +61,7 @@
 			<el-button type="success" size="medium" :disabled="disabled" @click='receiving'><i class="el-icon-check"></i>确认收货
 			</el-button>
 			<el-button type="primary" size="medium"><i class="el-icon-upload2"></i>导入</el-button>
-      <el-button type="primary" size="medium" @click="exportExcel"><i class="el-icon-download"></i>导出</el-button>
+      <el-button type="primary" size="medium"><i class="el-icon-download"></i>导出</el-button>
 		</div>
 		<div class="tabList">
 			<div class="tabLeft">
