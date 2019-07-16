@@ -27,16 +27,16 @@
 				</div>
 			</el-collapse-transition>
 			<div class="mb20 ">
-				<el-button type="success" size="medium" @click="addUser "><i class="el-icon-plus "></i>新建</el-button>
+				<el-button type="success" size="medium" @click="addUser "><i class="el-icon-plus "></i>新增</el-button>
 				<el-button type="primary" size="medium" :disabled="disabled " @click="editUser "><i class="el-icon-edit-outline"></i>修改
 				</el-button>
 				<el-button type="danger" size="medium" :disabled="disabled " @click="delHandle "><i class="el-icon-delete"></i>删除
 				</el-button>
-				<el-button type="warning" size="medium" @click="importHandle "><i class="el-icon-folder-opened"></i>导入
-				</el-button>
-				<el-button type="primary" size="medium" @click="exportExcel "><i class="el-icon-document-delete"></i>导出
-				</el-button>
         <el-button type="success" size="medium" @click="roleModelShow" style="float: right;"><i class="el-icon-set-up"></i>角色管理
+        </el-button>
+        <el-button type="primary" size="medium" @click="importHandle "><i class="el-icon-upload2"></i>导入
+        </el-button>
+        <el-button type="primary" size="medium" @click="exportExcel "><i class="el-icon-download"></i>导出
         </el-button>
 			</div>
 			<div class="mt10 ">
@@ -53,7 +53,7 @@
 				</div>
 			</div>
 			<!--新建、修改-->
-			<el-dialog :title="title " :visible.sync="userModel " :close-on-click-modal="false" :before-close="cloesUserModel" center width="70%">
+			<el-dialog :title="title " :visible.sync="userModel " :close-on-click-modal="false" :before-close="cloesUserModel">
 				<el-form :model="userForm " ref="userForm " label-width="100px " :rules="editRules">
 					<el-row>
 						<el-col :span="12 ">
@@ -136,36 +136,36 @@
 							</el-form-item>
 						</el-col>
 					</el-row>
-					<div class="textCen">
-						<el-button type="primary">确定</el-button>
-						<el-button @click="cloesUserModel">取消</el-button>
-					</div>
 				</el-form>
-			</el-dialog>
+        <div slot="footer" class="dialog-footer">
+          <el-button type="primary">确定</el-button>
+          <el-button @click="cloesUserModel">取消</el-button>
+        </div>
+      </el-dialog>
 			<!--删除-->
-			<el-dialog title="系统提示 " :visible.sync="delModel " :close-on-click-modal="false" center width="16% ">
+			<el-dialog title="系统提示 " :visible.sync="delModel " :close-on-click-modal="false" center width="30%">
 				<div class="del-dialog-cnt textCen ">确认要删除选中用户吗？</div>
-				<span slot="footer " class="dialog-footer ">
-        					<el-button type="primary " size="medium ">是</el-button>
-        					<el-button @click="delModel=false " size="medium ">否</el-button>
-      					</span>
+        <div slot="footer" class="dialog-footer">
+          <el-button type="primary " size="medium ">是</el-button>
+          <el-button @click="delModel=false " size="medium ">否</el-button>
+        </div>
 			</el-dialog>
 			<!--导入数据-->
-			<el-dialog title="导入数据" :visible.sync="importModel" :close-on-click-modal="false" :before-close="closeImportModel " center width="30%">
+			<el-dialog title="导入数据" :visible.sync="importModel" :close-on-click-modal="false" :before-close="closeImportModel " width="30%">
 				<div class="del-dialog-cnt textCen ">
 					<el-upload class="upload-demo " action="https://jsonplaceholder.typicode.com/posts/ " ref="upload " multiple :limit="3 " :file-list="fileList ">
 						<el-button size="mini ">选择文件</el-button>
 						<span slot="tip " class="el-upload__tip ">导入文件不能超过5M，仅允许导入“xls”或“xlsx”格式文件！</span>
 					</el-upload>
 				</div>
-				<span slot="footer " class="dialog-footer ">
-							<el-button size="medium " type="primary " @click="exportExcel ">下载模板</el-button>
-        					<el-button size="medium " type="primary ">确定</el-button>
-        					<el-button @click="closeImportModel " size="medium ">取消</el-button>
-      					</span>
+        <div slot="footer" class="dialog-footer">
+          <el-button size="medium " type="primary " @click="exportExcel ">下载模板</el-button>
+          <el-button size="medium " type="primary ">确定</el-button>
+          <el-button @click="closeImportModel " size="medium ">取消</el-button>
+        </div>
 			</el-dialog>
       <!--角色管理-->
-      <el-dialog title="角色管理" :visible.sync="roleModel" :close-on-click-modal="false" center width="90%">
+      <el-dialog title="角色管理" :visible.sync="roleModel" :close-on-click-modal="false" width="90%">
       	<roleManage></roleManage>
       </el-dialog>
 		</div>
@@ -191,7 +191,7 @@
 				pageSize: '0',
 				total: 100,
 				userModel: false,
-				title: "新建 ",
+				title: "新增",
 				checkBoxData: [],
 				searchForm: {
 					userLoginName: '',

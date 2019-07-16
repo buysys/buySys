@@ -83,7 +83,7 @@
       </div>
 		</el-dialog>
 		<!-- 删除-->
-		<el-dialog title="温馨提示" :visible.sync="delModel" :close-on-click-modal="false" center="" width="30%">
+		<el-dialog title="温馨提示" :visible.sync="delModel" :close-on-click-modal="false" center width="30%">
 		  <div class="del-dialog-cnt textCen">确认要删除该数据吗？</div>
 		  <span slot="footer" class="dialog-footer">
 		    <el-button type="primary" size="medium">是</el-button>
@@ -91,7 +91,7 @@
 		  </span>
 		</el-dialog>
 		<!-- 禁用-->
-		<el-dialog title="温馨提示" :visible.sync="forbidModel" :close-on-click-modal="false" center="" width="30%">
+		<el-dialog title="温馨提示" :visible.sync="forbidModel" :close-on-click-modal="false" center width="30%">
 		  <div class="del-dialog-cnt textCen">确定要禁用吗？</div>
 		  <span slot="footer" class="dialog-footer">
 		    <el-button type="primary" size="medium">是</el-button>
