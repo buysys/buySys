@@ -71,8 +71,9 @@
 					<li :class="active === 3 ? 'active':''" :data-index="3" @click="daifh">待发货<span>(0)</span></li>
 					<li :class="active === 4 ? 'active':''" :data-index="4" @click="daish">待收货<span>(0)</span></li>
 					<li :class="active === 5 ? 'active':''" :data-index="5" @click="daipj">待评价<span>(0)</span></li>
-					<li :class="active === 6 ? 'active':''" :data-index="6" @click="ywc">已完成<span>(0)</span></li>
-					<li :class="active === 7 ? 'active':''" :data-index="7" @click="errData">异常<span>(0)</span></li>
+					<li :class="active === 6 ? 'active':''" :data-index="6" @click="refund">待退款<span>(0)</span></li>
+					<li :class="active === 7 ? 'active':''" :data-index="7" @click="ywc">已完成<span>(0)</span></li>
+					<li :class="active === 8 ? 'active':''" :data-index="8" @click="errData">异常<span>(0)</span></li>
 				</ul>
 			</div>
 			<div class="tabLeft tabStatus" style="position: absolute;right: 20px;">
@@ -752,17 +753,23 @@
 				_this.times = '收货时间'
 				//				_this.orderPlaceData = []
 			},
+			//待退款
+			refund(){
+				let _this =this
+				_this.active = 6
+				_this.times = '申请时间'
+			},
 			// 已完成
 			ywc() {
 				let _this = this
-				_this.active = 6
+				_this.active = 7
 				_this.times = '评价时间'
 				//				_this.orderPlaceData = []
 			},
 			// 异常订单
 			errData() {
 				let _this = this
-				_this.active = 7
+				_this.active = 8
 				_this.times = '异常时间'
 				//				_this.orderPlaceData = []
 			},
