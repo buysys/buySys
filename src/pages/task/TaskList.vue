@@ -127,19 +127,19 @@
 				<el-form-item label='异常备注：'>
 					<el-input type='textarea' v-model='abnormalForm.remark'></el-input>
 				</el-form-item>
-				<el-form-item>
-					<el-button type='primary' @click='confirmAbnormal'>确定</el-button>
-					<el-button @click='abnormalModal=false'>取消</el-button>
-				</el-form-item>
 			</el-form>
+      <div slot="footer" class="dialog-footer">
+      <el-button type="primary" @click="abnormalModal=false">确 定</el-button>
+      <el-button @click="abnormalModal=false">取 消</el-button>
+      </div>
 		</el-dialog>
 		<!--卖家取消-->
 		<el-dialog title="温馨提示" :visible.sync="sellerCancelModal" :close-on-click-modal="false" center width="30%">
 			<div class="del-dialog-cnt textCen">确认要取消任务吗？</div>
 			<span slot="footer" class="dialog-footer">
-                <el-button type="primary" size="medium" @click='confirmSellerCancel'>确定</el-button>
-                <el-button @click="sellerCancelModal=false" size="medium">取消</el-button>
-            </span>
+        <el-button type="primary" size="medium" @click='confirmSellerCancel'>确定</el-button>
+        <el-button @click="sellerCancelModal=false" size="medium">取消</el-button>
+      </span>
 		</el-dialog>
 		<!--确认发货-->
 		<el-dialog title='温馨提示' :visible.sync='confirmDeliveryModal' :close-on-click-modal="false" width='30%'>
@@ -163,7 +163,7 @@
 			</el-form>
 		</el-dialog>
 		<!--温馨提示-->
-		<el-dialog title='提示' :visible.sync='tipsModal' :close-on-click-modal='false' width='25%'>
+		<el-dialog title='温馨提示' :visible.sync='tipsModal' :close-on-click-modal='false' width='25%'>
 			<div class="del-dialog-cnt textCen"><i class='el-icon-warning-outline fz50'></i>{{message}}</div>
 			<span slot="footer" class="dialog-footer">
                <el-button type="primary" size="medium" @click='tipsModal=false'>确定</el-button>
@@ -204,7 +204,7 @@
 			</el-form>
 		</el-dialog>
 		<!--查看任务详情-->
-		<el-dialog :title='orderTitle' :visible.sync="viewTaskDateilsModel" :close-on-click-modal="false" width="90%" top="5vh">
+		<el-dialog :title='orderTitle' :visible.sync="viewTaskDateilsModel" :close-on-click-modal="false" width="90%">
 			<el-form class="demo-item">
 				<div class="fz16">任务信息</div>
 				<el-row>
@@ -334,7 +334,6 @@
 				</el-row>
 				<el-row class="ml60 mb10 mt10">
 					<el-col :span="6" :xs="11" :md="6">
-						<!--<el-form-item label="任务开始时间"></el-form-item>-->
 						<span>任务开始时间</span>
 					</el-col>
 					<el-col :span="6" :xs="2" :md="6" class="mb10">
@@ -359,13 +358,16 @@
 					<span>$23.00</span>
 				</el-form-item>
 			</el-form>
+      <div slot="footer" class="dialog-footer">
+      <el-button @click="viewTaskDateilsModel = false">关 闭</el-button>
+      </div>
 		</el-dialog>
 		<!--日志-->
-		<el-dialog title="订单日志" :visible.sync="logModel" :close-on-click-modal="false" center>
+		<el-dialog title="订单日志" :visible.sync="logModel" :close-on-click-modal="false" width="90%">
 			<OrderLog></OrderLog>
-			<p style="text-align: center;">
-				<el-button @click="logModel=false" size="medium">关闭</el-button>
-			</p>
+			<div slot="footer" class="dialog-footer">
+			<el-button @click="logModel=false">关 闭</el-button>
+			</div>
 		</el-dialog>
     <!--退款-->
     <el-dialog title="订单退款" :visible.sync="refundModel" :close-on-click-modal="false">
@@ -376,11 +378,11 @@
     		<el-form-item label="退款备注">
     			<el-input type="textarea" v-model="editPriceForm.remark"></el-input>
     		</el-form-item>
-    		<el-form-item class="txtCenter">
-    			<el-button type="primary">确定</el-button>
-    			<el-button @click="refundModel=false">取消</el-button>
-    		</el-form-item>
     	</el-form>
+      <div slot="footer" class="dialog-footer">
+      <el-button type="primary" @click="refundModel=false">确 定</el-button>
+      <el-button @click="refundModel = false">取 消</el-button>
+      </div>
     </el-dialog>
 	</div>
 </template>

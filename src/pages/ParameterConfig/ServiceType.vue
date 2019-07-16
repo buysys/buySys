@@ -110,11 +110,11 @@
 				<el-form-item label="产品最大价格" prop="maxPrice">
 					<el-input v-model="editForm.maxPrice"></el-input>
 				</el-form-item>
-				<p class="txtCenter">
-					<el-button type="primary">确定</el-button>
-					<el-button @click="closeModel">取消</el-button>
-				</p>
 			</el-form>
+      <div slot="footer" class="dialog-footer">
+      <el-button type="primary" @click="closeModel=false">确 定</el-button>
+      <el-button @click="closeModel = false">取 消</el-button>
+      </div>
       </div>
       <div v-show="XtModel">
         <el-form :model="editForm" :rules="editRules" label-width="125px" status-icon>
@@ -139,19 +139,19 @@
         	<el-form-item label="服务费" prop="serviceCharge">
         		<el-input v-model="editForm.serviceCharge"></el-input>
         	</el-form-item>
-        	<p class="txtCenter">
-        		<el-button type="primary">确定</el-button>
-        		<el-button @click="closeModel">取消</el-button>
-        	</p>
         </el-form>
+        <div slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="closeModel=false">确 定</el-button>
+        <el-button @click="closeModel = false">取 消</el-button>
+        </div>
       </div>
 		</el-dialog>
 		<!-- 删除-->
 		<el-dialog title="温馨提示" :visible.sync="delModel" :close-on-click-modal="false" center="" width="30%">
 		  <div class="del-dialog-cnt textCen">确认要删除该数据吗？</div>
 		  <span slot="footer" class="dialog-footer">
-		    <el-button type="primary" size="medium">确定</el-button>
-		    <el-button @click="delModel=false" size="medium">取消</el-button>
+		    <el-button type="primary" size="medium">是</el-button>
+		    <el-button @click="delModel=false" size="medium">否</el-button>
 		  </span>
 		</el-dialog>
 		<!-- 导入-->
@@ -348,7 +348,7 @@
 					addModelShow() {
 						let _this = this
 						_this.editModel = true
-						_this.title = '留评类型新增'
+						_this.title = '服务类型新增'
 					},
 					// 修改
 					editModelShow() {
@@ -356,7 +356,7 @@
 						_this.editModel = true
 						let item = _this.checkBoxData[0]
 						let num = item.Numbers
-						_this.title = num + ' 留评类型修改'
+						_this.title = num + ' 服务类型修改'
 						_this.editForm.ascriptionType = '1'
 						_this.editForm.platform = '1'
 						_this.editForm.country = item.CountryId;

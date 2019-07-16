@@ -63,8 +63,8 @@
 		<el-dialog title="确认付款" :visible.sync="okModel" :close-on-click-modal="false" center="" width="30%" :modal-append-to-body="false" :append-to-body="true">
 		  <div class="del-dialog-cnt textCen">确定要付款选中的数据吗？</div>
 		  <span slot="footer" class="dialog-footer">
-		    <el-button type="primary" size="medium">确定</el-button>
-		    <el-button @click="okModel=false" size="medium">取消</el-button>
+		    <el-button type="primary" size="medium">是</el-button>
+		    <el-button @click="okModel=false" size="medium">否</el-button>
 		  </span>
 		</el-dialog>
 		<!-- 查看 -->
@@ -89,8 +89,10 @@
 				<el-row>
 					<el-col :span="24" :xs="24"><el-form-item label="备注:"><label>{{viewForm.remark}}</label></el-form-item></el-col>
 				</el-row>
-				<p class="txtCenter"><el-button @click="viewModel=false">关闭</el-button></p>
 			</el-form>
+      <div slot="footer" class="dialog-footer">
+      <el-button @click="viewModel=false">关 闭</el-button>
+      </div>
 		</el-dialog>
 	</div>
 </template>

@@ -18,7 +18,7 @@
 			</div>
 		</el-collapse-transition>
 		<div class="mb20">
-			<el-button type="success" size="medium" @click="addService"><i class="el-icon-plus"></i>新建</el-button>
+			<el-button type="success" size="medium" @click="addService"><i class="el-icon-plus"></i>新增</el-button>
 			<el-button type="primary" size="medium" :disabled="disabled" @click="editService"><i class="el-icon-edit-outline"></i>修改
 			</el-button>
 			<el-button type="danger" size="medium" :disabled="disabled" @click="delHandel"><i class="el-icon-delete"></i>删除
@@ -72,11 +72,11 @@
 				<el-form-item label='备注'>
 					<el-input v-model='currencyForm.remark'></el-input>
 				</el-form-item>
-				<el-form-item class='txtCenter'>
-					<el-button type='primary' @click="submitForm('currencyForm')">确定</el-button>
-					<el-button @click='closeModal'>取消</el-button>
-				</el-form-item>
 			</el-form>
+      <div slot="footer" class="dialog-footer">
+      <el-button type="primary" @click="submitForm('currencyForm')">确 定</el-button>
+      <el-button @click="addCurrencyModal = false">取 消</el-button>
+      </div>
 		</el-dialog>
 		<!--查看详情-->
 		<el-dialog title='货币汇率详情信息' :visible.sync='viewCurrencyModal' :close-on-click-modal='false'>

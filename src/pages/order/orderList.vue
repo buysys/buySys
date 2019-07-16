@@ -109,21 +109,21 @@
 				<el-form-item label="备注">
 					<el-input type="textarea" v-model="editPriceForm.remark"></el-input>
 				</el-form-item>
-				<el-form-item>
-					<el-button type="primary">确定</el-button>
-					<el-button @click="closeModel">取消</el-button>
-				</el-form-item>
 			</el-form>
+      <div slot="footer" class="dialog-footer">
+      <el-button type="primary" @click="editPricceModel=false">确 定</el-button>
+      <el-button @click="editPricceModel = false">取 消</el-button>
+      </div>
 		</el-dialog>
 		<!--日志-->
-		<el-dialog title="订单日志" :visible.sync="logModel" :close-on-click-modal="false" center>
+		<el-dialog title="订单日志" :visible.sync="logModel" :close-on-click-modal="false" width="90%">
 			<OrderLog></OrderLog>
-			<p style="text-align: center;">
-				<el-button @click="logModel=false" size="medium">关闭</el-button>
-			</p>
+      <div slot="footer" class="dialog-footer">
+      <el-button @click="logModel = false">关 闭</el-button>
+      </div>
 		</el-dialog>
 		<!-- 确认付款-->
-		<el-dialog title="温馨提示" :visible.sync="confirmPaymentModel" :close-on-click-modal="false" center="" width="30%">
+		<el-dialog title="温馨提示" :visible.sync="confirmPaymentModel" :close-on-click-modal="false" center width="30%">
 			<div class="del-dialog-cnt textCen">确认要修改该订单付款状态吗？</div>
 			<span slot="footer" class="dialog-footer">
 			<el-button type="primary" size="medium">是</el-button>
@@ -131,8 +131,12 @@
 			</span>
 		</el-dialog>
 		<!--查看任务详情-->
-		<el-dialog :title='orderTitle' :visible.sync="viewTaskDateilsModel" :close-on-click-modal="false" width="90%" top="5vh">
+		<el-dialog :title='orderTitle' :visible.sync="viewTaskDateilsModel" :close-on-click-modal="false" width="90%">
 			<orderDetail :order-data="this.orderDetail"></orderDetail>
+      <div slot="footer" class="dialog-footer">
+      <el-button @click="viewTaskDateilsModel = false">关 闭</el-button>
+      </div>
+    </el-dialog>
 		</el-dialog>
 		<!-- 删除-->
 		<el-dialog title="温馨提示" :visible.sync="delModel" :close-on-click-modal="false" center width="30%">
@@ -146,9 +150,6 @@
 </template>
 
 <script>
-	// import { compareDown } from "@/config/mUtils";
-	// import { exportTb } from '@/config/mUtils';
-	// import { getStore } from "@/config/mUtils";
 	import FileSaver from 'file-saver'
 	import XLSX from 'xlsx'
 

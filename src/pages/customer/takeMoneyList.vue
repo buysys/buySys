@@ -56,20 +56,20 @@
 		</div>
 		</div>
 		<!-- 确认付款-->
-		<el-dialog title="确认付款" :visible.sync="okModel" :close-on-click-modal="false" center="" width="30%" :modal-append-to-body="false" :append-to-body="true">
+		<el-dialog title="确认付款" :visible.sync="okModel" :close-on-click-modal="false" center width="30%" :modal-append-to-body="false" :append-to-body="true">
 		  <div class="del-dialog-cnt textCen">确定要付款选中的数据吗？</div>
-		  <span slot="footer" class="dialog-footer">
-		    <el-button type="primary" size="medium">确定</el-button>
-		    <el-button @click="okModel=false" size="medium">取消</el-button>
-		  </span>
+		  <div slot="footer" class="dialog-footer">
+		    <el-button type="primary" size="medium">是</el-button>
+		    <el-button @click="okModel=false" size="medium">否</el-button>
+		  </div>
 		</el-dialog>
 		<!-- 付款失败-->
-		<el-dialog title="付款失败原因" :visible.sync="errModel" :close-on-click-modal="false" center="" width="30%" :modal-append-to-body="false" :append-to-body="true">
-			<el-input type="textarea" v-model='errRemrk'></el-input>
-			<span slot="footer" class="dialog-footer">
+		<el-dialog title="付款失败原因" :visible.sync="errModel" :close-on-click-modal="false" center width="30%" :modal-append-to-body="false" :append-to-body="true">
+			<el-input type="textarea" v-model='errRemrk' autofocus="true"></el-input>
+			<div slot="footer" class="dialog-footer">
 		    <el-button type="primary" size="medium">确定</el-button>
 		    <el-button @click="errModel=false" size="medium">取消</el-button>
-			</span>
+			</div>
 		</el-dialog>
 	</div>
 </template>
