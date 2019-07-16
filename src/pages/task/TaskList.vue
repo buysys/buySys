@@ -597,7 +597,7 @@
 			supplementSheet() {
 				let _this = this
 				let status = _this.active
-				if(status != 7) {
+				if(status != 8) {
 					_this.tipsModal = true
 					_this.message = '补单的任务状态必须为订单异常,请重新选择'
 				} else {
