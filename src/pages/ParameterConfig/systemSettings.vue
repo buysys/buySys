@@ -14,7 +14,7 @@
 				<li :class="active === 5 ? 'active':''" @click="platformHandle">平台管理</li>
 				<li :class="active === 6 ? 'active':''" @click="ipHandle">IP管理</li>
 				<li :class="active === 7 ? 'active':''" @click="autoShareHandle">自动分配</li>
-				<li :class="active === 8 ? 'active':''" @click="takeMoneyHandle">提现设置</li>
+				<li :class="active === 8 ? 'active':''" @click="takeMoneyHandle">提现配置</li>
 			</ul>
 		</div>
 		<div v-show="serviceType">
@@ -182,7 +182,7 @@
 				_this.autoShare = false
 				_this.takeMoneySet = true
 				_this.active = 8
-				_this.title = '提现设置'
+				_this.title = '提现配置'
 			}
 		},
 	}

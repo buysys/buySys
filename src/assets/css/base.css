@@ -118,8 +118,8 @@ ul{
   left: 50%;
   margin: 0 !important;
   transform: translate(-50%, -50%);
-  max-height: calc(100% - 30px);
-  max-width: calc(100% - 30px);
+  max-height: calc(100% - 50px);
+  max-width: calc(100% - 50px);
   display: flex;
   flex-direction: column
 }
@@ -132,8 +132,11 @@ ul{
 }
 /* 固定大小模态框(dia-log标签添加custom-class="fixed-dialog")*/
 .fixed-dialog{
-  height: calc(100% - 30px);
-  width: calc(100% - 30px);
+  height: calc(100% - 50px);
+  width: calc(100% - 50px);
+}
+.fixed-dialog > .el-dialog__body{
+  margin-bottom: 60px;
 }
 .fixed-dialog > .el-dialog__footer{
   width: 100%;

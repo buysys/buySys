@@ -164,14 +164,14 @@
       </div>
 		</el-dialog>
 		<!--温馨提示-->
-		<el-dialog title='温馨提示' :visible.sync='tipsModal' :close-on-click-modal='false' width='25%'>
+		<el-dialog title='温馨提示' :visible.sync='tipsModal' :close-on-click-modal='false' width='30%'>
 			<div class="del-dialog-cnt textCen"><i class='el-icon-warning-outline fz50'></i>{{message}}</div>
 			<span slot="footer" class="dialog-footer">
         <el-button size="medium" @click='tipsModal=false'>关闭</el-button>
       </span>
 		</el-dialog>
 		<!--补单-->
-		<el-dialog title='补单' :visible.sync="sheetModal" :close-on-click-modal="false" width="90%">
+		<el-dialog title='补单' :visible.sync="sheetModal" :close-on-click-modal="false" width="90%" custom-class="fixed-dialog">
 			<SupplementSheet :post-title='this.test'></SupplementSheet>
       <div slot="footer" class="dialog-footer">
       <el-button type="primary" @click='confirmSheet'>确 定</el-button>
@@ -179,7 +179,7 @@
       </div>
 		</el-dialog>
 		<!-- 重新分配买号-->
-		<el-dialog title="重新分配买号" :visible.sync="accountModel" width="90%" :close-on-click-modal="false">
+		<el-dialog title="重新分配买号" :visible.sync="accountModel" :close-on-click-modal="false" width="90%" custom-class="fixed-dialog">
 			<buyNum v-on:listenTochildEvent="showMessageFromChild"></buyNum>
       <div slot="footer" class="dialog-footer">
       <el-button type="primary">确 定</el-button>
@@ -205,7 +205,7 @@
       </div>
 		</el-dialog>
 		<!--查看任务详情-->
-		<el-dialog :title='orderTitle' :visible.sync="viewTaskDateilsModel" :close-on-click-modal="false" width="90%">
+		<el-dialog :title='orderTitle' :visible.sync="viewTaskDateilsModel" :close-on-click-modal="false" width="90%" custom-class="fixed-dialog">
 			<el-form class="demo-item">
 				<div class="fz16">任务信息</div>
 				<el-row>
@@ -364,7 +364,7 @@
       </div>
 		</el-dialog>
 		<!--日志-->
-		<el-dialog title="订单日志" :visible.sync="logModel" :close-on-click-modal="false" width="90%">
+		<el-dialog title="订单日志" :visible.sync="logModel" :close-on-click-modal="false" width="90%" custom-class="fixed-dialog">
 			<OrderLog></OrderLog>
 			<div slot="footer" class="dialog-footer">
 			<el-button @click="logModel=false">关 闭</el-button>
