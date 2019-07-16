@@ -21,9 +21,9 @@
 			<el-button type="success" size="medium" @click="addModelShow"><i class="el-icon-plus"></i>新增</el-button>
 			<el-button type="primary" size="medium" @click="editModelShow" :disabled="editDisabled"><i class="el-icon-edit-outline"></i>修改</el-button>
 			<el-button type="danger" size="medium" @click="delData" :disabled="delDisabled"><i class="el-icon-delete"></i>删除</el-button>
-			<el-button type="primary" size="medium" @click="glModelShow" :disabled="editDisabled"><i class="el-icon-sort"></i>关联国家</el-button>
-			<el-button type="primary" size="medium" @click="drModelShow"><i class="el-icon-caret-right"></i>导入</el-button>
-			<el-button type="warning" size="medium"><i class="el-icon-document-delete"></i>导出</el-button>
+			<el-button type="warning" size="medium" @click="glModelShow" :disabled="editDisabled"><i class="el-icon-sort"></i>关联国家</el-button>
+      <el-button type="primary" size="medium" @click="drModelShow"><i class="el-icon-upload2"></i>导入</el-button>
+      <el-button type="primary" size="medium" @click="exportExcel"><i class="el-icon-download"></i>导出</el-button>
 		</div>
 		<div class="mt10">
 		<el-table v-loading="loading" :data="tableData" id="exportData" style="width: 100%" :header-cell-style="{background:'#fafafa'}" @selection-change="handleSelectionChange">
@@ -45,20 +45,20 @@
 		<el-dialog :title="title" :visible.sync="editModel" :close-on-click-modal="false" :before-close="closeModel">
 			<el-form :model="editForm" :rules="editRules" label-width="125px" status-icon>
 				<el-form-item label="平台" prop="name">
-					<el-input v-model="editForm.name"></el-input>
+					<el-input v-model="editForm.name" autofocus="true"></el-input>
 				</el-form-item>
-				<p class="txtCenter">
-					<el-button type="primary">确定</el-button>
-					<el-button @click="closeModel">取消</el-button>
-				</p>
 			</el-form>
+      <div slot="footer" class="dialog-footer">
+      <el-button type="primary" @click="editModel=false">确 定</el-button>
+      <el-button @click="editModel = false">取 消</el-button>
+      </div>
 		</el-dialog>
 		<!-- 删除-->
 		<el-dialog title="温馨提示" :visible.sync="delModel" :close-on-click-modal="false" center width="30%">
 		  <div class="del-dialog-cnt textCen">确认要删除该数据吗？</div>
 		  <span slot="footer" class="dialog-footer">
-		    <el-button type="primary" size="medium">确定</el-button>
-		    <el-button @click="delModel=false" size="medium">取消</el-button>
+		    <el-button type="primary" size="medium">是</el-button>
+		    <el-button @click="delModel=false" size="medium">否</el-button>
 		  </span>
 		</el-dialog>
 		<!-- 关联国家-->
@@ -90,10 +90,10 @@
 		  		</el-pagination>
 		  	</div>
 		  	</div>
-		  <span slot="footer" class="dialog-footer">
+		  <div slot="footer" class="dialog-footer">
 		    <el-button type="primary" size="medium">确定</el-button>
 		    <el-button @click="glModel=false" size="medium">取消</el-button>
-		  </span>
+		  </div>
 		</el-dialog>
 		<!-- 导入-->
 		<el-dialog title="导入数据" :visible.sync="drModel" :close-on-click-modal="false" center width="30%">
@@ -138,34 +138,33 @@
 		  		</el-pagination>
 		  	</div>
 		  	</div>
-		  <span slot="footer" class="dialog-footer">
+		  <div slot="footer" class="dialog-footer">
 		    <el-button type="primary" size="medium">确定</el-button>
 		    <el-button @click="glListModel=false" size="medium">取消</el-button>
-		  </span>
+		  </div>
 		</el-dialog>
 		<!-- 解除关联-->
 		<el-dialog title="温馨提示" :visible.sync="jcModel" :close-on-click-modal="false" center width="30%">
 		  <div class="del-dialog-cnt textCen">确认要解除关联吗？</div>
 		  <span slot="footer" class="dialog-footer">
-		    <el-button type="primary" size="medium">确定</el-button>
-		    <el-button @click="jcModel=false" size="medium">取消</el-button>
+		    <el-button type="primary" size="medium">是</el-button>
+		    <el-button @click="jcModel=false" size="medium">否</el-button>
 		  </span>
 		</el-dialog>
 		<!-- 绑定网址-->
 		<el-dialog title="绑定网址" :visible.sync="bindModel" :close-on-click-modal="false" center width="30%">
-			<el-input v-model='webAddres' placeholder="请输入网址"></el-input>
-			<span slot="footer" class="dialog-footer">
+			<el-input v-model='webAddres' placeholder="请输入网址" autofocus="true"></el-input>
+			<div slot="footer" class="dialog-footer">
 		    <el-button type="primary" size="medium">确定</el-button>
 		    <el-button @click="bindModel=false" size="medium">取消</el-button>
-			</span>
+			</div>
 		</el-dialog>
 		<!-- 订单任务 -->
 		<el-dialog title="查看任务" :visible.sync="OrderTaskModel" :close-on-click-modal="false" width="60%">
 			<OrderTask></OrderTask>
-			<span slot="footer" class="dialog-footer">
-		    <el-button type="primary" size="medium">确定</el-button>
-		    <el-button @click="OrderTaskModel=false" size="medium">取消</el-button>
-			</span>
+			<div slot="footer" class="dialog-footer">
+		    <el-button @click="OrderTaskModel=false" size="medium">关闭</el-button>
+			</div>
 		</el-dialog>
 	</div>
 </template>

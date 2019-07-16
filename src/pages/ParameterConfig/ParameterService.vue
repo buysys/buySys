@@ -40,13 +40,13 @@
       <el-button @click="addServiceModal = false">取 消</el-button>
       </div>
 		</el-dialog>
-		<!--删除-->
-		<el-dialog title='系统提示' :visible.sync='delServiceModal' :close-on-click-modal='false' width='25%'>
-			<div class="del-dialog-cnt textCen"><i class='el-icon-warning-outline fz50'></i>确认要删除该增值服务费记录吗？</div>
-			<span slot="footer" class="dialog-footer">
-                <el-button type="primary" size="medium">确定</el-button>
-                <el-button @click="delServiceModal=false" size="medium">取消</el-button>
-            </span>
+		<!-- 删除-->
+		<el-dialog title="温馨提示" :visible.sync="delServiceModal" :close-on-click-modal="false" center width="30%">
+		  <div class="del-dialog-cnt textCen">确认要删除该数据吗？</div>
+		  <span slot="footer" class="dialog-footer">
+		    <el-button type="primary" size="medium">是</el-button>
+		    <el-button @click="delServiceModal=false" size="medium">否</el-button>
+		  </span>
 		</el-dialog>
 	</div>
 </template>
@@ -100,13 +100,13 @@
 			addService() {
 				let _this = this
 				_this.addServiceModal = true
-				_this.serviceTitle = '新增'
+				_this.serviceTitle = '增值服务费新增'
 			},
 			//修改弹窗
 			editService() {
 				let _this = this
 				_this.addServiceModal = true
-				_this.serviceTitle = '修改'
+				_this.serviceTitle = '增值服务费修改'
 			},
 			//关闭新增弹窗
 			closeModal() {

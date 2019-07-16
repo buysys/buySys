@@ -184,7 +184,6 @@
 				_this.active = 8
 				_this.title = '提现设置'
 			}
-
 		},
 	}
 </script>
