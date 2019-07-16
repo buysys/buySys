@@ -60,8 +60,8 @@
 			</el-button>
 			<el-button type="success" size="medium" :disabled="disabled" @click='receiving'><i class="el-icon-check"></i>确认收货
 			</el-button>
-			<el-button type="primary" size="medium"><i class="el-icon-folder-opened"></i>导入</el-button>
-			<el-button type="primary" size="medium"><i class="el-icon-document-delete"></i>导出</el-button>
+			<el-button type="primary" size="medium"><i class="el-icon-upload2"></i>导入</el-button>
+      <el-button type="primary" size="medium" @click="exportExcel"><i class="el-icon-download"></i>导出</el-button>
 		</div>
 		<div class="tabList">
 			<div class="tabLeft">
@@ -137,18 +137,18 @@
 		<el-dialog title="温馨提示" :visible.sync="sellerCancelModal" :close-on-click-modal="false" center width="30%">
 			<div class="del-dialog-cnt textCen">确认要取消任务吗？</div>
 			<span slot="footer" class="dialog-footer">
-        <el-button type="primary" size="medium" @click='confirmSellerCancel'>确定</el-button>
-        <el-button @click="sellerCancelModal=false" size="medium">取消</el-button>
+        <el-button type="primary" size="medium" @click='confirmSellerCancel'>是</el-button>
+        <el-button @click="sellerCancelModal=false" size="medium">否</el-button>
       </span>
 		</el-dialog>
 		<!--确认发货-->
 		<el-dialog title='温馨提示' :visible.sync='confirmDeliveryModal' :close-on-click-modal="false" width='30%'>
 			<div class="del-dialog-cnt textCen">{{tipMessage}}</div>
 			<span slot="footer" class="dialog-footer">
-                <el-button type="primary" size="medium" @click='confirmDeliver' v-if='deliverShow'>确定</el-button>
-                <el-button type="primary" size="medium" @click='confirmDeliver' v-else>确定</el-button>
-                <el-button @click="confirmDeliveryModal=false" size="medium">取消</el-button>
-            </span>
+        <el-button type="primary" size="medium" @click='confirmDeliver' v-if='deliverShow'>确定</el-button>
+        <el-button type="primary" size="medium" @click='confirmDeliver' v-else>确定</el-button>
+        <el-button @click="confirmDeliveryModal=false" size="medium">取消</el-button>
+      </span>
 		</el-dialog>
 		<!--修改执行时间-->
 		<el-dialog title='修改执行时间' :visible.sync='updateTimeModal' :close-on-click-modal='false' width='30%'>
@@ -156,34 +156,34 @@
 				<el-form-item label='执行时间'>
 					<el-date-picker v-model='timeForm.times' type='date' placeholder='请选择时间' :picker-options="pickerUpdateDate" value-format="yyyy-MM-dd"></el-date-picker>
 				</el-form-item>
-				<el-form-item class='modelRight'>
-					<el-button type='primary' @click='confirmTime'>确定</el-button>
-					<el-button @click='updateTimeModal=false'>取消</el-button>
-				</el-form-item>
 			</el-form>
+      <div slot="footer" class="dialog-footer">
+      <el-button type="primary" @click='confirmTime'>确 定</el-button>
+      <el-button @click="updateTimeModal = false">取 消</el-button>
+      </div>
 		</el-dialog>
 		<!--温馨提示-->
 		<el-dialog title='温馨提示' :visible.sync='tipsModal' :close-on-click-modal='false' width='25%'>
 			<div class="del-dialog-cnt textCen"><i class='el-icon-warning-outline fz50'></i>{{message}}</div>
 			<span slot="footer" class="dialog-footer">
-               <el-button type="primary" size="medium" @click='tipsModal=false'>确定</el-button>
-             </span>
+        <el-button size="medium" @click='tipsModal=false'>关闭</el-button>
+      </span>
 		</el-dialog>
 		<!--补单-->
 		<el-dialog title='补单' :visible.sync="sheetModal" :close-on-click-modal="false" width="90%">
 			<SupplementSheet :post-title='this.test'></SupplementSheet>
-			<div class="modelRight mt20">
-				<el-button type='primary' @click='confirmSheet'>确定</el-button>
-				<el-button @click='sheetModal=false'>取消</el-button>
-			</div>
+      <div slot="footer" class="dialog-footer">
+      <el-button type="primary" @click='confirmSheet'>确 定</el-button>
+      <el-button @click="sheetModal = false">取 消</el-button>
+      </div>
 		</el-dialog>
 		<!-- 重新分配买号-->
 		<el-dialog title="重新分配买号" :visible.sync="accountModel" width="90%" :close-on-click-modal="false">
 			<buyNum v-on:listenTochildEvent="showMessageFromChild"></buyNum>
-			<div class="mt20 modelRight">
-				<el-button type="primary" @click="confirmCountry">确定</el-button>
-				<el-button @click="accountModel=false">取消</el-button>
-			</div>
+      <div slot="footer" class="dialog-footer">
+      <el-button type="primary">确 定</el-button>
+      <el-button @click="accountModel = false">取 消</el-button>
+      </div>
 		</el-dialog>
 		<!-- 修改价格-->
 		<el-dialog title="修改价格" :visible.sync="editPricceModel" :close-on-click-modal="false" :before-close="closeModel">
@@ -197,11 +197,11 @@
 				<el-form-item label="备注">
 					<el-input type="textarea" v-model="editPriceForm.remark"></el-input>
 				</el-form-item>
-				<el-form-item>
-					<el-button type="primary">确定</el-button>
-					<el-button @click="closeModel">取消</el-button>
-				</el-form-item>
 			</el-form>
+      <div slot="footer" class="dialog-footer">
+      <el-button type="primary">确 定</el-button>
+      <el-button @click="closeModel = false">取 消</el-button>
+      </div>
 		</el-dialog>
 		<!--查看任务详情-->
 		<el-dialog :title='orderTitle' :visible.sync="viewTaskDateilsModel" :close-on-click-modal="false" width="90%">

@@ -35,8 +35,8 @@
 			<el-button type="success" size="medium" @click="addModelShow"><i class="el-icon-plus"></i>新增</el-button>
 			<el-button type="primary" size="medium" @click="editModelShow" :disabled="editDisabled"><i class="el-icon-edit-outline"></i>修改</el-button>
 			<el-button type="danger" size="medium" @click="delData" :disabled="delDisabled"><i class="el-icon-delete"></i>删除</el-button>
-			<el-button type="primary" size="medium" @click="drModelShow"><i class="el-icon-caret-right"></i>导入</el-button>
-			<el-button type="warning" size="medium" @click="exportExcel"><i class="el-icon-document-delete"></i>导出</el-button>
+      <el-button type="primary" size="medium" @click="drModelShow"><i class="el-icon-upload2"></i>导入</el-button>
+      <el-button type="primary" size="medium" @click="exportExcel"><i class="el-icon-download"></i>导出</el-button>
 		</div>
 		<div class="mt10">
 		<el-table v-loading="loading" :data="tableData" id="exportData" style="width: 100%" :header-cell-style="{background:'#fafafa'}" @selection-change="handleSelectionChange">
@@ -111,10 +111,6 @@
 					<el-input v-model="editForm.maxPrice"></el-input>
 				</el-form-item>
 			</el-form>
-      <div slot="footer" class="dialog-footer">
-      <el-button type="primary" @click="closeModel=false">确 定</el-button>
-      <el-button @click="closeModel = false">取 消</el-button>
-      </div>
       </div>
       <div v-show="XtModel">
         <el-form :model="editForm" :rules="editRules" label-width="125px" status-icon>
@@ -140,10 +136,10 @@
         		<el-input v-model="editForm.serviceCharge"></el-input>
         	</el-form-item>
         </el-form>
-        <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="closeModel=false">确 定</el-button>
-        <el-button @click="closeModel = false">取 消</el-button>
-        </div>
+      </div>
+      <div slot="footer" class="dialog-footer">
+      <el-button type="primary" @click="editModel=false">确 定</el-button>
+      <el-button @click="editModel = false">取 消</el-button>
       </div>
 		</el-dialog>
 		<!-- 删除-->

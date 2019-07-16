@@ -48,8 +48,8 @@
 		<div class="mb20">
 			<el-button type="success" size="medium" :disabled="disabled" @click="editPrice"><i class="el-icon-edit-outline"></i>修改价格
 			</el-button>
-			<el-button type="primary" size="medium"><i class="el-icon-folder-opened"></i>导入</el-button>
-			<el-button type="primary" size="medium" @click="exportExcel"><i class="el-icon-document-delete"></i>导出</el-button>
+      <el-button type="primary" size="medium"><i class="el-icon-upload2"></i>导入</el-button>
+      <el-button type="primary" size="medium" @click="exportExcel"><i class="el-icon-download"></i>导出</el-button>
 		</div>
 		<div class="tabList">
 			<ul class="tabBlock">

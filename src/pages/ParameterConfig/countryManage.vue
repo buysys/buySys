@@ -18,15 +18,13 @@
 			</div>
 		</el-collapse-transition>
 		<div class="mb20">
-			<el-button type="success" size="medium" @click="addService"><i class="el-icon-plus"></i>新建</el-button>
+			<el-button type="success" size="medium" @click="addService"><i class="el-icon-plus"></i>新增</el-button>
 			<el-button type="primary" size="medium" :disabled="disabled" @click="editService"><i class="el-icon-edit-outline"></i>修改
 			</el-button>
 			<el-button type="danger" size="medium" :disabled="disabled" @click="delHandel"><i class="el-icon-delete"></i>删除
 			</el-button>
-			<el-button type="warning" size="medium" :disabled="disabled"><i class="el-icon-folder-opened"></i>导入
-			</el-button>
-			<el-button type="warning" size="medium" :disabled="disabled" @click='exportExcel'><i class="el-icon-document-delete"></i>导出
-			</el-button>
+      <el-button type="primary" size="medium"><i class="el-icon-upload2"></i>导入</el-button>
+      <el-button type="primary" size="medium" :disabled="disabled" @click="exportExcel"><i class="el-icon-download"></i>导出</el-button>
 		</div>
 		<div class="mt10">
 			<el-table :data="countryData" v-model='loading' border style="width: 100%" height='500' id='exportOrder' @selection-change="handleSelectionChange">
@@ -75,11 +73,11 @@
 				<el-form-item label='备注'>
 					<el-input v-model='countryForm.remark'></el-input>
 				</el-form-item>
-				<el-form-item class='txtCenter'>
-					<el-button type='primary'>确定</el-button>
-					<el-button @click='closeModal'>取消</el-button>
-				</el-form-item>
 			</el-form>
+      <div slot="footer" class="dialog-footer">
+      <el-button type="primary" @click="addCountryModal=false">确 定</el-button>
+      <el-button @click="addCountryModal = false">取 消</el-button>
+      </div>
 		</el-dialog>
 		<!--查看详情-->
 		<el-dialog title='国家管理详情信息' :visible.sync='viewCountryModal' :close-on-click-modal='false'>
@@ -108,19 +106,19 @@
 				<el-form-item label='备注：'>
 					<span>{{countryForm.remark}}</span>
 				</el-form-item>
-				<el-form-item class='txtCenter'>
-					<el-button type='primary' @click='viewCountryModal=false'>关闭</el-button>
-				</el-form-item>
 			</el-form>
+      <div slot="footer" class="dialog-footer">
+      <el-button @click="viewCountryModal=false">关 闭</el-button>
+      </div>
 		</el-dialog>
-		<!--删除-->
-		<el-dialog title='系统提示' :visible.sync='delCountryModal' :close-on-click-modal='false' width='25%'>
-			<div class="del-dialog-cnt textCen"><i class='el-icon-warning-outline fz50'></i>确认要删除该国家记录吗？</div>
-			<span slot="footer" class="dialog-footer">
-                <el-button type="primary" size="medium" @click="submitCountry('countryForm')">确定</el-button>
-                <el-button @click="delCountryModal=false" size="medium">取消</el-button>
-            </span>
-		</el-dialog>
+    <!-- 删除-->
+    <el-dialog title="温馨提示" :visible.sync="delCountryModal" :close-on-click-modal="false" center width="30%">
+      <div class="del-dialog-cnt textCen">确认要删除该数据吗？</div>
+      <span slot="footer" class="dialog-footer">
+        <el-button type="primary" size="medium" @click="submitCountry('countryForm')">是</el-button>
+        <el-button @click="delCountryModal=false" size="medium">否</el-button>
+      </span>
+    </el-dialog>
 	</div>
 </template>
 
@@ -239,13 +237,13 @@
 			addService() {
 				let _this = this
 				_this.addCountryModal = true
-				_this.serviceTitle = '新建'
+				_this.serviceTitle = '国家新增'
 			},
 			//修改弹窗
 			editService() {
 				let _this = this
 				_this.addCountryModal = true
-				_this.serviceTitle = '修改'
+				_this.serviceTitle = '国家修改'
 			},
 			//关闭新增弹窗
 			closeModal() {
