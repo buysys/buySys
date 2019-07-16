@@ -23,19 +23,19 @@
 			</div>
 		</el-collapse-transition>
 		<div class="mb20">
-			<el-button type="success" size="medium" @click="addLevel"><i class="el-icon-plus"></i>新建</el-button>
+			<el-button type="success" size="medium" @click="addLevel"><i class="el-icon-plus"></i>新增</el-button>
 			<el-button type="primary" size="medium" :disabled="disabled" @click="editLevel"><i class="el-icon-edit-outline"></i>修改
 			</el-button>
 			<el-button type="danger" size="medium" :disabled="disabled" @click="delHandel"><i class="el-icon-delete"></i>删除
-			</el-button>
-			<el-button type="warning" size="medium" @click="importHandle"><i class="el-icon-folder-opened"></i>导入
-			</el-button>
-			<el-button type="primary" size="medium" @click="exportExcel"><i class="el-icon-document-delete"></i>导出
 			</el-button>
 			<el-button type="primary" size="medium" @click="reserCardHandel" :disabled="disabled"><i class="el-icon-takeaway-box"></i>重置虚拟卡
 			</el-button>
 			<el-button type="primary" size="medium" @click="quotaHandle" :disabled="disabled"><i class="el-icon-edit-outline"></i>修改额度
 		</el-button>
+    <el-button type="primary" size="medium" @click="importHandle"><i class="el-icon-upload2"></i>导入
+    </el-button>
+    <el-button type="primary" size="medium" @click="exportExcel"><i class="el-icon-download"></i>导出
+    </el-button>
 		</div>
 		<div class="mt10">
 			<el-table v-loading="loading" :data="buyNumData" id="exportOrder" border style="width: 100%" @selection-change="handleSelectionChange">
@@ -126,65 +126,65 @@
 						</div>
 					</el-tab-pane>
 				</el-tabs>
-				<div class="textCen">
-					<el-button type="primary">确定</el-button>
-					<el-button @click="closeModel">取消</el-button>
-				</div>
 			</el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button type="primary">确 定</el-button>
+        <el-button @click="closeModel">取 消</el-button>
+      </div>
 		</el-dialog>
 		<!-- 删除-->
 		<el-dialog title="系统提示" :visible.sync="delModel" :close-on-click-modal="false" center width="30%">
 			<div class="del-dialog-cnt textCen">此操作会删除信用卡和买号绑定关系，<br /><br />确认要删除该信用卡管理记录吗？</div>
-			<span slot="footer" class="dialog-footer">
-        		<el-button type="primary" size="medium">确定</el-button>
-        		<el-button @click="delModel=false" size="medium">取消</el-button>
-      		</span>
+      <div slot="footer" class="dialog-footer">
+        <el-button type="primary" size="medium">确 定</el-button>
+        <el-button @click="delModel=false">取 消</el-button>
+      </div>
 		</el-dialog>
 		<!--重置虚拟卡-->
 		<el-dialog title="系统提示" :visible.sync="resetCardModel" :close-on-click-modal="false" center width="30%">
 			<div class="del-dialog-cnt textCen">此操作会重置选中主卡的所有虚拟卡额度，<br /><br />确认要重置选中的信用卡吗？</div>
-			<span slot="footer" class="dialog-footer">
-        		<el-button type="primary" size="medium">确定</el-button>
-        		<el-button @click="resetCardModel=false" size="medium">取消</el-button>
-      		</span>
+      <div slot="footer" class="dialog-footer">
+        <el-button type="primary" size="medium">确 定</el-button>
+        <el-button @click="resetCardModel=false">取 消</el-button>
+      </div>
 		</el-dialog>
 		<!--导入数据-->
-		<el-dialog title="导入数据" :visible.sync="importModel" :close-on-click-modal="false" :before-close="closeImportModel" center width="30%">
+		<el-dialog title="导入数据" :visible.sync="importModel" :close-on-click-modal="false" :before-close="closeImportModel" width="30%">
 			<div class="del-dialog-cnt textCen">
 				<el-upload class="upload-demo" action="https://jsonplaceholder.typicode.com/posts/" ref="upload" multiple :limit="3" :file-list="fileList">
 					<el-button size="mini">选择文件</el-button>
 					<span slot="tip" class="el-upload__tip">导入文件不能超过5M，仅允许导入“xls”或“xlsx”格式文件！</span>
 				</el-upload>
 			</div>
-			<span slot="footer" class="dialog-footer">
-				<el-button size="medium" type="primary">下载模板</el-button>
-        		<el-button size="medium" type="primary">确定</el-button>
-        		<el-button size="medium" @click="closeImportModel">取消</el-button>
-      		</span>
+      <div slot="footer" class="dialog-footer">
+        <el-button size="medium" type="primary">下载模板</el-button>
+        <el-button size="medium" type="primary">确定</el-button>
+        <el-button size="medium" @click="closeImportModel">取消</el-button>
+      </div>
 		</el-dialog>
 		<!--修改额度-->
-		<el-dialog title="请输入信用卡额度" :visible.sync="quotaModel" :close-on-click-modal="false" :before-close="closeQuotaModel" center width="30%">
+		<el-dialog title="请输入信用卡额度" :visible.sync="quotaModel" :close-on-click-modal="false" :before-close="closeQuotaModel" width="30%">
 			<el-form :model="quotaForm" ref="quotaForm" class="demo-dynamic">
 				<el-form-item prop="amount">
 					<el-input v-model="quotaForm.amount" ></el-input>
 				</el-form-item>
 			</el-form>
-			<span slot="footer" class="dialog-footer">
-        		<el-button type="primary" size="medium">确定</el-button>
-        		<el-button @click="closeQuotaModel" size="medium">取消</el-button>
-      		</span>
+      <div slot="footer" class="dialog-footer">
+        <el-button type="primary" size="medium">确定</el-button>
+        <el-button @click="closeQuotaModel" size="medium">取消</el-button>
+      </div>
 		</el-dialog>
 		<!--还款-->
-		<el-dialog title="请输入还款金额" :visible.sync="repaymentModel" :close-on-click-modal="false" :before-close="closeRepaymentModel" center width="30%">
+		<el-dialog title="请输入还款金额" :visible.sync="repaymentModel" :close-on-click-modal="false" :before-close="closeRepaymentModel" width="30%">
 			<el-form :model="repaymentForm" ref="repaymentForm" class="demo-dynamic">
 				<el-form-item prop="amount">
 					<el-input v-model="repaymentForm.amount" autofocus="true"></el-input>
 				</el-form-item>
 			</el-form>
-			<span slot="footer" class="dialog-footer">
-        		<el-button type="primary" size="medium">确定</el-button>
-        		<el-button @click="closeRepaymentModel" size="medium">取消</el-button>
-      		</span>
+      <div slot="footer" class="dialog-footer">
+        <el-button type="primary" size="medium">确定</el-button>
+        <el-button @click="closeRepaymentModel" size="medium">取消</el-button>
+      </div>
 		</el-dialog>
 	</div>
 </template>
@@ -198,7 +198,7 @@
 		data() {
 			return {
 				loading: true,
-				title: '新建',
+				title: '新增',
 				disabled: true,
 				disabled1: true,
 				cardModel: false,
