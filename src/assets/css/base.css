@@ -111,6 +111,7 @@ ul{
 	margin:0 40px;
 }
 /* 模态框纵向外滚动条改为内滚动条 */
+/* 默认模态框 */
 .el-dialog{
   position:absolute;
   top: 50%;
@@ -127,7 +128,17 @@ ul{
 }
 .el-dialog > .el-dialog__footer{
   background: #eee;
-  padding:10px 20px
+  padding:10px 20px;
+}
+/* 固定大小模态框(dia-log标签添加custom-class="fixed-dialog")*/
+.fixed-dialog{
+  height: calc(100% - 30px);
+  width: calc(100% - 30px);
+}
+.fixed-dialog > .el-dialog__footer{
+  width: 100%;
+  position: absolute;
+  bottom: 0;
 }
 /* 列表头部搜索框 */
 .listSearchInput{

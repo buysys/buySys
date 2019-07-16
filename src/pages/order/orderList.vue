@@ -116,7 +116,7 @@
       </div>
 		</el-dialog>
 		<!--日志-->
-		<el-dialog title="订单日志" :visible.sync="logModel" :close-on-click-modal="false" width="90%">
+		<el-dialog title="订单日志" :visible.sync="logModel" :close-on-click-modal="false" width="90%" custom-class="fixed-dialog">
 			<OrderLog></OrderLog>
       <div slot="footer" class="dialog-footer">
       <el-button @click="logModel = false">关 闭</el-button>
@@ -131,7 +131,7 @@
 			</span>
 		</el-dialog>
 		<!--查看任务详情-->
-		<el-dialog :title='orderTitle' :visible.sync="viewTaskDateilsModel" :close-on-click-modal="false" width="90%">
+		<el-dialog :title='orderTitle' :visible.sync="viewTaskDateilsModel" :close-on-click-modal="false" width="90%" custom-class="fixed-dialog">
 			<orderDetail :order-data="this.orderDetail"></orderDetail>
       <div slot="footer" class="dialog-footer">
       <el-button @click="viewTaskDateilsModel = false">关 闭</el-button>
