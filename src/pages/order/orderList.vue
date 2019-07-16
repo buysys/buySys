@@ -1,46 +1,46 @@
 <template>
 	<div class="container">
-    <div class="mb20 fz14">
-    	<span>订单管理</span>
-    </div>
+		<div class="mb20 fz14">
+			<span>订单管理</span>
+		</div>
 		<el-collapse-transition>
 			<div class="searchBox mb20">
 				<el-form ref="searchForm" :model="searchForm" class="form-item" label-width="80px">
 					<el-row>
-					<el-col :xs="24" :span="4">
-						<el-form-item label="平台">
-							<template>
-							  <el-select v-model="searchForm.platform" placeholder="请选择">
-								<el-option v-for="(item,index) in platformOptions" :key="index" :value="item.value" :label="item.label"></el-option>
-							  </el-select>
-							</template>
-						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :span="4">
-						<el-form-item label="任务类型">
-							<template>
-							  <el-select v-model="searchForm.orderTypeValue" placeholder="请选择">
-								<el-option v-for="(item,index) in orderTypeOptions" :key="index" :value="item.value" :label="item.label"></el-option>
-							  </el-select>
-							</template>
-						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :span="4">
-					<el-form-item label="国家">
-						<el-select placeholder="请选择" v-model="searchForm.countryId" class="minWid">
-							<el-option v-for="(item,index) in countryData" :key="index" :value="index" :label="item.country"></el-option>
-						</el-select>
-					</el-form-item>
-					</el-col>
-					<el-col :xs="24" :span="4">
-						<el-form-item label="关键字">
-							<el-input v-model="searchForm.searchkeywords" placeholder="请输入关键字" class="disInline"></el-input>
-						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :span="4" class="ml20">
-						<el-button type="primary" size="medium">查询</el-button>
-						<el-button size="medium" @click="resetSearch">重置</el-button>
-					</el-col>
+						<el-col :xs="24" :span="4">
+							<el-form-item label="平台">
+								<template>
+									<el-select v-model="searchForm.platform" placeholder="请选择">
+										<el-option v-for="(item,index) in platformOptions" :key="index" :value="item.value" :label="item.label"></el-option>
+									</el-select>
+								</template>
+							</el-form-item>
+						</el-col>
+						<el-col :xs="24" :span="4">
+							<el-form-item label="任务类型">
+								<template>
+									<el-select v-model="searchForm.orderTypeValue" placeholder="请选择">
+										<el-option v-for="(item,index) in orderTypeOptions" :key="index" :value="item.value" :label="item.label"></el-option>
+									</el-select>
+								</template>
+							</el-form-item>
+						</el-col>
+						<el-col :xs="24" :span="4">
+							<el-form-item label="国家">
+								<el-select placeholder="请选择" v-model="searchForm.countryId" class="minWid">
+									<el-option v-for="(item,index) in countryData" :key="index" :value="index" :label="item.country"></el-option>
+								</el-select>
+							</el-form-item>
+						</el-col>
+						<el-col :xs="24" :span="4">
+							<el-form-item label="关键字">
+								<el-input v-model="searchForm.searchkeywords" placeholder="请输入关键字" class="disInline"></el-input>
+							</el-form-item>
+						</el-col>
+						<el-col :xs="24" :span="4" class="ml20">
+							<el-button type="primary" size="medium">查询</el-button>
+							<el-button size="medium" @click="resetSearch">重置</el-button>
+						</el-col>
 					</el-row>
 				</el-form>
 			</div>
@@ -62,8 +62,7 @@
 			</ul>
 		</div>
 		<div class="mt10">
-			<el-table v-loading="loading" :data="orderPlaceData" id="exportOrder" style="width: 100%" :header-cell-style="{background:'#fafafa'}"
- @selection-change="handleSelectionChange">
+			<el-table v-loading="loading" :data="orderPlaceData" id="exportOrder" style="width: 100%" :header-cell-style="{background:'#fafafa'}" @selection-change="handleSelectionChange">
 				<el-table-column type="selection"></el-table-column>
 				<el-table-column prop="Numbers" label="任务编码" align="center" width="200">
 					<template slot-scope="scope">
@@ -83,11 +82,13 @@
 				<el-table-column prop="OrderNote" label="客户名称" align="center"></el-table-column>
 				<el-table-column prop="OrderTime" label="下单时间" align="center"></el-table-column>
 				<el-table-column prop="Status" label="订单状态" align="center"></el-table-column>
-				<el-table-column label="操作" align="center" width="300">
+				<el-table-column label="操作" align="center" width="500">
 					<template slot-scope="scope">
-						<el-button size="small" type="success"  @click="confirmPayHandel(scope.$index,scope.row)">确认付款</el-button>
+						<el-button size="small" type="success" @click="confirmPayHandel(scope.$index,scope.row)">确认付款</el-button>
 						<el-button size="small" type="primary" @click="logHandel(scope.$index, scope.row)">查看日志</el-button>
 						<el-button size="small" type="danger" @click="delModelShow">删除</el-button>
+						<el-button size="small" type="primary" @click="accountShow">分配买号</el-button>
+						<el-button size="small" @click="nextShow">继续</el-button>
 					</template>
 				</el-table-column>
 			</el-table>
@@ -122,6 +123,14 @@
 				<el-button @click="logModel=false" size="medium">关闭</el-button>
 			</p>
 		</el-dialog>
+		<!--分配买号-->
+		<el-dialog title="分配买号" :visible.sync="accountModel" width="90%" :close-on-click-modal="false">
+			<buyNum v-on:listenTochildEvent="showMessageFromChild"></buyNum>
+			<div class="mt20 modelRight">
+				<el-button type="primary" @click="confirmCountry">确定</el-button>
+				<el-button @click="accountModel=false">取消</el-button>
+			</div>
+		</el-dialog>
 		<!-- 确认付款-->
 		<el-dialog title="温馨提示" :visible.sync="confirmPaymentModel" :close-on-click-modal="false" center="" width="30%">
 			<div class="del-dialog-cnt textCen">确认要修改该订单付款状态吗？</div>
@@ -136,10 +145,18 @@
 		</el-dialog>
 		<!-- 删除-->
 		<el-dialog title="温馨提示" :visible.sync="delModel" :close-on-click-modal="false" center width="30%">
-			<div class="del-dialog-cnt textCen">确认要删除该订单吗？</div>
+			<div class="del-dialog-cnt textCen">是否要删除该订单吗？</div>
 			<span slot="footer" class="dialog-footer">
 			<el-button type="primary" size="medium">是</el-button>
 			<el-button @click="delModel=false" size="medium">否</el-button>
+			</span>
+		</el-dialog>
+		<!--继续-->
+		<el-dialog title="温馨提示" :visible.sync="nextModal" :close-on-click-modal="false" center width="30%">
+			<div class="del-dialog-cnt textCen">是否要继续订单吗？</div>
+			<span slot="footer" class="dialog-footer">
+			<el-button type="primary" size="medium">是</el-button>
+			<el-button @click="nextModal=false" size="medium">否</el-button>
 			</span>
 		</el-dialog>
 	</div>
@@ -154,7 +171,7 @@
 
 	import orderDetail from '../../common/orderDetail'
 	import OrderLog from '../../common/OrderLog'
-
+	import buyNum from '../../common/buyNum'
 	export default {
 		name: 'orderPlacingManage',
 		data() {
@@ -170,9 +187,10 @@
 				editPricceModel: false,
 				logModel: false,
 				delModel: false,
+				accountModel: false, //分配买号
+				nextModal: false, //继续
 				orderPlaceData: [],
-				platformOptions: [
-					{
+				platformOptions: [{
 						value: '1',
 						label: '全部'
 					},
@@ -181,8 +199,7 @@
 						label: 'Amazon'
 					}
 				],
-				orderTypeOptions: [
-					{
+				orderTypeOptions: [{
 						value: '1',
 						label: 'FBA订单'
 					},
@@ -203,8 +220,7 @@
 						label: 'QA订单'
 					}
 				],
-				countryData: [
-					{
+				countryData: [{
 						country: '美国'
 					},
 					{
@@ -259,14 +275,36 @@
 				active: '1'
 			}
 		},
-		components:{
+		components: {
 			orderDetail,
 			OrderLog
 		},
 		created() {
 			this.getAllData()
 		},
+		components:{
+			buyNum
+		},
 		methods: {
+			//继续
+			nextShow(){
+				let _this = this
+				_this.nextModal = true
+			},
+			//分配买号选中
+			showMessageFromChild(data) {
+				console.log(data.CountryId)
+			},
+			//分配买号弹窗
+			accountShow(){
+				let _this = this
+				_this.accountModel = true
+			},
+			//分配买号确定
+			confirmCountry(){
+				let _this = this
+				_this.accountModel=false
+			},
 			// 查看订单详情弹窗
 			viewTaskDetails(index, row) {
 				let _this = this
