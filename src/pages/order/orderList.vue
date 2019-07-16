@@ -111,24 +111,24 @@
 					<el-input type="textarea" v-model="editPriceForm.remark"></el-input>
 				</el-form-item>
 			</el-form>
-      <div slot="footer" class="dialog-footer">
-      <el-button type="primary" @click="editPricceModel=false">确 定</el-button>
-      <el-button @click="editPricceModel = false">取 消</el-button>
-      </div>
+			<div slot="footer" class="dialog-footer">
+			<el-button type="primary" @click="editPricceModel=false">确 定</el-button>
+			<el-button @click="editPricceModel = false">取 消</el-button>
+			</div>
 		</el-dialog>
 		<!--日志-->
-		<el-dialog title="订单日志" :visible.sync="logModel" :close-on-click-modal="false" width="90%">
-			<OrderLog></OrderLog>
-      <div slot="footer" class="dialog-footer">
-      <el-button @click="logModel = false">关 闭</el-button>
-      </div>
+		<el-dialog title="订单日志" :visible.sync="logModel" :close-on-click-modal="false" width="90%" custom-class="fixed-dialog">
+		<OrderLog></OrderLog>
+		  <div slot="footer" class="dialog-footer">
+		  <el-button @click="logModel = false">关 闭</el-button>
+		  </div>
 		</el-dialog>
 		<!--分配买号-->
-		<el-dialog title="分配买号" :visible.sync="accountModel" width="90%" :close-on-click-modal="false">
+		<el-dialog title="分配买号" :visible.sync="accountModel" :close-on-click-modal="false" width="90%" custom-class="fixed-dialog">
 			<buyNum v-on:listenTochildEvent="showMessageFromChild"></buyNum>
-			<div class="mt20 modelRight">
-				<el-button type="primary" @click="confirmCountry">确定</el-button>
-				<el-button @click="accountModel=false">取消</el-button>
+			<div slot="footer" class="dialog-footer">
+			<el-button type="primary" @click="confirmCountry=false">确 定</el-button>
+			<el-button @click="accountModel = false">取 消</el-button>
 			</div>
 		</el-dialog>
 		<!-- 确认付款-->
@@ -140,7 +140,7 @@
 			</span>
 		</el-dialog>
 		<!--查看任务详情-->
-		<el-dialog :title='orderTitle' :visible.sync="viewTaskDateilsModel" :close-on-click-modal="false" width="90%">
+		<el-dialog :title='orderTitle' :visible.sync="viewTaskDateilsModel" :close-on-click-modal="false" width="90%" custom-class="fixed-dialog">
 			<orderDetail :order-data="this.orderDetail"></orderDetail>
       <div slot="footer" class="dialog-footer">
       <el-button @click="viewTaskDateilsModel = false">关 闭</el-button>
@@ -278,13 +278,11 @@
 		},
 		components: {
 			orderDetail,
-			OrderLog
+			OrderLog,
+      buyNum
 		},
 		created() {
 			this.getAllData()
-		},
-		components:{
-			buyNum
 		},
 		methods: {
 			//继续
