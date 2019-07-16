@@ -39,7 +39,7 @@
 			</div>
 		</el-collapse-transition>
 		<div class="mb20">
-			<el-button type="primary" size="medium" @click="exportExcel"><i class="el-icon-document-delete"></i>导出</el-button>
+			<el-button type="primary" size="medium" @click="exportExcel"><i class="el-icon-download"></i>导出</el-button>
 		</div>
 		<div class="mt10">
 		<el-table v-loading="loading" :data="tableData" id="exportData" style="width: 100%" :header-cell-style="{background:'#fafafa'}" @selection-change="handleSelectionChange">

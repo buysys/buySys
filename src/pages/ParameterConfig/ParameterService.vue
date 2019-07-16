@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<div class="mb20">
-			<el-button type="success" size="medium" @click="addService"><i class="el-icon-plus"></i>新建</el-button>
+			<el-button type="success" size="medium" @click="addService"><i class="el-icon-plus"></i>新增</el-button>
 			<el-button type="primary" size="medium" :disabled="disabled" @click="editService"><i class="el-icon-edit-outline"></i>修改
 			</el-button>
 			<el-button type="danger" size="medium" :disabled="disabled" @click="delHandel"><i class="el-icon-delete"></i>删除
@@ -34,19 +34,19 @@
 				<el-form-item label='备注'>
 					<el-input v-model='serviceForm.remark'></el-input>
 				</el-form-item>
-				<el-form-item class='txtCenter'>
-					<el-button type='primary'>确定</el-button>
-					<el-button @click='closeModal'>取消</el-button>
-				</el-form-item>
 			</el-form>
+      <div slot="footer" class="dialog-footer">
+      <el-button type="primary" @click="addServiceModal=false">确 定</el-button>
+      <el-button @click="addServiceModal = false">取 消</el-button>
+      </div>
 		</el-dialog>
-		<!--删除-->
-		<el-dialog title='系统提示' :visible.sync='delServiceModal' :close-on-click-modal='false' width='25%'>
-			<div class="del-dialog-cnt textCen"><i class='el-icon-warning-outline fz50'></i>确认要删除该增值服务费记录吗？</div>
-			<span slot="footer" class="dialog-footer">
-                <el-button type="primary" size="medium">确定</el-button>
-                <el-button @click="delServiceModal=false" size="medium">取消</el-button>
-            </span>
+		<!-- 删除-->
+		<el-dialog title="温馨提示" :visible.sync="delServiceModal" :close-on-click-modal="false" center width="30%">
+		  <div class="del-dialog-cnt textCen">确认要删除该数据吗？</div>
+		  <span slot="footer" class="dialog-footer">
+		    <el-button type="primary" size="medium">是</el-button>
+		    <el-button @click="delServiceModal=false" size="medium">否</el-button>
+		  </span>
 		</el-dialog>
 	</div>
 </template>
@@ -100,13 +100,13 @@
 			addService() {
 				let _this = this
 				_this.addServiceModal = true
-				_this.serviceTitle = '新建'
+				_this.serviceTitle = '增值服务费新增'
 			},
 			//修改弹窗
 			editService() {
 				let _this = this
 				_this.addServiceModal = true
-				_this.serviceTitle = '修改'
+				_this.serviceTitle = '增值服务费修改'
 			},
 			//关闭新增弹窗
 			closeModal() {

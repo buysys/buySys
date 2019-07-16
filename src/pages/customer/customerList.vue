@@ -24,7 +24,7 @@
 			<el-button type="success" size="medium" @click="addModelShow"><i class="el-icon-plus"></i>新增</el-button>
 			<el-button type="primary" size="medium" @click="editModelShow" :disabled="editDisabled"><i class="el-icon-edit-outline"></i>修改</el-button>
 			<el-button type="danger" size="medium" @click="delData" :disabled="delDisabled"><i class="el-icon-delete"></i>删除</el-button>
-			<el-button type="warning" size="medium" @click="exportExcel"><i class="el-icon-document-delete"></i>导出</el-button>
+      <el-button type="primary" size="medium" @click="exportExcel"><i class="el-icon-download"></i>导出</el-button>
 		</div>
 		<div class="mt10">
 		<el-table v-loading="loading" :data="tableData" id="exportData" style="width: 100%" :header-cell-style="{background:'#fafafa'}" @selection-change="handleSelectionChange">
@@ -59,7 +59,7 @@
 		</div>
 		</div>
 		<!-- 新增修改 -->
-		<el-dialog :title="title" :visible.sync="editModel" :close-on-click-modal="false" :before-close="closeModel" top="5vh">
+		<el-dialog :title="title" :visible.sync="editModel" :close-on-click-modal="false" :before-close="closeModel">
 			<el-form :model="editForm" :rules="editRules" label-width="125px" status-icon>
 				<el-form-item label="名称">
 					<el-input v-model="editForm.name"></el-input>
@@ -97,11 +97,11 @@
 				<el-form-item label="备注">
 					<el-input type="textarea" v-model="editForm.remark"></el-input>
 				</el-form-item>
-				<p class="txtCenter">
-					<el-button type="primary">确定</el-button>
-					<el-button @click="closeModel">取消</el-button>
-				</p>
 			</el-form>
+      <div slot="footer" class="dialog-footer">
+      <el-button type="primary" @click="editModel=false">确 定</el-button>
+      <el-button @click="editModel=false">取 消</el-button>
+      </div>
 		</el-dialog>
 		<!-- 查看 -->
 		<el-dialog :title="title" :visible.sync="viewModel" :close-on-click-modal="false">
@@ -137,23 +137,25 @@
 				<el-row>
 					<el-col :span="24" :xs="24"><el-form-item label="备注:"><label>{{viewForm.remark}}</label></el-form-item></el-col>
 				</el-row>
-				<p class="txtCenter"><el-button @click="viewModel=false">关闭</el-button></p>
 			</el-form>
+      <div slot="footer" class="dialog-footer">
+      <el-button @click="viewModel=false">关 闭</el-button>
+      </div>
 		</el-dialog>
 		<!-- 删除-->
-		<el-dialog title="温馨提示" :visible.sync="delModel" :close-on-click-modal="false" center="" width="30%">
+		<el-dialog title="温馨提示" :visible.sync="delModel" :close-on-click-modal="false" center width="30%">
 		  <div class="del-dialog-cnt textCen">确认要删除该数据吗？</div>
 		  <span slot="footer" class="dialog-footer">
-		    <el-button type="primary" size="medium">确定</el-button>
-		    <el-button @click="delModel=false" size="medium">取消</el-button>
+		    <el-button type="primary" size="medium">是</el-button>
+		    <el-button @click="delModel=false" size="medium">否</el-button>
 		  </span>
 		</el-dialog>
     <!-- 退款订单 -->
-    <el-dialog title="退款订单" :visible.sync="TkModel" :close-on-click-modal="false" width="90%" top="5vh">
+    <el-dialog title="退款订单" :visible.sync="TkModel" :close-on-click-modal="false" width="90%">
     	<refundOrder></refundOrder>
     </el-dialog>
     <!-- 提现记录 -->
-    <el-dialog title="提现记录" :visible.sync="TxModel" :close-on-click-modal="false" width="90%" top="5vh">
+    <el-dialog title="提现记录" :visible.sync="TxModel" :close-on-click-modal="false" width="90%">
     	<takeMoneyList></takeMoneyList>
     </el-dialog>
 	</div>

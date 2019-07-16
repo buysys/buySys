@@ -21,8 +21,8 @@
 			<el-button type="success" size="medium" @click="addModelShow"><i class="el-icon-plus"></i>新增</el-button>
 			<el-button type="primary" size="medium" @click="editModelShow" :disabled="editDisabled"><i class="el-icon-edit-outline"></i>修改</el-button>
 			<el-button type="danger" size="medium" @click="delData" :disabled="delDisabled"><i class="el-icon-delete"></i>删除</el-button>
-			<el-button type="primary" size="medium" @click="drModelShow"><i class="el-icon-caret-right"></i>导入</el-button>
-			<el-button type="warning" size="medium" @click="exportExcel"><i class="el-icon-document-delete"></i>导出</el-button>
+      <el-button type="primary" size="medium" @click="drModelShow"><i class="el-icon-upload2"></i>导入</el-button>
+      <el-button type="primary" size="medium" @click="exportExcel"><i class="el-icon-download"></i>导出</el-button>
 		</div>
 		<div class="mt10">
 		<el-table v-loading="loading" :data="tableData" id="exportData" style="width: 100%" :header-cell-style="{background:'#fafafa'}" @selection-change="handleSelectionChange">
@@ -64,33 +64,35 @@
 				<el-form-item label="备注">
 					<el-input type="textarea" v-model="editForm.remark"></el-input>
 				</el-form-item>
-				<p class="txtCenter">
-					<el-button type="primary">确定</el-button>
-					<el-button @click="closeModel">取消</el-button>
-				</p>
 			</el-form>
+      <div slot="footer" class="dialog-footer">
+      <el-button type="primary" @click="editModel=false">确 定</el-button>
+      <el-button @click="editModel=false">取 消</el-button>
+      </div>
 		</el-dialog>
 		<!-- 查看 -->
-		<el-dialog :title="title" :visible.sync="viewModel" :close-on-click-modal="false" width="30%">
+		<el-dialog :title="title" :visible.sync="viewModel" :close-on-click-modal="false">
 			<el-form :model="viewForm" label-width="125px" status-icon>
 				<el-form-item label="类型:"><label>{{viewForm.type}}</label></el-form-item>
 				<el-form-item label="名称:"><label>{{viewForm.name}}</label></el-form-item>
 				<el-form-item label="值:"><label>{{viewForm.val}}</label></el-form-item>
 				<el-form-item label="状态:"><label>{{viewForm.status}}</label></el-form-item>
 				<el-form-item label="备注:"><label>{{viewForm.remark}}</label></el-form-item>
-				<p class="txtCenter"><el-button @click="viewModel=false">关闭</el-button></p>
 			</el-form>
+      <div slot="footer" class="dialog-footer">
+      <el-button @click="viewModel=false">关 闭</el-button>
+      </div>
 		</el-dialog>
 		<!-- 删除-->
-		<el-dialog title="温馨提示" :visible.sync="delModel" :close-on-click-modal="false" center="" width="30%">
+		<el-dialog title="温馨提示" :visible.sync="delModel" :close-on-click-modal="false" center width="30%">
 		  <div class="del-dialog-cnt textCen">确认要删除该数据吗？</div>
 		  <span slot="footer" class="dialog-footer">
-		    <el-button type="primary" size="medium">确定</el-button>
-		    <el-button @click="delModel=false" size="medium">取消</el-button>
+		    <el-button type="primary" size="medium">是</el-button>
+		    <el-button @click="delModel=false" size="medium">否</el-button>
 		  </span>
 		</el-dialog>
 		<!-- 导入-->
-		<el-dialog title="导入数据" :visible.sync="drModel" :close-on-click-modal="false" center="" width="30%">
+		<el-dialog title="导入数据" :visible.sync="drModel" :close-on-click-modal="false" center width="30%">
 		  <div class="del-dialog-cnt textCen"><input type="file" /></div><br>
 		  <div class="del-dialog-cnt textCen">导入文件不能超过5M，仅允许导入“xls”或“xlsx”格式文件！</div>
 		  <span slot="footer" class="dialog-footer">
@@ -100,11 +102,11 @@
 		  </span>
 		</el-dialog>
 		<!-- 禁用-->
-		<el-dialog title="温馨提示" :visible.sync="forbidModel" :close-on-click-modal="false" center="" width="30%">
+		<el-dialog title="温馨提示" :visible.sync="forbidModel" :close-on-click-modal="false" center width="30%">
 		  <div class="del-dialog-cnt textCen">确定要禁用吗？</div>
 		  <span slot="footer" class="dialog-footer">
-		    <el-button type="primary" size="medium">确定</el-button>
-		    <el-button @click="forbidModel=false" size="medium">取消</el-button>
+		    <el-button type="primary" size="medium">是</el-button>
+		    <el-button @click="forbidModel=false" size="medium">否</el-button>
 		  </span>
 		</el-dialog>
 	</div>
