@@ -26,7 +26,7 @@
       <el-button type="primary" size="medium" @click="exportExcel"><i class="el-icon-download"></i>导出</el-button>
 		</div>
 		<div class="mt10">
-		<el-table v-loading="loading" :data="tableData" id="exportData" style="width: 100%" :header-cell-style="{background:'#fafafa'}" @selection-change="handleSelectionChange">
+		<el-table  :data="tableData" id="exportData" style="width: 100%" :header-cell-style="{background:'#fafafa'}" @selection-change="handleSelectionChange">
 			<el-table-column type="selection"></el-table-column>
 				<el-table-column prop="Forum" label="平台名称" align="center"></el-table-column>
 				<el-table-column prop="Numbers" label="国家数量" align="center">
@@ -134,7 +134,7 @@
 				<el-button type="primary" size="medium" @click="bindModelShow" :disabled="bindDisabled"><i class="el-icon-connection"></i>绑定网址</el-button>
 			</div>
 			<div class="mt10">
-		  	<el-table v-loading="loading" :data="tableData" id="exportData" style="width: 100%" :header-cell-style="{background:'#fafafa'}" @selection-change="handleSelectionChange3">
+		  	<el-table :data="tableData" id="exportData" style="width: 100%" :header-cell-style="{background:'#fafafa'}" @selection-change="handleSelectionChange3">
 		  		<el-table-column type="selection"></el-table-column>
 		  			<el-table-column prop="CountryId" label="国家名称" align="center"></el-table-column>
 		  			<el-table-column prop="Forum" label="国家缩写" align="center"></el-table-column>
@@ -207,7 +207,35 @@
 				delDisabled: true,
 				jcDisabled: true,
 				bindDisabled: true,
-				tableData: [],
+				tableData: [
+				 {
+            "Numbers": "20190605105636229596",
+            "Picture": "",
+            "CountryId": "美国",
+            "Forum": "Amazon",
+            "ProductByASIN": "777888999a",
+            "ProductPrice": 15.99,
+            "ServiceType": "不留评",
+            "OrderNote": "待付款",
+            "Status": "已完成",
+            "OrderNumber": 1314520,
+            "OrderTime": "2019-02-03T00:00:00",
+            "Remark": ""
+        },
+        {
+            "Numbers": "20190611174157617041",
+            "Picture": "",
+            "CountryId": "德国",
+            "Forum": "Amazon",
+            "ProductByASIN": "B07P6KVGF8",
+            "ProductPrice": 18.99,
+            "ServiceType": "不留评",
+            "OrderNote": "待确认",
+            "Status": "已完成",
+            "OrderNumber": 7758258,
+            "OrderTime": "2019-04-02T00:00:00",
+            "Remark": ""
+        }],
 				checkBoxData:[],
 				checkBoxData2:[], //关联国家选中数据
 				checkBoxData3:[], //关联国家列表选中数据
@@ -239,7 +267,7 @@
 					OrderTask
 				},
 				created() {
-					this.getAllData()
+//					this.getAllData()
 				},
 				methods:{
 					//获取数据
