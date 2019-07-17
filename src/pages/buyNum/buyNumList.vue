@@ -6,21 +6,6 @@
     <el-collapse-transition>
       <div class="searchBox mb20 pl30">
         <el-form ref="searchForm" :model="searchForm" class="form-item" label-width="100px">
-          <el-form-item label="标签类型">
-            <el-row>
-              <el-collapse-transition>
-                <el-row v-show="tagGroupShow">
-                  <el-checkbox-group v-model="searchForm.type">
-                    <el-checkbox label="西班牙" name="type"></el-checkbox>
-                    <el-checkbox label="新人注册号" name="type"></el-checkbox>
-                    <el-checkbox label="加拿大" name="type"></el-checkbox>
-                    <el-checkbox label="手机测试" name="type"></el-checkbox>
-                  </el-checkbox-group>
-                </el-row>
-              </el-collapse-transition>
-              <el-button size="medium" @click="showTagGroup">展开标签列表<i class="el-icon-arrow-down el-icon--right"></i></el-button>
-            </el-row>
-          </el-form-item>
           <el-row>
             <el-col :span='4' :xs='24'>
               <el-form-item label="平台" class="disInline">
@@ -65,7 +50,35 @@
                 <el-input v-model="searchForm.searchkeywords" placeholder="请输入买家账号/姓名" class="disInline"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :xs="24" :span="4" class="ml20">
+            </el-row>
+            <el-row>
+            <el-form-item label="标签">
+              <el-row>
+                <el-collapse-transition>
+                    <el-checkbox-group v-model="searchForm.type">
+                      <el-checkbox label="西班牙" name="type"></el-checkbox>
+                      <el-checkbox label="新人注册号" name="type"></el-checkbox>
+                      <el-checkbox label="加拿大" name="type"></el-checkbox>
+                      <el-checkbox label="手机测试" name="type"></el-checkbox>
+                      <el-checkbox label="西班牙" name="type"></el-checkbox>
+                      <el-checkbox label="新人注册号" name="type"></el-checkbox>
+                      <el-checkbox label="加拿大" name="type"></el-checkbox>
+                      <el-checkbox label="手机测试" name="type"></el-checkbox>
+                      <el-checkbox label="西班牙" name="type"></el-checkbox>
+                      <el-checkbox label="新人注册号" name="type"></el-checkbox>
+                      <el-checkbox label="加拿大" name="type"></el-checkbox>
+                      <el-checkbox label="手机测试" name="type"></el-checkbox>
+                      <el-checkbox label="西班牙" name="type"></el-checkbox>
+                      <el-checkbox label="新人注册号" name="type"></el-checkbox>
+                      <el-checkbox label="加拿大" name="type"></el-checkbox>
+                      <el-checkbox label="手机测试" name="type"></el-checkbox>
+                    </el-checkbox-group>
+                </el-collapse-transition>
+              </el-row>
+            </el-form-item>
+            </el-row>
+            <el-row>
+            <el-col :xs="24" :span="4" style="margin-left: 60px;">
               <el-button type="primary" size="medium">查询</el-button>
               <el-button size="medium" @click="resetSearch">重置</el-button>
             </el-col>
@@ -690,7 +703,6 @@
         entityCardModal: false, //实体信用卡弹窗
         virtuaModal: false, //选择虚拟卡弹窗
         xnShow: false, //选择信用卡类型
-        tagGroupShow: false,
         currentPage: 1,
         pageSize: '0',
         total: 100,
@@ -721,7 +733,35 @@
         },
         checkBoxData: [],
         buyCheckData: [],
-        buyNumData: [],
+        buyNumData: [{
+            "Numbers": "20190605105636229596",
+            "Picture": "",
+            "CountryId": "美国",
+            "Forum": "Amazon",
+            "ProductByASIN": "777888999a",
+            "ProductPrice": 15.99,
+            "ServiceType": "不留评",
+            "OrderNote": "待付款",
+            "Status": "已完成",
+            "OrderNumber": 1314520,
+            "OrderTime": "2019-02-03T00:00:00",
+            "Remark": ""
+        },
+        {
+            "Numbers": "20190611174157617041",
+            "Picture": "",
+            "CountryId": "德国",
+            "Forum": "Amazon",
+            "ProductByASIN": "B07P6KVGF8",
+            "ProductPrice": 18.99,
+            "ServiceType": "不留评",
+            "OrderNote": "待确认",
+            "Status": "已完成",
+            "OrderNumber": 7758258,
+            "OrderTime": "2019-04-02T00:00:00",
+            "Remark": ""
+        }
+],
         vertuaCardData: [], //虚拟卡
         selected: {},
         tabForm: {
@@ -843,19 +883,9 @@
       buyTagList
     },
     created() {
-      this.getAllData()
+      // this.getAllData()
     },
     methods: {
-      //展开标签区域
-      showTagGroup() {
-        let _this = this;
-        let show = _this.tagGroupShow;
-        if (show) {
-          _this.tagGroupShow = false;
-        } else {
-          _this.tagGroupShow = true;
-        }
-      },
       //选择实体信用卡
       selectEntityCard() {
         let _this = this

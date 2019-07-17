@@ -17,7 +17,7 @@
 		</div>
 		<!--新建、修改标签-->
 		<el-dialog :title="title" :visible.sync="tagModel" :close-on-click-modal="false" center :before-close="closeTagModel" :modal-append-to-body="false" :append-to-body="true" >
-			<el-form :model="tagForm" ref="tagForm" :rules="tagRules" label-width="88px">  
+			<el-form :model="tagForm" ref="tagForm" :rules="tagRules" label-width="88px">
 				<el-form-item label="标签名" prop="tag">
 					<el-input v-model="tagForm.tag"></el-input>
 				</el-form-item>
@@ -44,8 +44,36 @@
 		data() {
 			return{
 				disabled: true,
-				tagData: [],
-				title: '新建',
+				tagData: [{
+            "Numbers": "20190605105636229596",
+            "Picture": "",
+            "CountryId": "美国",
+            "Forum": "Amazon",
+            "ProductByASIN": "777888999a",
+            "ProductPrice": 15.99,
+            "ServiceType": "不留评",
+            "OrderNote": "待付款",
+            "Status": "已完成",
+            "OrderNumber": 1314520,
+            "OrderTime": "2019-02-03T00:00:00",
+            "Remark": ""
+        },
+        {
+            "Numbers": "20190611174157617041",
+            "Picture": "",
+            "CountryId": "德国",
+            "Forum": "Amazon",
+            "ProductByASIN": "B07P6KVGF8",
+            "ProductPrice": 18.99,
+            "ServiceType": "不留评",
+            "OrderNote": "待确认",
+            "Status": "已完成",
+            "OrderNumber": 7758258,
+            "OrderTime": "2019-04-02T00:00:00",
+            "Remark": ""
+        }
+],
+				title: '新增',
 				currentPage: 1,
 				pageSize: '0',
 				total:100,

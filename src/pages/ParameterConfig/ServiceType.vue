@@ -92,7 +92,7 @@
 				<el-form-item label="类型" prop="type">
 					<el-input v-model="editForm.type"></el-input>
 				</el-form-item>
-				<el-form-item label="平台" prop="commentBL">
+				<el-form-item label="留评比例" prop="commentBL">
 					<template>
 					  <el-select v-model="editForm.commentBL" placeholder="请选择留评比例" style="width: 100%;">
 						<el-option

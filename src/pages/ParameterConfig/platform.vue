@@ -34,7 +34,14 @@
 						<el-button type="text" @click="glListModelShow(scope.$index,scope.row)">{{scope.row.Numbers}}</el-button>
 					</template>
 				</el-table-column>
-				<el-table-column prop="OrderNumber" label="查看任务" align="center"><el-button type="success" size="small" @click="OrderTaskModelShow">查看任务</el-button></el-table-column>
+        <el-table-column prop="Enabled" label="状态" align="center">
+        	<template slot-scope="scope">
+        		<el-button type="text" @click="forbidModelShow(scope.$index,scope.row)">{{scope.row.Numbers}}</el-button>
+        	</template>
+        </el-table-column>
+				<el-table-column prop="OrderNumber" label="操作" align="center">
+          <el-button type="success" size="small" @click="OrderTaskModelShow">查看任务</el-button>
+        </el-table-column>
 		</el-table>
 		<div class="mt30">
 			<el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage" :page-sizes="[100, 200, 300, 500]" :page-size="10" layout="total, sizes, prev, pager, next, jumper" :total="total">
@@ -49,7 +56,7 @@
 				</el-form-item>
 			</el-form>
       <div slot="footer" class="dialog-footer">
-      <el-button type="primary" @click="editModel=false">确 定</el-button>
+      <el-button type="primary" @click="submitData">确 定</el-button>
       <el-button @click="editModel = false">取 消</el-button>
       </div>
 		</el-dialog>
@@ -160,12 +167,20 @@
 			</div>
 		</el-dialog>
 		<!-- 订单任务 -->
-		<el-dialog title="查看任务" :visible.sync="OrderTaskModel" :close-on-click-modal="false" width="60%">
+		<el-dialog title="查看任务" :visible.sync="OrderTaskModel" :close-on-click-modal="false">
 			<OrderTask></OrderTask>
 			<div slot="footer" class="dialog-footer">
 		    <el-button @click="OrderTaskModel=false" size="medium">关闭</el-button>
 			</div>
 		</el-dialog>
+    <!-- 禁用启用 -->
+    <el-dialog title="温馨提示" :visible.sync="forbidModel" :close-on-click-modal="false" center width="30%">
+      <div class="del-dialog-cnt textCen">确认要切换平台状态吗？</div>
+      <span slot="footer" class="dialog-footer">
+        <el-button type="primary" size="medium">是</el-button>
+        <el-button @click="forbidModel=false" size="medium">否</el-button>
+      </span>
+    </el-dialog>
 	</div>
 </template>
 
@@ -175,7 +190,7 @@
 
 	import OrderTask from '../../common/OrderTask'
 	export default {
-		name: 'customer',
+		name: 'platform',
 		data() {
 			return {
 				loading:true,
@@ -187,6 +202,7 @@
 				jcModel: false,		//解除关联弹框
 				bindModel: false,	//绑定网址弹框
 				OrderTaskModel: false, //订单任务
+        forbidModel: false, //启用禁用
 				editDisabled: true,
 				delDisabled: true,
 				jcDisabled: true,
@@ -306,6 +322,11 @@
 					  let _this = this
 					  _this.delModel = true
 					},
+          // 禁用启用
+          forbidModelShow () {
+            let _this = this
+            _this.forbidModel = true
+          },
 					// 关联国家
 					glModelShow () {
 					  let _this = this
@@ -376,6 +397,24 @@
 						}
 						return wbout
 					},
+
+          //提交数据
+          submitData(){
+            let _this = this
+            let param = {
+              ForumName : _this.editForm.name
+            }
+            _this.axios.post(_this.GLOBAL.BASE_URL + '/getPlatform',param).then((res) => {
+              let data = res.data
+              if (data.success == 200){
+                _this.$message.success('操作成功')
+                _this.editModel = false
+                // _this.allNum = res.data.data.length
+              }
+            }).catch((error) => {
+            	console.log(error)
+            })
+          }
 			}
 		}
 </script>
