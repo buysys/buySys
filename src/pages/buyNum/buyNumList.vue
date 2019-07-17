@@ -1,7 +1,9 @@
 <template>
   <div class="container">
     <div class="mb20 fz14">
-      <span>账号管理</span>
+		<span>首页</span>
+		<span>/</span>
+		<span>账号管理</span>
     </div>
     <el-collapse-transition>
       <div class="searchBox mb20 pl30">
