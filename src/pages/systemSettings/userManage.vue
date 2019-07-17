@@ -57,18 +57,6 @@
 				<el-form :model="userForm " ref="userForm " label-width="100px " :rules="editRules">
 					<el-row>
 						<el-col :span="12 ">
-							<el-form-item label="头像 " prop="portrait">
-								<el-input v-model="userForm.portrait "></el-input>
-							</el-form-item>
-						</el-col>
-						<el-col :span="12 ">
-							<el-form-item label="工号 " prop="jobNum">
-								<el-input v-model="userForm.jobNum "></el-input>
-							</el-form-item>
-						</el-col>
-					</el-row>
-					<el-row>
-						<el-col :span="12 ">
 							<el-form-item label="姓名 " prop="userName">
 								<el-input v-model="userForm.userName "></el-input>
 							</el-form-item>
@@ -97,24 +85,9 @@
 								<el-input v-model="userForm.email "></el-input>
 							</el-form-item>
 						</el-col>
-						<el-col :span="12 ">
-							<el-form-item label="电话 ">
-								<el-input v-model="userForm.phone "></el-input>
-							</el-form-item>
-						</el-col>
-					</el-row>
-					<el-row>
-						<el-col :span="12 ">
+							<el-col :span="12 ">
 							<el-form-item label="手机 ">
 								<el-input v-model="userForm.mobile "></el-input>
-							</el-form-item>
-						</el-col>
-						<el-col :span="12 ">
-							<el-form-item label="是否允许登录 ">
-								<el-select v-model="userForm.allowLogin ">
-									<el-option label="是 " value="yes "></el-option>
-									<el-option label="否 " value="no "></el-option>
-								</el-select>
 							</el-form-item>
 						</el-col>
 					</el-row>
@@ -128,11 +101,6 @@
 									<el-checkbox label="财务 " name="type "></el-checkbox>
 									<el-checkbox label="部门管理员 " name="type "></el-checkbox>
 								</el-checkbox-group>
-							</el-form-item>
-						</el-col>
-						<el-col :span="12 ">
-							<el-form-item label="备注 ">
-								<el-input v-model="userForm.remark "></el-input>
 							</el-form-item>
 						</el-col>
 					</el-row>

@@ -23,8 +23,8 @@
 			</el-button>
 			<el-button type="danger" size="medium" :disabled="disabled" @click="delHandel"><i class="el-icon-delete"></i>删除
 			</el-button>
-      <el-button type="primary" size="medium"><i class="el-icon-upload2"></i>导入</el-button>
-      <el-button type="primary" size="medium" :disabled="disabled" @click="exportExcel"><i class="el-icon-download"></i>导出</el-button>
+			<el-button type="primary" size="medium"><i class="el-icon-upload2"></i>导入</el-button>
+			<el-button type="primary" size="medium" :disabled="disabled" @click="exportExcel"><i class="el-icon-download"></i>导出</el-button>
 		</div>
 		<div class="mt10">
 			<el-table :data="countryData" v-model='loading' border style="width: 100%" height='500' id='exportOrder' @selection-change="handleSelectionChange">
@@ -39,7 +39,6 @@
 				<el-table-column prop="ProductByASIN" sortable label="时区" align="center"></el-table-column>
 				<el-table-column prop="ProductByASIN" sortable label="最小端口" align="center"></el-table-column>
 				<el-table-column prop="ProductByASIN" sortable label="最大端口" align="center"></el-table-column>
-				<el-table-column prop="OrderNote" label="备注" align="center"></el-table-column>
 			</el-table>
 			<div class="mt30">
 				<el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage" :page-sizes="[10, 20, 30, 40]" :page-size="10" layout="total, sizes, prev, pager, next, jumper" :total="total">
@@ -70,14 +69,11 @@
 				<el-form-item label='最大端口'>
 					<el-input v-model='countryForm.maxPort'></el-input>
 				</el-form-item>
-				<el-form-item label='备注'>
-					<el-input v-model='countryForm.remark'></el-input>
-				</el-form-item>
 			</el-form>
-      <div slot="footer" class="dialog-footer">
-      <el-button type="primary" @click="addCountryModal=false">确 定</el-button>
-      <el-button @click="addCountryModal = false">取 消</el-button>
-      </div>
+			<div slot="footer" class="dialog-footer">
+				<el-button type="primary" @click="confirmCountry('countryForm')">确 定</el-button>
+				<el-button @click="addCountryModal = false">取 消</el-button>
+			</div>
 		</el-dialog>
 		<!--查看详情-->
 		<el-dialog title='国家管理详情信息' :visible.sync='viewCountryModal' :close-on-click-modal='false'>
@@ -103,22 +99,19 @@
 				<el-form-item label='最大端口：'>
 					<span>{{countryForm.maxPort}}</span>
 				</el-form-item>
-				<el-form-item label='备注：'>
-					<span>{{countryForm.remark}}</span>
-				</el-form-item>
 			</el-form>
-      <div slot="footer" class="dialog-footer">
-      <el-button @click="viewCountryModal=false">关 闭</el-button>
-      </div>
+			<div slot="footer" class="dialog-footer">
+				<el-button @click="viewCountryModal=false">关 闭</el-button>
+			</div>
 		</el-dialog>
-    <!-- 删除-->
-    <el-dialog title="温馨提示" :visible.sync="delCountryModal" :close-on-click-modal="false" center width="30%">
-      <div class="del-dialog-cnt textCen">确认要删除该数据吗？</div>
-      <span slot="footer" class="dialog-footer">
-        <el-button type="primary" size="medium" @click="submitCountry('countryForm')">是</el-button>
+		<!-- 删除-->
+		<el-dialog title="温馨提示" :visible.sync="delCountryModal" :close-on-click-modal="false" center width="30%">
+			<div class="del-dialog-cnt textCen">确认要删除该数据吗？</div>
+			<span slot="footer" class="dialog-footer">
+        <el-button type="primary" size="medium">是</el-button>
         <el-button @click="delCountryModal=false" size="medium">否</el-button>
       </span>
-    </el-dialog>
+		</el-dialog>
 	</div>
 </template>
 
@@ -144,14 +137,13 @@
 					countryId: ''
 				},
 				countryForm: {
-					countryId: '',
-					countryAbbre: '',
-					language: '',
-					timeZone: '',
-					gmtTimeZone: '',
-					minPort: '',
-					maxPort: '',
-					remark: ''
+					countryId: '美国',
+					countryAbbre: 'US',
+					language: '英语',
+					timeZone: '34',
+					gmtTimeZone: '34',
+					minPort: '5000',
+					maxPort: '8000'
 				},
 				formRules: {
 					countryId: [{
@@ -183,15 +175,38 @@
 			}
 		},
 		created() {
-			this.getAllData()
+//			this.getAllData()
 		},
 		methods: {
 			//添加确定
-			submitCountry(formName) {
+			confirmCountry(formName) {
 				let _this = this
+				let param = {
+					CountryName:_this.countryForm.countryId,
+					CountryShorthand:_this.countryForm.countryAbbre,
+					Language: _this.countryForm.language,
+					TimeZone: _this.countryForm.timeZone,
+					GMTTimeZone: _this.countryForm.gmtTimeZone,
+					MinPort: _this.countryForm.minPort,
+					MaxPort: _this.countryForm.maxPort
+				}
 				_this.$refs[formName].validate((valid) => {
 					if(valid) {
-						_this.addCountryModal = false
+						_this.axios.post(_this.GLOBAL.BASE_URL + '/getState',param,{
+					headers: {
+						'Content-Type': 'application/json'
+					}
+				}).then((res)=>{
+					console.log(res.data)
+							if(res.data.success == '200'){
+								_this.$message.success('添加成功')
+								_this.addCountryModal=false
+							} else{
+								_this.$message.error(res.data.message)
+							}
+						}).catch((error)=>{
+							console.log(error)
+						})
 					}
 				})
 			},
