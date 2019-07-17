@@ -42,8 +42,8 @@
 		</el-dialog>
 		<!-- 删除-->
 		<el-dialog title="温馨提示" :visible.sync="delServiceModal" :close-on-click-modal="false" center width="30%">
-		  <div class="del-dialog-cnt textCen">确认要删除该数据吗？</div>
-		  <span slot="footer" class="dialog-footer">
+			<div class="del-dialog-cnt textCen">确认要删除该数据吗？</div>
+			<span slot="footer" class="dialog-footer">
 		    <el-button type="primary" size="medium">是</el-button>
 		    <el-button @click="delServiceModal=false" size="medium">否</el-button>
 		  </span>
@@ -65,7 +65,35 @@
 				addServiceModal: false, //新增
 				delServiceModal: false, //删除
 				tipMessage: '',
-				returnOrderData: [],
+				returnOrderData: [{
+						"Numbers": "20190605105636229596",
+						"Picture": "",
+						"CountryId": "美国",
+						"Forum": "Amazon",
+						"ProductByASIN": "777888999a",
+						"ProductPrice": 15.99,
+						"ServiceType": "不留评",
+						"OrderNote": "待付款",
+						"Status": "已完成",
+						"OrderNumber": 1314520,
+						"OrderTime": "2019-02-03T00:00:00",
+						"Remark": ""
+					},
+					{
+						"Numbers": "20190611174157617041",
+						"Picture": "",
+						"CountryId": "德国",
+						"Forum": "Amazon",
+						"ProductByASIN": "B07P6KVGF8",
+						"ProductPrice": 18.99,
+						"ServiceType": "不留评",
+						"OrderNote": "待确认",
+						"Status": "已完成",
+						"OrderNumber": 7758258,
+						"OrderTime": "2019-04-02T00:00:00",
+						"Remark": ""
+					}
+				],
 				checkBoxData: [], //选中信息
 				serviceForm: {
 					startSection: '',
@@ -93,7 +121,7 @@
 			}
 		},
 		created() {
-			this.getAllData()
+//			this.getAllData()
 		},
 		methods: {
 			//新建弹窗

@@ -7,14 +7,10 @@
 						<el-col :xs="24" :span="4">
 							<el-form-item label="国家">
 								<template>
-								  <el-select v-model="countryValue" placeholder="请选择">
-									<el-option
-									  v-for="item in countryOptions"
-									  :key="item.value"
-									  :label="item.label"
-									  :value="item.value">
-									</el-option>
-								  </el-select>
+									<el-select v-model="countryValue" placeholder="请选择">
+										<el-option v-for="item in countryOptions" :key="item.value" :label="item.label" :value="item.value">
+										</el-option>
+									</el-select>
 								</template>
 							</el-form-item>
 						</el-col>
@@ -42,17 +38,17 @@
 			<el-button type="primary" size="medium" @click="exportExcel"><i class="el-icon-download"></i>导出</el-button>
 		</div>
 		<div class="mt10">
-		<el-table v-loading="loading" :data="tableData" id="exportData" style="width: 100%" :header-cell-style="{background:'#fafafa'}" @selection-change="handleSelectionChange">
-			<el-table-column type="selection"></el-table-column>
+			<el-table :data="tableData" id="exportData" style="width: 100%" :header-cell-style="{background:'#fafafa'}" @selection-change="handleSelectionChange">
+				<el-table-column type="selection"></el-table-column>
 				<el-table-column prop="Numbers" label="IP" align="center"></el-table-column>
-			    <el-table-column prop="ProductByASIN" label="端口" align="center"></el-table-column>
+				<el-table-column prop="ProductByASIN" label="端口" align="center"></el-table-column>
 				<el-table-column prop="CountryId" label="国家" align="center"></el-table-column>
 				<el-table-column prop="OrderNumber" label="买家账号" align="center"></el-table-column>
-		</el-table>
-		<div class="mt30">
-			<el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage" :page-sizes="[100, 200, 300, 500]" :page-size="10" layout="total, sizes, prev, pager, next, jumper" :total="total">
-			</el-pagination>
-		</div>
+			</el-table>
+			<div class="mt30">
+				<el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage" :page-sizes="[100, 200, 300, 500]" :page-size="10" layout="total, sizes, prev, pager, next, jumper" :total="total">
+				</el-pagination>
+			</div>
 		</div>
 	</div>
 </template>
@@ -64,104 +60,133 @@
 		name: 'customer',
 		data() {
 			return {
-				loading:true,
-				tableData: [],
-				checkBoxData:[],
-				title:'',
+				loading: true,
+				tableData: [{
+						"Numbers": "20190605105636229596",
+						"Picture": "",
+						"CountryId": "美国",
+						"Forum": "Amazon",
+						"ProductByASIN": "777888999a",
+						"ProductPrice": 15.99,
+						"ServiceType": "不留评",
+						"OrderNote": "待付款",
+						"Status": "已完成",
+						"OrderNumber": 1314520,
+						"OrderTime": "2019-02-03T00:00:00",
+						"Remark": ""
+					},
+					{
+						"Numbers": "20190611174157617041",
+						"Picture": "",
+						"CountryId": "德国",
+						"Forum": "Amazon",
+						"ProductByASIN": "B07P6KVGF8",
+						"ProductPrice": 18.99,
+						"ServiceType": "不留评",
+						"OrderNote": "待确认",
+						"Status": "已完成",
+						"OrderNumber": 7758258,
+						"OrderTime": "2019-04-02T00:00:00",
+						"Remark": ""
+					}
+				],
+				checkBoxData: [],
+				title: '',
 				allNum: 0,
 				active: 1,
 				currentPage: 1,
 				pageSize: '0',
-				total:100,
+				total: 100,
 				searchForm: {
 					platform: '全部',
 					searchkeywords: ''
-						},
+				},
 				countryOptions: [{
-				  value: '1',
-				  label: '加拿大'
+					value: '1',
+					label: '加拿大'
 				}, {
-				  value: '2',
-				  label: '中国'
+					value: '2',
+					label: '中国'
 				}, {
-				  value: '3',
-				  label: '美国'
+					value: '3',
+					label: '美国'
 				}, {
-				  value: '4',
-				  label: '英国'
+					value: '4',
+					label: '英国'
 				}],
 				countryValue: ''
-					}
-				},
-				created() {
-					this.getAllData()
-				},
-				methods:{
-					//获取数据
-					getAllData() {
-						let _this = this
-						_this.active = 1
-						_this.axios.get(_this.GLOBAL.BASE_URL + 'api/OrderManagement/AddOrderByType').then((res) => {
-							_this.tableData = res.data.data
-							_this.allNum = res.data.data.length
-							_this.loading = false
-						}).catch((error) => {
-							console.log(error)
-						})
-					},
-					// 重置
-					resetSearch() {
-						let _this = this
-						_this.searchForm = {
-							platform: '全部',
-							searchkeywords: ''
-						}
-					},
-					// 是否有选中
-					handleSelectionChange(val) {
-						let _this = this
-						_this.checkBoxData = val
-						let checkNum = _this.checkBoxData.length
-						if(checkNum !== 1) {
-							_this.disabled = true
-						} else {
-							_this.disabled = false
-						}
-					},
-					//分页
-					handleSizeChange(val) {
-						console.log(`每页 ${val} 条`)
-					},
-					handleCurrentChange(val) {
-						console.log(`当前页: ${val}`)
-					},
-					// 导出
-					exportExcel() {
-						var xlsxParam = {
-							raw: true
-						} // 导出的内容只做解析，不进行格式转换
-						var wb = XLSX.utils.table_to_book(document.querySelector('#exportData'), xlsxParam)
-
-						/* get binary string as output */
-						var wbout = XLSX.write(wb, {
-							bookType: 'xlsx',
-							bookSST: true,
-							type: 'array'
-						})
-						try {
-							FileSaver.saveAs(new Blob([wbout], {
-								type: 'application/octet-stream'
-							}), '下单管理表.xlsx')
-						} catch(e) {
-							if(typeof console !== 'undefined') {
-								console.log(e, wbout)
-							}
-						}
-						return wbout
-					},
 			}
+		},
+		created() {
+//			this.getAllData()
+		},
+		methods: {
+			//获取数据
+			getAllData() {
+				let _this = this
+				_this.active = 1
+				_this.axios.get(_this.GLOBAL.BASE_URL + 'api/OrderManagement/AddOrderByType').then((res) => {
+					_this.tableData = res.data.data
+					_this.allNum = res.data.data.length
+					_this.loading = false
+				}).catch((error) => {
+					console.log(error)
+				})
+			},
+			// 重置
+			resetSearch() {
+				let _this = this
+				_this.searchForm = {
+					platform: '全部',
+					searchkeywords: ''
+				}
+			},
+			// 是否有选中
+			handleSelectionChange(val) {
+				let _this = this
+				_this.checkBoxData = val
+				let checkNum = _this.checkBoxData.length
+				if(checkNum !== 1) {
+					_this.disabled = true
+				} else {
+					_this.disabled = false
+				}
+			},
+			//分页
+			handleSizeChange(val) {
+				console.log(`每页 ${val} 条`)
+			},
+			handleCurrentChange(val) {
+				console.log(`当前页: ${val}`)
+			},
+			// 导出
+			exportExcel() {
+				var xlsxParam = {
+					raw: true
+				} // 导出的内容只做解析，不进行格式转换
+				var wb = XLSX.utils.table_to_book(document.querySelector('#exportData'), xlsxParam)
+
+				/* get binary string as output */
+				var wbout = XLSX.write(wb, {
+					bookType: 'xlsx',
+					bookSST: true,
+					type: 'array'
+				})
+				try {
+					FileSaver.saveAs(new Blob([wbout], {
+						type: 'application/octet-stream'
+					}), '下单管理表.xlsx')
+				} catch(e) {
+					if(typeof console !== 'undefined') {
+						console.log(e, wbout)
+					}
+				}
+				return wbout
+			},
 		}
+	}
 </script>
 
 <style>
+
 </style>

@@ -27,11 +27,11 @@
 			<el-button type="primary" size="medium" :disabled="disabled" @click="editLevel"><i class="el-icon-edit-outline"></i>修改</el-button>
 			<el-button type="danger" size="medium" :disabled="disabled" @click="delHandle"><i class="el-icon-delete"></i>删除</el-button>
 			<el-button type="primary" size="medium" :disabled="disabled" @click="quotaHandle"><i class="el-icon-edit-outline"></i>修改额度</el-button>
-      <el-button type="primary" size="medium" @click="importHandle"><i class="el-icon-upload2"></i>导入</el-button>
-      <el-button type="primary" size="medium" @click="exportExcel"><i class="el-icon-download"></i>导出</el-button>
+			<el-button type="primary" size="medium" @click="importHandle"><i class="el-icon-upload2"></i>导入</el-button>
+			<el-button type="primary" size="medium" @click="exportExcel"><i class="el-icon-download"></i>导出</el-button>
 		</div>
 		<div class="mt10">
-			<el-table v-loading="loading" :data="buyNumData" id="exportOrder" border style="width: 100%" @selection-change="handleSelectionChange">
+			<el-table :data="buyNumData" id="exportOrder" border style="width: 100%" @selection-change="handleSelectionChange">
 				<el-table-column type="selection"></el-table-column>
 				<el-table-column prop="Numbers" label="主卡卡号" align="center" sortable></el-table-column>
 				<el-table-column prop="CountryId" label="名称" align="center" sortable></el-table-column>
@@ -83,18 +83,18 @@
 					<el-input v-model="cardForm.remark"></el-input>
 				</el-form-item>
 			</el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button type="primary">确定</el-button>
-        <el-button @click="closeModel">取消</el-button>
-      </div>
+			<div slot="footer" class="dialog-footer">
+				<el-button type="primary">确定</el-button>
+				<el-button @click="closeModel">取消</el-button>
+			</div>
 		</el-dialog>
 		<!--删除-->
 		<el-dialog title="系统提示" :visible.sync="delModel" :close-on-click-modal="false" center width="30%">
 			<div class="del-dialog-cnt textCen">此操作会删除信用卡和买号绑定关系，<br /><br />确认要删除该信用卡管理记录吗？</div>
-      <div slot="footer" class="dialog-footer">
-        <el-button type="primary" size="medium">确定</el-button>
-        <el-button @click="delModel=false" size="medium">取消</el-button>
-      </div>
+			<div slot="footer" class="dialog-footer">
+				<el-button type="primary" size="medium">确定</el-button>
+				<el-button @click="delModel=false" size="medium">取消</el-button>
+			</div>
 		</el-dialog>
 		<!--导入数据-->
 		<el-dialog title="导入数据" :visible.sync="importModel" :close-on-click-modal="false" :before-close="closeImportModel" width="30%">
@@ -104,23 +104,23 @@
 					<span slot="tip" class="el-upload__tip">导入文件不能超过5M，仅允许导入“xls”或“xlsx”格式文件！</span>
 				</el-upload>
 			</div>
-      <div slot="footer" class="dialog-footer">
-        <el-button size="medium" type="primary">下载模板</el-button>
-        <el-button size="medium" type="primary">确定</el-button>
-        <el-button @click="closeImportModel" size="medium">取消</el-button>
-      </div>
+			<div slot="footer" class="dialog-footer">
+				<el-button size="medium" type="primary">下载模板</el-button>
+				<el-button size="medium" type="primary">确定</el-button>
+				<el-button @click="closeImportModel" size="medium">取消</el-button>
+			</div>
 		</el-dialog>
 		<!--修改额度-->
 		<el-dialog title="请输入信用卡额度" :visible.sync="quotaModel" :close-on-click-modal="false" :before-close="closeQuotaModel" width="30%">
 			<el-form :model="quotaForm" ref="quotaForm" class="demo-dynamic">
 				<el-form-item prop="amount">
-					<el-input v-model="quotaForm.amount" ></el-input>
+					<el-input v-model="quotaForm.amount"></el-input>
 				</el-form-item>
 			</el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button type="primary" size="medium">确定</el-button>
-        <el-button @click="closeQuotaModel" size="medium">取消</el-button>
-      </div>
+			<div slot="footer" class="dialog-footer">
+				<el-button type="primary" size="medium">确定</el-button>
+				<el-button @click="closeQuotaModel" size="medium">取消</el-button>
+			</div>
 		</el-dialog>
 		<!--还款-->
 		<el-dialog title="请输入还款金额" :visible.sync="repaymentModel" :close-on-click-modal="false" :before-close="closeRepaymentModel" width="30%">
@@ -129,10 +129,10 @@
 					<el-input v-model="repaymentForm.amount" autofocus="true"></el-input>
 				</el-form-item>
 			</el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button type="primary" size="medium">确定</el-button>
-        <el-button @click="closeRepaymentModel" size="medium">取消</el-button>
-      </div>
+			<div slot="footer" class="dialog-footer">
+				<el-button type="primary" size="medium">确定</el-button>
+				<el-button @click="closeRepaymentModel" size="medium">取消</el-button>
+			</div>
 		</el-dialog>
 	</div>
 </template>
@@ -155,10 +155,38 @@
 				currentPage: 1,
 				repaymentModel: false,
 				pageSize: '0',
-				total:100,
+				total: 100,
 				checkBoxData: [],
 				fileList: [],
-				buyNumData: [],
+				buyNumData: [{
+						"Numbers": "20190605105636229596",
+						"Picture": "",
+						"CountryId": "美国",
+						"Forum": "Amazon",
+						"ProductByASIN": "777888999a",
+						"ProductPrice": 15.99,
+						"ServiceType": "不留评",
+						"OrderNote": "待付款",
+						"Status": "已完成",
+						"OrderNumber": 1314520,
+						"OrderTime": "2019-02-03T00:00:00",
+						"Remark": ""
+					},
+					{
+						"Numbers": "20190611174157617041",
+						"Picture": "",
+						"CountryId": "德国",
+						"Forum": "Amazon",
+						"ProductByASIN": "B07P6KVGF8",
+						"ProductPrice": 18.99,
+						"ServiceType": "不留评",
+						"OrderNote": "待确认",
+						"Status": "已完成",
+						"OrderNumber": 7758258,
+						"OrderTime": "2019-04-02T00:00:00",
+						"Remark": ""
+					}
+				],
 				searchForm: {
 					CardNo: '',
 					username: ''
@@ -172,8 +200,12 @@
 					totalAmount: '',
 					remark: ''
 				},
-				quotaForm: {amount:''},
-				repaymentForm: {amount:''},
+				quotaForm: {
+					amount: ''
+				},
+				repaymentForm: {
+					amount: ''
+				},
 				editRules: {
 					validity: [{
 						required: true,
@@ -291,20 +323,24 @@
 				console.log("关闭额度");
 				let _this = this;
 				_this.quotaModel = false;
-				_this.quotaForm = {amout: ''}
+				_this.quotaForm = {
+					amout: ''
+				}
 			},
 			//还款弹窗
 			repaymentHandle() {
 				let _this = this;
-//				let item = _this.checkBoxData[0];
+				//				let item = _this.checkBoxData[0];
 				_this.repaymentModel = true;
-//				_this.repaymentForm.amount = item.amount;
+				//				_this.repaymentForm.amount = item.amount;
 			},
 			//关闭还款弹窗
 			closeRepaymentModel() {
 				let _this = this;
 				_this.repaymentModel = false;
-				_this.repaymentForm = {amount:''};
+				_this.repaymentForm = {
+					amount: ''
+				};
 			},
 			//是否选中
 			handleSelectionChange(val) {
@@ -341,7 +377,7 @@
 	.el-date-editor.el-input {
 		width: 100%;
 	}
-
+	
 	.del-dialog-cnt .el-input__inner {
 		border: none;
 	}

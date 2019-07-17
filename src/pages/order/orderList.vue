@@ -64,7 +64,7 @@
 			</ul>
 		</div>
 		<div class="mt10">
-			<el-table v-loading="loading" :data="orderPlaceData" id="exportOrder" style="width: 100%" :header-cell-style="{background:'#fafafa'}" @selection-change="handleSelectionChange">
+			<el-table :data="orderPlaceData" id="exportOrder" style="width: 100%" :header-cell-style="{background:'#fafafa'}" @selection-change="handleSelectionChange">
 				<el-table-column type="selection"></el-table-column>
 				<el-table-column prop="Numbers" label="任务编码" align="center" width="200">
 					<template slot-scope="scope">
@@ -94,6 +94,10 @@
 					</template>
 				</el-table-column>
 			</el-table>
+      <div class="mt30">
+      	<el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage" :page-sizes="[10, 20, 30, 40]" :page-size="10" layout="total, sizes, prev, pager, next, jumper" :total="total">
+      	</el-pagination>
+      </div>
 		</div>
 		<el-dialog title="修改价格" :visible.sync="editPricceModel" :close-on-click-modal="false" :before-close="closeModel">
 			<el-form :model="editPriceForm" :rules="editRules" label-width="125px" status-icon>
@@ -179,6 +183,9 @@
 		name: 'orderPlacingManage',
 		data() {
 			return {
+        currentPage: 1,
+        pageSize: '0',
+        total:100,
 				title: '',
 				orderTitle: '',
 				viewTaskDateilsModel: false,
@@ -192,7 +199,35 @@
 				delModel: false,
 				accountModel: false, //分配买号
 				nextModal: false, //继续
-				orderPlaceData: [],
+				orderPlaceData: [{
+            "Numbers": "20190605105636229596",
+            "Picture": "",
+            "CountryId": "美国",
+            "Forum": "Amazon",
+            "ProductByASIN": "777888999a",
+            "ProductPrice": 15.99,
+            "ServiceType": "不留评",
+            "OrderNote": "待付款",
+            "Status": "已完成",
+            "OrderNumber": 1314520,
+            "OrderTime": "2019-02-03T00:00:00",
+            "Remark": ""
+        },
+        {
+            "Numbers": "20190611174157617041",
+            "Picture": "",
+            "CountryId": "德国",
+            "Forum": "Amazon",
+            "ProductByASIN": "B07P6KVGF8",
+            "ProductPrice": 18.99,
+            "ServiceType": "不留评",
+            "OrderNote": "待确认",
+            "Status": "已完成",
+            "OrderNumber": 7758258,
+            "OrderTime": "2019-04-02T00:00:00",
+            "Remark": ""
+        }
+],
 				platformOptions: [{
 						value: '1',
 						label: '全部'
@@ -284,7 +319,7 @@
       buyNum
 		},
 		created() {
-			this.getAllData()
+			// this.getAllData()
 		},
 		methods: {
 			//继续
@@ -452,7 +487,14 @@
 						}
 					}
 				}
-			}
+			},
+      //分页
+      handleSizeChange(val) {
+      	console.log(`每页 ${val} 条`)
+      },
+      handleCurrentChange(val) {
+      	console.log(`当前页: ${val}`)
+      }
 		}
 	}
 </script>

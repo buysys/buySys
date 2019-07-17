@@ -25,8 +25,8 @@
 			</el-button>
 			<el-button type="warning" size="medium" :disabled="disabled" @click="relationCountry"><i class="el-icon-sort"></i>关联国家
 			</el-button>
-      <el-button type="primary" size="medium" @click="importData"><i class="el-icon-upload2"></i>导入</el-button>
-      <el-button type="primary" size="medium" :disabled="disabled" @click="exportExcel"><i class="el-icon-download"></i>导出</el-button>
+			<el-button type="primary" size="medium" @click="importData"><i class="el-icon-upload2"></i>导入</el-button>
+			<el-button type="primary" size="medium" :disabled="disabled" @click="exportExcel"><i class="el-icon-download"></i>导出</el-button>
 		</div>
 		<div class="mt10">
 			<el-table :data="currencyData" v-model='loading' border style="width: 100%" height='500' id='exportOrder' @selection-change="handleSelectionChange">
@@ -70,10 +70,10 @@
 					<el-input v-model='currencyForm.remark'></el-input>
 				</el-form-item>
 			</el-form>
-      <div slot="footer" class="dialog-footer">
-      <el-button type="primary" @click="submitForm('currencyForm')">确 定</el-button>
-      <el-button @click="addCurrencyModal = false">取 消</el-button>
-      </div>
+			<div slot="footer" class="dialog-footer">
+				<el-button type="primary" @click="submitForm('currencyForm')">确 定</el-button>
+				<el-button @click="addCurrencyModal = false">取 消</el-button>
+			</div>
 		</el-dialog>
 		<!--查看详情-->
 		<el-dialog title='货币汇率详情信息' :visible.sync='viewCurrencyModal' :close-on-click-modal='false'>
@@ -94,25 +94,25 @@
 					<span>{{currencyForm.remark}}</span>
 				</el-form-item>
 			</el-form>
-      <div slot="footer" class="dialog-footer">
-      <el-button @click="viewCurrencyModal=false">关 闭</el-button>
-      </div>
+			<div slot="footer" class="dialog-footer">
+				<el-button @click="viewCurrencyModal=false">关 闭</el-button>
+			</div>
 		</el-dialog>
-    <!-- 删除-->
-    <el-dialog title="温馨提示" :visible.sync="delCurrencyModal" :close-on-click-modal="false" center width="30%">
-      <div class="del-dialog-cnt textCen">确认要删除该数据吗？</div>
-      <span slot="footer" class="dialog-footer">
+		<!-- 删除-->
+		<el-dialog title="温馨提示" :visible.sync="delCurrencyModal" :close-on-click-modal="false" center width="30%">
+			<div class="del-dialog-cnt textCen">确认要删除该数据吗？</div>
+			<span slot="footer" class="dialog-footer">
         <el-button type="primary" size="medium">是</el-button>
         <el-button @click="delCurrencyModal=false" size="medium">否</el-button>
       </span>
-    </el-dialog>
+		</el-dialog>
 		<!--关联国家-->
 		<el-dialog :title='currencyTitle' :visible.sync='relationCountryModal' :close-on-click-modal='false'>
 			<country></country>
-      <div slot="footer" class="dialog-footer">
-      <el-button type="primary" @click="relationCountryModal=false">确 定</el-button>
-      <el-button @click="relationCountryModal = false">取 消</el-button>
-      </div>
+			<div slot="footer" class="dialog-footer">
+				<el-button type="primary" @click="relationCountryModal=false">确 定</el-button>
+				<el-button @click="relationCountryModal = false">取 消</el-button>
+			</div>
 		</el-dialog>
 		<!--关联国家列表-->
 		<el-dialog :title='currencyTitle' :visible.sync='relaCountryListModal' :close-on-click-modal='false' width='50%'>
@@ -152,10 +152,10 @@
 					</div>
 				</div>
 			</div>
-      <div slot="footer" class="dialog-footer">
-      <el-button type="primary" @click="relaCountryListModal=false">确 定</el-button>
-      <el-button @click="relaCountryListModal = false">取 消</el-button>
-      </div>
+			<div slot="footer" class="dialog-footer">
+				<el-button type="primary" @click="relaCountryListModal=false">确 定</el-button>
+				<el-button @click="relaCountryListModal = false">取 消</el-button>
+			</div>
 		</el-dialog>
 		<!--解除关联弹窗-->
 		<el-dialog title='温馨提示' :visible.sync='currencyModal' :close-on-click-modal='false' width='30%'>
@@ -210,18 +210,18 @@
 		name: 'exchangeRate',
 		data() {
 			return {
-//				importHeaders: {
-//					enctype: 'multipart/form-data',
-//					cityCode: ''
-//				},
-//				name: 'import',
-//				fileList: [],
-//				withCredentials: true,
-//				processing: false,
-//				uploadTip: '点击上传',
-//				importFlag: 1,
-//				errorResults: []
-//				importUrl: 'http://192.168.111.103:52019',
+				//				importHeaders: {
+				//					enctype: 'multipart/form-data',
+				//					cityCode: ''
+				//				},
+				//				name: 'import',
+				//				fileList: [],
+				//				withCredentials: true,
+				//				processing: false,
+				//				uploadTip: '点击上传',
+				//				importFlag: 1,
+				//				errorResults: []
+				//				importUrl: 'http://192.168.111.103:52019',
 				fileTemp: null,
 				serviceTitle: '',
 				currencyTitle: '',
@@ -241,7 +241,35 @@
 				returnShow: false,
 				dialogImportVisible: false,
 				tipMessage: '',
-				currencyData: [],
+				currencyData: [{
+						"Numbers": "20190605105636229596",
+						"Picture": "",
+						"CountryId": "美国",
+						"Forum": "Amazon",
+						"ProductByASIN": "777888999a",
+						"ProductPrice": 15.99,
+						"ServiceType": "不留评",
+						"OrderNote": "待付款",
+						"Status": "已完成",
+						"OrderNumber": 1314520,
+						"OrderTime": "2019-02-03T00:00:00",
+						"Remark": ""
+					},
+					{
+						"Numbers": "20190611174157617041",
+						"Picture": "",
+						"CountryId": "德国",
+						"Forum": "Amazon",
+						"ProductByASIN": "B07P6KVGF8",
+						"ProductPrice": 18.99,
+						"ServiceType": "不留评",
+						"OrderNote": "待确认",
+						"Status": "已完成",
+						"OrderNumber": 7758258,
+						"OrderTime": "2019-04-02T00:00:00",
+						"Remark": ""
+					}
+				],
 				checkBoxData: [], //选中信息
 				countryCheckBoxData: [], //国家列表选中信息
 				searchForm: {
@@ -282,7 +310,7 @@
 			country
 		},
 		created() {
-			this.getAllData()
+//			this.getAllData()
 		},
 		methods: {
 			handleChange(file, fileList) {

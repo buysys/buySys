@@ -33,8 +33,8 @@
 					<el-input type="textarea" v-model="editForm.remark"></el-input>
 				</el-form-item>
 				<p class="txtCenter">
-					<el-button type="primary">确定</el-button>
-					<el-button @click="closeModel">取消</el-button>
+					<el-button type="primary" @click="submitData">确定</el-button>
+					<el-button @click="editModel=false">取消</el-button>
 				</p>
 			</el-form>
 		</el-dialog>
@@ -164,7 +164,7 @@
 					  let _this = this
 					  _this.delModel = true
 					},
-					// 禁用
+					// 禁用启用
 					forbidModelShow () {
 					  let _this = this
 					  _this.forbidModel = true
@@ -188,7 +188,7 @@
 							raw: true
 						} // 导出的内容只做解析，不进行格式转换
 						var wb = XLSX.utils.table_to_book(document.querySelector('#exportData'), xlsxParam)
-					
+
 						/* get binary string as output */
 						var wbout = XLSX.write(wb, {
 							bookType: 'xlsx',
@@ -206,6 +206,28 @@
 						}
 						return wbout
 					},
+
+          //提交数据
+          submitData(){
+            let _this = this
+            let param = {
+              OrderForumId : '',
+              OrderName : _this.editForm.type,
+              ServiceFee: _this.editForm.money,
+              Explain: _this.editForm.remark,
+              Enabled: 0
+            }
+            _this.axios.post(_this.GLOBAL.BASE_URL + '/getOrade',param).then((res) => {
+              let data = res.data
+              if (data.success == 200){
+                _this.$message.success('操作成功')
+                _this.editModel = false
+                // _this.allNum = res.data.data.length
+              }
+            }).catch((error) => {
+            	console.log(error)
+            })
+          }
 			}
 		}
 </script>
