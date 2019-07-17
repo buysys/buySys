@@ -131,7 +131,35 @@
 				viewCountryModal: false, //查看详情
 				returnShow: false,
 				tipMessage: '',
-				countryData: [],
+				countryData: [{
+						"Numbers": "20190605105636229596",
+						"Picture": "",
+						"CountryId": "美国",
+						"Forum": "Amazon",
+						"ProductByASIN": "777888999a",
+						"ProductPrice": 15.99,
+						"ServiceType": "不留评",
+						"OrderNote": "待付款",
+						"Status": "已完成",
+						"OrderNumber": 1314520,
+						"OrderTime": "2019-02-03T00:00:00",
+						"Remark": ""
+					},
+					{
+						"Numbers": "20190611174157617041",
+						"Picture": "",
+						"CountryId": "德国",
+						"Forum": "Amazon",
+						"ProductByASIN": "B07P6KVGF8",
+						"ProductPrice": 18.99,
+						"ServiceType": "不留评",
+						"OrderNote": "待确认",
+						"Status": "已完成",
+						"OrderNumber": 7758258,
+						"OrderTime": "2019-04-02T00:00:00",
+						"Remark": ""
+					}
+				],
 				checkBoxData: [], //选中信息
 				searchForm: {
 					countryId: ''
@@ -175,15 +203,15 @@
 			}
 		},
 		created() {
-//			this.getAllData()
+			//			this.getAllData()
 		},
 		methods: {
 			//添加确定
 			confirmCountry(formName) {
 				let _this = this
 				let param = {
-					CountryName:_this.countryForm.countryId,
-					CountryShorthand:_this.countryForm.countryAbbre,
+					CountryName: _this.countryForm.countryId,
+					CountryShorthand: _this.countryForm.countryAbbre,
 					Language: _this.countryForm.language,
 					TimeZone: _this.countryForm.timeZone,
 					GMTTimeZone: _this.countryForm.gmtTimeZone,
@@ -192,19 +220,19 @@
 				}
 				_this.$refs[formName].validate((valid) => {
 					if(valid) {
-						_this.axios.post(_this.GLOBAL.BASE_URL + '/getState',param,{
-					headers: {
-						'Content-Type': 'application/json'
-					}
-				}).then((res)=>{
-					console.log(res.data)
-							if(res.data.success == '200'){
+						_this.axios.post(_this.GLOBAL.BASE_URL + '/getState', param, {
+							headers: {
+								'Content-Type': 'application/json'
+							}
+						}).then((res) => {
+							console.log(res.data)
+							if(res.data.success == '200') {
 								_this.$message.success('添加成功')
-								_this.addCountryModal=false
-							} else{
+								_this.addCountryModal = false
+							} else {
 								_this.$message.error(res.data.message)
 							}
-						}).catch((error)=>{
+						}).catch((error) => {
 							console.log(error)
 						})
 					}

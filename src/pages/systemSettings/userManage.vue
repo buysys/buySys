@@ -20,32 +20,36 @@
 							</el-col>
 							<el-col :xs="24" :span="4" class="ml20">
 								<el-button type="primary" size="medium">查询</el-button>
-								<el-button size="medium" @click="resetSearch ">重置</el-button>
+								<el-button size="medium" @click="resetSearch">重置</el-button>
 							</el-col>
 						</el-row>
 					</el-form>
 				</div>
 			</el-collapse-transition>
 			<div class="mb20 ">
-				<el-button type="success" size="medium" @click="addUser "><i class="el-icon-plus "></i>新建</el-button>
-				<el-button type="primary" size="medium" :disabled="disabled " @click="editUser "><i class="el-icon-edit-outline"></i>修改
+				<el-button type="success" size="medium" @click="addUser "><i class="el-icon-plus"></i>新建</el-button>
+				<el-button type="primary" size="medium" :disabled="disabled" @click="editUser"><i class="el-icon-edit-outline"></i>修改
 				</el-button>
-				<el-button type="danger" size="medium" :disabled="disabled " @click="delHandle "><i class="el-icon-delete"></i>删除
+				<el-button type="danger" size="medium" :disabled="disabled" @click="delHandle"><i class="el-icon-delete"></i>删除
 				</el-button>
-				<el-button type="warning" size="medium" @click="importHandle "><i class="el-icon-folder-opened"></i>导入
+				<el-button type="warning" size="medium" @click="importHandle"><i class="el-icon-folder-opened"></i>导入
 				</el-button>
-				<el-button type="primary" size="medium" @click="exportExcel "><i class="el-icon-document-delete"></i>导出
+				<el-button type="primary" size="medium" @click="exportExcel"><i class="el-icon-document-delete"></i>导出
 				</el-button>
-        <el-button type="success" size="medium" @click="roleModelShow" style="float: right;"><i class="el-icon-set-up"></i>角色管理
-        </el-button>
+				<el-button type="success" size="medium" @click="roleModelShow" style="float: right;"><i class="el-icon-set-up"></i>角色管理
+				</el-button>
 			</div>
 			<div class="mt10 ">
-				<el-table v-loading="loading" :data="userData" id="exportOrder" border style="width: 100%" @selection-change="handleSelectionChange">
+				<el-table :data="userData" id="exportOrder" border style="width: 100%" @selection-change="handleSelectionChange">
 					<el-table-column type="selection"></el-table-column>
-					<el-table-column prop="Numbers" label="头像" align="center" sortable></el-table-column>
 					<el-table-column prop="CountryId" label="登录名" align="center" sortable></el-table-column>
 					<el-table-column prop="ProductByASIN" label="姓名" align="center" sortable></el-table-column>
 					<el-table-column prop="ProductByASIN" label="手机" align="center" sortable></el-table-column>
+					<el-table-column label="操作" align="center">
+						<template slot-scope="scope">
+							<el-button size="small" type="success" @click="RechargeModelShow(scope.$index, scope.row)">充值</el-button>
+						</template>
+					</el-table-column>
 				</el-table>
 				<div class="mt30 ">
 					<el-pagination @size-change="handleSizeChange " @current-change="handleCurrentChange" :current-page="currentPage " :page-sizes="[100, 200, 300, 500] " :page-size="10 " layout="total, sizes, prev, pager, next, jumper " :total="total ">
@@ -53,54 +57,69 @@
 				</div>
 			</div>
 			<!--新建、修改-->
-			<el-dialog :title="title " :visible.sync="userModel " :close-on-click-modal="false" :before-close="cloesUserModel" center width="70%">
-				<el-form :model="userForm " ref="userForm " label-width="100px " :rules="editRules">
+			<el-dialog :title="title " :visible.sync="userModel" :close-on-click-modal="false" :before-close="cloesUserModel" center width="90%" custom-class="fixed-dialog">
+				<el-form :model="userForm" ref="userForm " label-width="100px" :rules="editRules">
 					<el-row>
 						<el-col :span="12 ">
 							<el-form-item label="姓名 " prop="userName">
-								<el-input v-model="userForm.userName "></el-input>
+								<el-input v-model="userForm.userName"></el-input>
 							</el-form-item>
 						</el-col>
 						<el-col :span="12 ">
 							<el-form-item label="登录名 " prop="userLoginName">
-								<el-input v-model="userForm.userLoginName "></el-input>
+								<el-input v-model="userForm.userLoginName"></el-input>
 							</el-form-item>
 						</el-col>
 					</el-row>
 					<el-row>
 						<el-col :span="12 ">
 							<el-form-item label="密码 " prop="pwd">
-								<el-input v-model="userForm.pwd "></el-input>
+								<el-input v-model="userForm.pwd"></el-input>
 							</el-form-item>
 						</el-col>
 						<el-col :span="12 ">
 							<el-form-item label="确认密码 " prop="checkPwd">
-								<el-input v-model="userForm.checkPwd "></el-input>
+								<el-input v-model="userForm.checkPwd"></el-input>
 							</el-form-item>
 						</el-col>
 					</el-row>
 					<el-row>
 						<el-col :span="12 ">
 							<el-form-item label="邮箱 ">
-								<el-input v-model="userForm.email "></el-input>
+								<el-input v-model="userForm.email"></el-input>
 							</el-form-item>
 						</el-col>
-							<el-col :span="12 ">
+						<el-col :span="12">
 							<el-form-item label="手机 ">
-								<el-input v-model="userForm.mobile "></el-input>
+								<el-input v-model="userForm.mobile"></el-input>
+							</el-form-item>
+						</el-col>
+					</el-row>
+					<el-row>
+						<el-col :span="12">
+							<el-form-item label="是否允许登录">
+								<el-select v-model="userForm.allowLogin">
+									<el-option label="是" value="yes"></el-option>
+									<el-option label="否" value="no"></el-option>
+								</el-select>
 							</el-form-item>
 						</el-col>
 					</el-row>
 					<el-row>
 						<el-col :span="12 ">
-							<el-form-item label="用户角色 " prop="userRole">
+							<el-form-item label="用户角色" prop="userRole">
 								<el-checkbox-group v-model="userForm.userRole">
-									<el-checkbox label="Seller " name="type "></el-checkbox>
-									<el-checkbox label="刷手 " name="type "></el-checkbox>
-									<el-checkbox label="注册账号 " name="type "></el-checkbox>
-									<el-checkbox label="财务 " name="type "></el-checkbox>
-									<el-checkbox label="部门管理员 " name="type "></el-checkbox>
+									<el-checkbox label="Seller" name="type"></el-checkbox>
+									<el-checkbox label="刷手" name="type"></el-checkbox>
+									<el-checkbox label="注册账号" name="type"></el-checkbox>
+									<el-checkbox label="财务" name="type"></el-checkbox>
+									<el-checkbox label="部门管理员" name="type"></el-checkbox>
 								</el-checkbox-group>
+							</el-form-item>
+						</el-col>
+						<el-col>
+							<el-form-item label="备注 ">
+								<el-input v-model="userForm.remark"></el-input>
 							</el-form-item>
 						</el-col>
 					</el-row>
@@ -111,31 +130,31 @@
 				</el-form>
 			</el-dialog>
 			<!--删除-->
-			<el-dialog title="系统提示 " :visible.sync="delModel " :close-on-click-modal="false" center width="16% ">
-				<div class="del-dialog-cnt textCen ">确认要删除选中用户吗？</div>
-				<span slot="footer " class="dialog-footer ">
-        					<el-button type="primary " size="medium ">是</el-button>
-        					<el-button @click="delModel=false " size="medium ">否</el-button>
+			<el-dialog title="系统提示" :visible.sync="delModel" :close-on-click-modal="false" center width="30%">
+				<div class="del-dialog-cnt textCen">确认要删除选中用户吗？</div>
+				<span slot="footer " class="dialog-footer">
+        					<el-button type="primary" size="medium">是</el-button>
+        					<el-button @click="delModel=false " size="medium">否</el-button>
       					</span>
 			</el-dialog>
 			<!--导入数据-->
-			<el-dialog title="导入数据" :visible.sync="importModel" :close-on-click-modal="false" :before-close="closeImportModel " center width="30%">
-				<div class="del-dialog-cnt textCen ">
-					<el-upload class="upload-demo " action="https://jsonplaceholder.typicode.com/posts/ " ref="upload " multiple :limit="3 " :file-list="fileList ">
-						<el-button size="mini ">选择文件</el-button>
-						<span slot="tip " class="el-upload__tip ">导入文件不能超过5M，仅允许导入“xls”或“xlsx”格式文件！</span>
+			<el-dialog title="导入数据" :visible.sync="importModel" :close-on-click-modal="false" :before-close="closeImportModel" center width="30%">
+				<div class="del-dialog-cnt textCen">
+					<el-upload class="upload-demo" action="https://jsonplaceholder.typicode.com/posts/" ref="upload" multiple :limit="3" :file-list="fileList">
+						<el-button size="mini">选择文件</el-button>
+						<span slot="tip" class="el-upload__tip">导入文件不能超过5M，仅允许导入“xls”或“xlsx”格式文件！</span>
 					</el-upload>
 				</div>
-				<span slot="footer " class="dialog-footer ">
-							<el-button size="medium " type="primary " @click="exportExcel ">下载模板</el-button>
-        					<el-button size="medium " type="primary ">确定</el-button>
-        					<el-button @click="closeImportModel " size="medium ">取消</el-button>
+				<span slot="footer" class="dialog-footer">
+							<el-button size="medium " type="primary" @click="exportExcel">下载模板</el-button>
+        					<el-button size="medium " type="primary">确定</el-button>
+        					<el-button @click="closeImportModel" size="medium">取消</el-button>
       					</span>
 			</el-dialog>
-      <!--角色管理-->
-      <el-dialog title="角色管理" :visible.sync="roleModel" :close-on-click-modal="false" center width="90%">
-      	<roleManage></roleManage>
-      </el-dialog>
+			<!--角色管理-->
+			<el-dialog title="角色管理" :visible.sync="roleModel" :close-on-click-modal="false" center width="90%">
+				<roleManage></roleManage>
+			</el-dialog>
 		</div>
 	</div>
 </template>
@@ -144,7 +163,7 @@
 	import FileSaver from 'file-saver'
 	import XLSX from 'xlsx'
 
-  import roleManage from './roleManage'
+	import roleManage from './roleManage'
 	export default {
 		name: 'userManage',
 		data() {
@@ -153,7 +172,7 @@
 				loading: true,
 				delModel: false,
 				importModel: false,
-        roleModel: false,
+				roleModel: false,
 				fileList: [],
 				currentPage: 1,
 				pageSize: '0',
@@ -179,7 +198,35 @@
 					userRole: [],
 					remark: ''
 				},
-				userData: [],
+				userData: [{
+						"Numbers": "20190605105636229596",
+						"Picture": "",
+						"CountryId": "美国",
+						"Forum": "Amazon",
+						"ProductByASIN": "777888999a",
+						"ProductPrice": 15.99,
+						"ServiceType": "不留评",
+						"OrderNote": "待付款",
+						"Status": "已完成",
+						"OrderNumber": 1314520,
+						"OrderTime": "2019-02-03T00:00:00",
+						"Remark": ""
+					},
+					{
+						"Numbers": "20190611174157617041",
+						"Picture": "",
+						"CountryId": "德国",
+						"Forum": "Amazon",
+						"ProductByASIN": "B07P6KVGF8",
+						"ProductPrice": 18.99,
+						"ServiceType": "不留评",
+						"OrderNote": "待确认",
+						"Status": "已完成",
+						"OrderNumber": 7758258,
+						"OrderTime": "2019-04-02T00:00:00",
+						"Remark": ""
+					}
+				],
 				editRules: {
 					userName: [{
 						required: true,
@@ -196,22 +243,22 @@
 						message: '请输入工号',
 						trigger: 'blur'
 					}],
-					userLoginName:[{
+					userLoginName: [{
 						required: true,
 						message: '请输入登录名',
 						trigger: 'blur'
 					}],
-					pwd:[{
+					pwd: [{
 						required: true,
 						message: '请输入密码',
 						trigger: 'blur'
 					}],
-					checkPwd:[{
+					checkPwd: [{
 						required: true,
 						message: '请输入确认密码',
 						trigger: 'blur'
 					}],
-					userRole:[{
+					userRole: [{
 						required: true,
 						message: '请选择角色',
 						trigger: 'blur'
@@ -219,11 +266,11 @@
 				}
 			};
 		},
-    components:{
-      roleManage
-    },
+		components: {
+			roleManage
+		},
 		created() {
-			this.getAllData()
+//			this.getAllData()
 		},
 		methods: {
 			//重置查询表单
@@ -276,11 +323,11 @@
 				let _this = this;
 				_this.importModel = true;
 			},
-      //角色管理
-      roleModelShow() {
-      	let _this = this;
-      	_this.roleModel = true;
-      },
+			//角色管理
+			roleModelShow() {
+				let _this = this;
+				_this.roleModel = true;
+			},
 			//关闭导入弹窗
 			closeImportModel() {
 				let _this = this;
@@ -347,5 +394,8 @@
 	.tree {
 		border: 1px solid #eee;
 	}
-	.el-select {width: 100%;}
+	
+	.el-select {
+		width: 100%;
+	}
 </style>

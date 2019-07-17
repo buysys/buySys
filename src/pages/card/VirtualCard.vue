@@ -286,7 +286,7 @@
 			}
 		},
 		created() {
-			this.getAllData()
+//			this.getAllData()
 		},
 		methods: {
 			//新增虚拟卡

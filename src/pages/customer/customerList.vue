@@ -309,7 +309,7 @@
 			takeMoneyList
 		},
 		created() {
-			this.getAllData()
+//			this.getAllData()
 		},
 		methods: {
 			//获取数据

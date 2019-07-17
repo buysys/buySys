@@ -424,7 +424,35 @@
 				disabled: true,
 				editPricceModel: false,
 				checkBoxData: [],
-				orderPlaceData: [],
+				orderPlaceData: [{
+            "Numbers": "20190605105636229596",
+            "Picture": "",
+            "CountryId": "美国",
+            "Forum": "Amazon",
+            "ProductByASIN": "777888999a",
+            "ProductPrice": 15.99,
+            "ServiceType": "不留评",
+            "OrderNote": "待付款",
+            "Status": "已完成",
+            "OrderNumber": 1314520,
+            "OrderTime": "2019-02-03T00:00:00",
+            "Remark": ""
+        },
+        {
+            "Numbers": "20190611174157617041",
+            "Picture": "",
+            "CountryId": "德国",
+            "Forum": "Amazon",
+            "ProductByASIN": "B07P6KVGF8",
+            "ProductPrice": 18.99,
+            "ServiceType": "不留评",
+            "OrderNote": "待确认",
+            "Status": "已完成",
+            "OrderNumber": 7758258,
+            "OrderTime": "2019-04-02T00:00:00",
+            "Remark": ""
+        }
+],
 				test: {
 					text1: '',
 					numbers: ''
@@ -519,7 +547,7 @@
 			OrderLog
 		},
 		created() {
-			this.getAllData()
+			// this.getAllData()
 		},
 		methods: {
 			showMessageFromChild(data) {
