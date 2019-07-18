@@ -68,7 +68,7 @@
 				<el-table-column type="selection"></el-table-column>
 				<el-table-column prop="Numbers" label="任务编码" align="center" width="200">
 					<template slot-scope="scope">
-						<el-button type="text" @click="viewTaskDetails(scope.$index,scope.row)">{{scope.row.Numbers}}</el-button>
+						<el-button type="text" @click="viewOrderDetailsModel(scope.$index,scope.row)">{{scope.row.Numbers}}</el-button>
 					</template>
 				</el-table-column>
 				<el-table-column prop="CountryId" label="平台/国家" align="center"></el-table-column>
@@ -146,13 +146,259 @@
 			</span>
 		</el-dialog>
 		<!--查看任务详情-->
-		<el-dialog :title='orderTitle' :visible.sync="viewTaskDateilsModel" :close-on-click-modal="false" width="90%" custom-class="fixed-dialog">
-			<orderDetail :order-data="this.orderDetail"></orderDetail>
+		<el-dialog :title='orderTitle' :visible.sync="viewOrderDetails" :close-on-click-modal="false" width="90%" custom-class="fixed-dialog">
+			  <el-form class="demo-item" :model='orderViewForm'>
+					<div class="fz16">订单信息</div>
+					<el-row>
+						<el-col :span='12' :xs='24'>
+							<el-form-item label="平台：">
+								<span>{{orderViewForm.Forum}}</span>
+							</el-form-item>
+						</el-col>
+						<el-col :span='12' :xs='24'>
+							<el-form-item label="国家：">
+								<span>{{orderViewForm.CountryId}}</span>
+							</el-form-item>
+						</el-col>
+					</el-row>
+					<el-row>
+						<el-col :span='12' :xs='24'>
+							<el-form-item label="产品ASIN：">
+								<span>D2342543654657</span>
+							</el-form-item>
+						</el-col>
+						<el-col :span='12' :xs='24'>
+							<el-form-item label="店铺：">
+								<span>nike</span>
+							</el-form-item>
+						</el-col>
+					</el-row>
+					<el-row>
+						<el-col :span='12' :xs='24'>
+							<el-form-item label="产品名称：">
+								<span>水淀粉</span>
+							</el-form-item>
+						</el-col>
+						<el-col :span='12' :xs='24'>
+							<el-form-item label="产品价格：">
+								<span>$100</span>
+							</el-form-item>
+						</el-col>
+					</el-row>
+					<el-row>
+						<el-col :span='12' :xs='24'>
+							<el-form-item label="评论数：">
+								<span>2</span>
+							</el-form-item>
+						</el-col>
+						<el-col :span='12' :xs='24'>
+							<el-form-item label='产品评分：'>
+								<el-rate v-model="orderViewForm.score" disabled show-score text-color="#ff9900"  score-template="{value}" style='line-height: 2.8;'></el-rate>
+							</el-form-item>
+						</el-col>
+					</el-row>
+					<el-row>
+						<el-col :span='12' :xs='24' class="fleft">
+							<el-form-item label="品类排名：">
+								<span>2</span>
+							</el-form-item>
+						</el-col>
+						<el-col :span='12' :xs='24' class="fright">
+							<el-form-item label="产品图片：">
+								<img class="proImg"></img>
+							</el-form-item>
+						</el-col>
+						<el-col :span="12" :xs="24" class="fleft">
+							<el-form-item label="产品链接：" class="wid">
+								<span>http://www.pre.com</span>
+							</el-form-item>
+						</el-col>
+					</el-row>
+					<el-row>
+						<el-col :span='12' :xs='24'>
+							<el-form-item label="关键词类型：">
+								<span>产地是</span>
+							</el-form-item>
+						</el-col>
+						<el-col :span='12' :xs='24'>
+							<el-form-item label="终端平台：">
+								<span>PC</span>
+							</el-form-item>
+						</el-col>
+					</el-row>
+					<el-row>
+						<el-col :span='12' :xs='24'>
+							<el-form-item label="产品关键词：">
+								<span>产地是</span>
+							</el-form-item>
+						</el-col>
+						<el-col :span='12' :xs='24'>
+							<el-form-item label="代购数量：">
+								<span>3</span>
+							</el-form-item>
+						</el-col>
+					</el-row>
+					<el-row>
+						<el-col :span='12' :xs='24'>
+							<el-form-item label="留评类型：">
+								<span>100%</span>
+							</el-form-item>
+						</el-col>
+						<el-col :span='12' :xs='24'>
+							<el-form-item label="FeedBack数量：">
+								<span>3</span>
+							</el-form-item>
+						</el-col>
+					</el-row>
+					<el-row>
+						<el-col :span='12' :xs='24'>
+							<el-form-item label="评论图片数量：">
+								<span>2</span>
+							</el-form-item>
+						</el-col>
+						<el-col :span='12' :xs='24'>
+							<el-form-item label="评论视频数量：">
+								<span>2</span>
+							</el-form-item>
+						</el-col>
+					</el-row>
+					<el-row>
+						<el-col :span='12' :xs='24'>
+							<el-form-item label="使用优惠券：">
+								<span>否</span>
+							</el-form-item>
+						</el-col>
+						<el-col :span='12' :xs='24'>
+							<el-form-item label="链接地址：">
+								<span>https://www.sdfs.com</span>
+							</el-form-item>
+						</el-col>
+					</el-row>
+					<el-row class="ml60 mb10 mt10">
+						<el-col :span="6" :xs="11" :md="6">
+							<span>任务开始时间</span>
+						</el-col>
+						<el-col :span="6" :xs="2" :md="6" class="mb10">
+							<span style="visibility: hidden;">hfh</span>
+						</el-col>
+						<el-col :span="8" :xs="11" :md="8" class="mb10 ml60">
+							<span>数量</span>
+						</el-col>
+					</el-row>
+					<el-row class="ml60">
+						<el-col :span='6' :xs="24" class="mb10">
+								<span>2019-07-02</span>
+						</el-col>
+						<el-col :span='6' :xs="24" class="mb10">
+							<span>00:00-20:00</span>
+						</el-col>
+						<el-col :span='8' :xs="24" class="ml60">
+							<span>2</span>
+						</el-col>
+					</el-row>
+					<el-row>
+						<el-col :span='12' :xs='24'>
+							<el-form-item label="产品总额：">
+								<span>$23.00</span>
+							</el-form-item>
+						</el-col>
+						<el-col :span='12' :xs='24'>
+							<el-form-item label="服务费用：">
+								<span>$0.00</span>
+							</el-form-item>
+						</el-col>
+					</el-row>
+					<el-row>
+						<el-col :span='12' :xs='24'>
+							<el-form-item label="合计金额：">
+								<span>$23</span>
+							</el-form-item>
+						</el-col>
+						<el-col :span='12' :xs='24'>
+							<el-form-item label="订单备注：">
+								<span>而温柔</span>
+							</el-form-item>
+						</el-col>
+					</el-row>
+					<div class="fz16">客户信息</div>
+					<el-row>
+						<el-col :span='12' :xs='24'>
+							<el-form-item label="账号：">
+								<span>kyumin</span>
+							</el-form-item>
+						</el-col>
+						<el-col :span='12' :xs='24'>
+							<el-form-item label="名称：">
+								<span>kyumin</span>
+							</el-form-item>
+						</el-col>
+					</el-row>
+					<el-row>
+						<el-col :span='12' :xs='24'>
+							<el-form-item label="邮箱：">
+								<span>kyumin@163.com</span>
+							</el-form-item>
+						</el-col>
+						<el-col :span='12' :xs='24'>
+							<el-form-item label="手机：">
+								<span>1234242422</span>
+							</el-form-item>
+						</el-col>
+					</el-row>
+					<el-row>
+						<el-col :span='12' :xs='24'>
+							<el-form-item label="微信：">
+								<span>kyumin</span>
+							</el-form-item>
+						</el-col>
+						<el-col :span='12' :xs='24'>
+							<el-form-item label="QQ：">
+								<span>7043443443</span>
+							</el-form-item>
+						</el-col>
+					</el-row>
+					<div class="fz16">付款信息</div>
+					<el-row>
+						<el-col :span='12' :xs='24'>
+							<el-form-item label="付款方式：">
+								<span>支付宝</span>
+							</el-form-item>
+						</el-col>
+						<el-col :span='12' :xs='24'>
+							<el-form-item label="付款账号：">
+								<span>7043443443</span>
+							</el-form-item>
+						</el-col>
+					</el-row>
+					<el-row>
+						<el-col :span='12' :xs='24'>
+							<el-form-item label="收款账号：">
+								<span>支付宝</span>
+							</el-form-item>
+						</el-col>
+						<el-col :span='12' :xs='24'>
+							<el-form-item label="收款姓名：">
+								<span>kyumin</span>
+							</el-form-item>
+						</el-col>
+					</el-row>
+					<el-row>
+						<el-col :span='12' :xs='24'>
+							<el-form-item label="交易流水：">
+								<span>43253256576576</span>
+							</el-form-item>
+						</el-col>
+						<el-col :span='12' :xs='24'>
+							<el-form-item label="付款金额：">
+								<span>￥70</span>
+							</el-form-item>
+						</el-col>
+					</el-row>
+				</el-form>
       <div slot="footer" class="dialog-footer">
-      <el-button @click="viewTaskDateilsModel = false">关 闭</el-button>
+      <el-button @click="viewOrderDetails = false">关 闭</el-button>
       </div>
     </el-dialog>
-		</el-dialog>
 		<!-- 删除-->
 		<el-dialog title="温馨提示" :visible.sync="delModel" :close-on-click-modal="false" center width="30%">
 			<div class="del-dialog-cnt textCen">是否要删除该订单吗？</div>
@@ -176,7 +422,6 @@
 	import FileSaver from 'file-saver'
 	import XLSX from 'xlsx'
 
-	import orderDetail from '../../common/orderDetail'
 	import OrderLog from '../../common/OrderLog'
 	import buyNum from '../../common/buyNum'
 	export default {
@@ -188,7 +433,7 @@
         total:100,
 				title: '',
 				orderTitle: '',
-				viewTaskDateilsModel: false,
+				viewOrderDetails: false,
 				confirmPaymentModel: false,
 				cancelPaymentModel: false,
 				loading: true,
@@ -280,6 +525,11 @@
 					exchangeRate: '',
 					remark: ''
 				},
+        orderViewForm:{
+          Forum:'',
+          CountryId:'',
+          score:3.8
+        },
 				editRules: {
 					fbServiceFree: [{
 						required: true,
@@ -302,10 +552,6 @@
 						trigger: 'blur'
 					}]
 				},
-				orderDetail: {
-					Forum: '',
-					CountryId: '',
-				},
 				pickerEndDate: this.pickerOptionsEnd(),
 				pickerStartDate: this.searchStartDate(),
 				activeName: 'first',
@@ -314,7 +560,6 @@
 			}
 		},
 		components: {
-			orderDetail,
 			OrderLog,
       buyNum
 		},
@@ -342,14 +587,14 @@
 				_this.accountModel=false
 			},
 			// 查看订单详情弹窗
-			viewTaskDetails(index, row) {
+			viewOrderDetailsModel(index, row) {
 				let _this = this
-				_this.viewTaskDateilsModel = true
+				_this.viewOrderDetails = true
 				let item = _this.orderPlaceData[index]
 				let num = item.Numbers
 				_this.orderTitle = '订单：' + num + '的详情信息'
-				_this.orderDetail.Forum = item.Forum
-				_this.orderDetail.CountryId = item.CountryId
+				_this.orderViewForm.Forum = item.Forum
+				_this.orderViewForm.CountryId = item.CountryId
 			},
 			// 日志弹窗
 			logHandel(index, row) {
