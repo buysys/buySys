@@ -1,8 +1,10 @@
 <template>
 	<div class="container">
-		<div class="mb20 fz14">
-			<span>任务管理</span>
-		</div>
+    <div class="mb20 fz14">
+      <span>首页</span>
+      <span>/</span>
+    	<span>任务管理</span>
+    </div>
 		<el-collapse-transition>
 			<div class="searchBox mb20">
 				<el-form ref="searchForm" :model="searchForm" class="form-item" label-width="80px">

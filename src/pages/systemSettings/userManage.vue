@@ -1,6 +1,8 @@
 <template>
 	<div class="container">
 		<div class="mb20 fz14">
+      <span>首页</span>
+      <span>/</span>
 			<span>用户管理</span>
 		</div>
 		<div class="mt10">
@@ -27,17 +29,17 @@
 				</div>
 			</el-collapse-transition>
 			<div class="mb20 ">
-				<el-button type="success" size="medium" @click="addUser "><i class="el-icon-plus"></i>新建</el-button>
-				<el-button type="primary" size="medium" :disabled="disabled" @click="editUser"><i class="el-icon-edit-outline"></i>修改
+				<el-button type="success" size="medium" @click="addUser "><i class="el-icon-plus "></i>新增</el-button>
+				<el-button type="primary" size="medium" :disabled="disabled " @click="editUser "><i class="el-icon-edit-outline"></i>修改
 				</el-button>
 				<el-button type="danger" size="medium" :disabled="disabled" @click="delHandle"><i class="el-icon-delete"></i>删除
 				</el-button>
-				<el-button type="warning" size="medium" @click="importHandle"><i class="el-icon-folder-opened"></i>导入
-				</el-button>
-				<el-button type="primary" size="medium" @click="exportExcel"><i class="el-icon-document-delete"></i>导出
-				</el-button>
-				<el-button type="success" size="medium" @click="roleModelShow" style="float: right;"><i class="el-icon-set-up"></i>角色管理
-				</el-button>
+        <el-button type="success" size="medium" @click="roleModelShow" style="float: right;"><i class="el-icon-set-up"></i>角色管理
+        </el-button>
+        <el-button type="primary" size="medium" @click="importHandle "><i class="el-icon-upload2"></i>导入
+        </el-button>
+        <el-button type="primary" size="medium" @click="exportExcel "><i class="el-icon-download"></i>导出
+        </el-button>
 			</div>
 			<div class="mt10 ">
 				<el-table :data="userData" id="exportOrder" border style="width: 100%" @selection-change="handleSelectionChange">
@@ -123,12 +125,12 @@
 							</el-form-item>
 						</el-col>
 					</el-row>
-					<div class="textCen">
-						<el-button type="primary">确定</el-button>
-						<el-button @click="cloesUserModel">取消</el-button>
-					</div>
 				</el-form>
-			</el-dialog>
+        <div slot="footer" class="dialog-footer">
+          <el-button type="primary">确定</el-button>
+          <el-button @click="cloesUserModel">取消</el-button>
+        </div>
+      </el-dialog>
 			<!--删除-->
 			<el-dialog title="系统提示" :visible.sync="delModel" :close-on-click-modal="false" center width="30%">
 				<div class="del-dialog-cnt textCen">确认要删除选中用户吗？</div>
@@ -178,7 +180,7 @@
 				pageSize: '0',
 				total: 100,
 				userModel: false,
-				title: "新建 ",
+				title: "新增",
 				checkBoxData: [],
 				searchForm: {
 					userLoginName: '',
@@ -394,7 +396,7 @@
 	.tree {
 		border: 1px solid #eee;
 	}
-	
+
 	.el-select {
 		width: 100%;
 	}

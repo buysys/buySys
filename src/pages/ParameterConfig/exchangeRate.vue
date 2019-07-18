@@ -367,10 +367,29 @@
 			//添加确定
 			submitForm(formName) {
 				let _this = this
+        let param = {
+          Currency: _this.currencyForm.currencyName,
+          Code: _this.currencyForm.currencyCode,
+          Unit: _this.currencyForm.currencySymbol,
+          Rate: _this.currencyForm.exchangeRate,
+          remark: _this.currencyForm.remark
+        }
 				_this.$refs[formName].validate((valid) => {
 					if(valid) {
-						_this.addCurrencyModal = false
-					}
+            _this.axios.post(_this.GLOBAL.BASE_URL + '/getFlatRate', param).then((res) => {
+              if(res.data.success == '200'){
+                let data = res.data
+                console.log(data)
+                console.log(data.success)
+                _this.$message.success('添加成功')
+                _this.addCurrencyModal = false
+              }
+            }).catch((error) => {
+              console.log(error)
+            })
+					}else {
+            return false
+          }
 				})
 			},
 			//重置

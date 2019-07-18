@@ -35,10 +35,10 @@
 					<el-input v-model='serviceForm.remark'></el-input>
 				</el-form-item>
 			</el-form>
-			<div slot="footer" class="dialog-footer">
-				<el-button type="primary" @click="addServiceModal=false">确 定</el-button>
-				<el-button @click="addServiceModal = false">取 消</el-button>
-			</div>
+      <div slot="footer" class="dialog-footer">
+      <el-button type="primary" @click="submitForm('serviceForm')">确 定</el-button>
+      <el-button @click="addServiceModal = false">取 消</el-button>
+      </div>
 		</el-dialog>
 		<!-- 删除-->
 		<el-dialog title="温馨提示" :visible.sync="delServiceModal" :close-on-click-modal="false" center width="30%">
@@ -141,6 +141,23 @@
 				let _this = this
 				_this.addServiceModal = false
 			},
+      //添加确定
+      submitForm(formName) {
+        let _this = this
+        let param = {
+          FlooPrice: _this.serviceForm.startSection,
+          CeilingPriceL: _this.serviceForm.endSection,
+          AddedPrice: _this.serviceForm.service,
+          remark: _this.serviceForm.remark
+        }
+        _this.axios.post(_this.GLOBAL.BASE_URL + '/getIncrementFee', param).then((res) => {
+          let data = res.data
+          console.log(data)
+          console.log(data.success)
+        }).catch((error) => {
+          console.log(error)
+        })
+      },
 			//初始化数据
 			getAllData() {
 				let _this = this
@@ -164,7 +181,6 @@
 			delHandel() {
 				let _this = this
 				_this.delServiceModal = true
-
 			},
 			handleSizeChange(val) {
 				console.log(`每页 ${val} 条`)

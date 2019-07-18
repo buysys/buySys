@@ -1,7 +1,9 @@
 <template>
   <div class="container">
     <div class="mb20 fz14">
-      <span>账号管理</span>
+		<span>首页</span>
+		<span>/</span>
+		<span>账号管理</span>
     </div>
     <el-collapse-transition>
       <div class="searchBox mb20 pl30">
@@ -45,15 +47,11 @@
                 </el-select>
               </el-form-item>
             </el-col>
-            <el-col :span='4' :xs='24'>
-              <el-form-item label="搜索内容">
-                <el-input v-model="searchForm.searchkeywords" placeholder="请输入买家账号/姓名" class="disInline"></el-input>
-              </el-form-item>
-            </el-col>
             </el-row>
             <el-row>
+            <el-col :span='24' :xs='24'>
             <el-form-item label="标签">
-              <el-row>
+                <div style="border: 1px solid #DCDFE6;padding-left: 10px;background: #fff;">
                 <el-collapse-transition>
                     <el-checkbox-group v-model="searchForm.type">
                       <el-checkbox label="西班牙" name="type"></el-checkbox>
@@ -72,15 +70,41 @@
                       <el-checkbox label="新人注册号" name="type"></el-checkbox>
                       <el-checkbox label="加拿大" name="type"></el-checkbox>
                       <el-checkbox label="手机测试" name="type"></el-checkbox>
+                      <el-checkbox label="西班牙" name="type"></el-checkbox>
+                      <el-checkbox label="新人注册号" name="type"></el-checkbox>
+                      <el-checkbox label="加拿大" name="type"></el-checkbox>
+                      <el-checkbox label="手机测试" name="type"></el-checkbox>
+                      <el-checkbox label="西班牙" name="type"></el-checkbox>
+                      <el-checkbox label="新人注册号" name="type"></el-checkbox>
+                      <el-checkbox label="加拿大" name="type"></el-checkbox>
+                      <el-checkbox label="手机测试" name="type"></el-checkbox>
+                      <el-checkbox label="西班牙" name="type"></el-checkbox>
+                      <el-checkbox label="新人注册号" name="type"></el-checkbox>
+                      <el-checkbox label="加拿大" name="type"></el-checkbox>
+                      <el-checkbox label="手机测试" name="type"></el-checkbox>
+                      <el-checkbox label="西班牙" name="type"></el-checkbox>
+                      <el-checkbox label="新人注册号" name="type"></el-checkbox>
+                      <el-checkbox label="加拿大" name="type"></el-checkbox>
+                      <el-checkbox label="手机测试" name="type"></el-checkbox>
+                      <el-checkbox label="西班牙" name="type"></el-checkbox>
+                      <el-checkbox label="新人注册号" name="type"></el-checkbox>
+                      <el-checkbox label="加拿大" name="type"></el-checkbox>
+                      <el-checkbox label="手机测试" name="type"></el-checkbox>
                     </el-checkbox-group>
                 </el-collapse-transition>
-              </el-row>
+                </div>
             </el-form-item>
+            </el-col>
             </el-row>
             <el-row>
-            <el-col :xs="24" :span="4" style="margin-left: 60px;">
+            <el-col :span='5' :xs='24'>
+              <el-form-item label="搜索内容">
+                <el-input v-model="searchForm.searchkeywords" placeholder="请输入买家账号/姓名" class="disInline"></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :xs="24" :span="4" class="ml20">
               <el-button type="primary" size="medium">查询</el-button>
-              <el-button size="medium" @click="resetSearch">重置</el-button>
+              <el-button size="medium" @click="">重置</el-button>
             </el-col>
           </el-row>
         </el-form>

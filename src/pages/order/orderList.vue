@@ -1,6 +1,8 @@
 <template>
 	<div class="container">
 		<div class="mb20 fz14">
+      <span>首页</span>
+      <span>/</span>
 			<span>订单管理</span>
 		</div>
 		<el-collapse-transition>
@@ -485,7 +487,14 @@
 						}
 					}
 				}
-			}
+			},
+      //分页
+      handleSizeChange(val) {
+      	console.log(`每页 ${val} 条`)
+      },
+      handleCurrentChange(val) {
+      	console.log(`当前页: ${val}`)
+      }
 		}
 	}
 </script>

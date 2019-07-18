@@ -1,6 +1,8 @@
 <template>
 	<div class="container">
 		<div class="mb20 fz14">
+      <span>首页</span>
+      <span>/</span>
 			<span>系统设置</span>
 			<span>/</span>
 			<span>{{title}}</span>
