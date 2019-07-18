@@ -1,46 +1,48 @@
 <template>
 	<div class="container">
     <div class="mb20 fz14">
+      <span>首页</span>
+      <span>/</span>
     	<span>任务管理</span>
     </div>
 		<el-collapse-transition>
 			<div class="searchBox mb20">
 				<el-form ref="searchForm" :model="searchForm" class="form-item" label-width="80px">
 					<el-row>
-					<el-col :xs="24" :span="4">
-						<el-form-item label="平台">
-							<template>
-							  <el-select v-model="searchForm.platform" placeholder="请选择">
-								<el-option v-for="(item,index) in platformOptions" :key="index" :value="item.value" :label="item.label"></el-option>
-							  </el-select>
-							</template>
-						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :span="4">
-						<el-form-item label="任务类型">
-							<template>
-							  <el-select v-model="searchForm.orderTypeValue" placeholder="请选择">
-								<el-option v-for="(item,index) in orderTypeOptions" :key="index" :value="item.value" :label="item.label"></el-option>
-							  </el-select>
-							</template>
-						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :span="4">
-					<el-form-item label="国家">
-						<el-select placeholder="请选择" v-model="searchForm.countryId" class="minWid">
-							<el-option v-for="(item,index) in countryData" :key="index" :value="index" :label="item.country"></el-option>
-						</el-select>
-					</el-form-item>
-					</el-col>
-					<el-col :xs="24" :span="4">
-						<el-form-item label="关键字">
-							<el-input v-model="searchForm.searchkeywords" placeholder="请输入关键字" class="disInline"></el-input>
-						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :span="4" class="ml20">
-						<el-button type="primary" size="medium">查询</el-button>
-						<el-button size="medium" @click="resetSearch">重置</el-button>
-					</el-col>
+						<el-col :xs="24" :span="4">
+							<el-form-item label="平台">
+								<template>
+									<el-select v-model="searchForm.platform" placeholder="请选择">
+										<el-option v-for="(item,index) in platformOptions" :key="index" :value="item.value" :label="item.label"></el-option>
+									</el-select>
+								</template>
+							</el-form-item>
+						</el-col>
+						<el-col :xs="24" :span="4">
+							<el-form-item label="任务类型">
+								<template>
+									<el-select v-model="searchForm.orderTypeValue" placeholder="请选择">
+										<el-option v-for="(item,index) in orderTypeOptions" :key="index" :value="item.value" :label="item.label"></el-option>
+									</el-select>
+								</template>
+							</el-form-item>
+						</el-col>
+						<el-col :xs="24" :span="4">
+							<el-form-item label="国家">
+								<el-select placeholder="请选择" v-model="searchForm.countryId" class="minWid">
+									<el-option v-for="(item,index) in countryData" :key="index" :value="index" :label="item.country"></el-option>
+								</el-select>
+							</el-form-item>
+						</el-col>
+						<el-col :xs="24" :span="4">
+							<el-form-item label="关键字">
+								<el-input v-model="searchForm.searchkeywords" placeholder="请输入关键字" class="disInline"></el-input>
+							</el-form-item>
+						</el-col>
+						<el-col :xs="24" :span="4" class="ml20">
+							<el-button type="primary" size="medium">查询</el-button>
+							<el-button size="medium" @click="resetSearch">重置</el-button>
+						</el-col>
 					</el-row>
 				</el-form>
 			</div>
@@ -61,7 +63,7 @@
 			<el-button type="success" size="medium" :disabled="disabled" @click='receiving'><i class="el-icon-check"></i>确认收货
 			</el-button>
 			<el-button type="primary" size="medium"><i class="el-icon-upload2"></i>导入</el-button>
-      <el-button type="primary" size="medium"><i class="el-icon-download"></i>导出</el-button>
+			<el-button type="primary" size="medium"><i class="el-icon-download"></i>导出</el-button>
 		</div>
 		<div class="tabList">
 			<div class="tabLeft">
@@ -129,10 +131,10 @@
 					<el-input type='textarea' v-model='abnormalForm.remark'></el-input>
 				</el-form-item>
 			</el-form>
-      <div slot="footer" class="dialog-footer">
-      <el-button type="primary" @click="abnormalModal=false">确 定</el-button>
-      <el-button @click="abnormalModal=false">取 消</el-button>
-      </div>
+			<div slot="footer" class="dialog-footer">
+				<el-button type="primary" @click="abnormalModal=false">确 定</el-button>
+				<el-button @click="abnormalModal=false">取 消</el-button>
+			</div>
 		</el-dialog>
 		<!--卖家取消-->
 		<el-dialog title="温馨提示" :visible.sync="sellerCancelModal" :close-on-click-modal="false" center width="30%">
@@ -158,10 +160,10 @@
 					<el-date-picker v-model='timeForm.times' type='date' placeholder='请选择时间' :picker-options="pickerUpdateDate" value-format="yyyy-MM-dd"></el-date-picker>
 				</el-form-item>
 			</el-form>
-      <div slot="footer" class="dialog-footer">
-      <el-button type="primary" @click='confirmTime'>确 定</el-button>
-      <el-button @click="updateTimeModal = false">取 消</el-button>
-      </div>
+			<div slot="footer" class="dialog-footer">
+				<el-button type="primary" @click='confirmTime'>确 定</el-button>
+				<el-button @click="updateTimeModal = false">取 消</el-button>
+			</div>
 		</el-dialog>
 		<!--温馨提示-->
 		<el-dialog title='温馨提示' :visible.sync='tipsModal' :close-on-click-modal='false' width='30%'>
@@ -173,18 +175,18 @@
 		<!--补单-->
 		<el-dialog title='补单' :visible.sync="sheetModal" :close-on-click-modal="false" width="90%" custom-class="fixed-dialog">
 			<SupplementSheet :post-title='this.test'></SupplementSheet>
-      <div slot="footer" class="dialog-footer">
-      <el-button type="primary" @click='confirmSheet'>确 定</el-button>
-      <el-button @click="sheetModal = false">取 消</el-button>
-      </div>
+			<div slot="footer" class="dialog-footer">
+				<el-button type="primary" @click='confirmSheet'>确 定</el-button>
+				<el-button @click="sheetModal = false">取 消</el-button>
+			</div>
 		</el-dialog>
 		<!-- 重新分配买号-->
 		<el-dialog title="重新分配买号" :visible.sync="accountModel" :close-on-click-modal="false" width="90%" custom-class="fixed-dialog">
 			<buyNum v-on:listenTochildEvent="showMessageFromChild"></buyNum>
-      <div slot="footer" class="dialog-footer">
-      <el-button type="primary">确 定</el-button>
-      <el-button @click="accountModel = false">取 消</el-button>
-      </div>
+			<div slot="footer" class="dialog-footer">
+				<el-button type="primary">确 定</el-button>
+				<el-button @click="accountModel = false">取 消</el-button>
+			</div>
 		</el-dialog>
 		<!-- 修改价格-->
 		<el-dialog title="修改价格" :visible.sync="editPricceModel" :close-on-click-modal="false" :before-close="closeModel">
@@ -199,14 +201,14 @@
 					<el-input type="textarea" v-model="editPriceForm.remark"></el-input>
 				</el-form-item>
 			</el-form>
-      <div slot="footer" class="dialog-footer">
-      <el-button type="primary">确 定</el-button>
-      <el-button @click="closeModel = false">取 消</el-button>
-      </div>
+			<div slot="footer" class="dialog-footer">
+				<el-button type="primary">确 定</el-button>
+				<el-button @click="closeModel = false">取 消</el-button>
+			</div>
 		</el-dialog>
 		<!--查看任务详情-->
 		<el-dialog :title='orderTitle' :visible.sync="viewTaskDateilsModel" :close-on-click-modal="false" width="90%" custom-class="fixed-dialog">
-			<el-form class="demo-item">
+			<el-form class="demo-item" :model='taskViewForm'>
 				<div class="fz16">任务信息</div>
 				<el-row>
 					<el-col :span='12' :xs='24'>
@@ -251,8 +253,8 @@
 						</el-form-item>
 					</el-col>
 					<el-col :span='12' :xs='24'>
-						<el-form-item label="产品评分：">
-							<span>34</span>
+						<el-form-item label='产品评分：'>
+							<el-rate v-model="taskViewForm.score" disabled show-score text-color="#ff9900"  score-template="{value}" style='line-height: 2.8;'></el-rate>
 						</el-form-item>
 					</el-col>
 				</el-row>
@@ -359,32 +361,32 @@
 					<span>$23.00</span>
 				</el-form-item>
 			</el-form>
-      <div slot="footer" class="dialog-footer">
-      <el-button @click="viewTaskDateilsModel = false">关 闭</el-button>
-      </div>
+			<div slot="footer" class="dialog-footer">
+				<el-button @click="viewTaskDateilsModel = false">关 闭</el-button>
+			</div>
 		</el-dialog>
 		<!--日志-->
 		<el-dialog title="订单日志" :visible.sync="logModel" :close-on-click-modal="false" width="90%" custom-class="fixed-dialog">
 			<OrderLog></OrderLog>
 			<div slot="footer" class="dialog-footer">
-			<el-button @click="logModel=false">关 闭</el-button>
+				<el-button @click="logModel=false">关 闭</el-button>
 			</div>
 		</el-dialog>
-    <!--退款-->
-    <el-dialog title="订单退款" :visible.sync="refundModel" :close-on-click-modal="false">
-    	<el-form :rules="editRules" label-width="125px" status-icon>
-    		<el-form-item label="退款金额">
-    			<el-input v-model="editPriceForm.exchangeRate"></el-input>
-    		</el-form-item>
-    		<el-form-item label="退款备注">
-    			<el-input type="textarea" v-model="editPriceForm.remark"></el-input>
-    		</el-form-item>
-    	</el-form>
-      <div slot="footer" class="dialog-footer">
-      <el-button type="primary" @click="refundModel=false">确 定</el-button>
-      <el-button @click="refundModel = false">取 消</el-button>
-      </div>
-    </el-dialog>
+		<!--退款-->
+		<el-dialog title="订单退款" :visible.sync="refundModel" :close-on-click-modal="false">
+			<el-form :rules="editRules" label-width="125px" status-icon>
+				<el-form-item label="退款金额">
+					<el-input v-model="editPriceForm.exchangeRate"></el-input>
+				</el-form-item>
+				<el-form-item label="退款备注">
+					<el-input type="textarea" v-model="editPriceForm.remark"></el-input>
+				</el-form-item>
+			</el-form>
+			<div slot="footer" class="dialog-footer">
+				<el-button type="primary" @click="refundModel=false">确 定</el-button>
+				<el-button @click="refundModel = false">取 消</el-button>
+			</div>
+		</el-dialog>
 	</div>
 </template>
 
@@ -398,9 +400,12 @@
 			return {
 				currentPage: 1,
 				pageSize: '0',
-				total:100,
+				total: 100,
 				radio: '',
 				tipMessage: '',
+				taskViewForm: {
+					score: 4.5
+				},
 				buyNum: '', //系统配置买号
 				logModel: false, //日志
 				systemConfigModal: false, //系统配置
@@ -412,7 +417,7 @@
 				sellerCancelModal: false, //卖家取消
 				accountModel: false,
 				abnormalModal: false, //标记异常
-        refundModel: false, //退款
+				refundModel: false, //退款
 				title: '填写购买信息',
 				orderTitle: '',
 				confirmBuyModel: false,
@@ -425,34 +430,34 @@
 				editPricceModel: false,
 				checkBoxData: [],
 				orderPlaceData: [{
-            "Numbers": "20190605105636229596",
-            "Picture": "",
-            "CountryId": "美国",
-            "Forum": "Amazon",
-            "ProductByASIN": "777888999a",
-            "ProductPrice": 15.99,
-            "ServiceType": "不留评",
-            "OrderNote": "待付款",
-            "Status": "已完成",
-            "OrderNumber": 1314520,
-            "OrderTime": "2019-02-03T00:00:00",
-            "Remark": ""
-        },
-        {
-            "Numbers": "20190611174157617041",
-            "Picture": "",
-            "CountryId": "德国",
-            "Forum": "Amazon",
-            "ProductByASIN": "B07P6KVGF8",
-            "ProductPrice": 18.99,
-            "ServiceType": "不留评",
-            "OrderNote": "待确认",
-            "Status": "已完成",
-            "OrderNumber": 7758258,
-            "OrderTime": "2019-04-02T00:00:00",
-            "Remark": ""
-        }
-],
+						"Numbers": "20190605105636229596",
+						"Picture": "",
+						"CountryId": "美国",
+						"Forum": "Amazon",
+						"ProductByASIN": "777888999a",
+						"ProductPrice": 15.99,
+						"ServiceType": "不留评",
+						"OrderNote": "待付款",
+						"Status": "已完成",
+						"OrderNumber": 1314520,
+						"OrderTime": "2019-02-03T00:00:00",
+						"Remark": ""
+					},
+					{
+						"Numbers": "20190611174157617041",
+						"Picture": "",
+						"CountryId": "德国",
+						"Forum": "Amazon",
+						"ProductByASIN": "B07P6KVGF8",
+						"ProductPrice": 18.99,
+						"ServiceType": "不留评",
+						"OrderNote": "待确认",
+						"Status": "已完成",
+						"OrderNumber": 7758258,
+						"OrderTime": "2019-04-02T00:00:00",
+						"Remark": ""
+					}
+				],
 				test: {
 					text1: '',
 					numbers: ''
@@ -465,8 +470,7 @@
 					reason: '',
 					remark: ''
 				},
-				platformOptions: [
-					{
+				platformOptions: [{
 						value: '1',
 						label: '全部'
 					},
@@ -475,8 +479,7 @@
 						label: 'Amazon'
 					}
 				],
-				orderTypeOptions: [
-					{
+				orderTypeOptions: [{
 						value: '1',
 						label: 'FBA订单'
 					},
@@ -497,8 +500,7 @@
 						label: 'QA订单'
 					}
 				],
-				countryData: [
-					{
+				countryData: [{
 						country: '美国'
 					},
 					{
@@ -717,11 +719,11 @@
 					searchkeywords: ''
 				}
 			},
-      // 退款
-      refundModelShow() {
-      	let _this = this
-      	_this.refundModel = true
-      },
+			// 退款
+			refundModelShow() {
+				let _this = this
+				_this.refundModel = true
+			},
 			// 修改价格弹窗
 			editPrice() {
 				let _this = this
@@ -784,8 +786,8 @@
 				//				_this.orderPlaceData = []
 			},
 			//待退款
-			refund(){
-				let _this =this
+			refund() {
+				let _this = this
 				_this.active = 6
 				_this.times = '申请时间'
 			},

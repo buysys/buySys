@@ -65,34 +65,55 @@
 			</div>
 		</div>
 		<!-- 新建、修改-->
-		<el-dialog :title="title" :visible.sync="cardModel" :close-on-click-modal="false" width='90%' :before-close="closeModel">
+		<el-dialog :title="title" :visible.sync="cardModel" :close-on-click-modal="false" width="65%" :before-close="closeModel">
 			<el-form :model="cardForm" ref="cardForm" :rules="editRules" class="demo-dynamic" label-width="88px" status-icon>
-				<el-form-item label="名称" prop="names">
-					<el-input v-model="cardForm.names">
-					</el-input>
-				</el-form-item>
-				<el-form-item label="主卡卡号" prop="cardNo">
-					<el-input v-model="cardForm.cardNo"></el-input>
-				</el-form-item>
-				<el-form-item label="有效期" prop="validity">
-					<el-input v-model="cardForm.validity"></el-input>
-				</el-form-item>
-				<el-form-item label="安全码" prop="safetyCode">
-					<el-input v-model="cardForm.safetyCode"></el-input>
-				</el-form-item>
-				<el-form-item label="姓名" prop="username">
-					<el-input v-model="cardForm.username"></el-input>
-				</el-form-item>
-				<el-form-item label="总额度($)" prop="totalAmount">
-					<el-input v-model="cardForm.totalAmount"></el-input>
-				</el-form-item>
-				<el-form-item label="备注">
-					<el-input type="textarea" v-model="cardForm.remark"></el-input>
-				</el-form-item>
+				<el-row>
+					<el-col :span='12' :sx='24'>
+						<el-form-item label="名称" prop="names">
+							<el-input v-model="cardForm.names" class='inpWid'></el-input>
+						</el-form-item>
+					</el-col>
+					<el-col :span='12' :sx='24'>
+						<el-form-item label="主卡卡号" prop="cardNo">
+							<el-input v-model="cardForm.cardNo" class='inpWid'></el-input>
+						</el-form-item>
+					</el-col>
+				</el-row>
+				<el-row>
+					<el-col :span='12' :xs='24'>
+						<el-form-item label="有效期" prop="validity">
+							<el-input v-model="cardForm.validity" class='inpWid'></el-input>
+						</el-form-item>
+					</el-col>
+					<el-col :span='12' :xs='24'>
+						<el-form-item label="安全码" prop="safetyCode">
+							<el-input v-model="cardForm.safetyCode" class='inpWid'></el-input>
+						</el-form-item>
+					</el-col>
+				</el-row>
+				<el-row>
+					<el-col :span='12' :xs='24'>
+						<el-form-item label="姓名" prop="username">
+							<el-input v-model="cardForm.username" class='inpWid'></el-input>
+						</el-form-item>
+					</el-col>
+					<el-col :span='12' :xs='24'>
+						<el-form-item label="总额度($)" prop="totalAmount">
+							<el-input v-model="cardForm.totalAmount" class='inpWid'></el-input>
+						</el-form-item>
+					</el-col>
+				</el-row>
+				<el-row>
+					<el-col :span='12' :xs='24'>
+						<el-form-item label="备注">
+							<el-input type="textarea" v-model="cardForm.remark" class='inpWid'></el-input>
+						</el-form-item>
+					</el-col>
+				</el-row>
 				<el-tabs type="border-card" class="mb20">
 					<el-tab-pane label="虚拟信用卡管理">
 						<div class="mb10">
-							<el-button size="small" @click="addCard">新增</el-button>
+							<el-button size="small" type='primary' @click="addCard">新增</el-button>
 						</div>
 						<div class="cardBox">
 							<ul class="listTitle">
@@ -286,7 +307,7 @@
 			}
 		},
 		created() {
-//			this.getAllData()
+			//			this.getAllData()
 		},
 		methods: {
 			//新增虚拟卡

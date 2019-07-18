@@ -58,30 +58,53 @@
 			</div>
 		</div>
 		<!--新建、修改-->
-		<el-dialog :title="title" :visible.sync="cardModel" :close-on-click-modal="false" :before-close="closeModel">
+		<el-dialog :title="title" :visible.sync="cardModel" :close-on-click-modal="false" width='80%' :before-close="closeModel">
 			<el-form :model="cardForm" ref="cardForm" :rules="editRules" class="demo-dynamic" label-width="88px" status-icon>
-				<el-form-item label="名称" prop="name">
-					<el-input v-model="cardForm.name"></el-input>
-				</el-form-item>
-				<el-form-item label="卡号" prop="cardNo">
-					<el-input v-model="cardForm.cardNo"></el-input>
-				</el-form-item>
-				<el-form-item label="有效期" prop="validity">
-					<el-input v-model="cardForm.validity"></el-input>
-					<!--<el-date-picker v-model="cardForm.validity" type="date" placeholder="选择日期" size="large"></el-date-picker>-->
-				</el-form-item>
-				<el-form-item label="安全码" prop="safetyCode">
-					<el-input v-model="cardForm.safetyCode"></el-input>
-				</el-form-item>
-				<el-form-item label="姓名" prop="userName">
-					<el-input v-model="cardForm.userName"></el-input>
-				</el-form-item>
-				<el-form-item label="总额度" prop="totalAmount">
-					<el-input v-model="cardForm.totalAmount"></el-input>
-				</el-form-item>
-				<el-form-item label="备注" prop="remark">
-					<el-input v-model="cardForm.remark"></el-input>
-				</el-form-item>
+				<el-row>
+					<el-col :span='12' :xs='24'>
+						<el-form-item label="名称" prop="name">
+							<el-input v-model="cardForm.name" class='inpWid'></el-input>
+						</el-form-item>
+					</el-col>
+					<el-col :span='12' :xs='24'>
+						<el-form-item label="卡号" prop="cardNo">
+							<el-input v-model="cardForm.cardNo" class='inpWid'></el-input>
+						</el-form-item>
+					</el-col>
+				</el-row>
+				<el-row>
+					<el-col :span='12' :xs='24'>
+						<el-form-item label="有效期" prop="validity">
+							<el-input v-model="cardForm.validity" class='inpWid'></el-input>
+							<!--<el-date-picker v-model="cardForm.validity" type="date" placeholder="选择日期" size="large"></el-date-picker>-->
+						</el-form-item>
+					</el-col>
+					<el-col :span='12' :xs='24'>
+						<el-form-item label="安全码" prop="safetyCode">
+							<el-input v-model="cardForm.safetyCode" class='inpWid'></el-input>
+						</el-form-item>
+					</el-col>
+				</el-row>
+				<el-row>
+					<el-col :span='12' :xs='24'>
+						<el-form-item label="姓名" prop="userName">
+							<el-input v-model="cardForm.userName" class='inpWid'></el-input>
+						</el-form-item>
+					</el-col>
+					<el-col :span='12' :xs='24'>
+						<el-form-item label="总额度" prop="totalAmount">
+							<el-input v-model="cardForm.totalAmount" class='inpWid'></el-input>
+						</el-form-item>
+					</el-col>
+				</el-row>
+
+				<el-row>
+					<el-col :span='12' :xs='24'>
+						<el-form-item label="备注" prop="remark">
+							<el-input type='textarea' v-model="cardForm.remark" class='inpWid'></el-input>
+						</el-form-item>
+					</el-col>
+				</el-row>
 			</el-form>
 			<div slot="footer" class="dialog-footer">
 				<el-button type="primary">确定</el-button>
