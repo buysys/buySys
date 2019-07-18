@@ -23,8 +23,9 @@
 		<div class="mb20">
 			<el-button type="success" size="medium" @click="addModelShow"><i class="el-icon-plus"></i>新增</el-button>
 			<el-button type="primary" size="medium" @click="editModelShow" :disabled="editDisabled"><i class="el-icon-edit-outline"></i>修改</el-button>
-			<el-button type="danger" size="medium" @click="delData" :disabled="delDisabled"><i class="el-icon-delete"></i>删除</el-button>
+			<el-button type="danger" size="medium" @click="delData" :disabled="delDisabled"><i class="el-icon-delete"></i>禁用</el-button>
 			<el-button type="primary" size="medium" @click="exportExcel"><i class="el-icon-download"></i>导出</el-button>
+      <el-button size="small" type="success" @click="TxModelShow()" style="float: right;">提现记录</el-button>
 		</div>
 		<div class="mt10">
 			<el-table :data="tableData" id="exportData" style="width: 100%" :header-cell-style="{background:'#fafafa'}" @selection-change="handleSelectionChange">
@@ -48,8 +49,8 @@
 				<el-table-column prop="Status" label="是否可登录" align="center"></el-table-column>
 				<el-table-column label="操作" align="center" width="200">
 					<template slot-scope="scope">
-						<el-button size="small" type="success" @click="TkModelShow(scope.$index,scope.row)">退款订单</el-button>
-						<el-button size="small" type="primary" @click="TxModelShow(scope.$index, scope.row)">提现记录</el-button>
+            <el-button size="small" type="warning" @click="RechargeModelShow">充值</el-button>
+            <el-button size="small" type="primary" @click="LogModelShow()">日志</el-button>
 					</template>
 				</el-table-column>
 			</el-table>
@@ -72,6 +73,7 @@
 				</el-form-item>
 				<el-form-item label="性别">
 					<template>
+            <el-radio v-model="editForm.sex" label="0">保密</el-radio>
 						<el-radio v-model="editForm.sex" label="1">男</el-radio>
 						<el-radio v-model="editForm.sex" label="2">女</el-radio>
 					</template>
@@ -84,9 +86,6 @@
 				</el-form-item>
 				<el-form-item label="微信">
 					<el-input v-model="editForm.weixin"></el-input>
-				</el-form-item>
-				<el-form-item label="QQ">
-					<el-input v-model="editForm.qq"></el-input>
 				</el-form-item>
 				<el-form-item label="是否可登录" prop="canlogin">
 					<template>
@@ -113,56 +112,47 @@
 					<el-col :span="12" :xs="24">
 						<el-form-item label="客户编码:"><label>{{viewForm.userNo}}</label></el-form-item>
 					</el-col>
-				</el-row>
-				<el-row>
+
 					<el-col :span="12" :xs="24">
 						<el-form-item label="名称:"><label>{{viewForm.name}}</label></el-form-item>
 					</el-col>
+
 					<el-col :span="12" :xs="24">
 						<el-form-item label="性别:"><label>{{viewForm.sex}}</label></el-form-item>
 					</el-col>
-				</el-row>
-				<el-row>
+
 					<el-col :span="12" :xs="24">
 						<el-form-item label="手机号:"><label>{{viewForm.phone}}</label></el-form-item>
 					</el-col>
 					<el-col :span="12" :xs="24">
 						<el-form-item label="邮箱:"><label>{{viewForm.email}}</label></el-form-item>
 					</el-col>
-				</el-row>
-				<el-row>
+
 					<el-col :span="12" :xs="24">
 						<el-form-item label="微信:"><label>{{viewForm.weixin}}</label></el-form-item>
 					</el-col>
-					<el-col :span="12" :xs="24">
-						<el-form-item label="QQ:"><label>{{viewForm.qq}}</label></el-form-item>
-					</el-col>
-				</el-row>
-				<el-row>
+
 					<el-col :span="12" :xs="24">
 						<el-form-item label="所属用户:"><label>{{viewForm.suoShuUser}}</label></el-form-item>
 					</el-col>
 					<el-col :span="12" :xs="24">
 						<el-form-item label="是否可登录:"><label>{{viewForm.canLogin}}</label></el-form-item>
 					</el-col>
-				</el-row>
-				<el-row>
+
 					<el-col :span="12" :xs="24">
 						<el-form-item label="最后登录IP:"><label>{{viewForm.lastLoginIP}}</label></el-form-item>
 					</el-col>
 					<el-col :span="12" :xs="24">
 						<el-form-item label="最后登录时间:"><label>{{viewForm.lastLoginTime}}</label></el-form-item>
 					</el-col>
-				</el-row>
-				<el-row>
+
 					<el-col :span="12" :xs="24">
 						<el-form-item label="是否修改账号:"><label>{{viewForm.isEditAccount}}</label></el-form-item>
 					</el-col>
 					<el-col :span="12" :xs="24">
 						<el-form-item label="创建时间:"><label>{{viewForm.createTime}}</label></el-form-item>
 					</el-col>
-				</el-row>
-				<el-row>
+
 					<el-col :span="24" :xs="24">
 						<el-form-item label="备注:"><label>{{viewForm.remark}}</label></el-form-item>
 					</el-col>
@@ -180,14 +170,33 @@
 		    <el-button @click="delModel=false" size="medium">否</el-button>
 		  </span>
 		</el-dialog>
-		<!-- 退款订单 -->
-		<el-dialog title="退款订单" :visible.sync="TkModel" :close-on-click-modal="false" width="90%">
-			<refundOrder></refundOrder>
+		<!--日志-->
+		<el-dialog title="订单日志" :visible.sync="logModel" :close-on-click-modal="false" width="90%" custom-class="fixed-dialog">
+		<OrderLog></OrderLog>
+		  <div slot="footer" class="dialog-footer">
+		  <el-button @click="logModel = false">关 闭</el-button>
+		  </div>
+		</el-dialog>
 		</el-dialog>
 		<!-- 提现记录 -->
 		<el-dialog title="提现记录" :visible.sync="TxModel" :close-on-click-modal="false" width="90%">
 			<takeMoneyList></takeMoneyList>
+    <div slot="footer" class="dialog-footer">
+    <el-button @click="TxModel = false">关 闭</el-button>
+    </div>
 		</el-dialog>
+    <!--充值-->
+    <el-dialog title="请输入充值金额" :visible.sync="RechargeModel" :close-on-click-modal="false" width="30%">
+    	<el-form :rules="editRules" :model="editForm" ref="repaymentForm" class="demo-dynamic">
+      <el-form-item  prop="money">
+      	<el-input v-model="editForm.money" autofocus="true"></el-input>
+      </el-form-item>
+    	</el-form>
+    	<div slot="footer" class="dialog-footer">
+    		<el-button type="primary" size="medium">确定</el-button>
+    		<el-button @click="RechargeModel=false" size="medium">取消</el-button>
+    	</div>
+    </el-dialog>
 	</div>
 </template>
 
@@ -195,7 +204,8 @@
 	import FileSaver from 'file-saver'
 	import XLSX from 'xlsx'
 
-	import refundOrder from './refundOrder'
+  import validate from '../../components/validate'
+	import OrderLog from '../../common/OrderLog'
 	import takeMoneyList from './takeMoneyList'
 	export default {
 		name: 'customer',
@@ -205,8 +215,9 @@
 				editModel: false,
 				delModel: false,
 				viewModel: false,
-				TkModel: false, //退款订单
+				logModel: false, //日志
 				TxModel: false, //提现记录
+        RechargeModel:false, //充值
 				editDisabled: true,
 				delDisabled: true,
 				tableData: [{
@@ -253,13 +264,14 @@
 					name: '',
 					password: '',
 					password2: '',
-					sex: '1',
+					sex: '0',
 					phone: '',
 					email: '',
 					weixin: '',
 					qq: '',
 					canLogin: '1',
-					remark: ''
+					remark: '',
+          money: ''
 				},
 				viewForm: {
 					userName: '',
@@ -300,12 +312,16 @@
 						required: true,
 						message: '请选择是否可登录',
 						trigger: 'blur'
-					}]
+					}],
+          money: [{
+          	validator: validate.proPrice,
+          	trigger: 'blur'
+          }]
 				},
 			}
 		},
 		components: {
-			refundOrder,
+			OrderLog,
 			takeMoneyList
 		},
 		created() {
@@ -324,6 +340,11 @@
 					console.log(error)
 				})
 			},
+      //充值
+      RechargeModelShow(){
+        let _this = this
+        _this.RechargeModel = true
+      },
 			// 重置
 			resetSearch() {
 				let _this = this
@@ -403,10 +424,10 @@
 				let _this = this
 				_this.delModel = true
 			},
-			// 退款订单
-			TkModelShow() {
+			// 日志
+			LogModelShow() {
 				let _this = this
-				_this.TkModel = true
+				_this.logModel = true
 			},
 			// 提现订单
 			TxModelShow() {

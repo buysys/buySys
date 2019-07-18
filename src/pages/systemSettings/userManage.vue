@@ -27,15 +27,13 @@
 				</div>
 			</el-collapse-transition>
 			<div class="mb20 ">
-				<el-button type="success" size="medium" @click="addUser "><i class="el-icon-plus"></i>新建</el-button>
+				<el-button type="success" size="medium" @click="addUser "><i class="el-icon-plus"></i>新增</el-button>
 				<el-button type="primary" size="medium" :disabled="disabled" @click="editUser"><i class="el-icon-edit-outline"></i>修改
 				</el-button>
-				<el-button type="danger" size="medium" :disabled="disabled" @click="delHandle"><i class="el-icon-delete"></i>删除
+				<el-button type="danger" size="medium" :disabled="disabled" @click="delHandle"><i class="el-icon-delete"></i>禁用
 				</el-button>
-				<el-button type="warning" size="medium" @click="importHandle"><i class="el-icon-folder-opened"></i>导入
-				</el-button>
-				<el-button type="primary" size="medium" @click="exportExcel"><i class="el-icon-document-delete"></i>导出
-				</el-button>
+        <el-button type="primary" size="medium" @click="importHandle"><i class="el-icon-upload2"></i>导入</el-button>
+        <el-button type="primary" size="medium" @click="exportExcel"><i class="el-icon-download"></i>导出</el-button>
 				<el-button type="success" size="medium" @click="roleModelShow" style="float: right;"><i class="el-icon-set-up"></i>角色管理
 				</el-button>
 			</div>
@@ -45,11 +43,6 @@
 					<el-table-column prop="CountryId" label="登录名" align="center" sortable></el-table-column>
 					<el-table-column prop="ProductByASIN" label="姓名" align="center" sortable></el-table-column>
 					<el-table-column prop="ProductByASIN" label="手机" align="center" sortable></el-table-column>
-					<el-table-column label="操作" align="center">
-						<template slot-scope="scope">
-							<el-button size="small" type="success" @click="RechargeModelShow(scope.$index, scope.row)">充值</el-button>
-						</template>
-					</el-table-column>
 				</el-table>
 				<div class="mt30 ">
 					<el-pagination @size-change="handleSizeChange " @current-change="handleCurrentChange" :current-page="currentPage " :page-sizes="[100, 200, 300, 500] " :page-size="10 " layout="total, sizes, prev, pager, next, jumper " :total="total ">
@@ -57,56 +50,46 @@
 				</div>
 			</div>
 			<!--新建、修改-->
-			<el-dialog :title="title " :visible.sync="userModel" :close-on-click-modal="false" :before-close="cloesUserModel" center width="90%" custom-class="fixed-dialog">
+			<el-dialog :title="title " :visible.sync="userModel" :close-on-click-modal="false" :before-close="cloesUserModel">
 				<el-form :model="userForm" ref="userForm " label-width="100px" :rules="editRules">
 					<el-row>
-						<el-col :span="12 ">
-							<el-form-item label="姓名 " prop="userName">
+						<el-col :span="12">
+							<el-form-item label="姓名" prop="userName">
 								<el-input v-model="userForm.userName"></el-input>
 							</el-form-item>
 						</el-col>
-						<el-col :span="12 ">
-							<el-form-item label="登录名 " prop="userLoginName">
-								<el-input v-model="userForm.userLoginName"></el-input>
-							</el-form-item>
-						</el-col>
+            <el-col :span="12">
+            	<el-form-item label="邮箱" prop="email">
+            		<el-input v-model="userForm.email"></el-input>
+            	</el-form-item>
+            </el-col>
 					</el-row>
 					<el-row>
-						<el-col :span="12 ">
-							<el-form-item label="密码 " prop="pwd">
+						<el-col :span="12">
+							<el-form-item label="密码" prop="pwd">
 								<el-input v-model="userForm.pwd"></el-input>
 							</el-form-item>
 						</el-col>
-						<el-col :span="12 ">
-							<el-form-item label="确认密码 " prop="checkPwd">
+						<el-col :span="12">
+							<el-form-item label="确认密码" prop="checkPwd">
 								<el-input v-model="userForm.checkPwd"></el-input>
 							</el-form-item>
 						</el-col>
 					</el-row>
 					<el-row>
-						<el-col :span="12 ">
-							<el-form-item label="邮箱 ">
-								<el-input v-model="userForm.email"></el-input>
-							</el-form-item>
-						</el-col>
+            <el-col :span="12">
+            	<el-form-item label="登录名" prop="userLoginName">
+            		<el-input v-model="userForm.userLoginName"></el-input>
+            	</el-form-item>
+            </el-col>
 						<el-col :span="12">
-							<el-form-item label="手机 ">
+							<el-form-item label="手机" prop="mobile">
 								<el-input v-model="userForm.mobile"></el-input>
 							</el-form-item>
 						</el-col>
 					</el-row>
 					<el-row>
-						<el-col :span="12">
-							<el-form-item label="是否允许登录">
-								<el-select v-model="userForm.allowLogin">
-									<el-option label="是" value="yes"></el-option>
-									<el-option label="否" value="no"></el-option>
-								</el-select>
-							</el-form-item>
-						</el-col>
-					</el-row>
-					<el-row>
-						<el-col :span="12 ">
+						<el-col :span="24">
 							<el-form-item label="用户角色" prop="userRole">
 								<el-checkbox-group v-model="userForm.userRole">
 									<el-checkbox label="Seller" name="type"></el-checkbox>
@@ -117,25 +100,25 @@
 								</el-checkbox-group>
 							</el-form-item>
 						</el-col>
-						<el-col>
-							<el-form-item label="备注 ">
+						<el-col :span="24">
+							<el-form-item label="备注">
 								<el-input v-model="userForm.remark"></el-input>
 							</el-form-item>
 						</el-col>
 					</el-row>
-					<div class="textCen">
-						<el-button type="primary">确定</el-button>
-						<el-button @click="cloesUserModel">取消</el-button>
-					</div>
 				</el-form>
+        <div slot="footer" class="dialog-footer">
+        	<el-button type="primary" size="medium">确定</el-button>
+        	<el-button @click="userModel=false" size="medium">取消</el-button>
+        </div>
 			</el-dialog>
-			<!--删除-->
-			<el-dialog title="系统提示" :visible.sync="delModel" :close-on-click-modal="false" center width="30%">
-				<div class="del-dialog-cnt textCen">确认要删除选中用户吗？</div>
-				<span slot="footer " class="dialog-footer">
-        					<el-button type="primary" size="medium">是</el-button>
-        					<el-button @click="delModel=false " size="medium">否</el-button>
-      					</span>
+			<!-- 删除-->
+			<el-dialog title="温馨提示" :visible.sync="delModel" :close-on-click-modal="false" center width="30%">
+				<div class="del-dialog-cnt textCen">确认要删除该数据吗？</div>
+				<span slot="footer" class="dialog-footer">
+			    <el-button type="primary" size="medium">是</el-button>
+			    <el-button @click="delModel=false" size="medium">否</el-button>
+			  </span>
 			</el-dialog>
 			<!--导入数据-->
 			<el-dialog title="导入数据" :visible.sync="importModel" :close-on-click-modal="false" :before-close="closeImportModel" center width="30%">
@@ -152,7 +135,7 @@
       					</span>
 			</el-dialog>
 			<!--角色管理-->
-			<el-dialog title="角色管理" :visible.sync="roleModel" :close-on-click-modal="false" center width="90%">
+			<el-dialog title="角色管理" :visible.sync="roleModel" :close-on-click-modal="false" width="90%" custom-class="fixed-dialog">
 				<roleManage></roleManage>
 			</el-dialog>
 		</div>
@@ -178,7 +161,7 @@
 				pageSize: '0',
 				total: 100,
 				userModel: false,
-				title: "新建 ",
+				title: "",
 				checkBoxData: [],
 				searchForm: {
 					userLoginName: '',
@@ -233,29 +216,29 @@
 						message: '请输入姓名',
 						trigger: 'blur'
 					}],
-					portrait: [{
+          email: [{
+          	required: true,
+          	message: '请输入邮箱',
+          	trigger: 'blur'
+          }],
+          pwd: [{
+          	required: true,
+          	message: '请输入密码',
+          	trigger: 'blur'
+          }],
+          checkPwd: [{
+          	required: true,
+          	message: '请输入确认密码',
+          	trigger: 'blur'
+          }],
+					mobile: [{
 						required: true,
-						message: '请上传头像',
-						trigger: 'blur'
-					}],
-					jobNum: [{
-						required: true,
-						message: '请输入工号',
+						message: '请输入手机',
 						trigger: 'blur'
 					}],
 					userLoginName: [{
 						required: true,
 						message: '请输入登录名',
-						trigger: 'blur'
-					}],
-					pwd: [{
-						required: true,
-						message: '请输入密码',
-						trigger: 'blur'
-					}],
-					checkPwd: [{
-						required: true,
-						message: '请输入确认密码',
 						trigger: 'blur'
 					}],
 					userRole: [{
@@ -283,16 +266,17 @@
 					userName: ''
 				}
 			},
-			//新建
+			//新增
 			addUser() {
 				let _this = this;
 				_this.userModel = true;
+        _this.title = "用户新增"
 			},
 			//修改
 			editUser() {
 				let _this = this;
 				_this.userModel = true;
-				_this.title = "修改 ";
+				_this.title = "用户修改";
 			},
 			//关闭新建或修改弹窗
 			cloesUserModel() {
@@ -394,7 +378,7 @@
 	.tree {
 		border: 1px solid #eee;
 	}
-	
+
 	.el-select {
 		width: 100%;
 	}

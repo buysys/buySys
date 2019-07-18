@@ -1,5 +1,5 @@
 <template>
-	<div class="container">
+	<div>
 		<div class="mt10">
 			<el-collapse-transition>
 				<div class="searchBox mb20 pl30">
@@ -10,7 +10,7 @@
 									<el-input v-model="searchForm.roleName" class="disInline" placeholder="请输入角色名称"></el-input>
 								</el-form-item>
 							</el-col>
-							<el-col :xs="24" :span="4">							
+							<el-col :xs="24" :span="4">
 								<el-button type="primary " size="medium">查询</el-button>
 								<el-button size="medium " @click="resetSearch">重置</el-button>
 							</el-col>
@@ -20,9 +20,9 @@
 			</el-collapse-transition>
 		</div>
 		<div class="mb20">
-			<el-button type="success " size="medium " @click="addRole"><i class="el-icon-plus "></i>新建</el-button>
+			<el-button type="success " size="medium " @click="addRole"><i class="el-icon-plus "></i>新增</el-button>
 			<el-button type="primary " size="medium " :disabled="disabled " @click="editRole"><i class="el-icon-edit-outline "></i>修改</el-button>
-			<el-button type="danger " size="medium " :disabled="disabled " @click="delHandle"><i class="el-icon-delete "></i>删除</el-button>
+			<el-button type="danger " size="medium " :disabled="disabled " @click="delHandle"><i class="el-icon-delete "></i>禁用</el-button>
 		</div>
 		<div class="mt10 ">
 			<el-table v-loading="loading" :data="roleData" border style="width: 100%" @selection-change="handleSelectionChange">
@@ -40,7 +40,7 @@
 			</el-table>
 		</div>
 		<!--新建、修改-->
-		<el-dialog :title="title" :visible.sync="roleModel " :close-on-click-modal="false" :before-cloes="cloesRoleModel" center :modal-append-to-body="false" :append-to-body="true">
+		<el-dialog :title="title" :visible.sync="roleModel" :close-on-click-modal="false" :before-cloes="cloesRoleModel" center :modal-append-to-body="false" :append-to-body="true">
 			<el-form :model="roleForm " ref="roleForm " :rules="rules" label-width="100px ">
 				<el-row>
 					<el-col :span="12 ">
@@ -174,8 +174,36 @@
 			return {
 				disabled: true,
 				loading: false,
-				roleData: [],
-				title: "新建",
+				roleData: [{
+            "Numbers": "20190605105636229596",
+            "Picture": "",
+            "CountryId": "美国",
+            "Forum": "Amazon",
+            "ProductByASIN": "777888999a",
+            "ProductPrice": 15.99,
+            "ServiceType": "不留评",
+            "OrderNote": "待付款",
+            "Status": "已完成",
+            "OrderNumber": 1314520,
+            "OrderTime": "2019-02-03T00:00:00",
+            "Remark": ""
+        },
+        {
+            "Numbers": "20190611174157617041",
+            "Picture": "",
+            "CountryId": "德国",
+            "Forum": "Amazon",
+            "ProductByASIN": "B07P6KVGF8",
+            "ProductPrice": 18.99,
+            "ServiceType": "不留评",
+            "OrderNote": "待确认",
+            "Status": "已完成",
+            "OrderNumber": 7758258,
+            "OrderTime": "2019-04-02T00:00:00",
+            "Remark": ""
+        }
+],
+				title: "",
 				roleModel: false,
 				delModel: false,
 				roleViewModel: false,
@@ -246,7 +274,7 @@
 			}
 		},
 		created() {
-			this.getAllData();
+			// this.getAllData();
 		},
 		methods: {
 			//重置查询表单
@@ -260,12 +288,13 @@
 			addRole() {
 				let _this = this;
 				_this.roleModel = true;
+        _this.title = "新增"
 			},
 			//修改
 			editRole() {
 				let _this = this;
 				_this.roleModel = true;
-				_this.title = "修改 ";
+				_this.title = "修改";
 			},
 			//关闭新建或修改弹窗
 			cloesRoleModel() {
