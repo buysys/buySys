@@ -208,9 +208,12 @@
 		</el-dialog>
 		<!--查看任务详情-->
 		<el-dialog :title='orderTitle' :visible.sync="viewTaskDateilsModel" :close-on-click-modal="false" width="90%" custom-class="fixed-dialog">
-			<el-form class="demo-item" :model='taskViewForm'>
-				<div class="fz16">任务信息</div>
-				<el-row>
+			<el-form class="view-page" :model='taskViewForm'>
+				<el-row :gutter='30'>
+				  <el-col :span='24' :xs='24'>
+				    <el-form-item class="title" label="任务信息">
+				    </el-form-item>
+				  </el-col>
 					<el-col :span='12' :xs='24'>
 						<el-form-item label="平台：">
 							<span>Amazon</span>
@@ -221,8 +224,6 @@
 							<span>美国</span>
 						</el-form-item>
 					</el-col>
-				</el-row>
-				<el-row>
 					<el-col :span='12' :xs='24'>
 						<el-form-item label="产品ASIN：">
 							<span>D2342543654657</span>
@@ -233,8 +234,6 @@
 							<span>nike</span>
 						</el-form-item>
 					</el-col>
-				</el-row>
-				<el-row>
 					<el-col :span='12' :xs='24'>
 						<el-form-item label="产品名称：">
 							<span>水淀粉</span>
@@ -245,8 +244,6 @@
 							<span>$100</span>
 						</el-form-item>
 					</el-col>
-				</el-row>
-				<el-row>
 					<el-col :span='12' :xs='24'>
 						<el-form-item label="评论数：">
 							<span>2</span>
@@ -257,8 +254,6 @@
 							<el-rate v-model="taskViewForm.score" disabled show-score text-color="#ff9900"  score-template="{value}" style='line-height: 2.8;'></el-rate>
 						</el-form-item>
 					</el-col>
-				</el-row>
-				<el-row>
 					<el-col :span='12' :xs='24' class="fleft">
 						<el-form-item label="品类排名：">
 							<span>2</span>
@@ -274,8 +269,6 @@
 							<span>http://www.pre.com</span>
 						</el-form-item>
 					</el-col>
-				</el-row>
-				<el-row>
 					<el-col :span='12' :xs='24'>
 						<el-form-item label="关键词类型：">
 							<span>产地是</span>
@@ -286,8 +279,6 @@
 							<span>PC</span>
 						</el-form-item>
 					</el-col>
-				</el-row>
-				<el-row>
 					<el-col :span='12' :xs='24'>
 						<el-form-item label="产品关键词：">
 							<span>产地是</span>
@@ -298,8 +289,6 @@
 							<span>3</span>
 						</el-form-item>
 					</el-col>
-				</el-row>
-				<el-row>
 					<el-col :span='12' :xs='24'>
 						<el-form-item label="留评类型：">
 							<span>100%</span>
@@ -310,8 +299,6 @@
 							<span>3</span>
 						</el-form-item>
 					</el-col>
-				</el-row>
-				<el-row>
 					<el-col :span='12' :xs='24'>
 						<el-form-item label="评论图片数量：">
 							<span>2</span>
@@ -322,8 +309,6 @@
 							<span>2</span>
 						</el-form-item>
 					</el-col>
-				</el-row>
-				<el-row>
 					<el-col :span='12' :xs='24'>
 						<el-form-item label="使用优惠券：">
 							<span>否</span>
@@ -335,31 +320,35 @@
 						</el-form-item>
 					</el-col>
 				</el-row>
-				<el-row class="ml60 mb10 mt10">
-					<el-col :span="6" :xs="11" :md="6">
-						<span>任务开始时间</span>
+				<el-row class="txtCenter title" style="padding:10px 0">
+					<el-col :span="8" :xs="8">
+						<span>任务开始日期</span>
 					</el-col>
-					<el-col :span="6" :xs="2" :md="6" class="mb10">
-						<span style="visibility: hidden;">hfh</span>
+					<el-col :span="8" :xs="8">
+						<span>时间</span>
 					</el-col>
-					<el-col :span="8" :xs="11" :md="8" class="mb10 ml60">
+					<el-col :span="8" :xs="8">
 						<span>数量</span>
 					</el-col>
-				</el-row>
-				<el-row class="ml60">
-					<el-col :span='6' :xs="24" class="mb10">
+        </el-row>
+        <el-row class="txtCenter mt20 mb20">
+					<el-col :span='8' :xs="8">
 						<span>2019-07-02</span>
 					</el-col>
-					<el-col :span='6' :xs="24" class="mb10">
+					<el-col :span='8' :xs="8">
 						<span>00:00-20:00</span>
 					</el-col>
-					<el-col :span='8' :xs="24" class="ml60">
+					<el-col :span='8' :xs="8">
 						<span>2</span>
 					</el-col>
-				</el-row>
+        </el-row>
+        <el-row>
+        <el-col :span='24' :xs="24">
 				<el-form-item label="备注：">
 					<span>$23.00</span>
 				</el-form-item>
+        </el-col>
+        </el-row>
 			</el-form>
 			<div slot="footer" class="dialog-footer">
 				<el-button @click="viewTaskDateilsModel = false">关 闭</el-button>
