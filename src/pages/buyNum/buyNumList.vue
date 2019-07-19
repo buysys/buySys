@@ -176,7 +176,7 @@
     </div>
     <!-- 新建、修改-->
     <el-dialog :title="title" :visible.sync="addBuyNumModel" :close-on-click-modal="false" :before-close="closeModel"
-      width="90%" custom-class="fixed-dialog">
+      width="70%" custom-class="fixed-dialog">
       <el-form :model="buyNumForm" ref="buyNumForm" :rules="editRules" class="demo-dynamic" label-width="140px"
         status-icon>
         <div class="mb20 fz16">账号信息</div>
@@ -714,7 +714,7 @@
 
 <script>
   import systemConfig from '../../common/systemConfig'
-  import buyNumLevel from '../../common/buyNumLevel'
+  import buyNumLevel from './buyNumLevel'
   import buyTagList from './buyTagList'
   import FileSaver from 'file-saver'
   import XLSX from 'xlsx'
