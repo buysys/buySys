@@ -26,7 +26,7 @@
 			<el-button type="success" size="medium" @click="addModelShow"><i class="el-icon-plus"></i>新增</el-button>
 			<el-button type="primary" size="medium" @click="editModelShow" :disabled="editDisabled"><i class="el-icon-edit-outline"></i>修改</el-button>
 			<el-button type="warning" size="medium" @click="exportExcel"><i class="el-icon-upload2"></i>导出</el-button>
-      <el-button size="small" type="success" @click="TxModelShow()" style="float: right;">提现记录</el-button>
+      <el-button size="small" type="success" @click="TxModelShow" style="float: right;">提现记录</el-button>
 		</div>
 		<div class="mt10">
 			<el-table :data="tableData" id="exportData" style="width: 100%" :header-cell-style="{background:'#fafafa'}" @selection-change="handleSelectionChange">
@@ -54,7 +54,7 @@
 				<el-table-column label="操作" align="center" width="200">
 					<template slot-scope="scope">
             <el-button size="small" type="warning" @click="RechargeModelShow">充值</el-button>
-            <el-button size="small" type="primary" @click="LogModelShow()">日志</el-button>
+            <el-button size="small" type="primary" @click="LogModelShow">日志</el-button>
 					</template>
 				</el-table-column>
 			</el-table>
@@ -102,67 +102,49 @@
 		</el-dialog>
 		<!-- 查看 -->
 		<el-dialog :title="title" :visible.sync="viewModel" :close-on-click-modal="false">
-			<el-form :model="viewForm" label-width="125px" status-icon>
+			<el-form :model="viewForm" status-icon class="demo-item">
 				<el-row>
 					<el-col :span="12" :xs="24">
-						<el-form-item label="客户编码:"><label>{{viewForm.userNo}}</label></el-form-item>
-					</el-col>
-
-					<el-col :span="12" :xs="24">
-						<el-form-item label="姓名:"><label>{{viewForm.name}}</label></el-form-item>
-					</el-col>
-
-					<el-col :span="12" :xs="24">
-						<el-form-item label="性别:"><label>{{viewForm.sex}}</label></el-form-item>
-					</el-col>
-
-					<el-col :span="12" :xs="24">
-						<el-form-item label="手机号:"><label>{{viewForm.phone}}</label></el-form-item>
+						<el-form-item label="客户编码："><span>{{viewForm.userNo}}</span></el-form-item>
 					</el-col>
 					<el-col :span="12" :xs="24">
-						<el-form-item label="邮箱:"><label>{{viewForm.email}}</label></el-form-item>
-					</el-col>
-
-					<el-col :span="12" :xs="24">
-						<el-form-item label="微信:"><label>{{viewForm.weixin}}</label></el-form-item>
-					</el-col>
-
-					<el-col :span="12" :xs="24">
-						<el-form-item label="所属用户:"><label>{{viewForm.suoShuUser}}</label></el-form-item>
+						<el-form-item label="姓名："><span>{{viewForm.name}}</span></el-form-item>
 					</el-col>
 					<el-col :span="12" :xs="24">
-						<el-form-item label="状态:"><label>{{viewForm.canLogin}}</label></el-form-item>
-					</el-col>
-
-					<el-col :span="12" :xs="24">
-						<el-form-item label="最后登录IP:"><label>{{viewForm.lastLoginIP}}</label></el-form-item>
+						<el-form-item label="性别："><span>{{viewForm.sex}}</span></el-form-item>
 					</el-col>
 					<el-col :span="12" :xs="24">
-						<el-form-item label="最后登录时间:"><label>{{viewForm.lastLoginTime}}</label></el-form-item>
-					</el-col>
-
-					<el-col :span="12" :xs="24">
-						<el-form-item label="是否修改账号:"><label>{{viewForm.isEditAccount}}</label></el-form-item>
+						<el-form-item label="手机号："><span>{{viewForm.phone}}</span></el-form-item>
 					</el-col>
 					<el-col :span="12" :xs="24">
-						<el-form-item label="创建时间:"><label>{{viewForm.createTime}}</label></el-form-item>
+						<el-form-item label="邮箱："><span>{{viewForm.email}}</span></el-form-item>
+					</el-col>
+					<el-col :span="12" :xs="24">
+						<el-form-item label="微信："><span>{{viewForm.weixin}}</span></el-form-item>
+					</el-col>
+					<el-col :span="12" :xs="24">
+						<el-form-item label="所属用户："><span>{{viewForm.suoShuUser}}</span></el-form-item>
+					</el-col>
+					<el-col :span="12" :xs="24">
+						<el-form-item label="最后登录IP："><span>{{viewForm.lastLoginIP}}</span></el-form-item>
+					</el-col>
+					<el-col :span="12" :xs="24">
+						<el-form-item label="最后登录时间："><span>{{viewForm.lastLoginTime}}</span></el-form-item>
+					</el-col>
+					<el-col :span="12" :xs="24">
+						<el-form-item label="是否修改账号："><span>{{viewForm.isEditAccount}}</span></el-form-item>
+					</el-col>
+					<el-col :span="12" :xs="24">
+						<el-form-item label="创建时间："><span>{{viewForm.createTime}}</span></el-form-item>
 					</el-col>
 					<el-col :span="24" :xs="24">
-						<el-form-item label="备注:"><label>{{viewForm.remark}}</label></el-form-item>
+						<el-form-item label="备注："><label>{{viewForm.remark}}</label></el-form-item>
 					</el-col>
 				</el-row>
 			</el-form>
 			<div slot="footer" class="dialog-footer">
 				<el-button @click="viewModel=false">关 闭</el-button>
 			</div>
-		</el-dialog>
-		<!-- 删除-->
-		<el-dialog title="温馨提示" :visible.sync="delModel" :close-on-click-modal="false" center width="30%">
-			<div class="del-dialog-cnt textCen">确认要删除该数据吗？</div>
-			<span slot="footer" class="dialog-footer">
-		    <el-button type="primary" size="medium">是</el-button>
-		    <el-button @click="delModel=false" size="medium">否</el-button>
-		  </span>
 		</el-dialog>
 		<!--日志-->
 		<el-dialog title="订单日志" :visible.sync="logModel" :close-on-click-modal="false" width="90%" custom-class="fixed-dialog">
@@ -212,7 +194,6 @@
 				TxModel: false, //提现记录
         RechargeModel:false, //充值
 				editDisabled: true,
-				delDisabled: true,
 				tableData: [{
 						"Numbers": "20190605105636229596",
 						"Picture": "",
@@ -415,13 +396,13 @@
 			// 切换状态
 			changeStatus(index, row) {
 				let _this = this
-				let item = _this.userData[index]
+				let item = _this.tableData[index]
 			  console.log(item.Status)
 			  if(item.Status == '0'){
-				_this.userData.Status = '1'
+				_this.tableData.Status = '1'
 			  }
 			  if(item.Status == '1'){
-			  _this.userData.Status = '0'
+			  _this.tableData.Status = '0'
 			  }
 			},
 			// 日志
@@ -476,5 +457,4 @@
 </script>
 
 <style>
-
 </style>

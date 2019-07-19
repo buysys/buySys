@@ -20,10 +20,9 @@
 		<div class="mb20">
 			<el-button type="success" size="medium" @click="addModelShow"><i class="el-icon-plus"></i>新增</el-button>
 			<el-button type="primary" size="medium" @click="editModelShow" :disabled="editDisabled"><i class="el-icon-edit-outline"></i>修改</el-button>
-			<el-button type="danger" size="medium" @click="delData" :disabled="delDisabled"><i class="el-icon-delete"></i>删除</el-button>
-			<el-button type="warning" size="medium" @click="glModelShow" :disabled="editDisabled"><i class="el-icon-sort"></i>关联国家</el-button>
-      <el-button type="primary" size="medium" @click="drModelShow"><i class="el-icon-upload2"></i>导入</el-button>
-      <el-button type="primary" size="medium" @click="exportExcel"><i class="el-icon-download"></i>导出</el-button>
+			<el-button type="danger" size="medium" @click="glModelShow" :disabled="editDisabled"><i class="el-icon-sort"></i>关联国家</el-button>
+      <el-button type="warning" size="medium" @click="drModelShow"><i class="el-icon-download"></i>导入</el-button>
+      <el-button type="warning" size="medium" @click="exportExcel"><i class="el-icon-upload2"></i>导出</el-button>
 		</div>
 		<div class="mt10">
 		<el-table  :data="tableData" id="exportData" style="width: 100%" :header-cell-style="{background:'#fafafa'}" @selection-change="handleSelectionChange">
@@ -34,13 +33,14 @@
 						<el-button type="text" @click="glListModelShow(scope.$index,scope.row)">{{scope.row.Numbers}}</el-button>
 					</template>
 				</el-table-column>
-        <el-table-column prop="Enabled" label="状态" align="center">
-        	<template slot-scope="scope">
-        		<el-button type="text" @click="forbidModelShow(scope.$index,scope.row)">{{scope.row.Numbers}}</el-button>
-        	</template>
+        <el-table-column prop="Status" label="禁用 | 启用" align="center">
+          <template slot-scope="scope">
+            <el-switch active-color="#67c23a" inactive-color="#dcdfe6" active-value="1" inactive-value="0" v-model="scope.row.Status" @change="changeStatus(scope.$index,scope.row)">
+            </el-switch>
+          </template>
         </el-table-column>
 				<el-table-column prop="OrderNumber" label="操作" align="center">
-          <el-button type="success" size="small" @click="OrderTaskModelShow">查看任务</el-button>
+          <el-button type="primary" size="small" @click="OrderTaskModelShow">查看任务</el-button>
         </el-table-column>
 		</el-table>
 		<div class="mt30">
@@ -59,14 +59,6 @@
       <el-button type="primary" @click="submitData">确 定</el-button>
       <el-button @click="editModel = false">取 消</el-button>
       </div>
-		</el-dialog>
-		<!-- 删除-->
-		<el-dialog title="温馨提示" :visible.sync="delModel" :close-on-click-modal="false" center width="30%">
-		  <div class="del-dialog-cnt textCen">确认要删除该数据吗？</div>
-		  <span slot="footer" class="dialog-footer">
-		    <el-button type="primary" size="medium">是</el-button>
-		    <el-button @click="delModel=false" size="medium">否</el-button>
-		  </span>
 		</el-dialog>
 		<!-- 关联国家-->
 		<el-dialog title="关联国家" :visible.sync="glModel" :close-on-click-modal="false">
@@ -173,14 +165,6 @@
 		    <el-button @click="OrderTaskModel=false" size="medium">关闭</el-button>
 			</div>
 		</el-dialog>
-    <!-- 禁用启用 -->
-    <el-dialog title="温馨提示" :visible.sync="forbidModel" :close-on-click-modal="false" center width="30%">
-      <div class="del-dialog-cnt textCen">确认要切换平台状态吗？</div>
-      <span slot="footer" class="dialog-footer">
-        <el-button type="primary" size="medium">是</el-button>
-        <el-button @click="forbidModel=false" size="medium">否</el-button>
-      </span>
-    </el-dialog>
 	</div>
 </template>
 
@@ -195,14 +179,12 @@
 			return {
 				loading:true,
 				editModel: false,	//新增修改弹框
-				delModel: false,	//删除弹框
 				glModel: false,		//关联国家弹框
 				drModel: false,		//导入弹框
 				glListModel: false,	//关联国家列表弹框(国家数量)
 				jcModel: false,		//解除关联弹框
 				bindModel: false,	//绑定网址弹框
 				OrderTaskModel: false, //订单任务
-        forbidModel: false, //启用禁用
 				editDisabled: true,
 				delDisabled: true,
 				jcDisabled: true,
@@ -217,7 +199,7 @@
             "ProductPrice": 15.99,
             "ServiceType": "不留评",
             "OrderNote": "待付款",
-            "Status": "已完成",
+            "Status": "0",
             "OrderNumber": 1314520,
             "OrderTime": "2019-02-03T00:00:00",
             "Remark": ""
@@ -231,7 +213,7 @@
             "ProductPrice": 18.99,
             "ServiceType": "不留评",
             "OrderNote": "待确认",
-            "Status": "已完成",
+            "Status": "1",
             "OrderNumber": 7758258,
             "OrderTime": "2019-04-02T00:00:00",
             "Remark": ""
@@ -345,16 +327,18 @@
 						_this.title = num + ' 平台修改'
 						_this.editForm.name = item.Forum;
 					},
-					// 删除
-					delData () {
-					  let _this = this
-					  _this.delModel = true
+					// 切换状态
+					changeStatus(index, row) {
+						let _this = this
+						let item = _this.tableData[index]
+					  console.log(item.Status)
+					  if(item.Status == '0'){
+						_this.tableData.Status = '1'
+					  }
+					  if(item.Status == '1'){
+					  _this.tableData.Status = '0'
+					  }
 					},
-          // 禁用启用
-          forbidModelShow () {
-            let _this = this
-            _this.forbidModel = true
-          },
 					// 关联国家
 					glModelShow () {
 					  let _this = this

@@ -207,7 +207,7 @@
 			</div>
 		</el-dialog>
 		<!--查看任务详情-->
-		<el-dialog :title='orderTitle' :visible.sync="viewTaskDateilsModel" :close-on-click-modal="false" width="90%" custom-class="fixed-dialog">
+		<el-dialog :title='orderTitle' :visible.sync="viewTaskDateilsModel" width="90%" custom-class="fixed-dialog">
 			<el-form class="view-page" :model='taskViewForm'>
 				<el-row :gutter='30'>
 				  <el-col :span='24' :xs='24'>
