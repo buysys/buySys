@@ -130,9 +130,9 @@
       </el-button>
       <el-button type="primary" size="medium" @click="setBuyTagHandel"><i class="el-icon-setting"></i>买号标签管理
       </el-button>
-      <el-button type="primary" size="medium" @click=""><i class="el-icon-upload2"></i>导入
+      <el-button type="warning" size="medium" @click=""><i class="el-icon-download"></i>导入
       </el-button>
-      <el-button type="primary" size="medium" @click="exportExcel"><i class="el-icon-download"></i>导出
+      <el-button type="warning" size="medium" @click="exportExcel"><i class="el-icon-upload2"></i>导出
       </el-button>
     </div>
     <div class="tabList">

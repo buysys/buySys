@@ -62,8 +62,8 @@
 			</el-button>
 			<el-button type="success" size="medium" :disabled="disabled" @click='receiving'><i class="el-icon-check"></i>确认收货
 			</el-button>
-			<el-button type="primary" size="medium"><i class="el-icon-upload2"></i>导入</el-button>
-			<el-button type="primary" size="medium"><i class="el-icon-download"></i>导出</el-button>
+			<el-button type="warning" size="medium"><i class="el-icon-download"></i>导入</el-button>
+			<el-button type="warning" size="medium"><i class="el-icon-upload2"></i>导出</el-button>
 		</div>
 		<div class="tabList">
 			<div class="tabLeft">
@@ -228,7 +228,7 @@
 		<!--查看任务详情-->
 		<el-dialog :title='orderTitle' :visible.sync="viewTaskDateilsModel" :close-on-click-modal="false" width="90%" custom-class="fixed-dialog">
 			<el-form class="demo-item" :model='taskViewForm'>
-				<div class="modalTitle fz16">任务信息</div>
+				<div class="modalTitle fz16 mb20">任务信息</div>
 				<el-row>
 					<el-col :span='12' :xs='24'>
 						<el-form-item label="平台：">
@@ -752,7 +752,7 @@
 						</el-form-item>
 					</el-col>
 				</el-row>
-				<div class="mb20 fz16 modalTitle">购买信息</div>
+				<div class="mb20 fz16 modelTitle">购买信息</div>
 				<el-row>
 					<el-col :span='24'>
 						<el-form-item label='产品评价标题'>
