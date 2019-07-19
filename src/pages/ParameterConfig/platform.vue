@@ -86,7 +86,7 @@
 		  		</el-form>
 		  	</div>
 			<div class="mt10">
-		  	<el-table v-loading="loading" :data="tableData" style="width: 100%" :header-cell-style="{background:'#fafafa'}" @selection-change="handleSelectionChange2">
+		  	<el-table :data="tableData" style="width: 100%" :header-cell-style="{background:'#fafafa'}" @selection-change="handleSelectionChange2">
 		  		<el-table-column type="selection"></el-table-column>
 		  			<el-table-column prop="CountryId" label="国家名称" align="center"></el-table-column>
 		  			<el-table-column prop="Forum" label="国家简写" align="center"></el-table-column>
@@ -167,7 +167,7 @@
 			</div>
 		</el-dialog>
 		<!-- 订单任务 -->
-		<el-dialog title="查看任务" :visible.sync="OrderTaskModel" :close-on-click-modal="false">
+		<el-dialog title="查看任务" :visible.sync="OrderTaskModel" :close-on-click-modal="false" width="90%" custom-class="fixed-dialog">
 			<OrderTask></OrderTask>
 			<div slot="footer" class="dialog-footer">
 		    <el-button @click="OrderTaskModel=false" size="medium">关闭</el-button>

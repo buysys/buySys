@@ -9,15 +9,10 @@
 			<el-collapse-transition>
 				<div class="searchBox mb20 pl30">
 					<el-form ref="searchForm" :model="searchForm" class="form-item" label-width="80px">
-						<el-row :gutter="10">
-							<el-col :xs="24" :span="4">
-								<el-form-item label="登录名">
-									<el-input v-model="searchForm.userLoginName" class="disInline" placeholder="请输入登录名"></el-input>
-								</el-form-item>
-							</el-col>
-							<el-col :xs="24" :span="4">
-								<el-form-item label="姓名 ">
-									<el-input v-model="searchForm.username" class="disInline" placeholder="请输入姓名"></el-input>
+						<el-row>
+							<el-col :xs="24" :span="8">
+								<el-form-item label="搜索内容">
+									<el-input v-model="searchForm.searchkeywords" placeholder="请输入用户姓名/邮箱/手机" class="disInline"></el-input>
 								</el-form-item>
 							</el-col>
 							<el-col :xs="24" :span="4" class="ml20">
@@ -28,32 +23,35 @@
 					</el-form>
 				</div>
 			</el-collapse-transition>
-			<div class="mb20 ">
+			<div class="mb20">
 				<el-button type="success" size="medium" @click="addUser "><i class="el-icon-plus"></i>新增</el-button>
-				<el-button type="primary" size="medium" :disabled="disabled" @click="editUser"><i class="el-icon-edit-outline"></i>修改
-				</el-button>
-				<el-button type="danger" size="medium" :disabled="disabled" @click="delHandle"><i class="el-icon-delete"></i>禁用
-				</el-button>
-        <el-button type="primary" size="medium" @click="importHandle"><i class="el-icon-upload2"></i>导入</el-button>
-        <el-button type="primary" size="medium" @click="exportExcel"><i class="el-icon-download"></i>导出</el-button>
-				<el-button type="success" size="medium" @click="roleModelShow" style="float: right;"><i class="el-icon-set-up"></i>角色管理
-				</el-button>
+				<el-button type="primary" size="medium" :disabled="disabled" @click="editUser"><i class="el-icon-edit-outline"></i>修改</el-button>
+        <el-button type="warning" size="medium" @click="importHandle"><i class="el-icon-download"></i>导入</el-button>
+        <el-button type="warning" size="medium" @click="exportExcel"><i class="el-icon-upload2"></i>导出</el-button>
+				<el-button type="danger" size="medium" @click="roleModelShow" style="float: right;"><i class="el-icon-s-custom"></i>角色管理</el-button>
 			</div>
-			<div class="mt10 ">
+			<div class="mt10">
 				<el-table :data="userData" id="exportOrder" border style="width: 100%" @selection-change="handleSelectionChange">
 					<el-table-column type="selection"></el-table-column>
-					<el-table-column prop="CountryId" label="登录名" align="center" sortable></el-table-column>
-					<el-table-column prop="ProductByASIN" label="姓名" align="center" sortable></el-table-column>
-					<el-table-column prop="ProductByASIN" label="手机" align="center" sortable></el-table-column>
+					<el-table-column prop="ProductByASIN" label="姓名" align="center"></el-table-column>
+          <el-table-column prop="CountryId" label="邮箱" align="center"></el-table-column>
+					<el-table-column prop="ProductByASIN" label="手机" align="center"></el-table-column>
+          <el-table-column prop="ProductByASIN" label="角色" align="center"></el-table-column>
+          <el-table-column prop="Status" label="禁用 | 启用" align="center">
+            <template slot-scope="scope">
+              <el-switch active-color="#67c23a" inactive-color="#dcdfe6" active-value="1" inactive-value="0" v-model="scope.row.Status" @change="changeStatus(scope.$index,scope.row)">
+              </el-switch>
+            </template>
+          </el-table-column>
 				</el-table>
-				<div class="mt30 ">
-					<el-pagination @size-change="handleSizeChange " @current-change="handleCurrentChange" :current-page="currentPage " :page-sizes="[100, 200, 300, 500] " :page-size="10 " layout="total, sizes, prev, pager, next, jumper " :total="total ">
+				<div class="mt30">
+					<el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage " :page-sizes="[100, 200, 300, 500] " :page-size="10 " layout="total, sizes, prev, pager, next, jumper " :total="total ">
 					</el-pagination>
 				</div>
 			</div>
-			<!--新建、修改-->
-			<el-dialog :title="title " :visible.sync="userModel" :close-on-click-modal="false" :before-close="cloesUserModel">
-				<el-form :model="userForm" ref="userForm " label-width="100px" :rules="editRules">
+			<!--新增修改-->
+			<el-dialog :title="title" :visible.sync="userModel" :close-on-click-modal="false" :before-close="cloesUserModel">
+				<el-form :model="userForm" ref="userForm" label-width="100px" :rules="editRules">
 					<el-row>
 						<el-col :span="12">
 							<el-form-item label="姓名" prop="userName">
@@ -79,11 +77,6 @@
 						</el-col>
 					</el-row>
 					<el-row>
-            <el-col :span="12">
-            	<el-form-item label="登录名" prop="userLoginName">
-            		<el-input v-model="userForm.userLoginName"></el-input>
-            	</el-form-item>
-            </el-col>
 						<el-col :span="12">
 							<el-form-item label="手机" prop="mobile">
 								<el-input v-model="userForm.mobile"></el-input>
@@ -93,13 +86,13 @@
 					<el-row>
 						<el-col :span="24">
 							<el-form-item label="用户角色" prop="userRole">
-								<el-checkbox-group v-model="userForm.userRole">
-									<el-checkbox label="Seller" name="type"></el-checkbox>
-									<el-checkbox label="刷手" name="type"></el-checkbox>
-									<el-checkbox label="注册账号" name="type"></el-checkbox>
-									<el-checkbox label="财务" name="type"></el-checkbox>
-									<el-checkbox label="部门管理员" name="type"></el-checkbox>
-								</el-checkbox-group>
+                <template>
+                  <el-radio-group v-model="userForm.userRole">
+                    <el-radio :label="1">Seller</el-radio>
+                    <el-radio :label="2">刷手</el-radio>
+                    <el-radio :label="3">财务</el-radio>
+                  </el-radio-group>
+                </template>
 							</el-form-item>
 						</el-col>
 						<el-col :span="24">
@@ -113,14 +106,6 @@
         	<el-button type="primary" size="medium">确定</el-button>
         	<el-button @click="userModel=false" size="medium">取消</el-button>
         </div>
-			</el-dialog>
-			<!-- 删除-->
-			<el-dialog title="温馨提示" :visible.sync="delModel" :close-on-click-modal="false" center width="30%">
-				<div class="del-dialog-cnt textCen">确认要删除该数据吗？</div>
-				<span slot="footer" class="dialog-footer">
-			    <el-button type="primary" size="medium">是</el-button>
-			    <el-button @click="delModel=false" size="medium">否</el-button>
-			  </span>
 			</el-dialog>
 			<!--导入数据-->
 			<el-dialog title="导入数据" :visible.sync="importModel" :close-on-click-modal="false" :before-close="closeImportModel" center width="30%">
@@ -139,6 +124,10 @@
 			<!--角色管理-->
 			<el-dialog title="角色管理" :visible.sync="roleModel" :close-on-click-modal="false" width="90%" custom-class="fixed-dialog">
 				<roleManage></roleManage>
+        <div slot="footer" class="dialog-footer">
+        	<el-button type="primary" size="medium">确 定</el-button>
+        	<el-button @click="roleModel=false" size="medium">取 消</el-button>
+        </div>
 			</el-dialog>
 		</div>
 	</div>
@@ -155,7 +144,6 @@
 			return {
 				disabled: true,
 				loading: true,
-				delModel: false,
 				importModel: false,
 				roleModel: false,
 				fileList: [],
@@ -192,10 +180,10 @@
 						"ProductPrice": 15.99,
 						"ServiceType": "不留评",
 						"OrderNote": "待付款",
-						"Status": "已完成",
+						"Status": "1",
 						"OrderNumber": 1314520,
 						"OrderTime": "2019-02-03T00:00:00",
-						"Remark": ""
+						"Remark": "",
 					},
 					{
 						"Numbers": "20190611174157617041",
@@ -206,7 +194,7 @@
 						"ProductPrice": 18.99,
 						"ServiceType": "不留评",
 						"OrderNote": "待确认",
-						"Status": "已完成",
+						"Status": "0",
 						"OrderNumber": 7758258,
 						"OrderTime": "2019-04-02T00:00:00",
 						"Remark": ""
@@ -268,6 +256,18 @@
 					userName: ''
 				}
 			},
+      // 切换状态
+      changeStatus(index, row) {
+      	let _this = this
+      	let item = _this.userData[index]
+        console.log(item.Status)
+        if(item.Status == '0'){
+      	_this.userData.Status = '1'
+        }
+        if(item.Status == '1'){
+        _this.userData.Status = '0'
+        }
+      },
 			//新增
 			addUser() {
 				let _this = this;
@@ -298,11 +298,6 @@
 					userRole: '',
 					remark: ''
 				};
-			},
-			//删除弹窗
-			delHandle() {
-				let _this = this;
-				_this.delModel = true;
 			},
 			//导入弹窗
 			importHandle() {

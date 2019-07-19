@@ -143,10 +143,20 @@ ul{
   position: absolute;
   bottom: 0;
 }
-/* 列表头部搜索框 */
-.listSearchInput{
-	width: 200px;
-	float: right;
+/* 查看页样式 */
+.view-page .el-form-item__label{
+	width: 150px;
+  background: #f5f5f5;
+}
+.view-page .el-form-item{
+  background: #fafafa;
+}
+.view-page .el-form-item__content{
+  margin-left: 180px;
+}
+.view-page .title{
+  background: #f5f5f5;
+  font-weight: bold;
 }
 /* 导航栏 */
 .navCon{
