@@ -39,9 +39,9 @@
 								<el-input v-model="searchForm.searchkeywords" placeholder="请输入关键字" class="disInline"></el-input>
 							</el-form-item>
 						</el-col>
-						<el-col :xs="24" :span="4" class="ml20">
-							<el-button type="primary" size="medium">查询</el-button>
-							<el-button size="medium" @click="resetSearch">重置</el-button>
+						<el-col :xs="24" :span="4" class='ml20'>
+								<el-button type="primary" size="medium">查询</el-button>
+								<el-button size="medium" @click="resetSearch">重置</el-button>
 						</el-col>
 					</el-row>
 				</el-form>
