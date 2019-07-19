@@ -25,7 +25,7 @@
 		<div class="mb20">
 			<el-button type="success" size="medium" @click="addModelShow"><i class="el-icon-plus"></i>新增</el-button>
 			<el-button type="primary" size="medium" @click="editModelShow" :disabled="editDisabled"><i class="el-icon-edit-outline"></i>修改</el-button>
-			<el-button type="warning" size="medium" @click="exportExcel"><i class="el-icon-download"></i>导出</el-button>
+			<el-button type="warning" size="medium" @click="exportExcel"><i class="el-icon-upload2"></i>导出</el-button>
       <el-button size="small" type="success" @click="TxModelShow()" style="float: right;">提现记录</el-button>
 		</div>
 		<div class="mt10">
@@ -66,7 +66,7 @@
 		<!-- 新增修改 -->
 		<el-dialog :title="title" :visible.sync="editModel" :close-on-click-modal="false" :before-close="closeModel">
 			<el-form :model="editForm" :rules="editRules" label-width="125px" status-icon>
-				<el-form-item label="名称">
+				<el-form-item label="姓名">
 					<el-input v-model="editForm.name"></el-input>
 				</el-form-item>
 				<el-form-item label="密码" prop="password">
@@ -91,12 +91,6 @@
 				<el-form-item label="微信">
 					<el-input v-model="editForm.weixin"></el-input>
 				</el-form-item>
-				<el-form-item label="是否可登录" prop="canlogin">
-					<template>
-						<el-radio v-model="editForm.canLogin" label="1">是</el-radio>
-						<el-radio v-model="editForm.canLogin" label="0">否</el-radio>
-					</template>
-				</el-form-item>
 				<el-form-item label="备注">
 					<el-input type="textarea" v-model="editForm.remark"></el-input>
 				</el-form-item>
@@ -111,14 +105,11 @@
 			<el-form :model="viewForm" label-width="125px" status-icon>
 				<el-row>
 					<el-col :span="12" :xs="24">
-						<el-form-item label="客户账号:"><label>{{viewForm.userName}}</label></el-form-item>
-					</el-col>
-					<el-col :span="12" :xs="24">
 						<el-form-item label="客户编码:"><label>{{viewForm.userNo}}</label></el-form-item>
 					</el-col>
 
 					<el-col :span="12" :xs="24">
-						<el-form-item label="名称:"><label>{{viewForm.name}}</label></el-form-item>
+						<el-form-item label="姓名:"><label>{{viewForm.name}}</label></el-form-item>
 					</el-col>
 
 					<el-col :span="12" :xs="24">
@@ -140,7 +131,7 @@
 						<el-form-item label="所属用户:"><label>{{viewForm.suoShuUser}}</label></el-form-item>
 					</el-col>
 					<el-col :span="12" :xs="24">
-						<el-form-item label="是否可登录:"><label>{{viewForm.canLogin}}</label></el-form-item>
+						<el-form-item label="状态:"><label>{{viewForm.canLogin}}</label></el-form-item>
 					</el-col>
 
 					<el-col :span="12" :xs="24">
@@ -156,7 +147,6 @@
 					<el-col :span="12" :xs="24">
 						<el-form-item label="创建时间:"><label>{{viewForm.createTime}}</label></el-form-item>
 					</el-col>
-
 					<el-col :span="24" :xs="24">
 						<el-form-item label="备注:"><label>{{viewForm.remark}}</label></el-form-item>
 					</el-col>

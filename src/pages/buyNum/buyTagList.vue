@@ -1,7 +1,7 @@
 <template>
-	<div class="container">
+	<div>
 		<div class="mb20">
-			<el-button type="success" size="medium" @click="addHandle"><i class="el-icon-plus"></i>新建</el-button>
+			<el-button type="success" size="medium" @click="addHandle"><i class="el-icon-plus"></i>新增</el-button>
 			<el-button type="primary" size="medium" :disabled="disabled" @click="editHandle"><i class="el-icon-edit-outline"></i>修改</el-button>
 			<el-button type="danger" size="medium" :disabled="disabled" @click="delHandle"><i class="el-icon-delete"></i>删除</el-button>
 		</div>
@@ -16,7 +16,7 @@
 			</div>
 		</div>
 		<!--新建、修改标签-->
-		<el-dialog :title="title" :visible.sync="tagModel" :close-on-click-modal="false" center :before-close="closeTagModel" :modal-append-to-body="false" :append-to-body="true" >
+		<el-dialog :title="title" :visible.sync="tagModel" :close-on-click-modal="false" :before-close="closeTagModel" :modal-append-to-body="false" :append-to-body="true" >
 			<el-form :model="tagForm" ref="tagForm" :rules="tagRules" label-width="88px">
 				<el-form-item label="标签名" prop="tag">
 					<el-input v-model="tagForm.tag"></el-input>
@@ -28,11 +28,11 @@
       		</span>
 		</el-dialog>
 		<!--删除-->
-		<el-dialog title="系统提示" :visible.sync="delModel" :close-on-click-modal="false" center="" width="20%" :modal-append-to-body="false" :append-to-body="true">
+		<el-dialog title="系统提示" :visible.sync="delModel" :close-on-click-modal="false" width="30%" :modal-append-to-body="false" :append-to-body="true">
 			<div class="del-dialog-cnt textCen">确认要删除该标签记录吗？</div>
 			<span slot="footer" class="dialog-footer">
-        		<el-button type="primary" size="medium">确定</el-button>
-        		<el-button @click="delModel=false" size="medium">取消</el-button>
+        		<el-button type="primary" size="medium">是</el-button>
+        		<el-button @click="delModel=false" size="medium">否</el-button>
       		</span>
 		</el-dialog>
 	</div>

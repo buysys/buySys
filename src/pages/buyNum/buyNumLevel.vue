@@ -1,20 +1,15 @@
 <template>
 	<div class="container">
-		<div class="mb20 fz14">
-			<span>买号管理</span>
-			<span>/</span>
-			<span>买号等级</span>
-		</div>
 		<el-collapse-transition>
 			<div class="searchBox mb20">
 				<el-form ref="searchForm" :model="searchForm" class="form-item" label-width="80px">
 					<el-row class="pt20">
-						<el-col :xs="24" :span="7" :sm="9" :md="8" :lg="5">
+						<el-col :xs="24" :span="4">
 							<el-form-item label="等级名称">
 								<el-input v-model="searchForm.levelName" placeholder="请输入等级名称" class="disInline"></el-input>
 							</el-form-item>
 						</el-col>
-						<el-col :xs="24" :span="5" :sm="10" :md="8" :lg="5" class="ml20">
+						<el-col :xs="24" :span="4" class="ml20">
 							<el-button type="primary" size="medium">查询</el-button>
 							<el-button size="medium">重置</el-button>
 						</el-col>
@@ -23,7 +18,7 @@
 			</div>
 		</el-collapse-transition>
 		<div class="mb20">
-			<el-button type="success" size="medium" @click="addLevel"><i class="el-icon-plus"></i>新建</el-button>
+			<el-button type="success" size="medium" @click="addLevel"><i class="el-icon-plus"></i>新增</el-button>
 			<el-button type="primary" size="medium" :disabled="disabled" @click="editLevel"><i class="el-icon-edit-outline"></i>修改
 			</el-button>
 			<el-button type="danger" size="medium" :disabled="disabled" @click="delHandel"><i class="el-icon-delete"></i>删除
@@ -54,7 +49,7 @@
 			</div>
 		</div>
 		<!-- 新建、修改-->
-		<el-dialog :title="title" :visible.sync="LevelModel" :close-on-click-modal="false" :before-close="closeModel">
+		<el-dialog :title="title" :visible.sync="LevelModel" :close-on-click-modal="false" :before-close="closeModel" :modal-append-to-body="false" :append-to-body="true">
 			<el-form :model="LevelForm" :rel="LevelForm" :rules="editRules" label-width="125px" status-icon>
 				<el-form-item label="等级名称" prop="levelName">
 					<el-input v-model="LevelForm.levelName"></el-input>
@@ -68,12 +63,6 @@
 				<el-form-item label="累积留评次数" prop="allCommentNum">
 					<el-input v-model="LevelForm.allCommentNum"></el-input>
 				</el-form-item>
-				<el-form-item label="付款方式">
-					<el-radio-group v-model="LevelForm.payType">
-						<el-radio label="一次性卡"></el-radio>
-						<el-radio label="充值卡"></el-radio>
-					</el-radio-group>
-				</el-form-item>
 				<el-form-item label="价格开始区间" prop="priceStart">
 					<el-input v-model="LevelForm.priceStart"></el-input>
 				</el-form-item>
@@ -86,22 +75,22 @@
 				<el-form-item label="备注">
 					<el-input type="textarea" v-model="LevelForm.remark"></el-input>
 				</el-form-item>
-				<div class="textCen">
-					<el-button type="primary">确定</el-button>
-					<el-button @click="closeModel">取消</el-button>
-				</div>
 			</el-form>
+      <div slot="footer" class="dialog-footer">
+      	<el-button type="primary" size="medium">确定</el-button>
+      	<el-button @click="LevelModel=false" size="medium">取消</el-button>
+      </div>
 		</el-dialog>
 		<!-- 删除-->
-		<el-dialog title="温馨提示" :visible.sync="delModel" :close-on-click-modal="false" center="" width="30%">
+		<el-dialog title="温馨提示" :visible.sync="delModel" :close-on-click-modal="false" center="" width="30%" :modal-append-to-body="false" :append-to-body="true">
 			<div class="del-dialog-cnt textCen">确认要删除该买号等级记录吗？</div>
 			<span slot="footer" class="dialog-footer">
-        <el-button type="primary" size="medium">确定</el-button>
-        <el-button @click="delModel=false" size="medium">取消</el-button>
+        <el-button type="primary" size="medium">是</el-button>
+        <el-button @click="delModel=false" size="medium">否</el-button>
       </span>
 		</el-dialog>
 		<!-- 重新分配-->
-		<el-dialog title="买号等级分配信息" :visible.sync="accountModel" width="90%" :close-on-click-modal="false" :before-close="closeBuyNum">
+		<el-dialog title="买号等级分配信息" :visible.sync="accountModel" width="90%" custom-class="fixed-dialog" :close-on-click-modal="false" :before-close="closeBuyNum" :modal-append-to-body="false" :append-to-body="true">
 			<el-collapse-transition>
 				<div class="searchBox mb20" v-show="accountSearchModel">
 					<el-form ref="accountSearchForm" :model="accountSearchForm" class="form-item" label-width="80px">
@@ -143,16 +132,16 @@
 			</div>
 		</el-dialog>
 		<!-- 修改参数值-->
-		<el-dialog title="修改参数值" :visible.sync="paramModel" :close-on-click-modal="false" width="20%">
+		<el-dialog title="修改参数值" :visible.sync="paramModel" :close-on-click-modal="false" width="30%">
 			<el-form :model="paramForm">
 				<el-form-item>
 					<el-input v-model="paramForm.values"></el-input>
 				</el-form-item>
-				<el-form-item class="modelRight">
-					<el-button type="primary">确定</el-button>
-					<el-button @click="paramModel=false">取消</el-button>
-				</el-form-item>
 			</el-form>
+      <div slot="footer" class="dialog-footer">
+      	<el-button type="primary" size="medium">确定</el-button>
+      	<el-button @click="paramModel=false" size="medium">取消</el-button>
+      </div>
 		</el-dialog>
 	</div>
 </template>
@@ -165,7 +154,7 @@
 				currentPage: 1,
 				pageSize: '0',
 				total:100,
-				title: '新建',
+				title: '',
 				disabled: true,
 				disabled1: true,
 				LevelModel: false,
@@ -296,6 +285,7 @@
 			addLevel() {
 				let _this = this
 				_this.LevelModel = true
+        _this.title = '新增'
 			},
 			// 修改弹窗
 			editLevel() {
