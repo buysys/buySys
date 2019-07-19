@@ -25,30 +25,32 @@
 		<div class="mb20">
 			<el-button type="success" size="medium" @click="addModelShow"><i class="el-icon-plus"></i>新增</el-button>
 			<el-button type="primary" size="medium" @click="editModelShow" :disabled="editDisabled"><i class="el-icon-edit-outline"></i>修改</el-button>
-			<el-button type="danger" size="medium" @click="delData" :disabled="delDisabled"><i class="el-icon-delete"></i>禁用</el-button>
-			<el-button type="primary" size="medium" @click="exportExcel"><i class="el-icon-download"></i>导出</el-button>
+			<el-button type="warning" size="medium" @click="exportExcel"><i class="el-icon-download"></i>导出</el-button>
       <el-button size="small" type="success" @click="TxModelShow()" style="float: right;">提现记录</el-button>
 		</div>
 		<div class="mt10">
 			<el-table :data="tableData" id="exportData" style="width: 100%" :header-cell-style="{background:'#fafafa'}" @selection-change="handleSelectionChange">
 				<el-table-column type="selection"></el-table-column>
-				<el-table-column prop="Numbers" label="客户账号" align="center" width="200">
+				<el-table-column prop="Numbers" label="编码" align="center" width="200">
 					<template slot-scope="scope">
 						<el-button type="text" @click="viewModelShow(scope.$index,scope.row)">{{scope.row.Numbers}}</el-button>
 					</template>
 				</el-table-column>
-				<el-table-column prop="ProductByASIN" label="编码" align="center"></el-table-column>
-				<el-table-column prop="CountryId" label="名称" align="center"></el-table-column>
+				<el-table-column prop="CountryId" label="姓名" align="center"></el-table-column>
 				<el-table-column prop="CountryId" label="性别" align="center"></el-table-column>
-				<el-table-column prop="OrderNumber" label="手机号码" align="center"></el-table-column>
+				<el-table-column prop="OrderNumber" label="手机" align="center"></el-table-column>
 				<el-table-column prop="OrderNumber" label="邮箱" align="center"></el-table-column>
 				<el-table-column prop="OrderNumber" label="微信" align="center"></el-table-column>
-				<el-table-column prop="OrderNumber" label="QQ" align="center"></el-table-column>
 				<el-table-column prop="CountryId" label="所属用户" align="center"></el-table-column>
 				<el-table-column prop="ProductPrice" label="余额" align="center" class-name="red"></el-table-column>
 				<el-table-column prop="OrderNumber" label="最后登录IP" align="center"></el-table-column>
 				<el-table-column prop="OrderTime" label="最后登录时间" align="center"></el-table-column>
-				<el-table-column prop="Status" label="是否可登录" align="center"></el-table-column>
+				<el-table-column prop="Status" label="禁用 | 启用" align="center">
+				  <template slot-scope="scope">
+				    <el-switch active-color="#67c23a" inactive-color="#dcdfe6" active-value="1" inactive-value="0" v-model="scope.row.Status" @change="changeStatus(scope.$index,scope.row)">
+				    </el-switch>
+				  </template>
+				</el-table-column>
 				<el-table-column label="操作" align="center" width="200">
 					<template slot-scope="scope">
             <el-button size="small" type="warning" @click="RechargeModelShow">充值</el-button>
@@ -215,7 +217,6 @@
 			return {
 				loading: true,
 				editModel: false,
-				delModel: false,
 				viewModel: false,
 				logModel: false, //日志
 				TxModel: false, //提现记录
@@ -231,7 +232,7 @@
 						"ProductPrice": 15.99,
 						"ServiceType": "不留评",
 						"OrderNote": "待付款",
-						"Status": "已完成",
+						"Status": "0",
 						"OrderNumber": 1314520,
 						"OrderTime": "2019-02-03T00:00:00",
 						"Remark": ""
@@ -245,7 +246,7 @@
 						"ProductPrice": 18.99,
 						"ServiceType": "不留评",
 						"OrderNote": "待确认",
-						"Status": "已完成",
+						"Status": "1",
 						"OrderNumber": 7758258,
 						"OrderTime": "2019-04-02T00:00:00",
 						"Remark": ""
@@ -421,10 +422,17 @@
 					_this.viewForm.createTime = item.CountryId,
 					_this.viewForm.remark = item.CountryId
 			},
-			// 删除
-			delData() {
+			// 切换状态
+			changeStatus(index, row) {
 				let _this = this
-				_this.delModel = true
+				let item = _this.userData[index]
+			  console.log(item.Status)
+			  if(item.Status == '0'){
+				_this.userData.Status = '1'
+			  }
+			  if(item.Status == '1'){
+			  _this.userData.Status = '0'
+			  }
 			},
 			// 日志
 			LogModelShow() {
