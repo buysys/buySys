@@ -27,8 +27,8 @@
 			<el-button type="primary" size="medium" :disabled="disabled" @click="editLevel"><i class="el-icon-edit-outline"></i>修改</el-button>
 			<el-button type="danger" size="medium" :disabled="disabled" @click="delHandle"><i class="el-icon-delete"></i>删除</el-button>
 			<el-button type="primary" size="medium" :disabled="disabled" @click="quotaHandle"><i class="el-icon-edit-outline"></i>修改额度</el-button>
-			<el-button type="primary" size="medium" @click="importHandle"><i class="el-icon-upload2"></i>导入</el-button>
-			<el-button type="primary" size="medium" @click="exportExcel"><i class="el-icon-download"></i>导出</el-button>
+			<el-button type="warning" size="medium" @click="importHandle"><i class="el-icon-download"></i>导入</el-button>
+			<el-button type="warning" size="medium" @click="exportExcel"><i class="el-icon-upload2"></i>导出</el-button>
 		</div>
 		<div class="mt10">
 			<el-table :data="buyNumData" id="exportOrder" border style="width: 100%" @selection-change="handleSelectionChange">
@@ -249,7 +249,7 @@
 			}
 		},
 		created() {
-			this.getAllData()
+//			this.getAllData()
 		},
 		methods: {
 			//重置

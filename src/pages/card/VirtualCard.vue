@@ -32,9 +32,9 @@
 			</el-button>
 			<el-button type="primary" size="medium" @click="quotaHandle" :disabled="disabled"><i class="el-icon-edit-outline"></i>修改额度
 			</el-button>
-			<el-button type="primary" size="medium" @click="importHandle"><i class="el-icon-upload2"></i>导入
+			<el-button type="warning" size="medium" @click="importHandle"><i class="el-icon-download"></i>导入
 			</el-button>
-			<el-button type="primary" size="medium" @click="exportExcel"><i class="el-icon-download"></i>导出
+			<el-button type="warning" size="medium" @click="exportExcel"><i class="el-icon-upload2"></i>导出
 			</el-button>
 		</div>
 		<div class="mt10">

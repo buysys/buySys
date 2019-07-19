@@ -89,7 +89,7 @@
             "ProductPrice": 15.99,
             "ServiceType": "不留评",
             "OrderNote": "待付款",
-            "Status": "已完成",
+            "Status": "1",
             "OrderNumber": 1314520,
             "OrderTime": "2019-02-03T00:00:00",
             "Remark": ""
@@ -103,7 +103,7 @@
             "ProductPrice": 18.99,
             "ServiceType": "不留评",
             "OrderNote": "待确认",
-            "Status": "已完成",
+            "Status": "0",
             "OrderNumber": 7758258,
             "OrderTime": "2019-04-02T00:00:00",
             "Remark": ""
@@ -192,13 +192,13 @@
       // 切换状态
       changeStatus(index, row) {
       	let _this = this
-      	let item = _this.userData[index]
+      	let item = _this.roleData[index]
         console.log(item.Status)
         if(item.Status == '0'){
-      	_this.userData.Status = '1'
+      	_this.roleData.Status = '1'
         }
         if(item.Status == '1'){
-        _this.userData.Status = '0'
+        _this.roleData.Status = '0'
         }
       },
 			//新建

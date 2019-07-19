@@ -130,9 +130,9 @@
       </el-button>
       <el-button type="primary" size="medium" @click="setBuyTagHandel"><i class="el-icon-setting"></i>买号标签管理
       </el-button>
-      <el-button type="primary" size="medium" @click=""><i class="el-icon-upload2"></i>导入
+      <el-button type="warning" size="medium" @click=""><i class="el-icon-download"></i>导入
       </el-button>
-      <el-button type="primary" size="medium" @click="exportExcel"><i class="el-icon-download"></i>导出
+      <el-button type="warning" size="medium" @click="exportExcel"><i class="el-icon-upload2"></i>导出
       </el-button>
     </div>
     <div class="tabList">
@@ -176,7 +176,7 @@
     </div>
     <!-- 新建、修改-->
     <el-dialog :title="title" :visible.sync="addBuyNumModel" :close-on-click-modal="false" :before-close="closeModel"
-      width="90%" custom-class="fixed-dialog">
+      width="70%" custom-class="fixed-dialog">
       <el-form :model="buyNumForm" ref="buyNumForm" :rules="editRules" class="demo-dynamic" label-width="140px"
         status-icon>
         <div class="mb20 fz16">账号信息</div>

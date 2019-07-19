@@ -29,6 +29,9 @@ ul{
 .ml60{
 	margin-left: 60px;
 }
+.ml50{
+	margin-left: 50px;
+}
 .ml110{
 	margin-left: 110px;
 }
@@ -84,9 +87,9 @@ ul{
   position: absolute;
   right: 100px;
 }
-.el-dialog__header{
+/*.el-dialog__header{
 	background: #eee;
-}
+}*/
 .el-button+.el-button{
 	margin-left: 0;
 }
@@ -110,6 +113,29 @@ ul{
 .demo-form{
 	margin:0 40px;
 }
+/*模态框内容加边框*/
+.el-dialog__body{
+		border:#eee solid 15px;
+	}
+	.modalTitle{
+		height: 50px;
+		line-height: 50px;
+		background: #f5f5f5;
+		padding-left: 20px;
+	}
+/*待评价状态切换*/
+.evaluateList ul li{
+	display: inline-block;
+	font-size: 14px;
+	height: 40px;
+	line-height: 40px;
+	margin-right: 20px;
+	margin-top: 10px;
+	cursor: pointer;
+}
+.activeOn{
+	color: #1890FF;
+}
 /* 模态框纵向外滚动条改为内滚动条 */
 /* 默认模态框 */
 .el-dialog{
@@ -127,7 +153,7 @@ ul{
   overflow: auto
 }
 .el-dialog > .el-dialog__footer{
-  background: #eee;
+  /*background: #eee;*/
   padding:10px 20px;
 }
 /* 固定大小模态框(dia-log标签添加custom-class="fixed-dialog")*/
@@ -142,21 +168,6 @@ ul{
   width: 100%;
   position: absolute;
   bottom: 0;
-}
-/* 查看页样式 */
-.view-page .el-form-item__label{
-	width: 150px;
-  background: #f5f5f5;
-}
-.view-page .el-form-item{
-  background: #fafafa;
-}
-.view-page .el-form-item__content{
-  margin-left: 180px;
-}
-.view-page .title{
-  background: #f5f5f5;
-  font-weight: bold;
 }
 /* 导航栏 */
 .navCon{
@@ -211,7 +222,7 @@ ul{
 }
 .searchBox{
   background: #eef1f6;
-  padding: 20px 20px 10px 20px;
+  padding: 20px 20px 0 20px;
 }
 .tabList{
   /*width: calc(100% - 100px);*/

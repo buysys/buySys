@@ -23,10 +23,10 @@
 			</el-button>
 			<el-button type="danger" size="medium" :disabled="disabled" @click="delHandel"><i class="el-icon-delete"></i>删除
 			</el-button>
-			<el-button type="warning" size="medium" :disabled="disabled" @click="relationCountry"><i class="el-icon-sort"></i>关联国家
+			<el-button type="danger" size="medium" :disabled="disabled" @click="relationCountry"><i class="el-icon-sort"></i>关联国家
 			</el-button>
-			<el-button type="primary" size="medium" @click="importData"><i class="el-icon-upload2"></i>导入</el-button>
-			<el-button type="primary" size="medium" :disabled="disabled" @click="exportExcel"><i class="el-icon-download"></i>导出</el-button>
+			<el-button type="warning" size="medium" @click="importData"><i class="el-icon-download"></i>导入</el-button>
+			<el-button type="warning" size="medium" @click="exportExcel"><i class="el-icon-upload2"></i>导出</el-button>
 		</div>
 		<div class="mt10">
 			<el-table :data="currencyData" v-model='loading' border style="width: 100%" height='500' id='exportOrder' @selection-change="handleSelectionChange">
