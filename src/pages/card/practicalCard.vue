@@ -249,7 +249,7 @@
 			}
 		},
 		created() {
-			this.getAllData()
+//			this.getAllData()
 		},
 		methods: {
 			//重置

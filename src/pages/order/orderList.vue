@@ -150,7 +150,7 @@
     <!--查看订单详情(FBA/加购/心愿订单)-->
     <el-dialog :title='title' :visible.sync="viewDetailsModel" width="90%" custom-class="fixed-dialog">
       <el-form class="demo-item" :model='orderViewForm'>
-        <div class="modelTitle mb20 fz16">订单信息</div>
+        <div class="modalTitle mb20 fz16">订单信息</div>
         <el-row>
           <el-col :span='12' :xs='24'>
             <el-form-item label="平台：">
@@ -303,7 +303,7 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <div class="modelTitle mb20 fz16">客户信息</div>
+        <div class="modalTitle mb20 fz16">客户信息</div>
         <el-row>
           <el-col :span='12' :xs='24'>
             <el-form-item label="账号：">
@@ -337,7 +337,7 @@
           </el-col>
         </el-row>
         <el-row>
-        <div class="modelTitle mb20 fz16">付款信息</div>
+        <div class="modalTitle mb20 fz16">付款信息</div>
           <el-col :span='12' :xs='24'>
             <el-form-item label="付款方式：">
               <span>支付宝</span>
@@ -377,7 +377,7 @@
     <!--查看订单详情(点赞订单)-->
     <el-dialog :title='title' :visible.sync="viewLikeDateilsModel" width="90%" custom-class="fixed-dialog">
       <el-form class="demo-item">
-        <div class="modelTitle mb20 fz16">订单信息</div>
+        <div class="modalTitle mb20 fz16">订单信息</div>
         <el-row>
           <el-col :span='12' :xs='24'>
             <el-form-item label="平台：">
@@ -419,7 +419,7 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <div class="modelTitle mb20 fz16">客户信息</div>
+        <div class="modalTitle mb20 fz16">客户信息</div>
         <el-row>
           <el-col :span='12' :xs='24'>
             <el-form-item label="账号：">
@@ -494,7 +494,7 @@
     <!--查看订单详情(QA订单)-->
     <el-dialog :title='title' :visible.sync="viewQADateilsModel" width="90%" custom-class="fixed-dialog">
       <el-form class="demo-item">
-        <div class="modelTitle mb20 fz16">订单信息</div>
+        <div class="modalTitle mb20 fz16">订单信息</div>
         <el-row>
           <el-col :span='12' :xs='24'>
             <el-form-item label="平台：">
@@ -562,10 +562,9 @@
               <span>￥23</span>
             </el-form-item>
           </el-col>
-          <el-col :span='24' :xs='24'>
-            <el-form-item class="title" label="客户信息">
-            </el-form-item>
-          </el-col>
+          </el-row>
+          <div class="modalTitle mb20 fz16">客户信息</div>
+          <el-row>
           <el-col :span='12' :xs='24'>
             <el-form-item label="账号：">
               <span>kyumin</span>
@@ -597,7 +596,7 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <div class="modelTitle mb20 fz16">付款信息</div>
+        <div class="modalTitle mb20 fz16">付款信息</div>
         <el-row>
           <el-col :span='12' :xs='24'>
             <el-form-item label="付款方式：">
