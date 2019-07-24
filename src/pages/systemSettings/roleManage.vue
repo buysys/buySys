@@ -22,148 +22,54 @@
 		<div class="mb20">
 			<el-button type="success " size="medium " @click="addRole"><i class="el-icon-plus "></i>新增</el-button>
 			<el-button type="primary " size="medium " :disabled="disabled " @click="editRole"><i class="el-icon-edit-outline "></i>修改</el-button>
-			<el-button type="danger " size="medium " :disabled="disabled " @click="delHandle"><i class="el-icon-delete "></i>禁用</el-button>
 		</div>
 		<div class="mt10 ">
 			<el-table v-loading="loading" :data="roleData" border style="width: 100%" @selection-change="handleSelectionChange">
 				<el-table-column type="selection"></el-table-column>
 				<el-table-column prop="Numbers" label="角色名称" align="center"></el-table-column>
-				<el-table-column prop="CountryId" label="英文名称" align="center"></el-table-column>
-				<el-table-column prop="ProductByASIN" label="状态" align="center"></el-table-column>
+				<el-table-column prop="CountryId" label="备注" align="center"></el-table-column>
+				<el-table-column prop="Status" label="禁用 | 启用" align="center">
+				  <template slot-scope="scope">
+				    <el-switch active-color="#67c23a" inactive-color="#dcdfe6" active-value="1" inactive-value="0" v-model="scope.row.Status" @change="changeStatus(scope.$index,scope.row)">
+				    </el-switch>
+				  </template>
+				</el-table-column>
 				<el-table-column prop="ProductByASIN" label="操作" align="center">
-					<i class="el-icon-view" @click="viewRoleHandle"></i>
-					<i class="el-icon-edit" @click="editRole"></i>
-					<i class="el-icon-delete" @click="delHandle"></i>
-					<i class="el-icon-setting" @click="permissionHandle"></i>
-					<i class="el-icon-user"></i>
+					<el-button size="small" type="primary" @click="permissionHandle">绑定权限</el-button>
 				</el-table-column>
 			</el-table>
 		</div>
-		<!--新建、修改-->
-		<el-dialog :title="title" :visible.sync="roleModel" :close-on-click-modal="false" :before-cloes="cloesRoleModel" center :modal-append-to-body="false" :append-to-body="true">
+		<!--新增修改-->
+		<el-dialog :title="title" :visible.sync="roleModel" :close-on-click-modal="false" :before-cloes="cloesRoleModel" width="30%" :modal-append-to-body="false" :append-to-body="true">
 			<el-form :model="roleForm " ref="roleForm " :rules="rules" label-width="100px ">
 				<el-row>
-					<el-col :span="12 ">
-						<el-form-item label="角色名称 " prop="roleName">
+					<el-col :span="24">
+						<el-form-item label="角色名称" prop="roleName">
 							<el-input v-model="roleForm.roleName"></el-input>
 						</el-form-item>
 					</el-col>
-					<el-col :span="12 ">
-						<el-form-item label="英文名称" prop="englishName">
-							<el-input v-model="roleForm.englishName"></el-input>
-						</el-form-item>
-					</el-col>
-				</el-row>
-				<el-row>
-					<el-col :span="12 ">
-						<el-form-item label="角色类型">
-							<el-select v-model="roleForm.roleType" placeholder="任务分配">
-								<el-option label="管理角色" value="manage"></el-option>
-								<el-option label="普通角色" value="normal"></el-option>
-							</el-select>
-						</el-form-item>
-					</el-col>
-					<el-col :span="12 ">
-						<el-form-item label="是否系统数据">
-							<el-select v-model="roleForm.dataType">
-								<el-option label="是" value="yes"></el-option>
-								<el-option label="否" value="no"></el-option>
-							</el-select>
-						</el-form-item>
-					</el-col>
-				</el-row>
-				<el-row>
-					<el-col :span="12 ">
-						<el-form-item label="是否可用">
-							<el-select v-model="roleForm.canUse">
-								<el-option label="是" value="yes"></el-option>
-								<el-option label="否" value="no"></el-option>
-							</el-select>
-						</el-form-item>
-					</el-col>
-					<el-col :span="12 ">
+          </el-row>
+          <el-row>
+					<el-col :span="24">
 						<el-form-item label="备注 ">
 							<el-input v-model="roleForm.remark"></el-input>
 						</el-form-item>
 					</el-col>
 				</el-row>
-				<div class="textCen">
-					<el-button type="primary">确定</el-button>
-					<el-button @click="cloesRoleModel">取消</el-button>
-				</div>
 			</el-form>
-		</el-dialog>
-		<!--查看角色-->
-		<el-dialog title="查看角色" :visible.sync="roleViewModel " :close-on-click-modal="false" center :modal-append-to-body="false" :append-to-body="true">
-			<el-form :model="roleForm " ref="roleForm " label-width="100px">
-				<el-row>
-					<el-col :span="12 ">
-						<el-form-item label="角色名称 ">
-							<el-input v-model="roleForm.roleName " readonly></el-input>
-						</el-form-item>
-					</el-col>
-					<el-col :span="12 ">
-						<el-form-item label="英文名称">
-							<el-input v-model="roleForm.englishName" readonly></el-input>
-						</el-form-item>
-					</el-col>
-				</el-row>
-				<el-row>
-					<el-col :span="12 ">
-						<el-form-item label="角色类型">
-							<el-select v-model="roleForm.roleType" placeholder="任务分配" disabled>
-								<el-option label="管理角色" value="manage"></el-option>
-								<el-option label="普通角色" value="normal"></el-option>
-							</el-select>
-						</el-form-item>
-					</el-col>
-					<el-col :span="12 ">
-						<el-form-item label="是否系统数据">
-							<el-select v-model="roleForm.dataType" disabled>
-								<el-option label="是" value="yes"></el-option>
-								<el-option label="否" value="no"></el-option>
-							</el-select>
-						</el-form-item>
-					</el-col>
-				</el-row>
-				<el-row>
-					<el-col :span="12 ">
-						<el-form-item label="是否可用">
-							<el-select v-model="roleForm.canUse" disabled>
-								<el-option label="是" value="yes"></el-option>
-								<el-option label="否" value="no"></el-option>
-							</el-select>
-						</el-form-item>
-					</el-col>
-					<el-col :span="12 ">
-						<el-form-item label="备注 " disabled>
-							<el-input v-model="roleForm.remark"></el-input>
-						</el-form-item>
-					</el-col>
-				</el-row>
-			</el-form>
-		</el-dialog>
-		<!--删除-->
-		<el-dialog title="系统提示 " :visible.sync="delModel " :close-on-click-modal="false " center width="30%" :modal-append-to-body="false" :append-to-body="true">
-			<div class="del-dialog-cnt textCen ">确认要删除选中角色吗？</div>
-			<span slot="footer" class="dialog-footer">
-        		<el-button type="primary" size="medium">是</el-button>
-        		<el-button @click="delModel=false" size="medium">否</el-button>
-      		</span>
+      <div slot="footer" class="dialog-footer">
+      	<el-button type="primary" size="medium">确 定</el-button>
+      	<el-button @click="roleModel=false" size="medium">取 消</el-button>
+      </div>
 		</el-dialog>
 		<!--权限分配-->
-		<el-dialog title="菜单权限" :visible.sync="permissionModel " :close-on-click-modal="false " center width="30%" :modal-append-to-body="false" :append-to-body="true">
-			<el-tabs v-model="activeName">
-				<el-tab-pane label="菜单权限" name="menuPermission" :key="'menuPermission'">
-					<el-tree :data="treeData" show-checkbox node-key="id" :default-expanded-keys="[2, 3]" :default-checked-keys="[5]" :props="defaultProps">
-					</el-tree>
-				</el-tab-pane>
-				<el-tab-pane label="数据权限" name="dataPermission" :key="'dataPermission'">
-					<el-tree :data="treeData" show-checkbox node-key="id" :default-expanded-keys="[2, 3]" :default-checked-keys="[5]" :props="defaultProps">
-					</el-tree>
-				</el-tab-pane>
-			</el-tabs>
-		</el-dialog>
+		<el-dialog title="角色权限" :visible.sync="permissionModel" :close-on-click-modal="false" center width="30%" custom-class="fixed-dialog" :modal-append-to-body="false" :append-to-body="true">
+			<el-tree :data="treeData" show-checkbox node-key="id" :default-expanded-keys="[2, 3]" :default-checked-keys="[5]" :props="defaultProps"></el-tree>
+      <div slot="footer" class="dialog-footer">
+      	<el-button type="primary" size="medium">确 定</el-button>
+      	<el-button @click="permissionModel=false" size="medium">取 消</el-button>
+      </div>
+    </el-dialog>
 	</div>
 </template>
 
@@ -183,7 +89,7 @@
             "ProductPrice": 15.99,
             "ServiceType": "不留评",
             "OrderNote": "待付款",
-            "Status": "已完成",
+            "Status": "1",
             "OrderNumber": 1314520,
             "OrderTime": "2019-02-03T00:00:00",
             "Remark": ""
@@ -197,7 +103,7 @@
             "ProductPrice": 18.99,
             "ServiceType": "不留评",
             "OrderNote": "待确认",
-            "Status": "已完成",
+            "Status": "0",
             "OrderNumber": 7758258,
             "OrderTime": "2019-04-02T00:00:00",
             "Remark": ""
@@ -205,7 +111,6 @@
 ],
 				title: "",
 				roleModel: false,
-				delModel: false,
 				roleViewModel: false,
 				permissionModel: false,
 				activeName: "menuPermission",
@@ -284,17 +189,29 @@
 					roleName: ''
 				};
 			},
+      // 切换状态
+      changeStatus(index, row) {
+      	let _this = this
+      	let item = _this.roleData[index]
+        console.log(item.Status)
+        if(item.Status == '0'){
+      	_this.roleData.Status = '1'
+        }
+        if(item.Status == '1'){
+        _this.roleData.Status = '0'
+        }
+      },
 			//新建
 			addRole() {
 				let _this = this;
 				_this.roleModel = true;
-        _this.title = "新增"
+        _this.title = "角色新增"
 			},
 			//修改
 			editRole() {
 				let _this = this;
 				_this.roleModel = true;
-				_this.title = "修改";
+				_this.title = "角色修改";
 			},
 			//关闭新建或修改弹窗
 			cloesRoleModel() {
@@ -308,16 +225,6 @@
 					canUse: '',
 					remark: ''
 				}
-			},
-			//删除弹窗
-			delHandle() {
-				let _this = this;
-				_this.delModel = true;
-			},
-			//查看角色弹窗
-			viewRoleHandle() {
-				let _this = this;
-				_this.roleViewModel = true;
 			},
 			//权限分配
 			permissionHandle() {

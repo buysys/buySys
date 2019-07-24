@@ -3,8 +3,7 @@
 		<div class="mb20">
 			<el-button type="success" size="medium" @click="addModelShow"><i class="el-icon-plus"></i>新增</el-button>
 			<el-button type="primary" size="medium" @click="editModelShow" :disabled="editDisabled"><i class="el-icon-edit-outline"></i>修改</el-button>
-			<el-button type="danger" size="medium" @click="delData" :disabled="delDisabled"><i class="el-icon-delete"></i>删除</el-button>
-			<el-button type="warning" size="medium" @click="exportExcel"><i class="el-icon-document-delete"></i>导出</el-button>
+			<el-button type="warning" size="medium" @click="exportExcel"><i class="el-icon-upload2"></i>导出</el-button>
 		</div>
 		<div class="mt10">
 		<el-table :data="tableData" id="exportData" style="width: 100%" :header-cell-style="{background:'#fafafa'}" @selection-change="handleSelectionChange">
@@ -12,8 +11,12 @@
 				<el-table-column prop="CountryId" label="任务类型" align="center"></el-table-column>
 				<el-table-column prop="OrderNumber" label="价格" align="center"></el-table-column>
 				<el-table-column prop="OrderNumber" label="说明" align="center"></el-table-column>
-				<el-table-column prop="OrderNumber" label="状态" align="center"></el-table-column>
-				<el-table-column label="操作" align="center"><el-link type="primary" :underline="false" @click="forbidModelShow">禁用</el-link></el-table-column>
+        <el-table-column prop="Status" label="禁用 | 启用" align="center">
+          <template slot-scope="scope">
+            <el-switch active-color="#67c23a" inactive-color="#dcdfe6" active-value="1" inactive-value="0" v-model="scope.row.Status" @change="changeStatus(scope.$index,scope.row)">
+            </el-switch>
+          </template>
+        </el-table-column>
 		</el-table>
 		<div class="mt30">
 			<el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage" :page-sizes="[100, 200, 300, 500]" :page-size="10" layout="total, sizes, prev, pager, next, jumper" :total="total">
@@ -37,22 +40,6 @@
         <el-button type="primary" size="medium" @click="submitData">确 定</el-button>
         <el-button @click="editModel=false" size="medium">取 消</el-button>
       </div>
-		</el-dialog>
-		<!-- 删除-->
-		<el-dialog title="温馨提示" :visible.sync="delModel" :close-on-click-modal="false" center width="30%" :modal-append-to-body="false" :append-to-body="true">
-		  <div class="del-dialog-cnt textCen">确认要删除该数据吗？</div>
-		  <span slot="footer" class="dialog-footer">
-		    <el-button type="primary" size="medium">是</el-button>
-		    <el-button @click="delModel=false" size="medium">否</el-button>
-		  </span>
-		</el-dialog>
-		<!-- 禁用-->
-		<el-dialog title="温馨提示" :visible.sync="forbidModel" :close-on-click-modal="false" center width="30%" :modal-append-to-body="false" :append-to-body="true">
-		  <div class="del-dialog-cnt textCen">确定要禁用吗？</div>
-		  <span slot="footer" class="dialog-footer">
-		    <el-button type="primary" size="medium">是</el-button>
-		    <el-button @click="forbidModel=false" size="medium">否</el-button>
-		  </span>
 		</el-dialog>
 	</div>
 </template>
@@ -79,7 +66,7 @@
             "ProductPrice": 15.99,
             "ServiceType": "不留评",
             "OrderNote": "待付款",
-            "Status": "已完成",
+            "Status": "1",
             "OrderNumber": 1314520,
             "OrderTime": "2019-02-03T00:00:00",
             "Remark": ""
@@ -93,7 +80,7 @@
             "ProductPrice": 18.99,
             "ServiceType": "不留评",
             "OrderNote": "待确认",
-            "Status": "已完成",
+            "Status": "0",
             "OrderNumber": 7758258,
             "OrderTime": "2019-04-02T00:00:00",
             "Remark": ""
@@ -187,15 +174,17 @@
 						_this.editForm.money = item.CountryId;
 						_this.editForm.remark = item.CountryId;
 					},
-					// 删除
-					delData () {
-					  let _this = this
-					  _this.delModel = true
-					},
-					// 禁用启用
-					forbidModelShow () {
-					  let _this = this
-					  _this.forbidModel = true
+					// 切换状态
+					changeStatus(index, row) {
+						let _this = this
+						let item = _this.tableData[index]
+					  console.log(item.Status)
+					  if(item.Status == '0'){
+						_this.tableData.Status = '1'
+					  }
+					  if(item.Status == '1'){
+					  _this.tableData.Status = '0'
+					  }
 					},
 					//关闭新增修改弹窗
 					closeModel() {

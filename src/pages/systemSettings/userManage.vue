@@ -9,15 +9,10 @@
 			<el-collapse-transition>
 				<div class="searchBox mb20 pl30">
 					<el-form ref="searchForm" :model="searchForm" class="form-item" label-width="80px">
-						<el-row :gutter="10">
-							<el-col :xs="24" :span="4">
-								<el-form-item label="登录名">
-									<el-input v-model="searchForm.userLoginName" class="disInline" placeholder="请输入登录名"></el-input>
-								</el-form-item>
-							</el-col>
-							<el-col :xs="24" :span="4">
-								<el-form-item label="姓名 ">
-									<el-input v-model="searchForm.username" class="disInline" placeholder="请输入姓名"></el-input>
+						<el-row>
+							<el-col :xs="24" :span="8">
+								<el-form-item label="搜索内容">
+									<el-input v-model="searchForm.searchkeywords" placeholder="请输入用户姓名/邮箱/手机" class="disInline"></el-input>
 								</el-form-item>
 							</el-col>
 							<el-col :xs="24" :span="4" class="ml20">
@@ -28,15 +23,14 @@
 					</el-form>
 				</div>
 			</el-collapse-transition>
-			<div class="mb20 ">
+			<div class="mb20">
 				<el-button type="success" size="medium" @click="addUser "><i class="el-icon-plus"></i>新增</el-button>
 				<el-button type="primary" size="medium" :disabled="disabled" @click="editUser"><i class="el-icon-edit-outline"></i>修改</el-button>
-        <el-button type="warning" size="medium" @click="importHandle"><i class="el-icon-upload2"></i>导入</el-button>
-        <el-button type="warning" size="medium" @click="exportExcel"><i class="el-icon-download"></i>导出</el-button>
-				<el-button type="success" size="medium" @click="roleModelShow" style="float: right;"><i class="el-icon-set-up"></i>角色管理
-				</el-button>
+        <el-button type="warning" size="medium" @click="importHandle"><i class="el-icon-download"></i>导入</el-button>
+        <el-button type="warning" size="medium" @click="exportExcel"><i class="el-icon-upload2"></i>导出</el-button>
+				<el-button type="danger" size="medium" @click="roleModelShow" style="float: right;"><i class="el-icon-s-custom"></i>角色管理</el-button>
 			</div>
-			<div class="mt10 ">
+			<div class="mt10">
 				<el-table :data="userData" id="exportOrder" border style="width: 100%" @selection-change="handleSelectionChange">
 					<el-table-column type="selection"></el-table-column>
 					<el-table-column prop="ProductByASIN" label="姓名" align="center"></el-table-column>
@@ -56,7 +50,7 @@
 				</div>
 			</div>
 			<!--新增修改-->
-			<el-dialog :title="title " :visible.sync="userModel" :close-on-click-modal="false" :before-close="cloesUserModel">
+			<el-dialog :title="title" :visible.sync="userModel" :close-on-click-modal="false" :before-close="cloesUserModel">
 				<el-form :model="userForm" ref="userForm" label-width="100px" :rules="editRules">
 					<el-row>
 						<el-col :span="12">
@@ -92,13 +86,13 @@
 					<el-row>
 						<el-col :span="24">
 							<el-form-item label="用户角色" prop="userRole">
-								<el-checkbox-group v-model="userForm.userRole">
-									<el-checkbox label="Seller" name="type"></el-checkbox>
-									<el-checkbox label="刷手" name="type"></el-checkbox>
-									<el-checkbox label="注册账号" name="type"></el-checkbox>
-									<el-checkbox label="财务" name="type"></el-checkbox>
-									<el-checkbox label="部门管理员" name="type"></el-checkbox>
-								</el-checkbox-group>
+                <template>
+                  <el-radio-group v-model="userForm.userRole">
+                    <el-radio :label="1">Seller</el-radio>
+                    <el-radio :label="2">刷手</el-radio>
+                    <el-radio :label="3">财务</el-radio>
+                  </el-radio-group>
+                </template>
 							</el-form-item>
 						</el-col>
 						<el-col :span="24">
@@ -130,6 +124,10 @@
 			<!--角色管理-->
 			<el-dialog title="角色管理" :visible.sync="roleModel" :close-on-click-modal="false" width="90%" custom-class="fixed-dialog">
 				<roleManage></roleManage>
+        <div slot="footer" class="dialog-footer">
+        	<el-button type="primary" size="medium">确 定</el-button>
+        	<el-button @click="roleModel=false" size="medium">取 消</el-button>
+        </div>
 			</el-dialog>
 		</div>
 	</div>

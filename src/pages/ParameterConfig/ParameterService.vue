@@ -10,9 +10,9 @@
 		<div class="mt10">
 			<el-table :data="returnOrderData" v-model='loading' border style="width: 100%" height='500' @selection-change="handleSelectionChange">
 				<el-table-column type="selection"></el-table-column>
-				<el-table-column prop="Numbers" sortable label="开始区间($)" align="center"></el-table-column>
-				<el-table-column prop="CountryId" sortable label="结束区间($)" align="center"></el-table-column>
-				<el-table-column prop="ProductByASIN" sortable label="增值服务费($)" align="center"></el-table-column>
+				<el-table-column prop="Numbers" label="开始区间($)" align="center"></el-table-column>
+				<el-table-column prop="CountryId" label="结束区间($)" align="center"></el-table-column>
+				<el-table-column prop="ProductByASIN" label="增值服务费($)" align="center"></el-table-column>
 			</el-table>
 			<div class="mt30">
 				<el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage" :page-sizes="[10, 20, 30, 40]" :page-size="10" layout="total, sizes, prev, pager, next, jumper" :total="total">

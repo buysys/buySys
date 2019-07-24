@@ -130,9 +130,9 @@
       </el-button>
       <el-button type="primary" size="medium" @click="setBuyTagHandel"><i class="el-icon-setting"></i>买号标签管理
       </el-button>
-      <el-button type="primary" size="medium" @click=""><i class="el-icon-upload2"></i>导入
+      <el-button type="warning" size="medium" @click=""><i class="el-icon-download"></i>导入
       </el-button>
-      <el-button type="primary" size="medium" @click="exportExcel"><i class="el-icon-download"></i>导出
+      <el-button type="warning" size="medium" @click="exportExcel"><i class="el-icon-upload2"></i>导出
       </el-button>
     </div>
     <div class="tabList">
@@ -176,14 +176,14 @@
     </div>
     <!-- 新建、修改-->
     <el-dialog :title="title" :visible.sync="addBuyNumModel" :close-on-click-modal="false" :before-close="closeModel"
-      width="90%" custom-class="fixed-dialog">
+      width="70%" custom-class="fixed-dialog">
       <el-form :model="buyNumForm" ref="buyNumForm" :rules="editRules" class="demo-dynamic" label-width="140px"
         status-icon>
         <div class="mb20 fz16">账号信息</div>
         <el-row>
           <el-col :span='12' :xs='24'>
             <el-form-item label="平台" prop="platform">
-              <el-select v-model="buyNumForm.platform">
+              <el-select v-model="buyNumForm.platform" placeholder="请选择平台" style="width: 88%;">
                 <el-option label="全部" value="全部"></el-option>
                 <el-option label="Amazon" value="Amazon"></el-option>
               </el-select>
@@ -191,7 +191,7 @@
           </el-col>
           <el-col :span='12' :xs='24'>
             <el-form-item label="国家" prop="countryId">
-              <el-select v-model="buyNumForm.countryId" placeholder="请选择国家">
+              <el-select v-model="buyNumForm.countryId" placeholder="请选择国家" style="width: 88%;">
                 <el-option label="美国" value="美国"></el-option>
                 <el-option label="加拿大" value="加拿大"></el-option>
               </el-select>
@@ -640,10 +640,16 @@
     <!--买号等级设置-->
     <el-dialog title="买号等级设置" :visible.sync="setBuyLevelModel" :close-on-click-modal="false" width="90%" custom-class="fixed-dialog">
       <buyNumLevel></buyNumLevel>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="setBuyLevelModel=false">关 闭</el-button>
+      </div>
     </el-dialog>
     <!--新建标签-->
-    <el-dialog title="买号标签管理" :visible.sync="addTagModel" :close-on-click-modal="false">
+    <el-dialog title="买号标签管理" :visible.sync="addTagModel" :close-on-click-modal="false" width="90%" custom-class="fixed-dialog">
       <buyTagList></buyTagList>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="addTagModel=false">关 闭</el-button>
+      </div>
     </el-dialog>
     <!--选择虚拟卡-->
     <el-dialog title="选择虚拟卡" :visible.sync="virtuaModal" :close-on-click-modal="false">
@@ -714,7 +720,7 @@
 
 <script>
   import systemConfig from '../../common/systemConfig'
-  import buyNumLevel from '../../common/buyNumLevel'
+  import buyNumLevel from './buyNumLevel'
   import buyTagList from './buyTagList'
   import FileSaver from 'file-saver'
   import XLSX from 'xlsx'

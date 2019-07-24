@@ -27,8 +27,8 @@
 			<el-button type="primary" size="medium" :disabled="disabled" @click="editLevel"><i class="el-icon-edit-outline"></i>修改</el-button>
 			<el-button type="danger" size="medium" :disabled="disabled" @click="delHandle"><i class="el-icon-delete"></i>删除</el-button>
 			<el-button type="primary" size="medium" :disabled="disabled" @click="quotaHandle"><i class="el-icon-edit-outline"></i>修改额度</el-button>
-			<el-button type="primary" size="medium" @click="importHandle"><i class="el-icon-upload2"></i>导入</el-button>
-			<el-button type="primary" size="medium" @click="exportExcel"><i class="el-icon-download"></i>导出</el-button>
+			<el-button type="warning" size="medium" @click="importHandle"><i class="el-icon-download"></i>导入</el-button>
+			<el-button type="warning" size="medium" @click="exportExcel"><i class="el-icon-upload2"></i>导出</el-button>
 		</div>
 		<div class="mt10">
 			<el-table :data="buyNumData" id="exportOrder" border style="width: 100%" @selection-change="handleSelectionChange">
@@ -43,7 +43,7 @@
 				<el-table-column prop="OrderNote" label="剩余额度($)" align="center" sortable></el-table-column>
 				<el-table-column prop="OrderNote" label="累积使用($)" align="center" sortable></el-table-column>
 				<el-table-column prop="OrderNote" label="状态" align="center" sortable></el-table-column>
-				<el-table-column prop="OrderNote" label="买家状态" align="center" sortable></el-table-column>
+				<el-table-column prop="OrderNote" label="买家账号" align="center" sortable></el-table-column>
 				<el-table-column prop="Stautuy" label="买号状态" align="center" sortable></el-table-column>
 				<el-table-column prop="Status" label="操作" align="center">
 					<template slot-scope="scope">
@@ -249,7 +249,7 @@
 			}
 		},
 		created() {
-			this.getAllData()
+//			this.getAllData()
 		},
 		methods: {
 			//重置
@@ -400,7 +400,7 @@
 	.el-date-editor.el-input {
 		width: 100%;
 	}
-	
+
 	.del-dialog-cnt .el-input__inner {
 		border: none;
 	}

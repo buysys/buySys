@@ -32,15 +32,19 @@
 			</el-button>
 			<el-button type="primary" size="medium" @click="quotaHandle" :disabled="disabled"><i class="el-icon-edit-outline"></i>修改额度
 			</el-button>
-			<el-button type="primary" size="medium" @click="importHandle"><i class="el-icon-upload2"></i>导入
+			<el-button type="warning" size="medium" @click="importHandle"><i class="el-icon-download"></i>导入
 			</el-button>
-			<el-button type="primary" size="medium" @click="exportExcel"><i class="el-icon-download"></i>导出
+			<el-button type="warning" size="medium" @click="exportExcel"><i class="el-icon-upload2"></i>导出
 			</el-button>
 		</div>
 		<div class="mt10">
 			<el-table :data="buyNumData" id="exportOrder" border style="width: 100%" @selection-change="handleSelectionChange">
 				<el-table-column type="selection"></el-table-column>
-				<el-table-column prop="Numbers" label="主卡卡号" align="center" sortable></el-table-column>
+				<el-table-column prop="Numbers" label="主卡卡号" align="center" sortable>
+          <template slot-scope="scope">
+          	<el-button type="text" @click="viewCardDetails(scope.$index,scope.row)">{{scope.row.Numbers}}</el-button>
+          </template>
+        </el-table-column>
 				<el-table-column prop="CountryId" label="名称" align="center" sortable></el-table-column>
 				<el-table-column prop="ProductByASIN" label="有效期" align="center" sortable></el-table-column>
 				<el-table-column prop="ProductByASIN" label="安全码" align="center" sortable></el-table-column>
@@ -207,7 +211,36 @@
 				<el-button @click="closeRepaymentModel" size="medium">取消</el-button>
 			</div>
 		</el-dialog>
-	</div>
+    <!--查看虚拟卡详情-->
+    <el-dialog title="详细信息" :visible.sync="detailModel" :close-on-click-modal="false">
+      <el-form class="demo-item">
+        <el-form-item label="主卡卡号:">
+        	<span>1112 0723 6197</span>
+        </el-form-item>
+        <el-form-item label="名称:">
+        	<span>拍住赏</span>
+        </el-form-item>
+        <el-form-item label="有效期:">
+        	<span>2025-05</span>
+        </el-form-item>
+        <el-form-item label="姓名:">
+        	<span>王邵东2362银联卡</span>
+        </el-form-item>
+        <el-form-item label="总额度:">
+        	<span>$ 200.00</span>
+        </el-form-item>
+        <el-form-item label="已用额度:">
+        	<span>$ 200.00</span>
+        </el-form-item>
+        <el-form-item label="剩余额度:">
+        	<span>$ 200.00</span>
+        </el-form-item>
+        <el-form-item label="累积使用:">
+        	<span>$ 200.00</span>
+        </el-form-item>
+      </el-form>
+    </el-dialog>
+  </div>
 </template>
 
 <script>
@@ -227,6 +260,7 @@
 				importModel: false,
 				resetCardModel: false,
 				quotaModel: false,
+        detailModel: false,
 				checkBoxData: [],
 				fileList: [],
 				repaymentModel: false,
@@ -339,7 +373,6 @@
 					status: ''
 				}
 			},
-
 			// 新建弹窗
 			addLevel() {
 				let _this = this
@@ -464,6 +497,7 @@
 			handleCurrentChange(val) {
 				console.log(`当前页: ${val}`)
 			},
+      //获取初始数据
 			getAllData() {
 				let _this = this
 				_this.axios.get(_this.GLOBAL.BASE_URL + 'api/OrderManagement/AddOrderByType').then((res) => {
@@ -472,7 +506,14 @@
 				}).catch((error) => {
 					console.log(error)
 				})
-			}
+			},
+      //查看虚拟卡详情
+      viewCardDetails(index,row) {
+        let _this = this;
+        let item = _this.buyNumData[index];
+        let num = item.Numbers
+        _this.detailModel = true;
+      }
 		}
 	}
 </script>
