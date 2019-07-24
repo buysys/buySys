@@ -124,8 +124,6 @@
       </el-button>
       <el-button type="primary" size="medium" :disabled="disabled" @click="RelationBrush"><i class="el-icon-sort"></i>关联刷手
       </el-button>
-      <el-button type="primary" size="medium" :disabled="disabled" @click="bindIp"><i class="el-icon-set-up"></i>绑定IP
-      </el-button>
       <el-button type="primary" size="medium" @click="setBuyLevelHandel"><i class="el-icon-setting"></i>设置买号等级
       </el-button>
       <el-button type="primary" size="medium" @click="setBuyTagHandel"><i class="el-icon-setting"></i>买号标签管理
@@ -485,41 +483,6 @@
         <el-button @click="RelationBrushModal=false">取 消</el-button>
       </div>
     </el-dialog>
-    <!--绑定IP-->
-    <el-dialog title="绑定静态IP" :visible.sync="bindIpModal" :close-on-click-modal="false">
-      <el-form :model="brushSearch" ref="brushSearch" class="demo-dynamic" label-width="100px">
-        <el-row>
-          <el-col :xs="24" :span="7" :sm="9" :md="8" :lg="10">
-            <el-form-item label="搜索内容">
-              <el-input type="text" v-model="brushSearch.brush"></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :xs="24" :span="5" :sm="10" :md="8" :lg="5" class="ml20">
-            <el-button type="primary">搜索</el-button>
-            <el-button>重置</el-button>
-          </el-col>
-        </el-row>
-      </el-form>
-      <el-table :data="buyNumData" border style="width: 100%" @row-click="brushShowRow">
-        <el-table-column show-overflow-tooltip width="50px">
-          <template slot-scope="scope">
-            <el-radio class="radio" v-model="brushRadio" :label="scope.$index">&nbsp;</el-radio>
-          </template>
-        </el-table-column>
-        <el-table-column prop="CountryId" label="IP地址" align="center"></el-table-column>
-        <el-table-column prop="CountryId" label="端口" align="center"></el-table-column>
-        <el-table-column prop="Numbers" label="授权账号" align="center"></el-table-column>
-        <el-table-column prop="ProductPrice" label="授权密码" align="center"></el-table-column>
-        <el-table-column prop="Status" label="有效期" align="center"></el-table-column>
-        <el-table-column prop="CountryId" label="国家" align="center"></el-table-column>
-        <el-table-column prop="Numbers" label="服务商" align="center"></el-table-column>
-        <el-table-column prop="Status" label="状态" align="center"></el-table-column>
-      </el-table>
-      <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="confirmBindIp">确 定</el-button>
-        <el-button @click="bindIpModal=false">取 消</el-button>
-      </div>
-    </el-dialog>
     <!-- 重新分配-->
     <el-dialog title="买号等级分配信息" :visible.sync="accountModel" width="90%" custom-class="fixed-dialog" :close-on-click-modal="false" :before-close="closeBuyNum">
       <el-collapse-transition>
@@ -743,7 +706,6 @@
         remarkModal: false, //备注
         systemConfigModal: false, //系统配置
         buyNumLevelModel: false, //绑定买号等级
-        bindIpModal: false, //绑定IP
         updateStatusModal: false, //修改状态弹窗
         accountStatus: '', //账号状态
         RelationBrushModal: false, //关联刷手
@@ -972,20 +934,6 @@
       BindBuyNumLevel() {
         let _this = this
         _this.buyNumLevelModel = false
-        _this.selected = {}
-        _this.brushSearch = {
-          brush: ''
-        }
-      },
-      // 绑定IP
-      bindIp() {
-        let _this = this
-        _this.bindIpModal = true
-      },
-      // 绑定IP确定
-      confirmBindIp() {
-        let _this = this
-        _this.bindIpModal = false
         _this.selected = {}
         _this.brushSearch = {
           brush: ''
