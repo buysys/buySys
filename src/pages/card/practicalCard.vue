@@ -43,7 +43,7 @@
 				<el-table-column prop="OrderNote" label="剩余额度($)" align="center" sortable></el-table-column>
 				<el-table-column prop="OrderNote" label="累积使用($)" align="center" sortable></el-table-column>
 				<el-table-column prop="OrderNote" label="状态" align="center" sortable></el-table-column>
-				<el-table-column prop="OrderNote" label="买家状态" align="center" sortable></el-table-column>
+				<el-table-column prop="OrderNote" label="买家账号" align="center" sortable></el-table-column>
 				<el-table-column prop="Stautuy" label="买号状态" align="center" sortable></el-table-column>
 				<el-table-column prop="Status" label="操作" align="center">
 					<template slot-scope="scope">
@@ -400,7 +400,7 @@
 	.el-date-editor.el-input {
 		width: 100%;
 	}
-	
+
 	.del-dialog-cnt .el-input__inner {
 		border: none;
 	}
