@@ -1,146 +1,185 @@
+<<<<<<< HEAD
 body{
   background: #f2f2f9;
 }
-*{
-	margin: 0;
-	padding: 0;
-}
-ul{
-	list-style: none;
-}
-.navHead li{
-	background: #000;
-}
-.mt20{
-  margin-top: 20px;
-}
-.mt30{
-	margin-top: 30px;
-}
-.mt10{
-  margin-top: 10px;
-}
-.ml10{
-  margin-left: 10px;
-}
-.ml20{
-  margin-left: 20px;
-}
-.ml60{
-	margin-left: 60px;
-}
-.ml50{
-	margin-left: 50px;
-}
-.ml110{
-	margin-left: 110px;
-}
-.mb20{
-  margin-bottom: 20px;
-}
-.mb10{
-	margin-bottom: 10px;
-}
-.mr30{
-  margin-right: 30px;
-}
-.pt20{
-  padding-top: 20px;
-}
-.pb20{
-	padding-bottom: 20px;
-}
-.pl30{
-	padding-left: 30px;
-}
-.fleft{
-	float: left;
-}
-.fright{
-	float: right;
-}
-.textCen{
-  text-align: center;
-}
-.disInline{
-  display: inline-block;
-}
-.el-header{
+
+* {
+  margin: 0;
   padding: 0;
 }
-.container{
+
+ul {
+  list-style: none;
+}
+
+.navHead li {
+  background: #000;
+}
+
+.mt20 {
+  margin-top: 20px;
+}
+
+.mt30 {
+  margin-top: 30px;
+}
+
+.mt10 {
+  margin-top: 10px;
+}
+
+.ml10 {
+  margin-left: 10px;
+}
+
+.ml20 {
+  margin-left: 20px;
+}
+
+.ml60 {
+  margin-left: 60px;
+}
+
+.ml50 {
+  margin-left: 50px;
+}
+
+.ml110 {
+  margin-left: 110px;
+}
+
+.mb20 {
+  margin-bottom: 20px;
+}
+
+.mb10 {
+  margin-bottom: 10px;
+}
+
+.mr30 {
+  margin-right: 30px;
+}
+
+.pt20 {
+  padding-top: 20px;
+}
+
+.pb20 {
+  padding-bottom: 20px;
+}
+
+.pl30 {
+  padding-left: 30px;
+}
+
+.fleft {
+  float: left;
+}
+
+.fright {
+  float: right;
+}
+
+.textCen {
+  text-align: center;
+}
+
+.disInline {
+  display: inline-block;
+}
+
+.el-header {
+  padding: 0;
+}
+
+.container {
   background: #fff;
   padding: 20px;
   border-radius: 8px;
 }
-.navHead{
+
+.navHead {
   width: 85%;
   margin: 0 auto;
   height: 60px;
   line-height: 60px;
   overflow: hidden;
 }
-.loginOut{
+
+.loginOut {
   position: absolute;
   right: 0;
 }
+
 .userInfoBox {
   position: absolute;
   right: 100px;
 }
+
 /*.el-dialog__header{
 	background: #eee;
 }*/
-.el-button+.el-button{
-	margin-left: 0;
+.el-button+.el-button {
+  margin-left: 0;
 }
-.fz16{
-	font-size: 16px;
+
+.fz16 {
+  font-size: 16px;
 }
-.fz14{
-	font-size: 14px;
+
+.fz14 {
+  font-size: 14px;
 }
-.fz50{
-	font-size: 50px;
-	color: #E6A23C;
-	transform: translateY(10px);
+
+.fz50 {
+  font-size: 50px;
+  color: #E6A23C;
+  transform: translateY(10px);
 }
-.txtCenter{
-	text-align: center;
+
+.txtCenter {
+  text-align: center;
 }
-.disNone{
-	display: none;
+
+.disNone {
+  display: none;
 }
-.demo-form{
-	margin:0 40px;
+
+.demo-form {
+  margin: 0 40px;
 }
+
 /*模态框内容加边框*/
-.el-dialog__body{
-		border:#eee solid 15px;
-	}
-	.modalTitle{
-		height: 50px;
-		line-height: 50px;
-		background: #f5f5f5;
-		padding-left: 20px;
-	}
+.el-dialog__body {
+  border: #eee solid 15px;
+}
+
+.modalTitle {
+  height: 50px;
+  line-height: 50px;
+  background: #f5f5f5;
+  padding-left: 20px;
+}
+
 /*待评价状态切换*/
-.evaluateList ul li{
-	display: inline-block;
-	font-size: 14px;
-	height: 40px;
-	line-height: 40px;
-	margin-right: 20px;
-	margin-top: 10px;
-	cursor: pointer;
+.evaluateList ul li {
+  display: inline-block;
+  font-size: 14px;
+  height: 40px;
+  line-height: 40px;
+  margin-right: 20px;
+  margin-top: 10px;
+  cursor: pointer;
 }
-.activeOn{
-	color: #1890FF;
+
+.activeOn {
+  color: #1890FF;
 }
+
 /* 模态框纵向外滚动条改为内滚动条 */
 /* 默认模态框 */
-.el-dialog{
-  position:absolute;
+.el-dialog {
+  position: absolute;
   top: 50%;
   left: 50%;
   margin: 0 !important;
@@ -150,54 +189,86 @@ ul{
   display: flex;
   flex-direction: column
 }
-.el-dialog > .el-dialog__body{
+
+.el-dialog>.el-dialog__body {
   overflow: auto
 }
-.el-dialog > .el-dialog__footer{
+
+.el-dialog>.el-dialog__footer {
   /*background: #eee;*/
-  padding:10px 20px;
+  padding: 10px 20px;
 }
+
 /* 固定大小模态框(dia-log标签添加custom-class="fixed-dialog")*/
-.fixed-dialog{
+.fixed-dialog {
   height: calc(100% - 50px);
   width: calc(100% - 50px);
 }
-.fixed-dialog > .el-dialog__body{
+
+.fixed-dialog>.el-dialog__body {
   margin-bottom: 60px;
   height: 100%;
 }
-.fixed-dialog > .el-dialog__footer{
+
+.fixed-dialog>.el-dialog__footer {
   width: 100%;
   position: absolute;
   bottom: 0;
 }
+
 /* 导航栏 */
-.navCon{
-	background: #001529;
+.navCon {
+  background: #001529;
 }
-.el-menu--horizontal>.el-submenu .el-submenu__icon-arrow{
-	display: none;
+
+.el-menu--horizontal>.el-submenu .el-submenu__icon-arrow {
+  display: none;
 }
-.el-menu--collapse .el-menu .el-submenu, .el-menu--popup{
-	min-width: 150px;
+
+.el-menu--collapse .el-menu .el-submenu,
+.el-menu--popup {
+  min-width: 150px;
 }
+
 /*logo图片*/
-.imgLogo{
-	height: 40px;
+.imgLogo {
+  height: 40px;
 }
+
 /*登录页*/
-.login_box .el-tabs__header {margin: 0 0 24px;text-align: center;}
-.login_box .el-tabs__nav-wrap::after {background-color:transparent;}
-.login_box .el-tabs__nav {display: inline-block;float: initial;}
-.login_box .el-form-item {margin: 0 0 24px;}
-.login_box .ml28 {margin-left: 2.8%;}
-.login_box .el-checkbox__input.is-checked+.el-checkbox__label {color: inherit;}
+.login_box .el-tabs__header {
+  margin: 0 0 24px;
+  text-align: center;
+}
+
+.login_box .el-tabs__nav-wrap::after {
+  background-color: transparent;
+}
+
+.login_box .el-tabs__nav {
+  display: inline-block;
+  float: initial;
+}
+
+.login_box .el-form-item {
+  margin: 0 0 24px;
+}
+
+.login_box .ml28 {
+  margin-left: 2.8%;
+}
+
+.login_box .el-checkbox__input.is-checked+.el-checkbox__label {
+  color: inherit;
+}
+
 /*首页*/
-.indexTask .items{
+.indexTask .items {
   background: #fff;
   padding: 15px 20px 20px 20px;
   border-radius: 8px;
 }
+<<<<<<< HEAD
 /*.indexTask .items1{
 	background-image: linear-gradient(230deg, #759bff, #843cf6);
 	box-shadow: 6px 11px 41px -28px #a99de7;
@@ -214,6 +285,9 @@ ul{
 .indexTask .items5{
 	background: linear-gradient(to right, rgba(4, 190, 254, 0.9),rgba(68, 129, 235, 0.9));
 }*/
+=======
+
+>>>>>>> 9796e0151471c40d8832e878775c39ef6ec95e5b
 .indexTask .grid-demo {
   margin: 5px 0 10px 0;
   font-size: 12px;
@@ -223,7 +297,8 @@ ul{
   font-size: 24px;
   margin: 5px 0 10px 0;
 }
-.itemBg{
+
+.itemBg {
   width: 100%;
   background: #fff;
   padding: 10px;
@@ -232,23 +307,27 @@ ul{
 }
 
 /*下单管理*/
-.demo-item .el-form-item__label{
-	width: 150px;
+.demo-item .el-form-item__label {
+  width: 150px;
 }
-.proImg{
-	width: 100px;
-	height: 100px;
-	background: #E2E2E2;
+
+.proImg {
+  width: 100px;
+  height: 100px;
+  background: #E2E2E2;
 }
-.searchBox{
+
+.searchBox {
   background: #eef1f6;
   padding: 20px 20px 0 20px;
 }
-.tabList{
+
+.tabList {
   /*width: calc(100% - 100px);*/
   overflow-X: auto;
 }
-.tabBlock{
+
+.tabBlock {
   width: 100%;
   clear: both;
   overflow: hidden;
@@ -257,7 +336,8 @@ ul{
   background: #eef1f6;
   box-sizing: border-box;
 }
-.tabBlock li{
+
+.tabBlock li {
   width: 86px;
   line-height: 40px;
   text-align: center;
@@ -269,131 +349,159 @@ ul{
   font-size: 14px;
   cursor: pointer;
 }
-.tabBlock .active{
+
+.tabBlock .active {
   color: #409EFF;
   border-bottom: none;
   background: #fff;
 }
-.txtCol{
+
+.txtCol {
   color: #f00;
 }
-.el-table .red{
+
+.el-table .red {
   color: #f00;
 }
-.reasonCon{
+
+.reasonCon {
   width: 100%;
   padding: 30px 10px;
   box-sizing: border-box;
   background: #ebeef5;
 }
+
 /*任务管理*/
-.tabLeft{
+.tabLeft {
   float: left;
 }
-.tabStatus{
+
+.tabStatus {
   height: 41px;
   line-height: 41px;
   margin-left: 50px;
   font-size: 14px;
 }
-.modelRight{
+
+.modelRight {
   text-align: right;
 }
-.viewMl50{
-	margin:0 50px;
+
+.viewMl50 {
+  margin: 0 50px;
 }
+
 /*买号管理*/
-.card .el-input__inner{
-	background: #eee;
+.card .el-input__inner {
+  background: #eee;
 }
 
-.btnCol{
-	color: #fff;
+.btnCol {
+  color: #fff;
 }
-.statusBox{
-	width: 100%;
-	height: 80px;
-	line-height: 80px;
-	border: #E4E7ED solid 1px;
-	box-sizing: border-box;
+
+.statusBox {
+  width: 100%;
+  height: 80px;
+  line-height: 80px;
+  border: #E4E7ED solid 1px;
+  box-sizing: border-box;
 }
+
 /*虚拟卡管理*/
-.cardBox{
-	border: 1px solid #eee;
-}
-.listTitle{
-	height: 40px;
-	line-height: 40px;
-	border: #ccc solid 1px;
-	border-left: none;
-
-}
-.listTitle li{
-	display: inline-block;
-	width: 23%;
-	border-left: 1px solid #ccc;
-	box-sizing: border-box;
-	text-align: center;
+.cardBox {
+  border: 1px solid #eee;
 }
 
-.cardCon{
-	border: #ccc solid 1px;
-	border-top: none;
-	border-left: none;
-}
-.cardCon li{
-	display: inline-block;
-	width: 23%;
-	height: 50px;
-	line-height: 50px;
-	border-left: #ccc solid 1px;
-	text-align: center;
-	box-sizing: border-box;
+.listTitle {
+  height: 40px;
+  line-height: 40px;
+  border: #ccc solid 1px;
+  border-left: none;
+
 }
 
-.cardBox .lastLi{
-	width: 6%;
+.listTitle li {
+  display: inline-block;
+  width: 23%;
+  border-left: 1px solid #ccc;
+  box-sizing: border-box;
+  text-align: center;
 }
-.inpWid{
-	width: 90%;
+
+.cardCon {
+  border: #ccc solid 1px;
+  border-top: none;
+  border-left: none;
 }
-.selectWid{
-	width: 88%;
+
+.cardCon li {
+  display: inline-block;
+  width: 23%;
+  height: 50px;
+  line-height: 50px;
+  border-left: #ccc solid 1px;
+  text-align: center;
+  box-sizing: border-box;
 }
-.dataInp .el-date-editor.el-input, .el-date-editor.el-input__inner{
-	width: 88%;
+
+.cardBox .lastLi {
+  width: 6%;
 }
+
+.inpWid {
+  width: 90%;
+}
+
+.selectWid {
+  width: 88%;
+}
+
+.dataInp .el-date-editor.el-input,
+.el-date-editor.el-input__inner {
+  width: 88%;
+}
+
 @media screen and (max-width: 1024px) {
-	.el-dialog{
-		width: 90% !important;
-	}
+  .el-dialog {
+    width: 90% !important;
+  }
 }
-@media  screen and (max-width:414px ) {
-	.demo-item .el-form-item__label{
-		width: auto;
-	}
-	.viewMl50{
-		margin:0;
-	}
-	.el-form-item__label{
-		display: block;
-	}
-	.items .ml60{
-		margin-left: 0;
-	}
-	.items .ml110{
-		margin-left: 0;
-	}
-	.minMb10{
-		margin-bottom: 10px;
-	}
-	.minMt10{
-		margin-top: 10px;
-	}
-	.inpWid{
-	width: 100%;
-}
-.selectWid{
-	width: 100%;
-}
+
+@media screen and (max-width:414px) {
+  .demo-item .el-form-item__label {
+    width: auto;
+  }
+
+  .viewMl50 {
+    margin: 0;
+  }
+
+  .el-form-item__label {
+    display: block;
+  }
+
+  .items .ml60 {
+    margin-left: 0;
+  }
+
+  .items .ml110 {
+    margin-left: 0;
+  }
+
+  .minMb10 {
+    margin-bottom: 10px;
+  }
+
+  .minMt10 {
+    margin-top: 10px;
+  }
+
+  .inpWid {
+    width: 100%;
+  }
+
+  .selectWid {
+    width: 100%;
+  }
 }
