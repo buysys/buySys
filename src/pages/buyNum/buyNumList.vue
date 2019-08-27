@@ -167,11 +167,11 @@
         <el-table-column prop="OrderNote" label="排名涨幅" align="center"></el-table-column>
         <el-table-column label="操作" align="center" width='280'>
           <template slot-scope="scope">
-            <el-button size="small" type="primary" @click="RedistributionAccount(scope.$index, scope.row)">打开浏览器
+            <el-button size="small" type="primary" @click="">打开浏览器
             </el-button>
-            <el-button size="small" @click="systemConfig(scope.$index, scope.row)">系统配置
+            <el-button size="small" type="primary" @click="systemConfig(scope.$index, scope.row)">系统配置
             </el-button>
-            <el-button size='small' @click="remark(scope.$index,scope.row)">备注</el-button>
+            <el-button size='small' type="primary" @click="remark(scope.$index,scope.row)">备注</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -182,8 +182,7 @@
       </div>
     </div>
     <!-- 新建、修改-->
-    <el-dialog :title="title" :visible.sync="addBuyNumModel" :close-on-click-modal="false" :before-close="closeModel"
-      width="70%" custom-class="fixed-dialog">
+    <el-dialog :title="title" :visible.sync="addBuyNumModel" :close-on-click-modal="false" :before-close="closeModel" custom-class="fixed-dialog">
       <el-form :model="buyNumForm" ref="buyNumForm" :rules="editRules" class="demo-dynamic" label-width="140px"
         status-icon>
         <div class="mb20 fz16">账号信息</div>
@@ -405,7 +404,7 @@
       </div>
     </el-dialog>
     <!--系统配置-->
-    <el-dialog :title='systemTitle' :visible.sync='systemConfigModal'>
+    <el-dialog :title='systemTitle' :visible.sync='systemConfigModal' custom-class="fixed-dialog">
       <systemConfig></systemConfig>
       <div slot="footer" class="dialog-footer">
         <el-button @click="systemConfigModal=false">关闭</el-button>
@@ -486,7 +485,7 @@
       </div>
     </el-dialog>
     <!-- 重新分配-->
-    <el-dialog title="买号等级分配信息" :visible.sync="accountModel" width="90%" custom-class="fixed-dialog" :close-on-click-modal="false" :before-close="closeBuyNum">
+    <el-dialog title="买号等级分配信息" :visible.sync="accountModel" custom-class="fixed-dialog" :close-on-click-modal="false" :before-close="closeBuyNum">
       <el-collapse-transition>
         <div class="searchBox mb20" v-show="accountSearchModel">
           <el-form ref="accountSearchForm" :model="accountSearchForm" class="form-item" label-width="80px">
@@ -529,7 +528,7 @@
       </div>
     </el-dialog>
     <!-- 绑定买号等级-->
-    <el-dialog title="绑定买号等级" :visible.sync="buyNumLevelModel" :close-on-click-modal="false" width="90%" custom-class="fixed-dialog">
+    <el-dialog title="绑定买号等级" :visible.sync="buyNumLevelModel" :close-on-click-modal="false" custom-class="fixed-dialog">
       <el-form :model="brushSearch" ref="brushSearch" class="demo-dynamic" label-width="100px">
         <el-row>
           <el-col :xs="24" :span="7" :sm="9" :md="8" :lg="10">
@@ -603,14 +602,14 @@
       </div>
     </el-dialog>
     <!--买号等级设置-->
-    <el-dialog title="买号等级设置" :visible.sync="setBuyLevelModel" :close-on-click-modal="false" width="90%" custom-class="fixed-dialog">
+    <el-dialog title="买号等级设置" :visible.sync="setBuyLevelModel" :close-on-click-modal="false" custom-class="fixed-dialog">
       <buyNumLevel></buyNumLevel>
       <div slot="footer" class="dialog-footer">
         <el-button @click="setBuyLevelModel=false">关 闭</el-button>
       </div>
     </el-dialog>
     <!--新建标签-->
-    <el-dialog title="买号标签管理" :visible.sync="addTagModel" :close-on-click-modal="false" width="90%" custom-class="fixed-dialog">
+    <el-dialog title="买号标签管理" :visible.sync="addTagModel" :close-on-click-modal="false" custom-class="fixed-dialog">
       <buyTagList></buyTagList>
       <div slot="footer" class="dialog-footer">
         <el-button @click="addTagModel=false">关 闭</el-button>
@@ -829,7 +828,9 @@
           </el-col>
           <el-col :span='12' :xs='24'>
             <el-form-item label="任务总数：">
-              <span>222</span>
+              <template slot-scope="scope">
+                <el-button type="text" @click="taskListModelShow(scope.$index,scope.row)">222</el-button>
+              </template>
             </el-form-item>
           </el-col>
           <el-col :span='12' :xs='24'>
@@ -845,7 +846,7 @@
     </el-dialog>
 
     <!-- 任务总数 -->
-    <el-dialog title='任务信息' :visible.sync="taskListModel" width="90%" custom-class="fixed-dialog">
+    <el-dialog title='任务信息' :visible.sync="taskListModel" custom-class="fixed-dialog">
     <el-collapse-transition>
     	<div class="searchBox mb20">
     		<el-form ref="searchForm" :model="searchForm" class="form-item" label-width="80px">
@@ -891,6 +892,9 @@
     		<el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage" :page-sizes="[100, 200, 300, 500]" :page-size="10" layout="total, sizes, prev, pager, next, jumper" :total="total">
     		</el-pagination>
     	</div>
+    </div>
+    <div slot="footer" class="dialog-footer">
+      <el-button @click="taskListModel = false">关 闭</el-button>
     </div>
     </el-dialog>
   </div>

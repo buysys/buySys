@@ -122,7 +122,7 @@
 				<el-table-column prop="OrderTime" label="执行时间" align="center"></el-table-column>
 				<el-table-column prop="Status" label="任务状态" align="center"></el-table-column>
 				<el-table-column prop="OrderNote" label="客户名称" align="center"></el-table-column>
-				<el-table-column label="操作" align="center" width="550">
+				<el-table-column label="操作" align="center" width="600">
 					<template slot-scope="scope">
 						<el-button size="small" type="danger" @click="refundModelShow(scope.$index, scope.row)">退款</el-button>
 						<el-button size="small" type="primary" @click="logHandel(scope.$index, scope.row)">查看日志</el-button>
@@ -130,6 +130,7 @@
 						<el-button size="small" type="primary" @click="evaluateLink(scope.$index,scope.row)">评论链接</el-button>
 						<el-button size="small" type="primary">打开浏览器</el-button>
 						<el-button size="small" type="primary" @click='evaluateEdit(scope.$index,scope.row)'>填写评价</el-button>
+            <el-button size="small" type="primary" @click="upComment(scope.$index,scope.row)">上评</el-button>
 					</template>
 				</el-table-column>
 			</el-table>
@@ -814,6 +815,15 @@
 				<el-button @click='evaluateLinkModal=false'>关闭</el-button>
 			</div>
 		</el-dialog>
+
+    <!-- 上评-->
+    <el-dialog title="温馨提示" :visible.sync="upCommentModel" :close-on-click-modal="false" center width="30%">
+      <div class="del-dialog-cnt textCen">确认要上评吗？</div>
+      <div slot="footer" class="dialog-footer">
+        <el-button type="primary">确 定</el-button>
+        <el-button @click="upCommentModel=false">取 消</el-button>
+      </div>
+    </el-dialog>
 	</div>
 </template>
 
@@ -827,6 +837,7 @@
 			return {
 				feedShow:false, //feedback
 				evaluateModal: false, //填写评价
+        upCommentModel: false,//上评
 				proEvaluateForm: {
 					Feedback: ' ',
 					proTitle: '',
@@ -1154,6 +1165,13 @@
 					_this.deliverShow = false
 				}
 			},
+
+      // 上评
+      upComment() {
+      	let _this = this
+      	_this.upCommentModel = true
+      },
+
 			// 日期不能小于当年日期
 			startTime() {
 				return {
