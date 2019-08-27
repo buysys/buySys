@@ -69,6 +69,27 @@
         </div>
       </el-col>
     </el-row>
+    <el-row :gutter="20" class="mt20">
+      <el-col :span="24">
+        <div class="itemBg">
+          <div id="container6" style="width: 100%;height: 320px"></div>
+        </div>
+      </el-col>
+    </el-row>
+    <el-row :gutter="20" class="mt20">
+      <el-col :span="24">
+        <div class="itemBg">
+          <div id="container7" style="width: 100%;height: 320px"></div>
+        </div>
+      </el-col>
+    </el-row>
+     <el-row :gutter="20" class="mt20">
+      <el-col :span="24">
+        <div class="itemBg">
+          <div id="container8" style="width: 100%;height: 320px"></div>
+        </div>
+      </el-col>
+    </el-row>
   </div>
 </template>
 
@@ -94,6 +115,9 @@ export default {
     this.orderList()
     this.orderError()
     this.getReviewCount()
+    this.loseCommit()
+    this.limitCommit()
+    this.closeAccount()
   },
   methods: {
     // 今日任务排行榜
@@ -348,7 +372,7 @@ export default {
           type: 'value'
         },
         series: [
-        
+
           {
           	smooth:true,
             name: '邮件营销',
@@ -455,6 +479,210 @@ export default {
           stack: '总量',
           data: [820, 932, 901, 934, 1290, 2330, 1320]
         }
+        ]
+      })
+    },
+    // 每月掉评数量
+    loseCommit () {
+       var dom = document.getElementById('container6')
+      var myChart = echarts.init(dom)
+      myChart.setOption({
+        title: {
+          text: '每月掉评数量'
+        },
+        tooltip: {
+          trigger: 'axis',
+          axisPointer: {
+            // 坐标轴指示器，坐标轴触发有效
+            type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
+          }
+        },
+        toolbox: {
+          show: true,
+          feature: {
+            dataView: {
+              readOnly: false
+            },
+            magicType: {
+              type: ['line', 'bar']
+            },
+            restore: {},
+            saveAsImage: {}
+          }
+        },
+        grid: {
+          left: '3%',
+          right: '4%',
+          bottom: '3%',
+          containLabel: true
+        },
+        xAxis: {
+          type: 'category',
+          data: ['1号', '2号', '3号', '4号', '5号', '6号', '7号', '8号', '9号', '10号', '11号', '12号', '13号', '14号', '15号', '16号', '17号', '18号', '19号', '20号', '21号', '22号', '23号', '24号', '25号', '26号', '27号', '28号', '29号', '30号' , '31号']
+        },
+        yAxis: {
+           type: 'value',
+        },
+        series: [
+          {
+            name: '今日掉评数量',
+            type: 'bar',
+            stack: '总量',
+            barWidth: 15,
+            label: {
+              normal: {
+                show: true,
+                position: 'insideRight',
+                position: 'top',
+								textStyle: {
+										color: '#999',
+										fontSize: 13
+								}
+              }
+            },
+            itemStyle: {
+              normal: {
+                color: '#42a3ff'
+              }
+            },
+            data: [5, 8, 120, 43, 0, 20, 30, 5, 8, 120, 43, 0,5, 8, 140, 43, 0, 5, 8, 120, 43, 0, 45, 58, 120, 103, 0, 5, 8, 120, 0]
+          }
+        ]
+      })
+    },
+    // 每月账号限评
+    limitCommit () {
+       var dom = document.getElementById('container7')
+      var myChart = echarts.init(dom)
+      myChart.setOption({
+        title: {
+          text: '每月账号限评'
+        },
+        tooltip: {
+          trigger: 'axis',
+          axisPointer: {
+            // 坐标轴指示器，坐标轴触发有效
+            type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
+          }
+        },
+        toolbox: {
+          show: true,
+          feature: {
+            dataView: {
+              readOnly: false
+            },
+            magicType: {
+              type: ['line', 'bar']
+            },
+            restore: {},
+            saveAsImage: {}
+          }
+        },
+        grid: {
+          left: '3%',
+          right: '4%',
+          bottom: '3%',
+          containLabel: true
+        },
+        xAxis: {
+          type: 'category',
+          data: ['1号', '2号', '3号', '4号', '5号', '6号', '7号', '8号', '9号', '10号', '11号', '12号', '13号', '14号', '15号', '16号', '17号', '18号', '19号', '20号', '21号', '22号', '23号', '24号', '25号', '26号', '27号', '28号', '29号', '30号' , '31号']
+        },
+        yAxis: {
+           type: 'value',
+        },
+        series: [
+          {
+            name: '今日账号限评',
+            type: 'bar',
+            stack: '总量',
+            barWidth: 15,
+            label: {
+              normal: {
+                show: true,
+                position: 'insideRight',
+                position: 'top',
+    						textStyle: {
+    								color: '#999',
+    								fontSize: 13
+    						}
+              }
+            },
+            itemStyle: {
+              normal: {
+                color: '#F4516C'
+              }
+            },
+            data: [5, 8, 120, 0, 35, 38, 140, 43, 0, 5, 8, 120, 43, 50, 45, 88, 120, 103, 0, 5, 8, 120, 0,43, 0, 20, 30, 5, 8, 120, 43,]
+          }
+        ]
+      })
+    },
+     // 每月封号数量
+    closeAccount () {
+       var dom = document.getElementById('container8')
+      var myChart = echarts.init(dom)
+      myChart.setOption({
+        title: {
+          text: '每月封号数量'
+        },
+        tooltip: {
+          trigger: 'axis',
+          axisPointer: {
+            // 坐标轴指示器，坐标轴触发有效
+            type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
+          }
+        },
+        toolbox: {
+          show: true,
+          feature: {
+            dataView: {
+              readOnly: false
+            },
+            magicType: {
+              type: ['line', 'bar']
+            },
+            restore: {},
+            saveAsImage: {}
+          }
+        },
+        grid: {
+          left: '3%',
+          right: '4%',
+          bottom: '3%',
+          containLabel: true
+        },
+        xAxis: {
+          type: 'category',
+          data: ['1号', '2号', '3号', '4号', '5号', '6号', '7号', '8号', '9号', '10号', '11号', '12号', '13号', '14号', '15号', '16号', '17号', '18号', '19号', '20号', '21号', '22号', '23号', '24号', '25号', '26号', '27号', '28号', '29号', '30号' , '31号']
+        },
+        yAxis: {
+           type: 'value',
+        },
+        series: [
+          {
+            name: '今日封号数量',
+            type: 'bar',
+            stack: '总量',
+            barWidth: 15,
+            label: {
+              normal: {
+                show: true,
+                position: 'insideRight',
+                position: 'top',
+    						textStyle: {
+    								color: '#999',
+    								fontSize: 13
+    						}
+              }
+            },
+            itemStyle: {
+              normal: {
+                color: '#d48265'
+              }
+            },
+            data: [5, 8, 120, 0, 35, 38, 140, 43, 0, 5, 8, 120, 43, 50, 45, 88, 120, 103, 0, 5, 8, 120, 0,43, 0, 20, 30, 5, 8, 120, 43,]
+          }
         ]
       })
     }
