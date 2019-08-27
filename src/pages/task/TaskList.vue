@@ -40,8 +40,8 @@
 							</el-form-item>
 						</el-col>
 						<el-col :xs="24" :span="4" class='ml20'>
-								<el-button type="primary" size="medium">查询</el-button>
-								<el-button size="medium" @click="resetSearch">重置</el-button>
+							<el-button type="primary" size="medium">查询</el-button>
+							<el-button size="medium" @click="resetSearch">重置</el-button>
 						</el-col>
 					</el-row>
 				</el-form>
@@ -122,12 +122,14 @@
 				<el-table-column prop="OrderTime" label="执行时间" align="center"></el-table-column>
 				<el-table-column prop="Status" label="任务状态" align="center"></el-table-column>
 				<el-table-column prop="OrderNote" label="客户名称" align="center"></el-table-column>
-				<el-table-column label="操作" align="center" width="350">
+				<el-table-column label="操作" align="center" width="550">
 					<template slot-scope="scope">
 						<el-button size="small" type="danger" @click="refundModelShow(scope.$index, scope.row)">退款</el-button>
 						<el-button size="small" type="primary" @click="logHandel(scope.$index, scope.row)">查看日志</el-button>
 						<el-button size="small" type="success" @click="confirmBuyHandel(scope.$index,scope.row)">确认购买</el-button>
 						<el-button size="small" type="primary" @click="evaluateLink(scope.$index,scope.row)">评论链接</el-button>
+						<el-button size="small" type="primary">打开浏览器</el-button>
+						<el-button size="small" type="primary" @click='evaluateEdit(scope.$index,scope.row)'>填写评价</el-button>
 					</template>
 				</el-table-column>
 			</el-table>
@@ -136,6 +138,24 @@
 				</el-pagination>
 			</div>
 		</div>
+		<!--填写评价-->
+		<el-dialog :title='title' :visible.sync='evaluateModal' :close-on-click-modal='false'>
+			<el-form :model='proEvaluateForm' ref='proEvaluateForm' label-width='110px' :rules='editRules'>
+				<el-form-item label='Feedback' prop='Feedback'>
+					<el-input v-model='proEvaluateForm.Feedback'></el-input>
+				</el-form-item>
+				<el-form-item label='产品评论标题' prop='proTitle'>
+					<el-input v-model='proEvaluateForm.proTitle'></el-input>
+				</el-form-item>
+				<el-form-item label='产品评论内容' prop='proDes'>
+					<el-input :autosize="{ minRows: 4, maxRows: 8}" type='textarea' v-model='proEvaluateForm.proDes'></el-input>
+				</el-form-item>
+			</el-form>
+			<div slot="footer" class="dialog-footer">
+				<el-button type="primary" @click="confirProEva('proEvaluateForm')">确 定</el-button>
+				<el-button @click="evaluateModal=false">取 消</el-button>
+			</div>
+		</el-dialog>
 		<!--标记异常-->
 		<el-dialog title='标记异常' :visible.sync='abnormalModal' :close-on-click-modal="false">
 			<el-form :model='abnormalForm' ref="abnormalForm" label-width='100px'>
@@ -805,6 +825,13 @@
 		name: 'placeOrderTask',
 		data() {
 			return {
+				feedShow:false, //feedback
+				evaluateModal: false, //填写评价
+				proEvaluateForm: {
+					Feedback: ' ',
+					proTitle: '',
+					proDes: ''
+				},
 				dialogVisible: false,
 				evaluateForm: {},
 				//评价链接
@@ -986,7 +1013,22 @@
 						required: true,
 						message: '请输入产品评价链接',
 						trigger: 'blur'
-					}]
+					}],
+					Feedback: [{
+						required: true,
+						message: '请输入Feedback',
+						trigger: 'blur'
+					}],
+					proTitle: [{
+						required: true,
+						message: '请输入产品评论标题',
+						trigger: 'blur'
+					}],
+					proDes: [{
+						required: true,
+						message: '请输入产品评论内容',
+						trigger: 'blur'
+					}],
 
 				},
 				searchForm: {
@@ -1009,6 +1051,27 @@
 			// this.getAllData()
 		},
 		methods: {
+			//填写评价确定
+			confirProEva(formName) {
+				let _this = this
+				let feed = _this.feedShow
+				if(!feed){
+					_this.proEvaluateForm.Feedback=' '
+				}
+				_this.$refs[formName].validate((valid) => {
+					if(valid) {
+						_this.evaluateModal = false
+					}
+				})
+			},
+			//填写评价
+			evaluateEdit(index, row) {
+				let _this = this
+				_this.evaluateModal = true
+				let item = _this.orderPlaceData[index]
+				let num = item.Numbers
+				_this.title = '任务：' + num + '填写评论'
+			},
 			handleRemove(file, fileList) {
 				console.log(file, fileList);
 			},

@@ -44,7 +44,11 @@
 						<el-button type="text" @click="viewCountryNum(scope.$index,scope.row)">{{scope.row.ProductByASIN}}</el-button>
 					</template>
 				</el-table-column>
-				<el-table-column prop="OrderNote" label="备注" align="center"></el-table-column>
+				<el-table-column label="操作" align="center">
+					<template slot-scope="scope">
+						<el-button type='primary' size='small' @click='editExchangeRate(scope.$index,scope.row)'>调整汇率</el-button>
+					</template>
+				</el-table-column>
 			</el-table>
 			<div class="mt30">
 				<el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage" :page-sizes="[10, 20, 30, 40]" :page-size="10" layout="total, sizes, prev, pager, next, jumper" :total="total">
@@ -165,6 +169,14 @@
           <el-button @click="currencyModal=false" size="medium">否</el-button>
       </span>
 		</el-dialog>
+		<!--调整汇率-->
+		<el-dialog title='调整汇率' :visible.sync='editRateModal' :close-on-click-modal='false' width='30%'>
+			<el-input v-model='editRate' type='number'></el-input>
+			<div slot='footer' class="dialog-footer">
+				<el-button type='primary'>确认</el-button>
+				<el-button @click='editRateModal=false'>取消</el-button>
+			</div>
+		</el-dialog>
 		<!--导入-->
 		<!--<el-dialog title='导入数据' :visible.sync='importDataModal' :close-on-click-modal='false' width='25%'>
 			<div class="del-dialog-cnt textCen">
@@ -223,6 +235,8 @@
 				//				errorResults: []
 				//				importUrl: 'http://192.168.111.103:52019',
 				fileTemp: null,
+				editRate: '0',
+				editRateModal: false, //调整汇率
 				serviceTitle: '',
 				currencyTitle: '',
 				currentPage: 1,
@@ -310,9 +324,14 @@
 			country
 		},
 		created() {
-//			this.getAllData()
+			//			this.getAllData()
 		},
 		methods: {
+			//调整汇率
+			editExchangeRate(index, row) {
+				let _this = this
+				_this.editRateModal = true
+			},
 			handleChange(file, fileList) {
 				this.fileTemp = file.raw
 			},
@@ -367,29 +386,29 @@
 			//添加确定
 			submitForm(formName) {
 				let _this = this
-        let param = {
-          Currency: _this.currencyForm.currencyName,
-          Code: _this.currencyForm.currencyCode,
-          Unit: _this.currencyForm.currencySymbol,
-          Rate: _this.currencyForm.exchangeRate,
-          remark: _this.currencyForm.remark
-        }
+				let param = {
+					Currency: _this.currencyForm.currencyName,
+					Code: _this.currencyForm.currencyCode,
+					Unit: _this.currencyForm.currencySymbol,
+					Rate: _this.currencyForm.exchangeRate,
+					remark: _this.currencyForm.remark
+				}
 				_this.$refs[formName].validate((valid) => {
 					if(valid) {
-            _this.axios.post(_this.GLOBAL.BASE_URL + '/getFlatRate', param).then((res) => {
-              if(res.data.success == '200'){
-                let data = res.data
-                console.log(data)
-                console.log(data.success)
-                _this.$message.success('添加成功')
-                _this.addCurrencyModal = false
-              }
-            }).catch((error) => {
-              console.log(error)
-            })
-					}else {
-            return false
-          }
+						_this.axios.post(_this.GLOBAL.BASE_URL + '/getFlatRate', param).then((res) => {
+							if(res.data.success == '200') {
+								let data = res.data
+								console.log(data)
+								console.log(data.success)
+								_this.$message.success('添加成功')
+								_this.addCurrencyModal = false
+							}
+						}).catch((error) => {
+							console.log(error)
+						})
+					} else {
+						return false
+					}
 				})
 			},
 			//重置

@@ -277,30 +277,35 @@ export default {
         },
         series: [
           {
+          	smooth:true,
             name: '邮件营销',
             type: 'line',
             stack: '总量',
             data: [120, 132, 101, 134, 90, 230, 210]
           },
           {
+          	smooth:true,
             name: '联盟广告',
             type: 'line',
             stack: '总量',
             data: [220, 182, 191, 234, 290, 330, 310]
           },
           {
+          	smooth:true,
             name: '视频广告',
             type: 'line',
             stack: '总量',
             data: [150, 232, 201, 154, 190, 330, 410]
           },
           {
+          	smooth:true,
             name: '直接访问',
             type: 'line',
             stack: '总量',
             data: [320, 332, 301, 334, 390, 330, 320]
           },
           {
+          	smooth:true,
             name: '搜索引擎',
             type: 'line',
             stack: '总量',
@@ -343,35 +348,41 @@ export default {
           type: 'value'
         },
         series: [
+        
           {
+          	smooth:true,
             name: '邮件营销',
             type: 'line',
             stack: '总量',
-            data: [120, 132, 101, 134, 90, 230, 210]
+            data: [2120, 2232, 101, 2134, 90, 230, 2210]
           },
           {
+          	smooth:true,
             name: '联盟广告',
             type: 'line',
             stack: '总量',
-            data: [220, 182, 191, 234, 290, 330, 310]
+            data: [220, 182, 191, 2234, 290, 330, 310]
           },
           {
+          	smooth:true,
             name: '视频广告',
             type: 'line',
             stack: '总量',
-            data: [150, 232, 201, 154, 190, 330, 410]
+            data: [2250, 232, 201, 1254, 190, 330, 900]
           },
           {
+          	smooth:true,
             name: '直接访问',
             type: 'line',
             stack: '总量',
-            data: [320, 332, 301, 334, 390, 330, 320]
+            data: [320, 2332, 301, 2234, 390, 330, 30]
           },
           {
+          	smooth:true,
             name: '搜索引擎',
             type: 'line',
             stack: '总量',
-            data: [820, 932, 901, 934, 1290, 1330, 1320]
+            data: [123, 932, 901, 234, 1290, 330, 1320]
           }
         ]
       })
@@ -410,34 +421,39 @@ export default {
           type: 'value'
         },
         series: [{
+        	smooth:true,
           name: '邮件营销',
           type: 'line',
           stack: '总量',
-          data: [120, 132, 101, 134, 90, 230, 210]
+          data: [2120, 132, 101, 1234, 90, 230, 210]
         },
         {
+        	smooth:true,
           name: '联盟广告',
           type: 'line',
           stack: '总量',
-          data: [220, 182, 191, 234, 290, 330, 310]
+          data: [220, 182, 191, 2234, 290, 330, 310]
         },
         {
+        	smooth:true,
           name: '视频广告',
           type: 'line',
           stack: '总量',
-          data: [150, 232, 201, 154, 190, 330, 410]
+          data: [150, 232, 2201, 154, 190, 1130, 410]
         },
         {
+        	smooth:true,
           name: '直接访问',
           type: 'line',
           stack: '总量',
-          data: [320, 332, 301, 334, 390, 330, 320]
+          data: [320, 1132, 301, 2234, 390, 330, 320]
         },
         {
+        	smooth:true,
           name: '搜索引擎',
           type: 'line',
           stack: '总量',
-          data: [820, 932, 901, 934, 1290, 1330, 1320]
+          data: [820, 932, 901, 934, 1290, 2330, 1320]
         }
         ]
       })
