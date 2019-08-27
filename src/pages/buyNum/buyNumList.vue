@@ -145,24 +145,33 @@
     <div class="mt10">
       <el-table :data="buyNumData" id="exportOrder" border style="width: 100%" @selection-change="handleSelectionChange">
         <el-table-column type="selection"></el-table-column>
-        <el-table-column prop="Numbers" label="登录账号" align="center" width="180"></el-table-column>
+        <el-table-column prop="Numbers" label="登录账号" align="center" width="180">
+          <template slot-scope="scope">
+            <el-button type="text" @click="accountViewModelShow(scope.$index,scope.row)">{{scope.row.Numbers}}</el-button>
+          </template>
+        </el-table-column>
         <el-table-column prop="CountryId" label="平台/国家" align="center"></el-table-column>
-        <el-table-column prop="OrderTime" label="注册时间" align="center"></el-table-column>
+        <el-table-column prop="OrderTime" label="注册时间" align="center" width="180"></el-table-column>
         <el-table-column prop="ProductByASIN" label="标签" align="center"></el-table-column>
-        <el-table-column prop="ProductPrice" label="任务总数" align="center"></el-table-column>
+        <el-table-column prop="ProductPrice" label="任务总数" align="center">
+          <template slot-scope="scope">
+            <el-button type="text" @click="taskListModelShow(scope.$index,scope.row)">{{scope.row.ProductPrice}}</el-button>
+          </template>
+        </el-table-column>
         <el-table-column prop="ServiceType" label="留评数" align="center"></el-table-column>
         <el-table-column prop="OrderNote" label="累积消费" align="center"></el-table-column>
         <el-table-column prop="OrderNote" label="关联刷手" align="center"></el-table-column>
         <el-table-column prop="Status" label="状态" align="center"></el-table-column>
         <el-table-column prop="OrderNote" label="是否留评" align="center"></el-table-column>
-        <el-table-column prop="OrderNote" label="绑定IP" align="center"></el-table-column>
-        <el-table-column label="操作" align="center" width='290'>
+        <el-table-column prop="OrderNote" label="亚马逊排名" align="center"></el-table-column>
+        <el-table-column prop="OrderNote" label="排名涨幅" align="center"></el-table-column>
+        <el-table-column label="操作" align="center" width='280'>
           <template slot-scope="scope">
-            <el-button size="small" type="primary" @click="RedistributionAccount(scope.$index, scope.row)">打开浏览器
+            <el-button size="small" type="primary" @click="">打开浏览器
             </el-button>
-            <el-button size="small" @click="systemConfig(scope.$index, scope.row)">系统配置
+            <el-button size="small" type="primary" @click="systemConfig(scope.$index, scope.row)">系统配置
             </el-button>
-            <el-button size='small' @click="remark(scope.$index,scope.row)">备注</el-button>
+            <el-button size='small' type="primary" @click="remark(scope.$index,scope.row)">备注</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -173,8 +182,7 @@
       </div>
     </div>
     <!-- 新建、修改-->
-    <el-dialog :title="title" :visible.sync="addBuyNumModel" :close-on-click-modal="false" :before-close="closeModel"
-      width="70%" custom-class="fixed-dialog">
+    <el-dialog :title="title" :visible.sync="addBuyNumModel" :close-on-click-modal="false" :before-close="closeModel" custom-class="fixed-dialog">
       <el-form :model="buyNumForm" ref="buyNumForm" :rules="editRules" class="demo-dynamic" label-width="140px"
         status-icon>
         <div class="mb20 fz16">账号信息</div>
@@ -335,13 +343,6 @@
               </el-select>
             </el-form-item>
           </el-col>
-          <!--<el-col :span='12' :xs='24'>
-						<el-form-item label="购物卡" class='inpWid'>
-							<el-input v-model="buyNumForm.shopingCard" class="card" @focus="selectCard" placeholder='请选择购物卡'>
-								<el-button slot="append" style="background: #3A8EE6;border-radius: 0;" @click="selectCard"><i class="el-icon-search btnCol"></i></el-button>
-							</el-input>
-						</el-form-item>
-					</el-col>-->
         </el-row>
         <div v-show='xnShow'>
           <el-row>
@@ -403,7 +404,7 @@
       </div>
     </el-dialog>
     <!--系统配置-->
-    <el-dialog :title='systemTitle' :visible.sync='systemConfigModal'>
+    <el-dialog :title='systemTitle' :visible.sync='systemConfigModal' custom-class="fixed-dialog">
       <systemConfig></systemConfig>
       <div slot="footer" class="dialog-footer">
         <el-button @click="systemConfigModal=false">关闭</el-button>
@@ -484,7 +485,7 @@
       </div>
     </el-dialog>
     <!-- 重新分配-->
-    <el-dialog title="买号等级分配信息" :visible.sync="accountModel" width="90%" custom-class="fixed-dialog" :close-on-click-modal="false" :before-close="closeBuyNum">
+    <el-dialog title="买号等级分配信息" :visible.sync="accountModel" custom-class="fixed-dialog" :close-on-click-modal="false" :before-close="closeBuyNum">
       <el-collapse-transition>
         <div class="searchBox mb20" v-show="accountSearchModel">
           <el-form ref="accountSearchForm" :model="accountSearchForm" class="form-item" label-width="80px">
@@ -522,12 +523,12 @@
         </el-table-column>
       </el-table>
       <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="confirmBindIp">确 定</el-button>
+        <el-button type="primary" @click="">确 定</el-button>
         <el-button @click="closeBuyNum">取 消</el-button>
       </div>
     </el-dialog>
     <!-- 绑定买号等级-->
-    <el-dialog title="绑定买号等级" :visible.sync="buyNumLevelModel" :close-on-click-modal="false" width="90%" custom-class="fixed-dialog">
+    <el-dialog title="绑定买号等级" :visible.sync="buyNumLevelModel" :close-on-click-modal="false" custom-class="fixed-dialog">
       <el-form :model="brushSearch" ref="brushSearch" class="demo-dynamic" label-width="100px">
         <el-row>
           <el-col :xs="24" :span="7" :sm="9" :md="8" :lg="10">
@@ -601,14 +602,14 @@
       </div>
     </el-dialog>
     <!--买号等级设置-->
-    <el-dialog title="买号等级设置" :visible.sync="setBuyLevelModel" :close-on-click-modal="false" width="90%" custom-class="fixed-dialog">
+    <el-dialog title="买号等级设置" :visible.sync="setBuyLevelModel" :close-on-click-modal="false" custom-class="fixed-dialog">
       <buyNumLevel></buyNumLevel>
       <div slot="footer" class="dialog-footer">
         <el-button @click="setBuyLevelModel=false">关 闭</el-button>
       </div>
     </el-dialog>
     <!--新建标签-->
-    <el-dialog title="买号标签管理" :visible.sync="addTagModel" :close-on-click-modal="false" width="90%" custom-class="fixed-dialog">
+    <el-dialog title="买号标签管理" :visible.sync="addTagModel" :close-on-click-modal="false" custom-class="fixed-dialog">
       <buyTagList></buyTagList>
       <div slot="footer" class="dialog-footer">
         <el-button @click="addTagModel=false">关 闭</el-button>
@@ -678,6 +679,224 @@
         <el-button @click="entityCardModal=false">取 消</el-button>
       </div>
     </el-dialog>
+
+    <!--账户信息-->
+    <el-dialog title='账户详细信息' :visible.sync="accountViewModel" width="90%" custom-class="fixed-dialog">
+      <el-form class="demo-item">
+        <div class="modalTitle mb20 fz16">账号信息</div>
+        <el-row>
+          <el-col :span='12' :xs='24'>
+            <el-form-item label="平台：">
+              <span>亚马逊</span>
+            </el-form-item>
+          </el-col>
+          <el-col :span='12' :xs='24'>
+            <el-form-item label="国家：">
+              <span>美国</span>
+            </el-form-item>
+          </el-col>
+          <el-col :span='12' :xs='24'>
+            <el-form-item label="默认网关：">
+              <span>192.168.1.1</span>
+            </el-form-item>
+          </el-col>
+          <el-col :span='12' :xs='24'>
+            <el-form-item label="状态：">
+              <span>正常</span>
+            </el-form-item>
+          </el-col>
+          <el-col :span='12' :xs='24'>
+            <el-form-item label="登录账号：">
+              <span>123@qq.com</span>
+            </el-form-item>
+          </el-col>
+          <el-col :span='12' :xs='24'>
+            <el-form-item label="登录密码：">
+              <span>123321</span>
+            </el-form-item>
+          </el-col>
+          <el-col :span='12' :xs='24'>
+            <el-form-item label="账号邮箱：">
+              <span>123@qq.com</span>
+            </el-form-item>
+          </el-col>
+          <el-col :span='12' :xs='24'>
+            <el-form-item label="账号邮箱密码：">
+              <span>222</span>
+            </el-form-item>
+          </el-col>
+          <el-col :span='12' :xs='24'>
+            <el-form-item label="辅助邮箱：">
+              <span>456@qq.com</span>
+            </el-form-item>
+          </el-col>
+          <el-col :span="12" :xs="24" class="fleft">
+            <el-form-item label="辅助邮箱密码：">
+              <span>123321</span>
+            </el-form-item>
+          </el-col>
+          <el-col :span='12' :xs='24'>
+            <el-form-item label="学生邮箱：">
+              <span>789@qq.com</span>
+            </el-form-item>
+          </el-col>
+          <el-col :span='12' :xs='24'>
+            <el-form-item label="学生邮箱密码：">
+              <span>123321</span>
+            </el-form-item>
+          </el-col>
+          <el-col :span='12' :xs='24'>
+            <el-form-item label="注册时间：">
+              <span>2019-09-09</span>
+            </el-form-item>
+          </el-col>
+          <el-col :span='12' :xs='24'>
+            <el-form-item label="FBA会员到期：">
+              <span>2088-01-01</span>
+            </el-form-item>
+          </el-col>
+          <el-col :span='12' :xs='24'>
+            <el-form-item label="标签：">
+              <span>标签、标签、标签</span>
+            </el-form-item>
+          </el-col>
+          </el-row>
+          <div class="modalTitle mb20 fz16">收货地址</div>
+          <el-row>
+          <el-col :span='12' :xs='24'>
+            <el-form-item label="姓名：">
+              <span>托尼</span>
+            </el-form-item>
+          </el-col>
+          <el-col :span='12' :xs='24'>
+            <el-form-item label="电话：">
+              <span>45865441</span>
+            </el-form-item>
+          </el-col>
+          <el-col :span='12' :xs='24'>
+            <el-form-item label="国家：">
+              <span>美国</span>
+            </el-form-item>
+          </el-col>
+          <el-col :span='12' :xs='24'>
+            <el-form-item label="省/州：">
+              <span>加州</span>
+            </el-form-item>
+          </el-col>
+          <el-col :span='12' :xs='24'>
+            <el-form-item label="城市：">
+              <span>加州</span>
+            </el-form-item>
+          </el-col>
+          <el-col :span='12' :xs='24'>
+            <el-form-item label="邮编：">
+              <span>4565123</span>
+            </el-form-item>
+          </el-col>
+          <el-col :span='12' :xs='24'>
+            <el-form-item label="详细地址：">
+              <span>加州旅馆252号</span>
+            </el-form-item>
+          </el-col>
+        </el-row>
+
+        <div class="modalTitle mb20 fz16">付款信息</div>
+          <el-row>
+          <el-col :span='12' :xs='24'>
+            <el-form-item label="信用卡类型：">
+              <span>实体信用卡</span>
+            </el-form-item>
+          </el-col>
+          <el-col :span='12' :xs='24'>
+            <el-form-item label="信用卡号：">
+              <span>4566413212312</span>
+            </el-form-item>
+          </el-col>
+          <el-col :span='12' :xs='24'>
+            <el-form-item label="有效期：">
+              <span>2022-01-01</span>
+            </el-form-item>
+          </el-col>
+        </el-row>
+
+        <div class="modalTitle mb20 fz16">其他信息</div>
+          <el-row>
+          <el-col :span='12' :xs='24'>
+            <el-form-item label="注册时间：">
+              <span>2012-01-08</span>
+            </el-form-item>
+          </el-col>
+          <el-col :span='12' :xs='24'>
+            <el-form-item label="任务总数：">
+              <template slot-scope="scope">
+                <el-button type="text" @click="taskListModelShow(scope.$index,scope.row)">222</el-button>
+              </template>
+            </el-form-item>
+          </el-col>
+          <el-col :span='12' :xs='24'>
+            <el-form-item label="单笔最大消费金额：">
+              <span>50000</span>
+            </el-form-item>
+          </el-col>
+        </el-row>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="accountViewModel = false">关 闭</el-button>
+      </div>
+    </el-dialog>
+
+    <!-- 任务总数 -->
+    <el-dialog title='任务信息' :visible.sync="taskListModel" custom-class="fixed-dialog">
+    <el-collapse-transition>
+    	<div class="searchBox mb20">
+    		<el-form ref="searchForm" :model="searchForm" class="form-item" label-width="80px">
+    			<el-row>
+    				<el-col :xs="24" :span="8">
+    					<el-form-item label="搜索内容">
+    						<el-input v-model="searchForm.searchkeywords" placeholder="请输入提任务编码/任务备注/产品名称" class="disInline"></el-input>
+    					</el-form-item>
+    				</el-col>
+    				<el-col :xs="24" :span="4">
+    					<el-form-item label="任务状态">
+    						<template>
+    							<el-select v-model="statusValue" placeholder="请选择">
+    								<el-option v-for="item in statusOptions" :key="item.value" :label="item.label" :value="item.value">
+    								</el-option>
+    							</el-select>
+    						</template>
+    					</el-form-item>
+    				</el-col>
+    				<el-col :xs="24" :span="4" class="ml20">
+    					<el-button type="primary" size="medium">查询</el-button>
+    					<el-button size="medium" @click="resetSearch">重置</el-button>
+    				</el-col>
+    			</el-row>
+    		</el-form>
+    	</div>
+    </el-collapse-transition>
+    <div class="mt10">
+    	<el-table :data="buyNumData" id="exportData" style="width: 100%" :header-cell-style="{background:'#fafafa'}" @selection-change="handleSelectionChange">
+    		<el-table-column prop="Numbers" label="任务编号" align="center" width="180"></el-table-column>
+    		<el-table-column prop="ProductByASIN" label="平台/国家" align="center"></el-table-column>
+    		<el-table-column prop="CountryId" label="产品ASIN" align="center"></el-table-column>
+    		<el-table-column prop="CountryId" label="产品名称" align="center"></el-table-column>
+    		<el-table-column prop="OrderNumber" label="产品价格" align="center"></el-table-column>
+    		<el-table-column prop="OrderNumber" label="订单备注" align="center"></el-table-column>
+    		<el-table-column prop="OrderNumber" label="买号" align="center"></el-table-column>
+    		<el-table-column prop="OrderNumber" label="刷手" align="center"></el-table-column>
+    		<el-table-column prop="CountryId" label="任务开始时间" align="center"></el-table-column>
+    		<el-table-column prop="ProductPrice" label="任务状态" align="center"></el-table-column>
+        <el-table-column prop="ProductPrice" label="备注" align="center"></el-table-column>
+    	</el-table>
+    	<div class="mt30">
+    		<el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage" :page-sizes="[100, 200, 300, 500]" :page-size="10" layout="total, sizes, prev, pager, next, jumper" :total="total">
+    		</el-pagination>
+    	</div>
+    </div>
+    <div slot="footer" class="dialog-footer">
+      <el-button @click="taskListModel = false">关 闭</el-button>
+    </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -720,6 +939,8 @@
         paramModel: false,
         accountSearchModel: false,
         setBuyLevelModel: false,
+        accountViewModel: false,
+        taskListModel: false,
         tagData: {
           tag: ''
         },
@@ -731,12 +952,12 @@
             "CountryId": "美国",
             "Forum": "Amazon",
             "ProductByASIN": "777888999a",
-            "ProductPrice": 15.99,
+            "ProductPrice": 20,
             "ServiceType": "不留评",
             "OrderNote": "待付款",
             "Status": "已完成",
             "OrderNumber": 1314520,
-            "OrderTime": "2019-02-03T00:00:00",
+            "OrderTime": "2019-02-03 18:00:00",
             "Remark": ""
         },
         {
@@ -745,15 +966,15 @@
             "CountryId": "德国",
             "Forum": "Amazon",
             "ProductByASIN": "B07P6KVGF8",
-            "ProductPrice": 18.99,
+            "ProductPrice": 30,
             "ServiceType": "不留评",
             "OrderNote": "待确认",
             "Status": "已完成",
             "OrderNumber": 7758258,
-            "OrderTime": "2019-04-02T00:00:00",
+            "OrderTime": "2019-04-02 14:05:00",
             "Remark": ""
         }
-],
+        ],
         vertuaCardData: [], //虚拟卡
         selected: {},
         tabForm: {
@@ -866,7 +1087,30 @@
         },
         activeName: 'first',
         allNum: '0',
-        active: '1'
+        active: '1',
+        statusOptions: [{
+        	value: '1',
+        	label: '全部'
+        }, {
+        	value: '2',
+        	label: '待购买'
+        }, {
+        	value: '3',
+        	label: '待发货'
+        }, {
+        	value: '4',
+        	label: '待收货'
+        }, {
+        	value: '5',
+        	label: '待评价'
+        }, {
+        	value: '6',
+        	label: '已完成'
+        }, {
+        	value: '7',
+        	label: '订单异常'
+        }],
+        statusValue: '1'
       }
     },
     components: {
@@ -1120,6 +1364,19 @@
         let _this = this;
         _this.addTagModel = true;
       },
+
+      //账号详情
+      accountViewModelShow(index, row) {
+        let _this = this
+        _this.accountViewModel = true
+      },
+
+      //任务总数
+      taskListModelShow(index, row) {
+        let _this = this
+        _this.taskListModel = true
+      },
+
       getAllData() {
         let _this = this
         _this.active = 1
