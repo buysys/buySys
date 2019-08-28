@@ -62,13 +62,6 @@
         </div>
       </el-col>
     </el-row>
-    <el-row :gutter="20" class="mt20">
-      <el-col :span="24">
-        <div class="itemBg">
-          <div id="container5" style="width: 100%;height: 320px"></div>
-        </div>
-      </el-col>
-    </el-row>
     <el-row :gutter="20" class="mt20 relative">
       <div class="chooseDate">
         <el-date-picker v-model="value4" type="month" placeholder="请选择月份">
@@ -128,7 +121,6 @@
       this.resize()
       this.orderList()
       this.orderError()
-      this.getReviewCount()
       this.loseCommit()
       this.limitCommit()
       this.closeAccount()
@@ -419,84 +411,14 @@
           ]
         })
       },
-      // 每日限评数统计报表
-      getReviewCount() {
-        var dom = document.getElementById('container5')
-        var myChart = echarts.init(dom)
-        myChart.setOption({
-          title: {
-            text: '每日限评数统计报表'
-          },
-          tooltip: {
-            trigger: 'axis'
-          },
-          legend: {
-            data: ['邮件营销', '联盟广告', '视频广告', '直接访问', '搜索引擎']
-          },
-          grid: {
-            left: '3%',
-            right: '4%',
-            bottom: '3%',
-            containLabel: true
-          },
-          toolbox: {
-            feature: {
-              saveAsImage: {}
-            }
-          },
-          xAxis: {
-            type: 'category',
-            boundaryGap: false,
-            data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
-          },
-          yAxis: {
-            type: 'value'
-          },
-          series: [{
-              smooth: true,
-              name: '邮件营销',
-              type: 'line',
-              stack: '总量',
-              data: [2120, 132, 101, 1234, 90, 230, 210]
-            },
-            {
-              smooth: true,
-              name: '联盟广告',
-              type: 'line',
-              stack: '总量',
-              data: [220, 182, 191, 2234, 290, 330, 310]
-            },
-            {
-              smooth: true,
-              name: '视频广告',
-              type: 'line',
-              stack: '总量',
-              data: [150, 232, 2201, 154, 190, 1130, 410]
-            },
-            {
-              smooth: true,
-              name: '直接访问',
-              type: 'line',
-              stack: '总量',
-              data: [320, 1132, 301, 2234, 390, 330, 320]
-            },
-            {
-              smooth: true,
-              name: '搜索引擎',
-              type: 'line',
-              stack: '总量',
-              data: [820, 932, 901, 934, 1290, 2330, 1320]
-            }
-          ]
-        })
-      },
+
       // 每月掉评数量
       loseCommit() {
         var dom = document.getElementById('container6')
         var myChart = echarts.init(dom)
         myChart.setOption({
           title: {
-            text: '每月掉评数量'
+            text: '每日掉评数量'
           },
           tooltip: {
             trigger: 'axis',
@@ -567,7 +489,7 @@
         var myChart = echarts.init(dom)
         myChart.setOption({
           title: {
-            text: '每月账号限评'
+            text: '每日账号限评'
           },
           tooltip: {
             trigger: 'axis',
@@ -638,7 +560,7 @@
         var myChart = echarts.init(dom)
         myChart.setOption({
           title: {
-            text: '每月封号数量'
+            text: '每日封号数量'
           },
           tooltip: {
             trigger: 'axis',
