@@ -185,7 +185,7 @@
     <el-dialog :title="title" :visible.sync="addBuyNumModel" :close-on-click-modal="false" :before-close="closeModel" custom-class="fixed-dialog">
       <el-form :model="buyNumForm" ref="buyNumForm" :rules="editRules" class="demo-dynamic" label-width="140px"
         status-icon>
-        <div class="mb20 fz16">账号信息</div>
+        <div class="modalTitle mb20 fz16">账号信息</div>
         <el-row>
           <el-col :span='12' :xs='24'>
             <el-form-item label="平台" prop="platform">
@@ -278,6 +278,11 @@
               <el-date-picker v-model="buyNumForm.fbaMember" type="date" placeholder="选择到期时间" value-format="yyyy-MM-dd"
                 class="mb10"></el-date-picker>
             </el-form-item>
+          </el-col>
+          <el-col :span='12' :xs='24'>
+            <el-form-item label="学生会员到期">
+              <el-date-picker v-model="buyNumForm.stuMember" type="date" placeholder="选择到期时间" value-format="yyyy-MM-dd"
+                class="mb10"></el-date-picker>
             </el-form-item>
           </el-col>
         </el-row>
@@ -289,7 +294,7 @@
             <el-checkbox label="手机测试" name="手机测试"></el-checkbox>
           </el-checkbox-group>
         </el-form-item>
-        <div class="mb20 fz16">收货地址</div>
+        <div class="modalTitle mb20 fz16">收货地址</div>
         <el-row>
           <el-col :span='12' :xs='24'>
             <el-form-item label="姓名" class='inpWid'>
@@ -333,7 +338,7 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <div class="mb20 fz16">付款信息</div>
+        <div class="modalTitle mb20 fz16">付款信息</div>
         <el-row>
           <el-col :span='12' :xs='24'>
             <el-form-item label="信用卡类型">
@@ -378,7 +383,7 @@
             </el-col>
           </el-row>
         </div>
-        <div class="mb20 fz16">IP信息</div>
+        <div class="modalTitle mb20 fz16">IP信息</div>
         <el-row>
           <el-col :span='12' :xs='24'>
             <el-form-item label="注册IP" class='inpWid'>
@@ -681,7 +686,7 @@
     </el-dialog>
 
     <!--账户信息-->
-    <el-dialog title='账户详细信息' :visible.sync="accountViewModel" width="90%" custom-class="fixed-dialog">
+    <el-dialog title='账户详细信息' :visible.sync="accountViewModel" custom-class="fixed-dialog">
       <el-form class="demo-item">
         <div class="modalTitle mb20 fz16">账号信息</div>
         <el-row>
@@ -752,6 +757,11 @@
           </el-col>
           <el-col :span='12' :xs='24'>
             <el-form-item label="FBA会员到期：">
+              <span>2088-01-01</span>
+            </el-form-item>
+          </el-col>
+          <el-col :span='24' :xs='24'>
+            <el-form-item label="学生会员到期：">
               <span>2088-01-01</span>
             </el-form-item>
           </el-col>
@@ -835,7 +845,7 @@
           </el-col>
           <el-col :span='12' :xs='24'>
             <el-form-item label="单笔最大消费金额：">
-              <span>50000</span>
+              <span>$ 50000</span>
             </el-form-item>
           </el-col>
         </el-row>
@@ -1024,6 +1034,7 @@
           studentPwd: '',
           registerTime: '',
           fbaMember: '',
+          stuMember: '',
           tabs: [],
           username: '',
           phone: '',
@@ -1033,7 +1044,6 @@
           postalCode: '',
           address: '',
           CreditCardType: '',
-          //					shopingCard: '',
           masterCard: '',
           VirtualCreditCard: '',
           entityCard: '',

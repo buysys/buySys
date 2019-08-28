@@ -306,6 +306,11 @@
 							<span>http://www.pre.com</span>
 						</el-form-item>
 					</el-col>
+          <el-col :span="12" :xs="24" v-if="isFBA">
+            <el-form-item label="预估月销量：">
+              <span>2000</span>
+            </el-form-item>
+          </el-col>
 					<el-col :span='12' :xs='24'>
 						<el-form-item label="关键词类型：">
 							<span>产地是</span>
@@ -356,6 +361,11 @@
 							<span>https://www.sdfs.com</span>
 						</el-form-item>
 					</el-col>
+          <el-col :span="12" :xs="24" v-if="isFBA">
+            <el-form-item label="是否自发货：">
+              <span>是</span>
+            </el-form-item>
+          </el-col>
 				</el-row>
 				<el-row class="txtCenter title" style="padding:10px 0">
 					<el-col :span="8" :xs="8">
@@ -615,76 +625,68 @@
 							<span>erww</span>
 						</el-form-item>
 					</el-col>
+          <el-col :span='12' :xs='24'>
+          	<el-form-item label="类型：">
+          		<span>我要提问</span>
+          	</el-form-item>
+          </el-col>
 				</el-row>
-				<el-form-item label="类型：">
-					<span>我要提问</span>
-				</el-form-item>
-				<div class="problem">
-					<el-row class="mb10">
-						<el-col :span='6' :xs='8'>
-							<el-form-item label="国家">
-								<span></span>
-							</el-form-item>
-						</el-col>
-						<el-col :span='6' :xs='8'>
-							<el-form-item label="产品ASIN">
-								<span></span>
-							</el-form-item>
-						</el-col>
-						<el-col :span='12' :xs='8'>
-							<el-form-item label="问题">
-								<span></span>
-							</el-form-item>
-						</el-col>
-					</el-row>
-					<el-row class="items mb10">
-						<el-col :span='5' :xs="24" class="ml110">
-							<span>美国</span>
-						</el-col>
-						<el-col :span='6' :xs='24' class="minMb10 minMt10">
-							<span>AD324254356546</span>
-						</el-col>
-						<el-col :span='10' :xs="24">
-							<span>23424252</span>
-						</el-col>
-					</el-row>
-				</div>
-				<div class="answer disNone">
-					<el-row>
-						<el-col :span='6' :xs='24'>
-							<el-form-item label="国家">
-								<span></span>
-							</el-form-item>
-						</el-col>
-						<el-col :span='6' :xs='24'>
-							<el-form-item label="问题链接">
-								<span></span>
-							</el-form-item>
-						</el-col>
-						<el-col :span='12' :xs='24'>
-							<el-form-item label="回答">
-								<span></span>
-							</el-form-item>
-						</el-col>
-					</el-row>
-					<el-row class="ml110">
-						<el-col :span='6'>
-							<el-form-item>
-								<span>美国</span>
-							</el-form-item>
-						</el-col>
-						<el-col :span='7'>
-							<el-form-item>
-								<span>https://www.prwew.com</span>
-							</el-form-item>
-						</el-col>
-						<el-col :span='10'>
-							<el-form-item>
-								<span>23424252</span>
-							</el-form-item>
-						</el-col>
-					</el-row>
-				</div>
+				<el-row class="txtCenter problem" style="padding:10px 0">
+				  <el-col :span="6" :xs="6">
+				    <span>国家</span>
+				  </el-col>
+				  <el-col :span="6" :xs="6">
+				    <span>产品ASIN</span>
+				  </el-col>
+				  <el-col :span="6" :xs="6">
+				    <span>问题</span>
+				  </el-col>
+				  <el-col :span="6" :xs="6">
+				    <span>时间</span>
+				  </el-col>
+				</el-row>
+				<el-row class="txtCenter mt20 mb20">
+				  <el-col :span='6' :xs="6">
+				    <span>美国</span>
+				  </el-col>
+				  <el-col :span='6' :xs="6">
+				    <span>CD145645613</span>
+				  </el-col>
+				  <el-col :span='6' :xs="6">
+				    <span>练习时长两年半？</span>
+				  </el-col>
+				  <el-col :span='6' :xs="6">
+				    <span>2019-09-09</span>
+				  </el-col>
+				</el-row>
+				<el-row class="txtCenter" style="padding:10px 0">
+				  <el-col :span="6" :xs="6">
+				    <span>国家</span>
+				  </el-col>
+				  <el-col :span="6" :xs="6">
+				    <span>问题链接</span>
+				  </el-col>
+				  <el-col :span="6" :xs="6">
+				    <span>回答</span>
+				  </el-col>
+				  <el-col :span="6" :xs="6">
+				    <span>时间</span>
+				  </el-col>
+				</el-row>
+				<el-row class="txtCenter mt20 mb20">
+				  <el-col :span='6' :xs="6">
+				    <span>美国</span>
+				  </el-col>
+				  <el-col :span='6' :xs="6">
+				    <span>https://www.prwew.com</span>
+				  </el-col>
+				  <el-col :span='6' :xs="6">
+				    <span>是的</span>
+				  </el-col>
+				  <el-col :span='6' :xs="6">
+				    <span>2019-09-12</span>
+				  </el-col>
+				</el-row>
 			</el-form>
 			<div slot='footer' class='dialog-footer'>
 				<el-button @click='viewQaTaskDateilsModel=false'>关闭</el-button>
@@ -885,6 +887,7 @@
 				viewTaskDateilsModel: false,
 				viewQaTaskDateilsModel: false, //QA任务查看
 				viewLikeTaskDateilsModel: false, //点赞任务查看
+        isFBA: false, //是否为FBA订单
 				confirmBuyForm: {
 					buyTime: '',
 					orderNo: '',
@@ -1280,6 +1283,12 @@
 			viewTaskDetails(index, row) {
 				let _this = this
 				_this.viewTaskDateilsModel = true
+        let orderType = _this.searchForm.orderTypeValue
+          if(orderType == "1"){
+            _this.isFBA = true
+          }else{
+            _this.isFBA = false
+          }
 				let item = _this.orderPlaceData[index]
 				let num = item.Numbers
 				_this.orderTitle = '任务：' + num + '的详情信息'
