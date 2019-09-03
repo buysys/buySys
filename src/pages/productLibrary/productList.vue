@@ -1,27 +1,16 @@
 <template>
-	<div class="container">
-		<div class="mb20 fz14">
-			<span>首页</span>
-			<span>/</span>
-			<span>养号系统</span>
-			<span>/</span>
-			<span>产品库</span>
-		</div>
+	<div>
 		<el-collapse-transition>
 			<div class="searchBox mb20">
-				<!--<el-form ref="searchForm" :model="searchForm" class="form-item" label-width="80px">-->
-					<el-row>
-						<el-col :xs="24" :span="6">
-							<!--<el-form-item label="搜索内容">-->
-				<el-input v-model="searchkeywords" placeholder="请输入国家/产品ASIN/产品名称/产品关键词" class="disInline" style="display: inline-block;width: 420px;margin-bottom: 20px"></el-input>
-				<!--</el-form-item>-->
-						</el-col>
-						<el-col :xs="24" :span="4" class="ml20">
-							<el-button type="primary" size="medium">查询</el-button>
-							<el-button size="medium" @click="resetSearch">重置</el-button>
-						</el-col>
-					</el-row>
-				<!--</el-form>-->
+				<el-row>
+					<el-col :xs="24" :span="6">
+						<el-input v-model="searchkeywords" placeholder="请输入国家/产品ASIN/产品名称/产品关键词" class="disInline" style="display: inline-block;width: 420px;margin-bottom: 20px"></el-input>
+					</el-col>
+					<el-col :xs="24" :span="4" class="ml20">
+						<el-button type="primary" size="medium">查询</el-button>
+						<el-button size="medium" @click="resetSearch">重置</el-button>
+					</el-col>
+				</el-row>
 			</div>
 		</el-collapse-transition>
 		<div class="mb20">
@@ -142,7 +131,7 @@
 				total: 100,
 				editModal: false, //新增、修改
 				viewModal: false, // 查看
-				deleteModal: false,//删除
+				deleteModal: false, //删除
 				searchkeywords: '',
 				countryData: [{
 						country: '美国'
@@ -245,30 +234,30 @@
 				}
 			}
 		},
-//		computed: {
-//			// 模糊搜索
-//			tables() {
-//				const search = this.searchkeywords
-//				if(search) {
-//					return this.tableData.filter(data => {
-//						return Object.keys(data).some(key => {
-//							return String(data[key]).toLowerCase().indexOf(search) > -1
-//						})
-//					})
-//				}
-//				return this.tableData
-//			},
-//			// 总条数
-//			total() {
-//				return this.tables.length
-//			}
-//		},
-//		watch: {
-//			// 检测表格数据过滤变化，自动跳到第一页
-//			tables() {
-//				this.currentPage = 1
-//			}
-//		},
+		//		computed: {
+		//			// 模糊搜索
+		//			tables() {
+		//				const search = this.searchkeywords
+		//				if(search) {
+		//					return this.tableData.filter(data => {
+		//						return Object.keys(data).some(key => {
+		//							return String(data[key]).toLowerCase().indexOf(search) > -1
+		//						})
+		//					})
+		//				}
+		//				return this.tableData
+		//			},
+		//			// 总条数
+		//			total() {
+		//				return this.tables.length
+		//			}
+		//		},
+		//		watch: {
+		//			// 检测表格数据过滤变化，自动跳到第一页
+		//			tables() {
+		//				this.currentPage = 1
+		//			}
+		//		},
 		methods: {
 			//分页
 			handleSizeChange(val) {
@@ -291,7 +280,7 @@
 				_this.productForm = Object.assign({}, row)
 			},
 			//删除
-			deleteProductModal(index,row){
+			deleteProductModal(index, row) {
 				let _this = this
 				_this.deleteModal = true
 			},

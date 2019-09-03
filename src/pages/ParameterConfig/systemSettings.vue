@@ -1,8 +1,8 @@
 <template>
 	<div class="container">
 		<div class="mb20 fz14">
-      <span>首页</span>
-      <span>/</span>
+			<span>首页</span>
+			<span>/</span>
 			<span>系统设置</span>
 			<span>/</span>
 			<span>{{title}}</span>
@@ -17,35 +17,39 @@
 				<li :class="active === 6 ? 'active':''" @click="ipHandle">IP管理</li>
 				<li :class="active === 7 ? 'active':''" @click="autoShareHandle">自动分配</li>
 				<li :class="active === 8 ? 'active':''" @click="takeMoneyHandle">提现配置</li>
-        <li :class="active === 9 ? 'active':''" @click="salesEstimateHandle">销量预估</li>
+				<li :class="active === 9 ? 'active':''" @click="salesEstimateHandle">销量预估</li>
+				<li :class="active === 10 ? 'active':''" @click="numberSystemHandle">养号系统</li>
 			</ul>
 		</div>
-		<div v-show="serviceType">
+		<div v-show="active==1">
 			<serviceType></serviceType>
 		</div>
-		<div v-show="ParameterService">
+		<div v-show="active==2">
 			<ParameterService></ParameterService>
 		</div>
-		<div v-show="exchangeRate">
+		<div v-show="active==3">
 			<exchangeRate></exchangeRate>
 		</div>
-		<div v-show="countryManage">
+		<div v-show="active==4">
 			<countryManage></countryManage>
 		</div>
-		<div v-show="platform">
+		<div v-show="active==5">
 			<platform></platform>
 		</div>
-		<div v-show="dynamicIP">
+		<div v-show="active==6">
 			<dynamicIP></dynamicIP>
 		</div>
-		<div v-show="autoShare">
+		<div v-show="active==7">
 			<autoShare></autoShare>
 		</div>
-		<div v-show="takeMoneySet">
+		<div v-show="active==8">
 			<takeMoneySet></takeMoneySet>
 		</div>
-    <div v-show="salesEstimate">
+		<div v-show="active==9">
 			<salesEstimate></salesEstimate>
+		</div>
+		<div v-show="active==10">
+			<number-sys></number-sys>
 		</div>
 
 	</div>
@@ -60,7 +64,8 @@
 	import dynamicIP from './dynamicIP'
 	import autoShare from './autoShare'
 	import takeMoneySet from './takeMoneySet'
-  import salesEstimate from './salesEstimate'
+	import salesEstimate from './salesEstimate'
+	import numberSys from '../productLibrary/productList'
 	export default {
 		name: 'systemSettings',
 		data() {
@@ -73,7 +78,7 @@
 				dynamicIP: false,
 				autoShare: false,
 				takeMoneySet: false,
-        salesEstimate: false,
+				salesEstimate: false,
 				active: 1,
 				title: '服务类型'
 			}
@@ -87,136 +92,62 @@
 			dynamicIP,
 			autoShare,
 			takeMoneySet,
-      salesEstimate
+			salesEstimate,
+			numberSys
 		},
 		methods: {
 			serviceHandle() {
 				let _this = this
-				_this.serviceType = true
-				_this.ParameterService = false
-				_this.exchangeRate = false
-				_this.countryManage = false
-				_this.platform = false
-				_this.dynamicIP = false
-				_this.autoShare = false
-				_this.takeMoneySet = false
-        _this.salesEstimate = false
 				_this.active = 1
 				_this.title = '服务类型'
 			},
 			ParameterHandle() {
 				let _this = this
-				_this.serviceType = false
-				_this.ParameterService = true
-				_this.exchangeRate = false
-				_this.countryManage = false
-				_this.platform = false
-				_this.dynamicIP = false
-				_this.autoShare = false
-				_this.takeMoneySet = false
-        _this.salesEstimate = false
 				_this.active = 2
 				_this.title = '增值服务费'
 			},
 			exchangeHandle() {
 				let _this = this
-				_this.serviceType = false
-				_this.ParameterService = false
-				_this.exchangeRate = true
-				_this.countryManage = false
-				_this.platform = false
-				_this.dynamicIP = false
-				_this.autoShare = false
-				_this.takeMoneySet = false
-        _this.salesEstimate = false
 				_this.active = 3
 				_this.title = '货币汇率'
 			},
 			countryHandle() {
 				let _this = this
-				_this.serviceType = false
-				_this.ParameterService = false
-				_this.exchangeRate = false
-				_this.countryManage = true
-				_this.platform = false
-				_this.dynamicIP = false
-				_this.autoShare = false
-				_this.takeMoneySet = false
-        _this.salesEstimate = false
 				_this.active = 4
 				_this.title = '国家管理'
 			},
 			platformHandle() {
 				let _this = this
-				_this.serviceType = false
-				_this.ParameterService = false
-				_this.exchangeRate = false
-				_this.countryManage = false
-				_this.platform = true
-				_this.dynamicIP = false
-				_this.autoShare = false
-				_this.takeMoneySet = false
-        _this.salesEstimate = false
 				_this.active = 5
 				_this.title = '平台管理'
 			},
 			ipHandle() {
 				let _this = this
-				_this.serviceType = false
-				_this.ParameterService = false
-				_this.exchangeRate = false
-				_this.countryManage = false
-				_this.platform = false
-				_this.dynamicIP = true
-				_this.autoShare = false
-				_this.takeMoneySet = false
-        _this.salesEstimate = false
 				_this.active = 6
 				_this.title = 'IP管理'
 			},
 			autoShareHandle() {
 				let _this = this
-				_this.serviceType = false
-				_this.ParameterService = false
-				_this.exchangeRate = false
-				_this.countryManage = false
-				_this.platform = false
-				_this.dynamicIP = false
-				_this.autoShare = true
-				_this.takeMoneySet = false
-        _this.salesEstimate = false
 				_this.active = 7
 				_this.title = '自动分配'
 			},
 			takeMoneyHandle() {
 				let _this = this
-				_this.serviceType = false
-				_this.ParameterService = false
-				_this.exchangeRate = false
-				_this.countryManage = false
-				_this.platform = false
-				_this.dynamicIP = false
-				_this.autoShare = false
-				_this.takeMoneySet = true
-        _this.salesEstimate = false
 				_this.active = 8
 				_this.title = '提现配置'
 			},
-      salesEstimateHandle() {
-      	let _this = this
-      	_this.serviceType = false
-      	_this.ParameterService = false
-      	_this.exchangeRate = false
-      	_this.countryManage = false
-      	_this.platform = false
-      	_this.dynamicIP = false
-      	_this.autoShare = false
-      	_this.takeMoneySet = false
-        _this.salesEstimate = true
-      	_this.active = 9
-      	_this.title = '销量预估'
-      }
-		},
+			salesEstimateHandle() {
+				let _this = this
+				_this.active = 9
+				_this.title = '销量预估'
+			},
+			//养号系统
+			numberSystemHandle(){
+				let _this = this
+				_this.active = 10
+				_this.title = '养号系统'
+			}
+		}
 	}
 </script>
 
