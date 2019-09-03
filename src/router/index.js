@@ -215,6 +215,14 @@ export default new Router({
 					meta: {
 						title: '系统设置'
 					}
+				},
+				{
+					path: '/productList',
+					name: 'productList',
+					component: resolve => require(['../pages/productLibrary/productList.vue'], resolve),
+					meta: {
+						title: '养号系统'
+					}
 				}
 			]
 		},

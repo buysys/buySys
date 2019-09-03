@@ -89,6 +89,7 @@
 				<li :class="activeOn == 1 ?'activeOn':''" @click='daipj'>全部<span>(3)</span></li>
 				<li :class="activeOn == 2 ?'activeOn':''" @click='Evaluated'>已填评价<span>(0)</span></li>
 				<li :class="activeOn == 3 ?'activeOn':''" @click='toEvaluated'>待填评价<span>(0)</span></li>
+				<li :class="activeOn == 4 ?'activeOn':''" @click='errorEvaluated'>异常评价<span>(0)</span></li>
 			</ul>
 		</div>
 		<div class="mt10">
@@ -1311,6 +1312,7 @@
 				let _this = this
 				_this.checkBoxData = val
 				let checkNum = _this.checkBoxData.length
+				console.log(_this.test)
 				_this.test.test1 = val[0].countryId
 				_this.test.numbers = val[0].Numbers
 				if(checkNum !== 1) {
@@ -1379,6 +1381,11 @@
 			toEvaluated() {
 				let _this = this
 				_this.activeOn = 3
+			},
+			//异常评价
+			errorEvaluated() {
+				let _this = this
+				_this.activeOn = 4
 			},
 			// 异常订单
 			errData() {

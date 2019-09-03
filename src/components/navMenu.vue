@@ -13,6 +13,7 @@
 				<el-menu-item index="CardManage"><i class="el-icon-bank-card"></i>卡片管理</el-menu-item>
 				<el-menu-item index="customerList"><i class="el-icon-s-custom"></i>客户管理</el-menu-item>
 				<el-menu-item index="userManage"><i class="el-icon-user"></i>用户管理</el-menu-item>
+				<el-menu-item index="productList"><i class="el-icon-s-order"></i>养号系统</el-menu-item>
 				<el-menu-item index="systemSettings"><i class="el-icon-setting"></i>系统设置</el-menu-item>
 				<el-submenu index="11" class="userInfoBox">
 					<template slot="title"><i class="el-icon-s-custom"></i>kyumin</template>
