@@ -70,15 +70,6 @@
 		name: 'systemSettings',
 		data() {
 			return {
-				serviceType: true,
-				ParameterService: false,
-				exchangeRate: false,
-				countryManage: false,
-				platform: false,
-				dynamicIP: false,
-				autoShare: false,
-				takeMoneySet: false,
-				salesEstimate: false,
 				active: 1,
 				title: '服务类型'
 			}
