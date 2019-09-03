@@ -37,10 +37,10 @@
 					</template>
 				</el-table-column>
 				<el-table-column prop="CountryId" label="姓名" align="center"></el-table-column>
-				<el-table-column prop="CountryId" label="性别" align="center"></el-table-column>
 				<el-table-column prop="OrderNumber" label="手机" align="center"></el-table-column>
 				<el-table-column prop="OrderNumber" label="邮箱" align="center"></el-table-column>
 				<el-table-column prop="OrderNumber" label="微信" align="center"></el-table-column>
+        <el-table-column prop="OrderNumber" label="QQ" align="center"></el-table-column>
 				<el-table-column prop="CountryId" label="所属用户" align="center"></el-table-column>
 				<el-table-column prop="ProductPrice" label="余额" align="center" class-name="red"></el-table-column>
 				<el-table-column prop="OrderNumber" label="最后登录IP" align="center"></el-table-column>
@@ -75,12 +75,16 @@
 				<el-form-item label="确认密码" prop="password2">
 					<el-input v-model="editForm.password2"></el-input>
 				</el-form-item>
-				<el-form-item label="性别">
-					<template>
-            <el-radio v-model="editForm.sex" label="0">保密</el-radio>
-						<el-radio v-model="editForm.sex" label="1">男</el-radio>
-						<el-radio v-model="editForm.sex" label="2">女</el-radio>
-					</template>
+        <el-form-item label="所属用户" prop="ssUser">
+        	<el-select v-model="editForm.ssUser" placeholder="请选择所属用户" style="width: 100%;">
+        	    <el-option
+        	      v-for="item in ssUserOptions"
+        	      :key="item.value"
+        	      :label="item.label"
+        	      :value="item.value">
+        	    </el-option>
+        	  </el-select>
+        </el-form-item>
 				</el-form-item>
 				<el-form-item label="手机号" prop="phone">
 					<el-input v-model="editForm.phone"></el-input>
@@ -91,6 +95,9 @@
 				<el-form-item label="微信">
 					<el-input v-model="editForm.weixin"></el-input>
 				</el-form-item>
+        <el-form-item label="QQ">
+        	<el-input v-model="editForm.qq"></el-input>
+        </el-form-item>
 				<el-form-item label="备注">
 					<el-input type="textarea" v-model="editForm.remark"></el-input>
 				</el-form-item>
@@ -107,11 +114,11 @@
 					<el-col :span="12" :xs="24">
 						<el-form-item label="客户编码："><span>{{viewForm.userNo}}</span></el-form-item>
 					</el-col>
+          <el-col :span="12" :xs="24">
+          	<el-form-item label="所属用户："><span>{{viewForm.ssUser}}</span></el-form-item>
+          </el-col>
 					<el-col :span="12" :xs="24">
 						<el-form-item label="姓名："><span>{{viewForm.name}}</span></el-form-item>
-					</el-col>
-					<el-col :span="12" :xs="24">
-						<el-form-item label="性别："><span>{{viewForm.sex}}</span></el-form-item>
 					</el-col>
 					<el-col :span="12" :xs="24">
 						<el-form-item label="手机号："><span>{{viewForm.phone}}</span></el-form-item>
@@ -123,7 +130,7 @@
 						<el-form-item label="微信："><span>{{viewForm.weixin}}</span></el-form-item>
 					</el-col>
 					<el-col :span="12" :xs="24">
-						<el-form-item label="所属用户："><span>{{viewForm.suoShuUser}}</span></el-form-item>
+						<el-form-item label="QQ："><span>{{viewForm.qq}}</span></el-form-item>
 					</el-col>
 					<el-col :span="12" :xs="24">
 						<el-form-item label="最后登录IP："><span>{{viewForm.lastLoginIP}}</span></el-form-item>
@@ -230,6 +237,16 @@
 				currentPage: 1,
 				pageSize: '0',
 				total: 100,
+        ssUserOptions: [{
+          value: '001',
+          label: '张三'
+        }, {
+          value: '002',
+          label: '李四'
+        }, {
+          value: '003',
+          label: '王五'
+        }],
 				searchForm: {
 					platform: '全部',
 					searchkeywords: ''
@@ -238,14 +255,14 @@
 					name: '',
 					password: '',
 					password2: '',
-					sex: '0',
 					phone: '',
 					email: '',
 					weixin: '',
 					qq: '',
 					canLogin: '1',
 					remark: '',
-          money: ''
+          money: '',
+          ssUser: ''
 				},
 				viewForm: {
 					userName: '',
@@ -253,7 +270,6 @@
 					name: '',
 					password: '',
 					password2: '',
-					sex: '1',
 					phone: '',
 					email: '',
 					weixin: '',
@@ -264,7 +280,8 @@
 					lastLoginTime: '',
 					isEditAccount: '',
 					createTime: '',
-					remark: ''
+					remark: '',
+          ssUser: ''
 				},
 				editRules: {
 					password: [{
@@ -277,6 +294,11 @@
 						message: '请输入确认密码',
 						trigger: 'blur'
 					}],
+          ssUser: [{
+          	required: true,
+          	message: '请选择所属用户',
+          	trigger: 'blur'
+          }],
 					phone: [{
 						required: true,
 						message: '请输入手机号',
@@ -359,7 +381,6 @@
 				_this.editForm.name = item.CountryId;
 				_this.editForm.password = item.CountryId;
 				_this.editForm.password2 = item.CountryId;
-				_this.editForm.sex = '1';
 				_this.editForm.phone = item.CountryId;
 				_this.editForm.email = item.CountryId;
 				_this.editForm.weixin = item.CountryId;
@@ -380,7 +401,6 @@
 					_this.viewForm.name = item.CountryId,
 					_this.viewForm.password = item.CountryId,
 					_this.viewForm.password2 = item.CountryId,
-					_this.viewForm.sex = '男',
 					_this.viewForm.phone = item.CountryId,
 					_this.viewForm.email = item.CountryId,
 					_this.viewForm.weixin = item.CountryId,
@@ -391,7 +411,8 @@
 					_this.viewForm.lastLoginTime = item.CountryId,
 					_this.viewForm.isEditAccount = item.CountryId,
 					_this.viewForm.createTime = item.CountryId,
-					_this.viewForm.remark = item.CountryId
+					_this.viewForm.remark = item.CountryId,
+          _this.viewForm.ssUser = "张三"
 			},
 			// 切换状态
 			changeStatus(index, row) {
