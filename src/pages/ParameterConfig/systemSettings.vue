@@ -17,6 +17,7 @@
 				<li :class="active === 6 ? 'active':''" @click="ipHandle">IP管理</li>
 				<li :class="active === 7 ? 'active':''" @click="autoShareHandle">自动分配</li>
 				<li :class="active === 8 ? 'active':''" @click="takeMoneyHandle">提现配置</li>
+        <li :class="active === 9 ? 'active':''" @click="salesEstimateHandle">销量预估</li>
 			</ul>
 		</div>
 		<div v-show="serviceType">
@@ -43,6 +44,10 @@
 		<div v-show="takeMoneySet">
 			<takeMoneySet></takeMoneySet>
 		</div>
+    <div v-show="salesEstimate">
+			<salesEstimate></salesEstimate>
+		</div>
+
 	</div>
 </template>
 
@@ -55,6 +60,7 @@
 	import dynamicIP from './dynamicIP'
 	import autoShare from './autoShare'
 	import takeMoneySet from './takeMoneySet'
+  import salesEstimate from './salesEstimate'
 	export default {
 		name: 'systemSettings',
 		data() {
@@ -67,6 +73,7 @@
 				dynamicIP: false,
 				autoShare: false,
 				takeMoneySet: false,
+        salesEstimate: false,
 				active: 1,
 				title: '服务类型'
 			}
@@ -79,7 +86,8 @@
 			platform,
 			dynamicIP,
 			autoShare,
-			takeMoneySet
+			takeMoneySet,
+      salesEstimate
 		},
 		methods: {
 			serviceHandle() {
@@ -92,6 +100,7 @@
 				_this.dynamicIP = false
 				_this.autoShare = false
 				_this.takeMoneySet = false
+        _this.salesEstimate = false
 				_this.active = 1
 				_this.title = '服务类型'
 			},
@@ -105,6 +114,7 @@
 				_this.dynamicIP = false
 				_this.autoShare = false
 				_this.takeMoneySet = false
+        _this.salesEstimate = false
 				_this.active = 2
 				_this.title = '增值服务费'
 			},
@@ -118,6 +128,7 @@
 				_this.dynamicIP = false
 				_this.autoShare = false
 				_this.takeMoneySet = false
+        _this.salesEstimate = false
 				_this.active = 3
 				_this.title = '货币汇率'
 			},
@@ -131,6 +142,7 @@
 				_this.dynamicIP = false
 				_this.autoShare = false
 				_this.takeMoneySet = false
+        _this.salesEstimate = false
 				_this.active = 4
 				_this.title = '国家管理'
 			},
@@ -144,6 +156,7 @@
 				_this.dynamicIP = false
 				_this.autoShare = false
 				_this.takeMoneySet = false
+        _this.salesEstimate = false
 				_this.active = 5
 				_this.title = '平台管理'
 			},
@@ -157,6 +170,7 @@
 				_this.dynamicIP = true
 				_this.autoShare = false
 				_this.takeMoneySet = false
+        _this.salesEstimate = false
 				_this.active = 6
 				_this.title = 'IP管理'
 			},
@@ -170,6 +184,7 @@
 				_this.dynamicIP = false
 				_this.autoShare = true
 				_this.takeMoneySet = false
+        _this.salesEstimate = false
 				_this.active = 7
 				_this.title = '自动分配'
 			},
@@ -183,9 +198,24 @@
 				_this.dynamicIP = false
 				_this.autoShare = false
 				_this.takeMoneySet = true
+        _this.salesEstimate = false
 				_this.active = 8
 				_this.title = '提现配置'
-			}
+			},
+      salesEstimateHandle() {
+      	let _this = this
+      	_this.serviceType = false
+      	_this.ParameterService = false
+      	_this.exchangeRate = false
+      	_this.countryManage = false
+      	_this.platform = false
+      	_this.dynamicIP = false
+      	_this.autoShare = false
+      	_this.takeMoneySet = false
+        _this.salesEstimate = true
+      	_this.active = 9
+      	_this.title = '销量预估'
+      }
 		},
 	}
 </script>

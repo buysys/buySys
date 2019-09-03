@@ -96,7 +96,7 @@
 	import FileSaver from 'file-saver'
 	import XLSX from 'xlsx'
 	export default {
-		name: 'customer',
+		name: 'autoShare',
 		data() {
 			return {
 				loading: true,

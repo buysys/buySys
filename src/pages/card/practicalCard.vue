@@ -33,18 +33,16 @@
 		<div class="mt10">
 			<el-table :data="buyNumData" id="exportOrder" border style="width: 100%" @selection-change="handleSelectionChange">
 				<el-table-column type="selection"></el-table-column>
-				<el-table-column prop="Numbers" label="主卡卡号" align="center" sortable></el-table-column>
-				<el-table-column prop="CountryId" label="名称" align="center" sortable></el-table-column>
-				<el-table-column prop="ProductByASIN" label="有效期" align="center" sortable></el-table-column>
-				<el-table-column prop="ProductByASIN" label="安全码" align="center" sortable></el-table-column>
-				<el-table-column prop="ProductPrice" label="姓名" align="center" sortable></el-table-column>
-				<el-table-column prop="ServiceType" label="总额度($)" align="center" sortable></el-table-column>
-				<el-table-column prop="OrderNote" label="已用额度($)" align="center" sortable></el-table-column>
-				<el-table-column prop="OrderNote" label="剩余额度($)" align="center" sortable></el-table-column>
-				<el-table-column prop="OrderNote" label="累积使用($)" align="center" sortable></el-table-column>
-				<el-table-column prop="OrderNote" label="状态" align="center" sortable></el-table-column>
-				<el-table-column prop="OrderNote" label="买家账号" align="center" sortable></el-table-column>
-				<el-table-column prop="Stautuy" label="买号状态" align="center" sortable></el-table-column>
+				<el-table-column prop="Numbers" label="卡号" align="center"></el-table-column>
+				<el-table-column prop="CountryId" label="名称" align="center"></el-table-column>
+				<el-table-column prop="ProductByASIN" label="有效期" align="center"></el-table-column>
+				<el-table-column prop="ProductByASIN" label="安全码" align="center"></el-table-column>
+				<el-table-column prop="ProductPrice" label="姓名" align="center"></el-table-column>
+				<el-table-column prop="OrderNote" label="剩余额度($)" align="center"></el-table-column>
+				<el-table-column prop="OrderNote" label="累积使用($)" align="center"></el-table-column>
+				<el-table-column prop="OrderNote" label="状态" align="center"></el-table-column>
+				<el-table-column prop="OrderNote" label="买家账号" align="center"></el-table-column>
+				<el-table-column prop="OrderNote" label="买号状态" align="center"></el-table-column>
 				<el-table-column prop="Status" label="操作" align="center">
 					<template slot-scope="scope">
 						<el-button size="small" type="primary" @click="repaymentHandle">还款
@@ -58,7 +56,7 @@
 			</div>
 		</div>
 		<!--新建、修改-->
-		<el-dialog :title="title" :visible.sync="cardModel" :close-on-click-modal="false" width='80%' :before-close="closeModel">
+		<el-dialog :title="title" :visible.sync="cardModel" :close-on-click-modal="false" :before-close="closeModel">
 			<el-form :model="cardForm" ref="cardForm" :rules="editRules" class="demo-dynamic" label-width="88px" status-icon>
 				<el-row>
 					<el-col :span='12' :xs='24'>
@@ -76,7 +74,6 @@
 					<el-col :span='12' :xs='24'>
 						<el-form-item label="有效期" prop="validity">
 							<el-input v-model="cardForm.validity" class='inpWid'></el-input>
-							<!--<el-date-picker v-model="cardForm.validity" type="date" placeholder="选择日期" size="large"></el-date-picker>-->
 						</el-form-item>
 					</el-col>
 					<el-col :span='12' :xs='24'>
@@ -89,11 +86,6 @@
 					<el-col :span='12' :xs='24'>
 						<el-form-item label="姓名" prop="userName">
 							<el-input v-model="cardForm.userName" class='inpWid'></el-input>
-						</el-form-item>
-					</el-col>
-					<el-col :span='12' :xs='24'>
-						<el-form-item label="总额度" prop="totalAmount">
-							<el-input v-model="cardForm.totalAmount" class='inpWid'></el-input>
 						</el-form-item>
 					</el-col>
 				</el-row>
@@ -134,7 +126,7 @@
 			</div>
 		</el-dialog>
 		<!--修改额度-->
-		<el-dialog title="请输入信用卡额度" :visible.sync="quotaModel" :close-on-click-modal="false" :before-close="closeQuotaModel" width="30%">
+		<el-dialog title="请输入信用卡剩余额度" :visible.sync="quotaModel" :close-on-click-modal="false" :before-close="closeQuotaModel" width="30%">
 			<el-form :model="quotaForm" ref="quotaForm" class="demo-dynamic">
 				<el-form-item prop="amount">
 					<el-input v-model="quotaForm.amount"></el-input>
@@ -238,11 +230,6 @@
 					names: [{
 						required: true,
 						message: '请输入姓名',
-						trigger: 'blur'
-					}],
-					totalAmount: [{
-						required: true,
-						message: '请输入总额度',
 						trigger: 'blur'
 					}]
 				}
