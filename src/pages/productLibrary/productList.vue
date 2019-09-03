@@ -43,6 +43,7 @@
 				<el-table-column label="操作" align="center" width="200">
 					<template slot-scope="scope">
 						<el-button size="small" type="primary" @click="editProductModal(scope.$index,scope.row)">编辑</el-button>
+						<el-button size="small" type="danger" @click="deleteProductModal(scope.$index,scope.row)">删除</el-button>
 					</template>
 				</el-table-column>
 			</el-table>
@@ -118,6 +119,14 @@
 				<el-button @click="closeModel">关 闭</el-button>
 			</div>
 		</el-dialog>
+		<!--删除-->
+		<el-dialog title='温馨提示' :visible.sync='deleteModal' width='30%'>
+			<div class="el-dialog--center">是否确定删除?</div>
+			<span slot='footer' class="dialog-footer">
+				<el-button type='primary'>是</el-button>
+				<el-button @click='deleteModal=false'>否</el-button>
+			</span>
+		</el-dialog>
 	</div>
 </template>
 
@@ -131,8 +140,9 @@
 				currentPage: 1,
 				pageSize: '0',
 				total: 100,
-				editModal: false,
-				viewModal: false,
+				editModal: false, //新增、修改
+				viewModal: false, // 查看
+				deleteModal: false,//删除
 				searchkeywords: '',
 				countryData: [{
 						country: '美国'
@@ -279,6 +289,11 @@
 				_this.editModal = true
 				_this.title = '修改'
 				_this.productForm = Object.assign({}, row)
+			},
+			//删除
+			deleteProductModal(index,row){
+				let _this = this
+				_this.deleteModal = true
 			},
 			// 重置
 			resetSearch() {
