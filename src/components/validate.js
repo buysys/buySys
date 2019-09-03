@@ -1,6 +1,6 @@
 const flagNum = (rule, value, callback) => {
   if (value.length > 10) {
-    callback(new Error('标签不能超过10个字符'))
+    callback(new Error('不能超过10个字符'))
   } else {
     callback()
   }
