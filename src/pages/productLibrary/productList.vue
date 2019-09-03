@@ -24,6 +24,7 @@
 					</template>
 				</el-table-column>
 				<el-table-column prop="countryId" label="国家" align="center"></el-table-column>
+				<el-table-column prop="shopName" label="店铺" align="center"></el-table-column>
 				<el-table-column prop="productASIN" label="产品ASIN" align="center"></el-table-column>
 				<el-table-column prop="productName" label="产品名称" align="center"></el-table-column>
 				<el-table-column prop="productPrice" label="产品价格" align="center"></el-table-column>
@@ -53,6 +54,9 @@
 					<el-select v-model="productForm.countryId" placeholder="请选择">
 						<el-option v-for="(item,index) in countryData" :key="index" :value="index" :label="item.country"></el-option>
 					</el-select>
+				</el-form-item>
+				<el-form-item label="店铺" prop="shopName">
+					<el-input v-model="productForm.shopName" placeholder="请输入店铺"></el-input>
 				</el-form-item>
 				<el-form-item label="产品ASIN" prop="productASIN">
 					<el-input maxlength="10" v-model="productForm.productASIN" show-word-limit placeholder="长度为10的数字和字母组合"></el-input>
@@ -86,6 +90,9 @@
 					</el-col>
 					<el-col :span="12" :xs="24">
 						<el-form-item label="国家："><span>{{productForm.countryId}}</span></el-form-item>
+					</el-col>
+					<el-col :span="12" :xs="24">
+						<el-form-item label="店铺："><span>{{productForm.shopName}}</span></el-form-item>
 					</el-col>
 					<el-col :span="12" :xs="24">
 						<el-form-item label="产品ASIN："><span>{{productForm.productASIN}}</span></el-form-item>
@@ -150,6 +157,7 @@
 				tableData: [{
 						"platform": "Amazon",
 						"countryId": "美国",
+						"shopName":"维达",
 						"productName": "抽纸",
 						"productASIN": "777888999a",
 						"productPrice": 15.99,
@@ -159,6 +167,7 @@
 					{
 						"platform": "Amazon",
 						"countryId": "德国",
+						"shopName":"维达",
 						"productASIN": "B07P6KVGF8",
 						"productName": "大米",
 						"productPrice": 18.99,
@@ -168,6 +177,7 @@
 				],
 				productForm: {
 					platform: '',
+					shopName:'',
 					countryId: '',
 					productASIN: '',
 					productName: '',
@@ -188,12 +198,17 @@
 					],
 					countryId: [{
 						required: true,
-						message: '请输选择国家',
+						message: '请选择国家',
+						trigger: 'change'
+					}],
+					shopName: [{
+						required: true,
+						message: '请输入店铺',
 						trigger: 'change'
 					}],
 					platform: [{
 						required: true,
-						message: '请输选择平台',
+						message: '请选择平台',
 						trigger: 'change'
 					}],
 					productASIN: [{
