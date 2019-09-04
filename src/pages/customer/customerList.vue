@@ -26,7 +26,10 @@
 			<el-button type="success" size="medium" @click="addModelShow"><i class="el-icon-plus"></i>新增</el-button>
 			<el-button type="primary" size="medium" @click="editModelShow" :disabled="editDisabled"><i class="el-icon-edit-outline"></i>修改</el-button>
 			<el-button type="warning" size="medium" @click="exportExcel"><i class="el-icon-upload2"></i>导出</el-button>
-      <el-button size="small" type="success" @click="TxModelShow" style="float: right;">提现记录</el-button>
+      <span style="float: right;">
+      <el-button size="small" type="success" @click="CzModelShow">充值记录</el-button>
+      <el-button size="small" type="danger" @click="TxModelShow" style="margin-left: 10px;">提现记录</el-button>
+      </span>
 		</div>
 		<div class="mt10">
 			<el-table :data="tableData" id="exportData" style="width: 100%" :header-cell-style="{background:'#fafafa'}" @selection-change="handleSelectionChange">
@@ -180,6 +183,13 @@
     		<el-button @click="RechargeModel=false" size="medium">取消</el-button>
     	</div>
     </el-dialog>
+    <!-- 充值记录 -->
+    <el-dialog title="充值记录" :visible.sync="CzModel" :close-on-click-modal="false" width="90%">
+    	<rechargeRecord></rechargeRecord>
+    <div slot="footer" class="dialog-footer">
+    <el-button @click="CzModel = false">关 闭</el-button>
+    </div>
+    </el-dialog>
 	</div>
 </template>
 
@@ -190,6 +200,8 @@
   import validate from '../../components/validate'
 	import OrderLog from '../../common/OrderLog'
 	import takeMoneyList from './takeMoneyList'
+  import rechargeRecord from './rechargeRecord'
+
 	export default {
 		name: 'customer',
 		data() {
@@ -200,6 +212,7 @@
 				logModel: false, //日志
 				TxModel: false, //提现记录
         RechargeModel:false, //充值
+        CzModel: false, //充值记录
 				editDisabled: true,
 				tableData: [{
 						"Numbers": "20190605105636229596",
@@ -318,7 +331,8 @@
 		},
 		components: {
 			OrderLog,
-			takeMoneyList
+			takeMoneyList,
+      rechargeRecord
 		},
 		created() {
 //			this.getAllData()
@@ -431,11 +445,16 @@
 				let _this = this
 				_this.logModel = true
 			},
-			// 提现订单
+			// 提现记录
 			TxModelShow() {
 				let _this = this
 				_this.TxModel = true
 			},
+      // 提现记录
+      CzModelShow() {
+      	let _this = this
+      	_this.CzModel = true
+      },
 			//关闭新增修改弹窗
 			closeModel() {
 				let _this = this
