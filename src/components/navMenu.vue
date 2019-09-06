@@ -17,9 +17,11 @@
 				<el-submenu index="11" class="userInfoBox">
 					<template slot="title"><i class="el-icon-s-custom"></i>kyumin</template>
 					<el-menu-item index="personalData">个人资料</el-menu-item>
-				</el-submenu>
-				<el-menu-item index="12" class="loginOut" @click="loginOut"><i class="el-icon-setting"></i>退出
+					<el-menu-item index="12" @click="loginOut">退出
 				</el-menu-item>
+				</el-submenu>
+				<!--<el-menu-item index="12" class="loginOut" @click="loginOut"><i class="el-icon-setting"></i>退出
+				</el-menu-item>-->
 			</el-menu>
 		</div>
 	</div>

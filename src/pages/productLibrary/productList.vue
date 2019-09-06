@@ -17,7 +17,7 @@
 			<el-button type="success" size="medium" @click="addProductModal"><i class="el-icon-plus"></i>新增</el-button>
 		</div>
 		<div class="mt10">
-			<el-table :data="tableData" id="exportData" style="width: 100%" :header-cell-style="{background:'#fafafa'}">
+			<el-table :data="tables.slice((currentPage - 1) * pageSize, currentPage * pageSize)" ref='tableData' style="width: 100%" :header-cell-style="{background:'#fafafa'}">
 				<el-table-column prop="platform" label="平台" align="center" width="200">
 					<template slot-scope="scope">
 						<el-button type="text" @click="viewProductShow(scope.$index,scope.row)">{{scope.row.platform}}</el-button>
@@ -38,7 +38,7 @@
 				</el-table-column>
 			</el-table>
 			<div class="mt30">
-				<el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage" :page-sizes="[100, 200, 300, 500]" :page-size="10" layout="total, sizes, prev, pager, next, jumper" :total="total">
+				<el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage" :page-sizes="[100, 200, 300, 500]" :page-size="pageSize" layout="total, sizes, prev, pager, next, jumper" :total="total">
 				</el-pagination>
 			</div>
 		</div>
@@ -134,7 +134,7 @@
 			return {
 				title: '',
 				currentPage: 1,
-				pageSize: '0',
+				pageSize: 2,
 				total: 100,
 				editModal: false, //新增、修改
 				viewModal: false, // 查看
@@ -154,30 +154,10 @@
 						plat: 'Amazon'
 					}
 				],
-				tableData: [{
-						"platform": "Amazon",
-						"countryId": "美国",
-						"shopName":"维达",
-						"productName": "抽纸",
-						"productASIN": "777888999a",
-						"productPrice": 15.99,
-						"productLink": "https://www.dsfss.com",
-						"productKeywords": "生活"
-					},
-					{
-						"platform": "Amazon",
-						"countryId": "德国",
-						"shopName":"维达",
-						"productASIN": "B07P6KVGF8",
-						"productName": "大米",
-						"productPrice": 18.99,
-						"productLink": "https://www.d4fd2ss.com",
-						"productKeywords": "生活、进口"
-					}
-				],
+				tableData: [],
 				productForm: {
 					platform: '',
-					shopName:'',
+					shopName: '',
 					countryId: '',
 					productASIN: '',
 					productName: '',
@@ -249,36 +229,65 @@
 				}
 			}
 		},
-		//		computed: {
-		//			// 模糊搜索
-		//			tables() {
-		//				const search = this.searchkeywords
-		//				if(search) {
-		//					return this.tableData.filter(data => {
-		//						return Object.keys(data).some(key => {
-		//							return String(data[key]).toLowerCase().indexOf(search) > -1
-		//						})
-		//					})
-		//				}
-		//				return this.tableData
-		//			},
-		//			// 总条数
-		//			total() {
-		//				return this.tables.length
-		//			}
-		//		},
-		//		watch: {
-		//			// 检测表格数据过滤变化，自动跳到第一页
-		//			tables() {
-		//				this.currentPage = 1
-		//			}
-		//		},
+		computed: {
+			// 模糊搜索
+			tables() {
+				const search = this.searchkeywords
+				if(search) {
+					return this.tableData.filter(data => {
+						return Object.keys(data).some(key => {
+							return String(data[key]).toLowerCase().indexOf(search) > -1
+						})
+					})
+				}
+				return this.tableData
+			},
+			//					// 总条数
+			//					total() {
+			//						return this.tables.length
+			//					}
+		},
+		created() {
+			this.info()
+		},
+		//				watch: {
+		//					// 检测表格数据过滤变化，自动跳到第一页
+		//					tables() {
+		//						this.currentPage = 1
+		//					}
+		//				},
 		methods: {
+			info() {
+				let data = [{
+						"platform": "Amazon",
+						"countryId": "美国",
+						"shopName": "维达",
+						"productName": "抽纸",
+						"productASIN": "777888999a",
+						"productPrice": 15.99,
+						"productLink": "https://www.dsfss.com",
+						"productKeywords": "生活"
+					},
+					{
+						"platform": "Amazon",
+						"countryId": "德国",
+						"shopName": "维达",
+						"productASIN": "B07P6KVGF8",
+						"productName": "大米",
+						"productPrice": 18.99,
+						"productLink": "https://www.d4fd2ss.com",
+						"productKeywords": "生活、进口"
+					}
+				]
+				this.tableData = data
+			},
 			//分页
 			handleSizeChange(val) {
 				console.log(`每页 ${val} 条`)
+				this.pageSize = val
 			},
 			handleCurrentChange(val) {
+				this.currentPage = val
 				console.log(`当前页: ${val}`)
 			},
 			//新增
