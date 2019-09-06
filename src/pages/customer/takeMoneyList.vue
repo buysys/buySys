@@ -30,7 +30,7 @@
 		<div class="mb20">
 			<el-button type="primary" size="medium" @click="okModelShow" :disabled="disabled"><i class="el-icon-circle-check"></i>确认付款</el-button>
 			<el-button type="danger" size="medium" @click="errModelShow" :disabled="disabled"><i class="el-icon-circle-close"></i>付款失败</el-button>
-			<el-button type="warning" size="medium" @click="exportExcel"><i class="el-icon-download"></i>导出</el-button>
+			<el-button type="warning" size="medium" @click="exportExcel"><i class="el-icon-upload2"></i>导出</el-button>
 		</div>
 		<div class="mt10">
 			<el-table :data="tableData" id="exportData" style="width: 100%" :header-cell-style="{background:'#fafafa'}" @selection-change="handleSelectionChange">
@@ -74,7 +74,7 @@
 	import FileSaver from 'file-saver'
 	import XLSX from 'xlsx'
 	export default {
-		name: 'customer',
+		name: 'takeMoneyList',
 		data() {
 			return {
 				loading: true,

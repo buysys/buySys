@@ -26,7 +26,10 @@
 			<el-button type="success" size="medium" @click="addModelShow"><i class="el-icon-plus"></i>新增</el-button>
 			<el-button type="primary" size="medium" @click="editModelShow" :disabled="editDisabled"><i class="el-icon-edit-outline"></i>修改</el-button>
 			<el-button type="warning" size="medium" @click="exportExcel"><i class="el-icon-upload2"></i>导出</el-button>
-      <el-button size="small" type="success" @click="TxModelShow" style="float: right;">提现记录</el-button>
+      <span style="float: right;">
+      <el-button size="small" type="success" @click="CzModelShow">充值记录</el-button>
+      <el-button size="small" type="danger" @click="TxModelShow" style="margin-left: 10px;">提现记录</el-button>
+      </span>
 		</div>
 		<div class="mt10">
 			<el-table :data="tableData" id="exportData" style="width: 100%" :header-cell-style="{background:'#fafafa'}" @selection-change="handleSelectionChange">
@@ -37,10 +40,10 @@
 					</template>
 				</el-table-column>
 				<el-table-column prop="CountryId" label="姓名" align="center"></el-table-column>
-				<el-table-column prop="CountryId" label="性别" align="center"></el-table-column>
 				<el-table-column prop="OrderNumber" label="手机" align="center"></el-table-column>
 				<el-table-column prop="OrderNumber" label="邮箱" align="center"></el-table-column>
 				<el-table-column prop="OrderNumber" label="微信" align="center"></el-table-column>
+        <el-table-column prop="OrderNumber" label="QQ" align="center"></el-table-column>
 				<el-table-column prop="CountryId" label="所属用户" align="center"></el-table-column>
 				<el-table-column prop="ProductPrice" label="余额" align="center" class-name="red"></el-table-column>
 				<el-table-column prop="OrderNumber" label="最后登录IP" align="center"></el-table-column>
@@ -75,12 +78,16 @@
 				<el-form-item label="确认密码" prop="password2">
 					<el-input v-model="editForm.password2"></el-input>
 				</el-form-item>
-				<el-form-item label="性别">
-					<template>
-            <el-radio v-model="editForm.sex" label="0">保密</el-radio>
-						<el-radio v-model="editForm.sex" label="1">男</el-radio>
-						<el-radio v-model="editForm.sex" label="2">女</el-radio>
-					</template>
+        <el-form-item label="所属用户" prop="ssUser">
+        	<el-select v-model="editForm.ssUser" placeholder="请选择所属用户" style="width: 100%;">
+        	    <el-option
+        	      v-for="item in ssUserOptions"
+        	      :key="item.value"
+        	      :label="item.label"
+        	      :value="item.value">
+        	    </el-option>
+        	  </el-select>
+        </el-form-item>
 				</el-form-item>
 				<el-form-item label="手机号" prop="phone">
 					<el-input v-model="editForm.phone"></el-input>
@@ -91,6 +98,9 @@
 				<el-form-item label="微信">
 					<el-input v-model="editForm.weixin"></el-input>
 				</el-form-item>
+        <el-form-item label="QQ">
+        	<el-input v-model="editForm.qq"></el-input>
+        </el-form-item>
 				<el-form-item label="备注">
 					<el-input type="textarea" v-model="editForm.remark"></el-input>
 				</el-form-item>
@@ -107,11 +117,11 @@
 					<el-col :span="12" :xs="24">
 						<el-form-item label="客户编码："><span>{{viewForm.userNo}}</span></el-form-item>
 					</el-col>
+          <el-col :span="12" :xs="24">
+          	<el-form-item label="所属用户："><span>{{viewForm.ssUser}}</span></el-form-item>
+          </el-col>
 					<el-col :span="12" :xs="24">
 						<el-form-item label="姓名："><span>{{viewForm.name}}</span></el-form-item>
-					</el-col>
-					<el-col :span="12" :xs="24">
-						<el-form-item label="性别："><span>{{viewForm.sex}}</span></el-form-item>
 					</el-col>
 					<el-col :span="12" :xs="24">
 						<el-form-item label="手机号："><span>{{viewForm.phone}}</span></el-form-item>
@@ -123,7 +133,7 @@
 						<el-form-item label="微信："><span>{{viewForm.weixin}}</span></el-form-item>
 					</el-col>
 					<el-col :span="12" :xs="24">
-						<el-form-item label="所属用户："><span>{{viewForm.suoShuUser}}</span></el-form-item>
+						<el-form-item label="QQ："><span>{{viewForm.qq}}</span></el-form-item>
 					</el-col>
 					<el-col :span="12" :xs="24">
 						<el-form-item label="最后登录IP："><span>{{viewForm.lastLoginIP}}</span></el-form-item>
@@ -173,6 +183,13 @@
     		<el-button @click="RechargeModel=false" size="medium">取消</el-button>
     	</div>
     </el-dialog>
+    <!-- 充值记录 -->
+    <el-dialog title="充值记录" :visible.sync="CzModel" :close-on-click-modal="false" width="90%">
+    	<rechargeRecord></rechargeRecord>
+    <div slot="footer" class="dialog-footer">
+    <el-button @click="CzModel = false">关 闭</el-button>
+    </div>
+    </el-dialog>
 	</div>
 </template>
 
@@ -183,6 +200,8 @@
   import validate from '../../components/validate'
 	import OrderLog from '../../common/OrderLog'
 	import takeMoneyList from './takeMoneyList'
+  import rechargeRecord from './rechargeRecord'
+
 	export default {
 		name: 'customer',
 		data() {
@@ -193,6 +212,7 @@
 				logModel: false, //日志
 				TxModel: false, //提现记录
         RechargeModel:false, //充值
+        CzModel: false, //充值记录
 				editDisabled: true,
 				tableData: [{
 						"Numbers": "20190605105636229596",
@@ -230,6 +250,16 @@
 				currentPage: 1,
 				pageSize: '0',
 				total: 100,
+        ssUserOptions: [{
+          value: '001',
+          label: '张三'
+        }, {
+          value: '002',
+          label: '李四'
+        }, {
+          value: '003',
+          label: '王五'
+        }],
 				searchForm: {
 					platform: '全部',
 					searchkeywords: ''
@@ -238,14 +268,14 @@
 					name: '',
 					password: '',
 					password2: '',
-					sex: '0',
 					phone: '',
 					email: '',
 					weixin: '',
 					qq: '',
 					canLogin: '1',
 					remark: '',
-          money: ''
+          money: '',
+          ssUser: ''
 				},
 				viewForm: {
 					userName: '',
@@ -253,7 +283,6 @@
 					name: '',
 					password: '',
 					password2: '',
-					sex: '1',
 					phone: '',
 					email: '',
 					weixin: '',
@@ -264,7 +293,8 @@
 					lastLoginTime: '',
 					isEditAccount: '',
 					createTime: '',
-					remark: ''
+					remark: '',
+          ssUser: ''
 				},
 				editRules: {
 					password: [{
@@ -277,6 +307,11 @@
 						message: '请输入确认密码',
 						trigger: 'blur'
 					}],
+          ssUser: [{
+          	required: true,
+          	message: '请选择所属用户',
+          	trigger: 'blur'
+          }],
 					phone: [{
 						required: true,
 						message: '请输入手机号',
@@ -296,7 +331,8 @@
 		},
 		components: {
 			OrderLog,
-			takeMoneyList
+			takeMoneyList,
+      rechargeRecord
 		},
 		created() {
 //			this.getAllData()
@@ -359,7 +395,6 @@
 				_this.editForm.name = item.CountryId;
 				_this.editForm.password = item.CountryId;
 				_this.editForm.password2 = item.CountryId;
-				_this.editForm.sex = '1';
 				_this.editForm.phone = item.CountryId;
 				_this.editForm.email = item.CountryId;
 				_this.editForm.weixin = item.CountryId;
@@ -380,7 +415,6 @@
 					_this.viewForm.name = item.CountryId,
 					_this.viewForm.password = item.CountryId,
 					_this.viewForm.password2 = item.CountryId,
-					_this.viewForm.sex = '男',
 					_this.viewForm.phone = item.CountryId,
 					_this.viewForm.email = item.CountryId,
 					_this.viewForm.weixin = item.CountryId,
@@ -391,7 +425,8 @@
 					_this.viewForm.lastLoginTime = item.CountryId,
 					_this.viewForm.isEditAccount = item.CountryId,
 					_this.viewForm.createTime = item.CountryId,
-					_this.viewForm.remark = item.CountryId
+					_this.viewForm.remark = item.CountryId,
+          _this.viewForm.ssUser = "张三"
 			},
 			// 切换状态
 			changeStatus(index, row) {
@@ -410,11 +445,16 @@
 				let _this = this
 				_this.logModel = true
 			},
-			// 提现订单
+			// 提现记录
 			TxModelShow() {
 				let _this = this
 				_this.TxModel = true
 			},
+      // 提现记录
+      CzModelShow() {
+      	let _this = this
+      	_this.CzModel = true
+      },
 			//关闭新增修改弹窗
 			closeModel() {
 				let _this = this

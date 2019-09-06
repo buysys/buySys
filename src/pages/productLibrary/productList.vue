@@ -2,22 +2,30 @@
 	<div>
 		<el-collapse-transition>
 			<div class="searchBox mb20">
-				<el-row>
-					<el-col :xs="24" :span="6">
-						<el-input v-model="searchkeywords" placeholder="请输入国家/产品ASIN/产品名称/产品关键词" class="disInline" style="display: inline-block;width: 420px;margin-bottom: 20px"></el-input>
-					</el-col>
-					<el-col :xs="24" :span="4" class="ml20">
-						<el-button type="primary" size="medium">查询</el-button>
-						<el-button size="medium" @click="resetSearch">重置</el-button>
-					</el-col>
-				</el-row>
+				<el-form ref="searchForm" :model="searchForm" class="form-item" label-width="80px">
+					<el-row>
+						<el-col :xs="24" :span="6">
+							<el-form-item label="产品排名">
+								<el-input v-model="searchForm.searchkeywords" placeholder="请输入国家/产品ASIN/产品名称/产品关键词" class="disInline"></el-input>
+							</el-form-item>
+						</el-col>
+						<el-col :xs="24" :span="4" class="ml20">
+							<el-button type="primary" size="medium">查询</el-button>
+							<el-button size="medium" @click="resetSearch">重置</el-button>
+						</el-col>
+					</el-row>
+				</el-form>
 			</div>
 		</el-collapse-transition>
+
 		<div class="mb20">
 			<el-button type="success" size="medium" @click="addProductModal"><i class="el-icon-plus"></i>新增</el-button>
+			<el-button type="primary" size="medium" @click="editProductModal" :disabled="editDisabled"><i class="el-icon-edit-outline"></i>修改</el-button>
+			<el-button type="danger" size="medium" @click="deleteProductModal" :disabled="delDisabled"><i class="el-icon-delete"></i>删除</el-button>
 		</div>
 		<div class="mt10">
-			<el-table :data="tables.slice((currentPage - 1) * pageSize, currentPage * pageSize)" ref='tableData' style="width: 100%" :header-cell-style="{background:'#fafafa'}">
+			<el-table :data="tables.slice((currentPage - 1) * pageSize, currentPage * pageSize)" ref='tableData' style="width: 100%" :header-cell-style="{background:'#fafafa'}" @selection-change="handleSelectionChange">
+				<el-table-column type="selection"></el-table-column>
 				<el-table-column prop="platform" label="平台" align="center" width="200">
 					<template slot-scope="scope">
 						<el-button type="text" @click="viewProductShow(scope.$index,scope.row)">{{scope.row.platform}}</el-button>
@@ -30,15 +38,9 @@
 				<el-table-column prop="productPrice" label="产品价格" align="center"></el-table-column>
 				<el-table-column prop="productLink" label="产品链接" align="center"></el-table-column>
 				<el-table-column prop="productKeywords" label="产品关键词" align="center"></el-table-column>
-				<el-table-column label="操作" align="center" width="200">
-					<template slot-scope="scope">
-						<el-button size="small" type="primary" @click="editProductModal(scope.$index,scope.row)">编辑</el-button>
-						<el-button size="small" type="danger" @click="deleteProductModal(scope.$index,scope.row)">删除</el-button>
-					</template>
-				</el-table-column>
 			</el-table>
 			<div class="mt30">
-				<el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage" :page-sizes="[100, 200, 300, 500]" :page-size="pageSize" layout="total, sizes, prev, pager, next, jumper" :total="total">
+				<el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage" :page-sizes="[100, 200, 300, 500]" :page-size="10" layout="total, sizes, prev, pager, next, jumper" :total="total">
 				</el-pagination>
 			</div>
 		</div>
@@ -139,7 +141,12 @@
 				editModal: false, //新增、修改
 				viewModal: false, // 查看
 				deleteModal: false, //删除
-				searchkeywords: '',
+				editDisabled: true,
+				delDisabled: true,
+				searchForm: {
+					searchkeywords: ''
+				},
+				checkBoxData: [],
 				countryData: [{
 						country: '美国'
 					},
@@ -232,7 +239,7 @@
 		computed: {
 			// 模糊搜索
 			tables() {
-				const search = this.searchkeywords
+				const search = this.searchForm.searchkeywords
 				if(search) {
 					return this.tableData.filter(data => {
 						return Object.keys(data).some(key => {
@@ -241,21 +248,11 @@
 					})
 				}
 				return this.tableData
-			},
-			//					// 总条数
-			//					total() {
-			//						return this.tables.length
-			//					}
+			}
 		},
 		created() {
 			this.info()
 		},
-		//				watch: {
-		//					// 检测表格数据过滤变化，自动跳到第一页
-		//					tables() {
-		//						this.currentPage = 1
-		//					}
-		//				},
 		methods: {
 			info() {
 				let data = [{
@@ -284,11 +281,25 @@
 			//分页
 			handleSizeChange(val) {
 				console.log(`每页 ${val} 条`)
-				this.pageSize = val
 			},
 			handleCurrentChange(val) {
-				this.currentPage = val
 				console.log(`当前页: ${val}`)
+			},
+			// 是否有选中
+			handleSelectionChange(val) {
+				let _this = this
+				_this.checkBoxData = val
+				let checkNum = _this.checkBoxData.length
+				if(checkNum == 1) {
+					_this.editDisabled = false
+					_this.delDisabled = false
+				} else if(checkNum > 1) {
+					_this.editDisabled = true
+					_this.delDisabled = false
+				} else {
+					_this.editDisabled = true
+					_this.delDisabled = true
+				}
 			},
 			//新增
 			addProductModal() {
@@ -336,6 +347,7 @@
 				let _this = this
 				_this.viewModal = true
 				_this.productForm = Object.assign({}, row)
+				_this.title = "查看"
 			}
 		}
 	}
