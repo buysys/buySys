@@ -21,7 +21,7 @@
             <el-col :xs="24" :span="4">
               <el-form-item label="任务类型">
                 <template>
-                  <el-select v-model="searchForm.orderTypeValue" placeholder="请选择" @change='selectTask'>
+                  <el-select v-model="searchForm.orderTypeValue" placeholder="请选择">
                     <el-option v-for="(item,index) in orderTypeOptions" :key="index" :value="item.value" :label="item.label"></el-option>
                   </el-select>
                 </template>
@@ -39,7 +39,7 @@
                 <el-input v-model="searchForm.searchkeywords" placeholder="请输入关键字" class="disInline"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :xs="24" :span="4" class='ml20'>
+            <el-col :xs="24" :span="4" class="ml20">
               <el-button type="primary" size="medium">查询</el-button>
               <el-button size="medium" @click="resetSearch">重置</el-button>
             </el-col>
@@ -91,56 +91,223 @@
         <li :class="activeOn == 3 ?'activeOn':''" @click='toEvaluated'>待填评价<span>(0)</span></li>
       </ul>
     </div>
+
     <div class="mt10">
-      <el-table :data="orderPlaceData" style="width: 100%" :header-cell-style="{background:'#fafafa'}"
-        @selection-change="handleSelectionChange">
-        <el-table-column type="selection"></el-table-column>
-        <el-table-column prop="Numbers" label="任务编码" align="center" width="200" v-if="likeTaskShow == 1">
-          <template slot-scope="scope">
-            <el-button type="text" @click="viewTaskDetails(scope.$index,scope.row)">{{scope.row.Numbers}}</el-button>
-          </template>
-        </el-table-column>
-        <el-table-column prop="Numbers" label="任务编码 " align="center" width="200" v-if="likeTaskShow == 4">
-          <template slot-scope="scope">
-            <el-button type="text" @click="viewLikeTaskDetails(scope.$index,scope.row)">{{scope.row.Numbers}}</el-button>
-          </template>
-        </el-table-column>
-        <el-table-column prop="Numbers" label=" 任务编码" align="center" width="200" v-if="likeTaskShow == 5">
-          <template slot-scope="scope">
-            <el-button type="text" @click="viewQaTaskDetails(scope.$index,scope.row)">{{scope.row.Numbers}}</el-button>
-          </template>
-        </el-table-column>
-        <el-table-column prop="CountryId" label="平台/国家" align="center"></el-table-column>
-        <el-table-column prop="ProductByASIN" label="终端平台" align="center"></el-table-column>
-        <el-table-column prop="ProductByASIN" label="服务类型" align="center"></el-table-column>
-        <el-table-column prop="Picture" :label="times" align="center" v-if="this.active!=1 && this.active!=2"></el-table-column>
-        <el-table-column prop="ProductByASIN" label="产品ASIN" align="center"></el-table-column>
-        <el-table-column prop="ProductByASIN" label="产品名称" align="center"></el-table-column>
-        <el-table-column prop="ProductPrice" label="产品价格" align="center"></el-table-column>
-        <el-table-column prop="ServiceType" label="买号" align="center"></el-table-column>
-        <el-table-column prop="OrderNote" label="买号状态" align="center"></el-table-column>
-        <el-table-column prop="OrderNote" label="刷手" align="center"></el-table-column>
-        <el-table-column prop="OrderTime" label="执行时间" align="center"></el-table-column>
-        <el-table-column prop="Status" label="任务状态" align="center"></el-table-column>
-        <el-table-column prop="OrderNote" label="客户名称" align="center"></el-table-column>
-        <el-table-column label="操作" align="center" width="500">
-          <template slot-scope="scope">
-            <el-button size="small" type="danger" @click="refundModelShow(scope.$index, scope.row)">退款</el-button>
-            <el-button size="small" type="primary" @click="logHandel(scope.$index, scope.row)">查看日志</el-button>
-            <el-button size="small" type="success" @click="confirmBuyHandel(scope.$index,scope.row)">确认购买</el-button>
-            <el-button size="small" type="primary" @click="evaluateLink(scope.$index,scope.row)">评论链接</el-button>
-            <el-button size="small" type="primary">打开浏览器</el-button>
-            <el-button size="small" type="primary" @click='evaluateEdit(scope.$index,scope.row)'>填写评价</el-button>
-            <el-button size="small" type="primary" @click="upComment(scope.$index,scope.row)">上评</el-button>
-            <el-button size="small" type="primary" @click="confirmBuyHandel(scope.$index,scope.row)">重新购买</el-button>
-          </template>
-        </el-table-column>
-      </el-table>
-      <div class="mt30">
-        <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage"
-          :page-sizes="[10, 20, 30, 40]" :page-size="10" layout="total, sizes, prev, pager, next, jumper" :total="total">
-        </el-pagination>
+      <!-- FBA订单列表 -->
+      <div v-if="searchForm.orderTypeValue=='1'">
+        <el-table :data="orderPlaceData" style="width: 100%" :header-cell-style="{background:'#fafafa'}"
+          @selection-change="handleSelectionChange">
+          <el-table-column type="selection"></el-table-column>
+          <el-table-column prop="Numbers" label="FBA任务编码" align="center" width="120">
+            <template slot-scope="scope">
+              <el-button type="text" @click="viewTaskDetails(scope.$index,scope.row)">{{scope.row.Numbers}}</el-button>
+            </template>
+          </el-table-column>
+          <el-table-column prop="CountryId" label="平台/国家" align="center"></el-table-column>
+          <el-table-column prop="ProductByASIN" label="终端平台" align="center"></el-table-column>
+          <el-table-column prop="ProductByASIN" label="服务类型" align="center"></el-table-column>
+          <el-table-column prop="Picture" :label="times" align="center" v-if="this.active!=1 && this.active!=2"></el-table-column>
+          <el-table-column prop="ProductByASIN" label="产品ASIN" align="center"></el-table-column>
+          <el-table-column prop="ProductByASIN" label="产品名称" align="center"></el-table-column>
+          <el-table-column prop="ProductPrice" label="产品价格" align="center"></el-table-column>
+          <el-table-column prop="ServiceType" label="买号" align="center"></el-table-column>
+          <el-table-column prop="OrderNote" label="买号状态" align="center"></el-table-column>
+          <el-table-column prop="OrderNote" label="刷手" align="center"></el-table-column>
+          <el-table-column prop="OrderTime" label="执行时间" align="center"></el-table-column>
+          <el-table-column prop="Status" label="任务状态" align="center"></el-table-column>
+          <el-table-column prop="OrderNote" label="客户名称" align="center"></el-table-column>
+          <el-table-column label="操作" align="center" width="500">
+            <template slot-scope="scope">
+              <el-button size="small" type="danger" @click="refundModelShow(scope.$index, scope.row)">退款</el-button>
+              <el-button size="small" type="primary" @click="logHandel(scope.$index, scope.row)">查看日志</el-button>
+              <el-button size="small" type="success" @click="confirmBuyHandel(scope.$index,scope.row)">确认购买</el-button>
+              <el-button size="small" type="primary" @click="evaluateLink(scope.$index,scope.row)">评论链接</el-button>
+              <el-button size="small" type="primary">打开浏览器</el-button>
+              <el-button size="small" type="primary" @click='evaluateEdit(scope.$index,scope.row)'>填写评价</el-button>
+              <el-button size="small" type="primary" @click="upComment(scope.$index,scope.row)">上评</el-button>
+              <el-button size="small" type="primary" @click="confirmBuyHandel(scope.$index,scope.row)">重新购买</el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+        <div class="mt30">
+          <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage"
+            :page-sizes="[10, 20, 30, 40]" :page-size="10" layout="total, sizes, prev, pager, next, jumper" :total="total">
+          </el-pagination>
+        </div>
       </div>
+
+      <!-- 加购订单列表 -->
+      <div v-if="searchForm.orderTypeValue=='2'">
+        <el-table :data="orderPlaceData" style="width: 100%" :header-cell-style="{background:'#fafafa'}"
+          @selection-change="handleSelectionChange">
+          <el-table-column type="selection"></el-table-column>
+          <el-table-column prop="Numbers" label="加购任务编码" align="center" width="120">
+            <template slot-scope="scope">
+              <el-button type="text" @click="viewTaskDetails(scope.$index,scope.row)">{{scope.row.Numbers}}</el-button>
+            </template>
+          </el-table-column>
+          <el-table-column prop="CountryId" label="平台/国家" align="center"></el-table-column>
+          <el-table-column prop="ProductByASIN" label="终端平台" align="center"></el-table-column>
+          <el-table-column prop="ProductByASIN" label="服务类型" align="center"></el-table-column>
+          <el-table-column prop="Picture" :label="times" align="center" v-if="this.active!=1 && this.active!=2"></el-table-column>
+          <el-table-column prop="ProductByASIN" label="产品ASIN" align="center"></el-table-column>
+          <el-table-column prop="ProductByASIN" label="产品名称" align="center"></el-table-column>
+          <el-table-column prop="ProductPrice" label="产品价格" align="center"></el-table-column>
+          <el-table-column prop="ServiceType" label="买号" align="center"></el-table-column>
+          <el-table-column prop="OrderNote" label="买号状态" align="center"></el-table-column>
+          <el-table-column prop="OrderNote" label="刷手" align="center"></el-table-column>
+          <el-table-column prop="OrderTime" label="执行时间" align="center"></el-table-column>
+          <el-table-column prop="Status" label="任务状态" align="center"></el-table-column>
+          <el-table-column prop="OrderNote" label="客户名称" align="center"></el-table-column>
+          <el-table-column label="操作" align="center" width="500">
+            <template slot-scope="scope">
+              <el-button size="small" type="danger" @click="refundModelShow(scope.$index, scope.row)">退款</el-button>
+              <el-button size="small" type="primary" @click="logHandel(scope.$index, scope.row)">查看日志</el-button>
+              <el-button size="small" type="success" @click="confirmBuyHandel(scope.$index,scope.row)">确认购买</el-button>
+              <el-button size="small" type="primary" @click="evaluateLink(scope.$index,scope.row)">评论链接</el-button>
+              <el-button size="small" type="primary">打开浏览器</el-button>
+              <el-button size="small" type="primary" @click='evaluateEdit(scope.$index,scope.row)'>填写评价</el-button>
+              <el-button size="small" type="primary" @click="upComment(scope.$index,scope.row)">上评</el-button>
+              <el-button size="small" type="primary" @click="confirmBuyHandel(scope.$index,scope.row)">重新购买</el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+        <div class="mt30">
+          <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage"
+            :page-sizes="[10, 20, 30, 40]" :page-size="10" layout="total, sizes, prev, pager, next, jumper" :total="total">
+          </el-pagination>
+        </div>
+      </div>
+
+      <!-- 心愿订单列表 -->
+      <div v-if="searchForm.orderTypeValue=='3'">
+        <el-table :data="orderPlaceData" style="width: 100%" :header-cell-style="{background:'#fafafa'}"
+          @selection-change="handleSelectionChange">
+          <el-table-column type="selection"></el-table-column>
+          <el-table-column prop="Numbers" label="心愿任务编码" align="center" width="120">
+            <template slot-scope="scope">
+              <el-button type="text" @click="viewTaskDetails(scope.$index,scope.row)">{{scope.row.Numbers}}</el-button>
+            </template>
+          </el-table-column>
+          <el-table-column prop="CountryId" label="平台/国家" align="center"></el-table-column>
+          <el-table-column prop="ProductByASIN" label="终端平台" align="center"></el-table-column>
+          <el-table-column prop="ProductByASIN" label="服务类型" align="center"></el-table-column>
+          <el-table-column prop="Picture" :label="times" align="center" v-if="this.active!=1 && this.active!=2"></el-table-column>
+          <el-table-column prop="ProductByASIN" label="产品ASIN" align="center"></el-table-column>
+          <el-table-column prop="ProductByASIN" label="产品名称" align="center"></el-table-column>
+          <el-table-column prop="ProductPrice" label="产品价格" align="center"></el-table-column>
+          <el-table-column prop="ServiceType" label="买号" align="center"></el-table-column>
+          <el-table-column prop="OrderNote" label="买号状态" align="center"></el-table-column>
+          <el-table-column prop="OrderNote" label="刷手" align="center"></el-table-column>
+          <el-table-column prop="OrderTime" label="执行时间" align="center"></el-table-column>
+          <el-table-column prop="Status" label="任务状态" align="center"></el-table-column>
+          <el-table-column prop="OrderNote" label="客户名称" align="center"></el-table-column>
+          <el-table-column label="操作" align="center" width="500">
+            <template slot-scope="scope">
+              <el-button size="small" type="danger" @click="refundModelShow(scope.$index, scope.row)">退款</el-button>
+              <el-button size="small" type="primary" @click="logHandel(scope.$index, scope.row)">查看日志</el-button>
+              <el-button size="small" type="success" @click="confirmBuyHandel(scope.$index,scope.row)">确认购买</el-button>
+              <el-button size="small" type="primary" @click="evaluateLink(scope.$index,scope.row)">评论链接</el-button>
+              <el-button size="small" type="primary">打开浏览器</el-button>
+              <el-button size="small" type="primary" @click='evaluateEdit(scope.$index,scope.row)'>填写评价</el-button>
+              <el-button size="small" type="primary" @click="upComment(scope.$index,scope.row)">上评</el-button>
+              <el-button size="small" type="primary" @click="confirmBuyHandel(scope.$index,scope.row)">重新购买</el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+        <div class="mt30">
+          <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage"
+            :page-sizes="[10, 20, 30, 40]" :page-size="10" layout="total, sizes, prev, pager, next, jumper" :total="total">
+          </el-pagination>
+        </div>
+      </div>
+
+      <!-- 点赞订单列表 -->
+      <div v-if="searchForm.orderTypeValue=='4'">
+        <el-table :data="orderPlaceData" style="width: 100%" :header-cell-style="{background:'#fafafa'}"
+          @selection-change="handleSelectionChange">
+          <el-table-column type="selection"></el-table-column>
+          <el-table-column prop="Numbers" label="点赞任务编码" align="center" width="120">
+            <template slot-scope="scope">
+              <el-button type="text" @click="viewLikeTaskDetails(scope.$index,scope.row)">{{scope.row.Numbers}}</el-button>
+            </template>
+          </el-table-column>
+          <el-table-column prop="CountryId" label="平台/国家" align="center"></el-table-column>
+          <el-table-column prop="ProductByASIN" label="终端平台" align="center"></el-table-column>
+          <el-table-column prop="ProductByASIN" label="服务类型" align="center"></el-table-column>
+          <el-table-column prop="Picture" :label="times" align="center" v-if="this.active!=1 && this.active!=2"></el-table-column>
+          <el-table-column prop="ProductByASIN" label="产品ASIN" align="center"></el-table-column>
+          <el-table-column prop="ProductByASIN" label="产品名称" align="center"></el-table-column>
+          <el-table-column prop="ProductPrice" label="产品价格" align="center"></el-table-column>
+          <el-table-column prop="ServiceType" label="买号" align="center"></el-table-column>
+          <el-table-column prop="OrderNote" label="买号状态" align="center"></el-table-column>
+          <el-table-column prop="OrderNote" label="刷手" align="center"></el-table-column>
+          <el-table-column prop="OrderTime" label="执行时间" align="center"></el-table-column>
+          <el-table-column prop="Status" label="任务状态" align="center"></el-table-column>
+          <el-table-column prop="OrderNote" label="客户名称" align="center"></el-table-column>
+          <el-table-column label="操作" align="center" width="500">
+            <template slot-scope="scope">
+              <el-button size="small" type="danger" @click="refundModelShow(scope.$index, scope.row)">退款</el-button>
+              <el-button size="small" type="primary" @click="logHandel(scope.$index, scope.row)">查看日志</el-button>
+              <el-button size="small" type="success" @click="confirmBuyHandel(scope.$index,scope.row)">确认购买</el-button>
+              <el-button size="small" type="primary" @click="evaluateLink(scope.$index,scope.row)">评论链接</el-button>
+              <el-button size="small" type="primary">打开浏览器</el-button>
+              <el-button size="small" type="primary" @click='evaluateEdit(scope.$index,scope.row)'>填写评价</el-button>
+              <el-button size="small" type="primary" @click="upComment(scope.$index,scope.row)">上评</el-button>
+              <el-button size="small" type="primary" @click="confirmBuyHandel(scope.$index,scope.row)">重新购买</el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+        <div class="mt30">
+          <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage"
+            :page-sizes="[10, 20, 30, 40]" :page-size="10" layout="total, sizes, prev, pager, next, jumper" :total="total">
+          </el-pagination>
+        </div>
+      </div>
+
+      <!-- QA订单列表 -->
+      <div v-if="searchForm.orderTypeValue=='5'">
+        <el-table :data="orderPlaceData" style="width: 100%" :header-cell-style="{background:'#fafafa'}"
+          @selection-change="handleSelectionChange">
+          <el-table-column type="selection"></el-table-column>
+          <el-table-column prop="Numbers" label="QA任务编码" align="center" width="120">
+            <template slot-scope="scope">
+              <el-button type="text" @click="viewQATaskDetails(scope.$index,scope.row)">{{scope.row.Numbers}}</el-button>
+            </template>
+          </el-table-column>
+          <el-table-column prop="CountryId" label="平台/国家" align="center"></el-table-column>
+          <el-table-column prop="ProductByASIN" label="终端平台" align="center"></el-table-column>
+          <el-table-column prop="ProductByASIN" label="服务类型" align="center"></el-table-column>
+          <el-table-column prop="Picture" :label="times" align="center" v-if="this.active!=1 && this.active!=2"></el-table-column>
+          <el-table-column prop="ProductByASIN" label="产品ASIN" align="center"></el-table-column>
+          <el-table-column prop="ProductByASIN" label="产品名称" align="center"></el-table-column>
+          <el-table-column prop="ProductPrice" label="产品价格" align="center"></el-table-column>
+          <el-table-column prop="ServiceType" label="买号" align="center"></el-table-column>
+          <el-table-column prop="OrderNote" label="买号状态" align="center"></el-table-column>
+          <el-table-column prop="OrderNote" label="刷手" align="center"></el-table-column>
+          <el-table-column prop="OrderTime" label="执行时间" align="center"></el-table-column>
+          <el-table-column prop="Status" label="任务状态" align="center"></el-table-column>
+          <el-table-column prop="OrderNote" label="客户名称" align="center"></el-table-column>
+          <el-table-column label="操作" align="center" width="500">
+            <template slot-scope="scope">
+              <el-button size="small" type="danger" @click="refundModelShow(scope.$index, scope.row)">退款</el-button>
+              <el-button size="small" type="primary" @click="logHandel(scope.$index, scope.row)">查看日志</el-button>
+              <el-button size="small" type="success" @click="confirmBuyHandel(scope.$index,scope.row)">确认购买</el-button>
+              <el-button size="small" type="primary" @click="evaluateLink(scope.$index,scope.row)">评论链接</el-button>
+              <el-button size="small" type="primary">打开浏览器</el-button>
+              <el-button size="small" type="primary" @click='evaluateEdit(scope.$index,scope.row)'>填写评价</el-button>
+              <el-button size="small" type="primary" @click="upComment(scope.$index,scope.row)">上评</el-button>
+              <el-button size="small" type="primary" @click="confirmBuyHandel(scope.$index,scope.row)">重新购买</el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+        <div class="mt30">
+          <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage"
+            :page-sizes="[10, 20, 30, 40]" :page-size="10" layout="total, sizes, prev, pager, next, jumper" :total="total">
+          </el-pagination>
+        </div>
+      </div>
+
     </div>
     <!--填写评价-->
     <el-dialog :title='title' :visible.sync='evaluateModal' :close-on-click-modal='false'>
@@ -250,163 +417,6 @@
         <el-button @click="closeModel = false">取 消</el-button>
       </div>
     </el-dialog>
-    <!--查看任务详情-->
-    <el-dialog :title='orderTitle' :visible.sync="viewTaskDateilsModel" :close-on-click-modal="false" width="90%"
-      custom-class="fixed-dialog">
-      <el-form class="demo-item" :model='taskViewForm'>
-        <div class="modalTitle fz16 mb20">任务信息</div>
-        <el-row>
-          <el-col :span='12' :xs='24'>
-            <el-form-item label="平台：">
-              <span>Amazon</span>
-            </el-form-item>
-          </el-col>
-          <el-col :span='12' :xs='24'>
-            <el-form-item label="国家：">
-              <span>美国</span>
-            </el-form-item>
-          </el-col>
-          <el-col :span='12' :xs='24'>
-            <el-form-item label="产品ASIN：">
-              <span>D2342543654657</span>
-            </el-form-item>
-          </el-col>
-          <el-col :span='12' :xs='24'>
-            <el-form-item label="店铺：">
-              <span>nike</span>
-            </el-form-item>
-          </el-col>
-          <el-col :span='12' :xs='24'>
-            <el-form-item label="产品名称：">
-              <span>水淀粉</span>
-            </el-form-item>
-          </el-col>
-          <el-col :span='12' :xs='24'>
-            <el-form-item label="产品价格：">
-              <span>$100</span>
-            </el-form-item>
-          </el-col>
-          <el-col :span='12' :xs='24'>
-            <el-form-item label="评论数：">
-              <span>2</span>
-            </el-form-item>
-          </el-col>
-          <el-col :span='12' :xs='24'>
-            <el-form-item label='产品评分：'>
-              <el-rate v-model="taskViewForm.score" disabled show-score text-color="#ff9900" score-template="{value}"
-                style='line-height: 2.8;'></el-rate>
-            </el-form-item>
-          </el-col>
-          <el-col :span='12' :xs='24' class="fleft">
-            <el-form-item label="品类排名：">
-              <span>2</span>
-            </el-form-item>
-          </el-col>
-          <el-col :span='12' :xs='24' class="fright">
-            <el-form-item label="产品图片：">
-              <img class="proImg"></img>
-            </el-form-item>
-          </el-col>
-          <el-col :span="12" :xs="24" class="fleft">
-            <el-form-item label="产品链接：" class="wid">
-              <span>http://www.pre.com</span>
-            </el-form-item>
-          </el-col>
-          <el-col :span="12" :xs="24" v-if="isFBA">
-            <el-form-item label="预估月销量：">
-              <span>2000</span>
-            </el-form-item>
-          </el-col>
-          <el-col :span='12' :xs='24'>
-            <el-form-item label="关键词类型：">
-              <span>产地是</span>
-            </el-form-item>
-          </el-col>
-          <el-col :span='12' :xs='24'>
-            <el-form-item label="终端平台：">
-              <span>PC</span>
-            </el-form-item>
-          </el-col>
-          <el-col :span='12' :xs='24'>
-            <el-form-item label="产品关键词：">
-              <span>产地是</span>
-            </el-form-item>
-          </el-col>
-          <el-col :span='12' :xs='24'>
-            <el-form-item label="代购数量：">
-              <span>3</span>
-            </el-form-item>
-          </el-col>
-          <el-col :span='12' :xs='24'>
-            <el-form-item label="留评类型：">
-              <span>100%</span>
-            </el-form-item>
-          </el-col>
-          <el-col :span='12' :xs='24'>
-            <el-form-item label="FeedBack数量：">
-              <span>3</span>
-            </el-form-item>
-          </el-col>
-          <el-col :span='12' :xs='24'>
-            <el-form-item label="评论图片数量：">
-              <span>2</span>
-            </el-form-item>
-          </el-col>
-          <el-col :span='12' :xs='24'>
-            <el-form-item label="评论视频数量：">
-              <span>2</span>
-            </el-form-item>
-          </el-col>
-          <el-col :span='12' :xs='24'>
-            <el-form-item label="使用优惠券：">
-              <span>否</span>
-            </el-form-item>
-          </el-col>
-          <el-col :span='12' :xs='24'>
-            <el-form-item label="链接地址：">
-              <span>https://www.sdfs.com</span>
-            </el-form-item>
-          </el-col>
-          <el-col :span="12" :xs="24" v-if="isFBA">
-            <el-form-item label="是否自发货：">
-              <span>是</span>
-            </el-form-item>
-          </el-col>
-        </el-row>
-        <el-row class="txtCenter title" style="padding:10px 0">
-          <el-col :span="8" :xs="8">
-            <span>任务开始日期</span>
-          </el-col>
-          <el-col :span="8" :xs="8">
-            <span>时间</span>
-          </el-col>
-          <el-col :span="8" :xs="8">
-            <span>数量</span>
-          </el-col>
-        </el-row>
-        <el-row class="txtCenter mt20 mb20">
-          <el-col :span='8' :xs="8">
-            <span>2019-07-02</span>
-          </el-col>
-          <el-col :span='8' :xs="8">
-            <span>00:00-20:00</span>
-          </el-col>
-          <el-col :span='8' :xs="8">
-            <span>2</span>
-          </el-col>
-        </el-row>
-        <el-row>
-          <el-col :span='24' :xs="24">
-            <el-form-item label="备注：">
-              <span>$23.00</span>
-            </el-form-item>
-          </el-col>
-        </el-row>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="viewTaskDateilsModel = false">关 闭</el-button>
-      </div>
-    </el-dialog>
     <!--日志-->
     <el-dialog title="订单日志" :visible.sync="logModel" :close-on-click-modal="false" width="90%" custom-class="fixed-dialog">
       <OrderLog></OrderLog>
@@ -512,11 +522,6 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <el-row>
-          <el-col>
-
-          </el-col>
-        </el-row>
       </el-form>
       <div class="mb20 fz16 modalTitle">购买信息</div>
       <el-form :model='confirmBuyForm' ref='confirmBuyForm' label-width='100px' :rules='editRules'>
@@ -567,71 +572,202 @@
         <el-button @click='confirmBuyModel=false'>取消</el-button>
       </div>
     </el-dialog>
-    <!--点赞任务查看详情-->
-    <el-dialog :title='orderTitle' :visible.sync="viewLikeTaskDateilsModel" :close-on-click-modal="false" width="60%">
-      <el-form class="demo-item">
-        <div class="fz16 mb20 modalTitle">订单信息</div>
+    <!--查看任务详情(FBA/加购/心愿订单)-->
+    <el-dialog :title='orderTitle' :visible.sync="viewTaskDetailsModel" :close-on-click-modal="false" custom-class="fixed-dialog">
+      <el-form class="demo-item" :model='taskViewForm'>
+        <div class="modalTitle fz16 mb20">任务信息</div>
         <el-row>
-          <el-col :span='12' :xs='24'>
+          <el-col :span='8' :xs='24'>
             <el-form-item label="平台：">
-              <span>的说法是否</span>
+              <span>Amazon</span>
             </el-form-item>
           </el-col>
-          <el-col :span='12' :xs='24'>
+          <el-col :span='8' :xs='24'>
+            <el-form-item label="国家：">
+              <span>美国</span>
+            </el-form-item>
+          </el-col>
+          <el-col :span='8' :xs='24'>
+            <el-form-item label="产品ASIN：">
+              <span>D2342543654657</span>
+            </el-form-item>
+          </el-col>
+          <el-col :span='8' :xs='24'>
+            <el-form-item label="店铺：">
+              <span>nike</span>
+            </el-form-item>
+          </el-col>
+          <el-col :span='8' :xs='24'>
+            <el-form-item label="产品名称：">
+              <span>水淀粉</span>
+            </el-form-item>
+          </el-col>
+          <el-col :span='8' :xs='24'>
+            <el-form-item label="产品价格：">
+              <span>$100</span>
+            </el-form-item>
+          </el-col>
+          <el-col :span='8' :xs='24'>
+            <el-form-item label="评论数：">
+              <span>2</span>
+            </el-form-item>
+          </el-col>
+          <el-col :span='8' :xs='24'>
+            <el-form-item label='产品评分：'>
+              <el-rate v-model="taskViewForm.score" disabled show-score text-color="#ff9900" score-template="{value}"
+                style='line-height: 2.8;'></el-rate>
+            </el-form-item>
+          </el-col>
+          <el-col :span='8' :xs='24' class="fleft">
+            <el-form-item label="品类排名：">
+              <span>2</span>
+            </el-form-item>
+          </el-col>
+          <el-col :span='8' :xs='24' class="fright">
+            <el-form-item label="产品图片：">
+              <img class="proImg"></img>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8" :xs="24" class="fleft">
+            <el-form-item label="产品链接：" class="wid">
+              <span>http://www.pre.com</span>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8" :xs="24" v-if="isFBA">
+            <el-form-item label="预估月销量：">
+              <span>2000</span>
+            </el-form-item>
+          </el-col>
+          <el-col :span='8' :xs='24'>
+            <el-form-item label="关键词类型：">
+              <span>产地是</span>
+            </el-form-item>
+          </el-col>
+          <el-col :span='8' :xs='24'>
             <el-form-item label="终端平台：">
-              <span>erww</span>
+              <span>PC</span>
             </el-form-item>
           </el-col>
-        </el-row>
-        <el-row class="mb10">
-          <el-col :span='6' :xs='12'>
-            <el-form-item label="链接地址">
-              <span></span>
+          <el-col :span='8' :xs='24'>
+            <el-form-item label="产品关键词：">
+              <span>产地是</span>
             </el-form-item>
           </el-col>
-          <el-col :span='6' :xs='8'>
-            <el-form-item label="操作选项">
-              <span></span>
+          <el-col :span='8' :xs='24'>
+            <el-form-item label="留评类型：">
+              <span>100%</span>
             </el-form-item>
           </el-col>
-          <el-col :span='12' :xs='4'>
-            <el-form-item label="数量">
-              <span></span>
+          <el-col :span='8' :xs='24'>
+            <el-form-item label="使用优惠券：">
+              <span>否</span>
             </el-form-item>
           </el-col>
-        </el-row>
-        <el-row class="items mb10">
-          <el-col :span='6' :xs="12" class="ml60">
-            <span>https://www.pdfs.com</span>
+          <el-col :span='8' :xs='24'>
+            <el-form-item label="买家账号：">
+              <span>123@qq.com</span>
+            </el-form-item>
           </el-col>
-          <el-col :span='6' :xs="8" class="ml60">
-            <span>点赞</span>
+          <el-col :span="16" :xs="24" v-if="isFBA">
+            <el-form-item label="是否自发货：">
+              <span>是</span>
+            </el-form-item>
           </el-col>
-          <el-col :span='8' :xs="4">
-            <span>2</span>
+          </el-row>
+          <el-row style="border: 1px solid #eee;">
+          <el-col :span="8" :xs="24">
+            <el-form-item label=""><span class="ml80">任务开始日期</span></el-form-item>
+          </el-col>
+          <el-col :span="16" :xs="24">
+            <el-form-item label=""><span class="ml80">任务开始时间</span></el-form-item>
+          </el-col>
+          <el-col :span="8" :xs="24">
+            <el-form-item label="">
+              <el-form-item label=""><span class="ml80">2019-09-09</span></el-form-item>
+            </el-form-item>
+          </el-col>
+          <el-col :span="16" :xs="24">
+            <el-form-item label="">
+              <el-form-item label=""><span class="ml80">00:00-15:00</span></el-form-item>
+            </el-form-item>
+          </el-col>
+          </el-row>
+          <el-col :span='24' :xs="24">
+            <el-form-item label="备注：">
+              <span>$23.00</span>
+            </el-form-item>
           </el-col>
         </el-row>
       </el-form>
-      <div slot='footer' class="dialog-footer">
-        <el-button @click='viewLikeTaskDateilsModel=false'>关闭</el-button>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="viewTaskDetailsModel = false">关 闭</el-button>
       </div>
     </el-dialog>
-    <!--QA查看任务详情-->
-    <el-dialog :title='orderTitle' :visible.sync="viewQaTaskDateilsModel" width="60%" :close-on-click-modal="false">
+    <!--点赞任务查看详情-->
+    <el-dialog :title='orderTitle' :visible.sync="viewLikeTaskDetailsModel" :close-on-click-modal="false" width="60%">
       <el-form class="demo-item">
-        <div class="fz16 modalTitle mb20">订单信息</div>
+        <div class="fz16 mb20 modalTitle">订单信息</div>
         <el-row>
-          <el-col :span='12' :xs='24'>
+          <el-col :span='8' :xs='24'>
             <el-form-item label="平台：">
-              <span>的说法是否</span>
+              <span>亚马逊</span>
             </el-form-item>
           </el-col>
-          <el-col :span='12' :xs='24'>
+          <el-col :span='8' :xs='24'>
             <el-form-item label="终端平台：">
               <span>erww</span>
             </el-form-item>
           </el-col>
-          <el-col :span='12' :xs='24'>
+          <el-col :span='8' :xs='24'>
+            <el-form-item label="买家账号：">
+              <span>123@qq.com</span>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row style="border: 1px solid #eee;">
+        <el-col :span="8" :xs="24">
+          <el-form-item label=""><span class="ml80">链接地址</span></el-form-item>
+        </el-col>
+        <el-col :span="16" :xs="24">
+          <el-form-item label=""><span class="ml80">操作选项</span></el-form-item>
+        </el-col>
+        <el-col :span="8" :xs="24">
+          <el-form-item label="">
+            <el-form-item label=""><span class="ml80">http://www.baidu.com</span></el-form-item>
+          </el-form-item>
+        </el-col>
+        <el-col :span="16" :xs="24">
+          <el-form-item label="">
+            <el-form-item label=""><span class="ml80">点赞</span></el-form-item>
+          </el-form-item>
+        </el-col>
+        </el-row>
+      </el-form>
+      <div slot='footer' class="dialog-footer">
+        <el-button @click='viewLikeTaskDetailsModel=false'>关闭</el-button>
+      </div>
+    </el-dialog>
+    <!--QA查看任务详情-->
+    <el-dialog :title='orderTitle' :visible.sync="viewQaTaskDetailsModel" width="60%" :close-on-click-modal="false">
+      <el-form class="demo-item">
+        <div class="fz16 modalTitle mb20">订单信息</div>
+        <el-row>
+          <el-col :span='8' :xs='24'>
+            <el-form-item label="平台：">
+              <span>雅典娜</span>
+            </el-form-item>
+          </el-col>
+          <el-col :span='8' :xs='24'>
+            <el-form-item label="终端平台：">
+              <span>erww</span>
+            </el-form-item>
+          </el-col>
+          <el-col :span='8' :xs='24'>
+            <el-form-item label="买家账号：">
+              <span>123@qq.com</span>
+            </el-form-item>
+          </el-col>
+          <el-col :span='24' :xs='24'>
             <el-form-item label="类型：">
               <span>我要提问</span>
             </el-form-item>
@@ -648,7 +784,7 @@
             <span>问题</span>
           </el-col>
           <el-col :span="6" :xs="6">
-            <span>时间</span>
+            <span>执行时间</span>
           </el-col>
         </el-row>
         <el-row class="txtCenter mt20 mb20">
@@ -695,7 +831,7 @@
         </el-row>
       </el-form>
       <div slot='footer' class='dialog-footer'>
-        <el-button @click='viewQaTaskDateilsModel=false'>关闭</el-button>
+        <el-button @click='viewQaTaskDetailsModel=false'>关闭</el-button>
       </div>
     </el-dialog>
     <!--评论链接-->
@@ -866,7 +1002,6 @@
         testForm: {
           item: 'kyumin'
         },
-        likeTaskShow: 1,
         currentPage: 1,
         pageSize: '0',
         total: 100,
@@ -892,9 +1027,9 @@
         orderTitle: '',
         confirmBuyModel: false,
         accountSearchModel: false,
-        viewTaskDateilsModel: false,
-        viewQaTaskDateilsModel: false, //QA任务查看
-        viewLikeTaskDateilsModel: false, //点赞任务查看
+        viewTaskDetailsModel: false,
+        viewQaTaskDetailsModel: false, //QA任务查看
+        viewLikeTaskDetailsModel: false, //点赞任务查看
         isFBA: false, //是否为FBA订单
         confirmBuyForm: {
           buyTime: '',
@@ -989,11 +1124,9 @@
         ],
         searchForm: {
           platform: '1',
-          searchkeywords: '',
-          orderStartTime: '',
-          orderEndTime: '',
           countryId: '',
           orderTypeValue: '1',
+          searchkeywords: ''
         },
         editPriceForm: {
           addServiceFree: '',
@@ -1053,11 +1186,6 @@
           }],
 
         },
-        searchForm: {
-          platform: '全部',
-          countryId: '',
-          searchkeywords: ''
-        },
         activeName: 'first',
         allNum: '0',
         active: 1,
@@ -1089,7 +1217,7 @@
         second = second < 10 ? "0" + second : second
         let nowtime = year + "-" + month + "-" + day + " " + hour + ":" + minute + ":" + second
         let _this = this
-        _this.confirmBuyForm.buyTime=nowtime
+        _this.confirmBuyForm.buyTime = nowtime
       },
 
       //填写评价确定
@@ -1127,18 +1255,6 @@
         let item = _this.orderPlaceData[index]
         let num = item.Numbers
         _this.title = '任务：' + num + '填写评论信息'
-      },
-      //选择点赞任务类型
-      selectTask() {
-        let _this = this
-        let val = _this.searchForm.orderTypeValue
-        if (val == 4) {
-          _this.likeTaskShow = 4
-        } else if (val == 5) {
-          _this.likeTaskShow = 5
-        } else {
-          _this.likeTaskShow = 1
-        }
       },
       showMessageFromChild(data) {
         console.log(data.CountryId)
@@ -1309,7 +1425,7 @@
       // 查看任务详情弹窗
       viewTaskDetails(index, row) {
         let _this = this
-        _this.viewTaskDateilsModel = true
+        _this.viewTaskDetailsModel = true
         let orderType = _this.searchForm.orderTypeValue
         if (orderType == "1") {
           _this.isFBA = true
@@ -1323,15 +1439,15 @@
       //点赞任务查看详情
       viewLikeTaskDetails(index, row) {
         let _this = this
-        _this.viewLikeTaskDateilsModel = true
+        _this.viewLikeTaskDetailsModel = true
         let item = _this.orderPlaceData[index]
         let num = item.Numbers
         _this.orderTitle = '任务：' + num + '的详情信息'
       },
       //QA任务查看详情
-      viewQaTaskDetails(index, row) {
+      viewQATaskDetails(index, row) {
         let _this = this
-        _this.viewQaTaskDateilsModel = true
+        _this.viewQaTaskDetailsModel = true
         let item = _this.orderPlaceData[index]
         let num = item.Numbers
         _this.orderTitle = '任务：' + num + '的详情信息'

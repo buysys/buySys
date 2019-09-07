@@ -69,7 +69,7 @@
         <el-table :data="tableData" id="exportOrder" style="width: 100%" :header-cell-style="{background:'#fafafa'}"
           @selection-change="handleSelectionChange">
           <el-table-column type="selection"></el-table-column>
-          <el-table-column prop="Numbers" label="任务编码" align="center" width="200">
+          <el-table-column prop="Numbers" label="FBA任务编码" align="center" width="120">
             <template slot-scope="scope">
               <el-button type="text" @click="viewDetailsModelShow(scope.$index,scope.row)">{{scope.row.Numbers}}</el-button>
             </template>
@@ -127,7 +127,7 @@
       <div class="mt10">
         <el-table :data="tableData" style="width: 100%" :header-cell-style="{background:'#fafafa'}" @selection-change="handleSelectionChange">
           <el-table-column type="selection"></el-table-column>
-          <el-table-column prop="Numbers" label="下单单号" align="center" width="200">
+          <el-table-column prop="Numbers" label="加购任务编码" align="center" width="120">
             <template slot-scope="scope">
               <el-button type="text" @click="viewDetailsModelShow(scope.$index,scope.row)">{{scope.row.Numbers}}</el-button>
             </template>
@@ -144,8 +144,8 @@
           <el-table-column prop="OrderNote" label="付款金额" align="center"></el-table-column>
           <el-table-column prop="OrderNote" label="客户编码" align="center"></el-table-column>
           <el-table-column prop="OrderTime" label="下单时间" align="center"></el-table-column>
-          <el-table-column prop="Status" label="订单状态" align="center" width="100"></el-table-column>
-          <el-table-column label="操作" align="center" width="300">
+          <el-table-column prop="Status" label="订单状态" align="center"></el-table-column>
+          <el-table-column label="操作" align="center" width="200">
             <template slot-scope="scope">
               <el-button size="small" type="primary" @click="viewTask(scope.$index,scope.row)">查看任务</el-button>
               <el-button size="small" @click="cancelReason(scope.$index,scope.row)">取消原因</el-button>
@@ -182,7 +182,7 @@
       <div class="mt10">
         <el-table :data="tableData" style="width: 100%" :header-cell-style="{background:'#fafafa'}" @selection-change="handleSelectionChange">
           <el-table-column type="selection"></el-table-column>
-          <el-table-column prop="Numbers" label="下单单号" align="center" width="200">
+          <el-table-column prop="Numbers" label="心愿任务编码" align="center" width="120">
             <template slot-scope="scope">
               <el-button type="text" @click="viewDetailsModelShow(scope.$index,scope.row)">{{scope.row.Numbers}}</el-button>
             </template>
@@ -199,8 +199,8 @@
           <el-table-column prop="OrderNote" label="付款金额" align="center"></el-table-column>
           <el-table-column prop="OrderNote" label="客户编码" align="center"></el-table-column>
           <el-table-column prop="OrderTime" label="下单时间" align="center"></el-table-column>
-          <el-table-column prop="Status" label="订单状态" align="center" width="100"></el-table-column>
-          <el-table-column label="操作" align="center" width="380">
+          <el-table-column prop="Status" label="订单状态" align="center"></el-table-column>
+          <el-table-column label="操作" align="center" width="200">
             <template slot-scope="scope">
               <el-button size="small" type="primary" @click="viewTask(scope.$index,scope.row)">查看任务</el-button>
               <el-button size="small" @click="cancelReason(scope.$index,scope.row)">取消原因</el-button>
@@ -237,9 +237,9 @@
       <div class="mt10">
         <el-table :data="tableData" style="width: 100%" :header-cell-style="{background:'#fafafa'}" @selection-change="handleSelectionChange">
           <el-table-column type="selection"></el-table-column>
-          <el-table-column prop="Numbers" label="下单单号" align="center" width="200">
+          <el-table-column prop="Numbers" label="点赞任务编码" align="center" width="120">
             <template slot-scope="scope">
-              <el-button type="text" @click="viewDetailsModelShow(scope.$index,scope.row)">{{scope.row.Numbers}}</el-button>
+              <el-button type="text" @click="viewLikeDetailsModelShow(scope.$index,scope.row)">{{scope.row.Numbers}}</el-button>
             </template>
           </el-table-column>
           <el-table-column prop="CountryId" label="平台/国家" align="center"></el-table-column>
@@ -254,8 +254,8 @@
           <el-table-column prop="OrderNote" label="付款金额" align="center"></el-table-column>
           <el-table-column prop="OrderNote" label="客户编码" align="center"></el-table-column>
           <el-table-column prop="OrderTime" label="下单时间" align="center"></el-table-column>
-          <el-table-column prop="Status" label="订单状态" align="center" width="100"></el-table-column>
-          <el-table-column label="操作" align="center" width="300">
+          <el-table-column prop="Status" label="订单状态" align="center"></el-table-column>
+          <el-table-column label="操作" align="center" width="200">
             <template slot-scope="scope">
               <el-button size="small" type="primary" @click="viewTask(scope.$index,scope.row)">查看任务</el-button>
               <el-button size="small" @click="cancelReason(scope.$index,scope.row)">取消原因</el-button>
@@ -291,9 +291,9 @@
       <div class="mt10">
         <el-table :data="tableData" style="width: 100%" :header-cell-style="{background:'#fafafa'}" @selection-change="handleSelectionChange">
           <el-table-column type="selection"></el-table-column>
-          <el-table-column prop="Numbers" label="下单单号" align="center" width="200">
+          <el-table-column prop="Numbers" label="QA任务编码" align="center" width="120">
             <template slot-scope="scope">
-              <el-button type="text" @click="viewDetailsModelShow(scope.$index,scope.row)">{{scope.row.Numbers}}</el-button>
+              <el-button type="text" @click="viewQaDetailsModelShow(scope.$index,scope.row)">{{scope.row.Numbers}}</el-button>
             </template>
           </el-table-column>
           <el-table-column prop="CountryId" label="平台/国家" align="center"></el-table-column>
@@ -308,8 +308,8 @@
           <el-table-column prop="OrderNote" label="付款金额" align="center"></el-table-column>
           <el-table-column prop="OrderNote" label="客户编码" align="center"></el-table-column>
           <el-table-column prop="OrderTime" label="下单时间" align="center"></el-table-column>
-          <el-table-column prop="Status" label="订单状态" align="center" width="100"></el-table-column>
-          <el-table-column label="操作" align="center" width="300">
+          <el-table-column prop="Status" label="订单状态" align="center"></el-table-column>
+          <el-table-column label="操作" align="center" width="200">
             <template slot-scope="scope">
               <el-button size="small" type="primary" @click="viewTask(scope.$index,scope.row)">查看任务</el-button>
               <el-button size="small" @click="cancelReason(scope.$index,scope.row)">取消原因</el-button>
@@ -373,228 +373,221 @@
       <el-form class="demo-item" :model='orderViewForm'>
         <div class="modalTitle mb20 fz16">订单信息</div>
         <el-row>
-          <el-col :span='12' :xs='24'>
+          <el-col :span='8' :xs='24'>
             <el-form-item label="平台：">
               <span>{{orderViewForm.Forum}}</span>
             </el-form-item>
           </el-col>
-          <el-col :span='12' :xs='24'>
+          <el-col :span='8' :xs='24'>
             <el-form-item label="国家：">
               <span>{{orderViewForm.CountryId}}</span>
             </el-form-item>
           </el-col>
-          <el-col :span='12' :xs='24'>
+          <el-col :span='8' :xs='24'>
             <el-form-item label="产品ASIN：">
               <span>D2342543654657</span>
             </el-form-item>
           </el-col>
-          <el-col :span='12' :xs='24'>
+          <el-col :span='8' :xs='24'>
             <el-form-item label="店铺：">
               <span>nike</span>
             </el-form-item>
           </el-col>
-          <el-col :span='12' :xs='24'>
+          <el-col :span='8' :xs='24'>
             <el-form-item label="产品名称：">
               <span>水淀粉</span>
             </el-form-item>
           </el-col>
-          <el-col :span='12' :xs='24'>
+          <el-col :span='8' :xs='24'>
             <el-form-item label="产品价格：">
               <span>$100</span>
             </el-form-item>
           </el-col>
-          <el-col :span='12' :xs='24'>
+          <el-col :span='8' :xs='24'>
             <el-form-item label="评论数：">
               <span>2</span>
             </el-form-item>
           </el-col>
-          <el-col :span='12' :xs='24'>
+          <el-col :span='8' :xs='24'>
             <el-form-item label='产品评分：'>
               <el-rate v-model="orderViewForm.score" disabled show-score text-color="#ff9900" score-template="{value}"
                 style='line-height: 2.8;'></el-rate>
             </el-form-item>
           </el-col>
-          <el-col :span='12' :xs='24'>
+          <el-col :span='8' :xs='24'>
             <el-form-item label="品类排名：">
               <span>2</span>
             </el-form-item>
           </el-col>
-          <el-col :span='12' :xs='24'>
+          <el-col :span='8' :xs='24'>
             <el-form-item label="产品图片：">
               <img class="proImg"></img>
             </el-form-item>
           </el-col>
-          <el-col :span="12" :xs="24" class="fleft">
+          <el-col :span="8" :xs="24" class="fleft">
             <el-form-item label="产品链接：" class="wid">
               <span>http://www.pre.com</span>
             </el-form-item>
           </el-col>
-          <el-col :span="12" :xs="24" v-if="isFBA">
+          <el-col :span="8" :xs="24" v-if="isFBA">
             <el-form-item label="预估月销量：">
               <span>2000</span>
             </el-form-item>
           </el-col>
-          <el-col :span='12' :xs='24'>
+          <el-col :span='8' :xs='24'>
             <el-form-item label="关键词类型：">
               <span>产地是</span>
             </el-form-item>
           </el-col>
-          <el-col :span='12' :xs='24'>
+          <el-col :span='8' :xs='24'>
             <el-form-item label="终端平台：">
               <span>PC</span>
             </el-form-item>
           </el-col>
-          <el-col :span='12' :xs='24'>
+          <el-col :span='8' :xs='24'>
             <el-form-item label="产品关键词：">
               <span>产地是</span>
             </el-form-item>
           </el-col>
-          <el-col :span='12' :xs='24'>
+          <el-col :span='8' :xs='24'>
             <el-form-item label="代购数量：">
               <span>3</span>
             </el-form-item>
           </el-col>
-          <el-col :span='12' :xs='24'>
+          <el-col :span='8' :xs='24'>
             <el-form-item label="留评类型：">
               <span>100%</span>
             </el-form-item>
           </el-col>
-          <el-col :span='12' :xs='24'>
+          <el-col :span='8' :xs='24'>
             <el-form-item label="FeedBack数量：">
               <span>3</span>
             </el-form-item>
           </el-col>
-          <el-col :span='12' :xs='24'>
+          <el-col :span='8' :xs='24'>
             <el-form-item label="评论图片数量：">
               <span>2</span>
             </el-form-item>
           </el-col>
-          <el-col :span='12' :xs='24'>
+          <el-col :span='8' :xs='24'>
             <el-form-item label="评论视频数量：">
               <span>2</span>
             </el-form-item>
           </el-col>
-          <el-col :span='12' :xs='24'>
+          <el-col :span='8' :xs='24'>
             <el-form-item label="使用优惠券：">
               <span>否</span>
             </el-form-item>
           </el-col>
-          <el-col :span='12' :xs='24'>
-            <el-form-item label="链接地址：">
-              <span>https://www.sdfs.com</span>
-            </el-form-item>
-          </el-col>
-          <el-col :span="12" :xs="24" v-if="isFBA">
+          <el-col :span="8" :xs="24" v-if="isFBA">
             <el-form-item label="是否自发货：">
               <span>是</span>
             </el-form-item>
           </el-col>
         </el-row>
-        <el-row class="txtCenter" style="padding:10px 0">
-          <el-col :span="8" :xs="8">
-            <span>任务开始日期</span>
+        <el-row style="border: 1px solid #eee;">
+          <el-col :span="8" :xs="24">
+            <el-form-item label=""><span class="ml60">任务开始日期</span></el-form-item>
           </el-col>
-          <el-col :span="8" :xs="8">
-            <span>时间</span>
+          <el-col :span="8" :xs="24">
+            <el-form-item label=""><span class="ml60">任务开始时间</span></el-form-item>
           </el-col>
-          <el-col :span="8" :xs="8">
-            <span>数量</span>
+          <el-col :span="8" :xs="24">
+            <el-form-item label=""><span class="ml60">任务数量</span></el-form-item>
           </el-col>
-        </el-row>
-        <el-row class="txtCenter mt20 mb20">
-          <el-col :span='8' :xs="8">
-            <span>2019-07-02</span>
+          <el-col :span='8' :xs="24">
+            <el-form-item label=""><span class="ml60">2019-09-09</span></el-form-item>
           </el-col>
-          <el-col :span='8' :xs="8">
-            <span>00:00-20:00</span>
+          <el-col :span='8' :xs="24">
+            <el-form-item label=""><span class="ml60">00:00-20:00</span></el-form-item>
           </el-col>
-          <el-col :span='8' :xs="8">
-            <span>2</span>
+          <el-col :span='8' :xs="24">
+            <el-form-item label=""><span class="ml60">22</span></el-form-item>
           </el-col>
         </el-row>
-        <el-row :gutter='30'>
-          <el-col :span='12' :xs='24'>
+        <el-row>
+          <el-col :span='8' :xs='24'>
             <el-form-item label="产品总额：">
               <span>$23.00</span>
             </el-form-item>
           </el-col>
-          <el-col :span='12' :xs='24'>
+          <el-col :span='8' :xs='24'>
             <el-form-item label="服务费用：">
               <span>$0.00</span>
             </el-form-item>
           </el-col>
-          <el-col :span='12' :xs='24'>
+          <el-col :span='8' :xs='24'>
             <el-form-item label="合计金额：">
               <span>$23</span>
             </el-form-item>
           </el-col>
-          <el-col :span='12' :xs='24'>
+          <el-col :span='8' :xs='24'>
             <el-form-item label="订单备注：">
-              <span>而温柔</span>
+              <span>快点发货</span>
             </el-form-item>
           </el-col>
         </el-row>
         <div class="modalTitle mb20 fz16">客户信息</div>
         <el-row>
-          <el-col :span='12' :xs='24'>
+          <el-col :span='8' :xs='24'>
             <el-form-item label="账号：">
               <span>kyumin</span>
             </el-form-item>
           </el-col>
-          <el-col :span='12' :xs='24'>
+          <el-col :span='8' :xs='24'>
             <el-form-item label="名称：">
               <span>kyumin</span>
             </el-form-item>
           </el-col>
-          <el-col :span='12' :xs='24'>
+          <el-col :span='8' :xs='24'>
             <el-form-item label="邮箱：">
               <span>kyumin@163.com</span>
             </el-form-item>
           </el-col>
-          <el-col :span='12' :xs='24'>
+          <el-col :span='8' :xs='24'>
             <el-form-item label="手机：">
               <span>1234242422</span>
             </el-form-item>
           </el-col>
-          <el-col :span='12' :xs='24'>
+          <el-col :span='8' :xs='24'>
             <el-form-item label="微信：">
               <span>kyumin</span>
             </el-form-item>
           </el-col>
-          <el-col :span='12' :xs='24'>
+          <el-col :span='8' :xs='24'>
             <el-form-item label="QQ：">
               <span>7043443443</span>
             </el-form-item>
           </el-col>
         </el-row>
+        <div class="modalTitle mb20 fz16">付款信息</div>
         <el-row>
-          <div class="modalTitle mb20 fz16">付款信息</div>
-          <el-col :span='12' :xs='24'>
+          <el-col :span='8' :xs='24'>
             <el-form-item label="付款方式：">
               <span>支付宝</span>
             </el-form-item>
           </el-col>
-          <el-col :span='12' :xs='24'>
+          <el-col :span='8' :xs='24'>
             <el-form-item label="付款账号：">
               <span>7043443443</span>
             </el-form-item>
           </el-col>
-          <el-col :span='12' :xs='24'>
+          <el-col :span='8' :xs='24'>
             <el-form-item label="收款账号：">
               <span>支付宝</span>
             </el-form-item>
           </el-col>
-          <el-col :span='12' :xs='24'>
+          <el-col :span='8' :xs='24'>
             <el-form-item label="收款姓名：">
               <span>kyumin</span>
             </el-form-item>
           </el-col>
-          <el-col :span='12' :xs='24'>
+          <el-col :span='8' :xs='24'>
             <el-form-item label="交易流水：">
               <span>43253256576576</span>
             </el-form-item>
           </el-col>
-          <el-col :span='12' :xs='24'>
+          <el-col :span='8' :xs='24'>
             <el-form-item label="付款金额：">
               <span>￥70</span>
             </el-form-item>
@@ -610,37 +603,35 @@
       <el-form class="demo-item">
         <div class="modalTitle mb20 fz16">订单信息</div>
         <el-row>
-          <el-col :span='12' :xs='24'>
+          <el-col :span='8' :xs='24'>
             <el-form-item label="平台：">
               <span>亚马逊</span>
             </el-form-item>
           </el-col>
-          <el-col :span='12' :xs='24'>
+          <el-col :span='8' :xs='24'>
             <el-form-item label="终端平台：">
               <span>娃哈哈</span>
             </el-form-item>
           </el-col>
         </el-row>
-        <el-row class="txtCenter" style="padding:10px 0">
-          <el-col :span="8" :xs="8">
-            <span>链接地址</span>
+        <el-row style="border: 1px solid #eee;">
+          <el-col :span="8" :xs="24">
+            <el-form-item label=""><span class="ml80">链接地址</span></el-form-item>
           </el-col>
-          <el-col :span="8" :xs="8">
-            <span>操作</span>
+          <el-col :span="8" :xs="24">
+            <el-form-item label=""><span class="ml80">操作</span></el-form-item>
           </el-col>
-          <el-col :span="8" :xs="8">
-            <span>数量</span>
+          <el-col :span="8" :xs="24">
+            <el-form-item label=""><span class="ml80">数量</span></el-form-item>
           </el-col>
-        </el-row>
-        <el-row class="txtCenter mt20 mb20">
-          <el-col :span='8' :xs="8">
-            <span>https://www.pdfs.com</span>
+          <el-col :span='8' :xs="24">
+            <el-form-item label=""><span class="ml80">http://www.baidu.com</span></el-form-item>
           </el-col>
-          <el-col :span='8' :xs="8">
-            <span>点赞</span>
+          <el-col :span='8' :xs="24">
+            <el-form-item label=""><span class="ml80">点赞</span></el-form-item>
           </el-col>
-          <el-col :span='8' :xs="8">
-            <span>2</span>
+          <el-col :span='8' :xs="24">
+            <el-form-item label=""><span class="ml80">22</span></el-form-item>
           </el-col>
         </el-row>
         <el-row>
@@ -727,22 +718,23 @@
       <el-form class="demo-item">
         <div class="modalTitle mb20 fz16">订单信息</div>
         <el-row>
-          <el-col :span='12' :xs='24'>
+          <el-col :span='8' :xs='24'>
             <el-form-item label="平台：">
               <span>亚马逊</span>
             </el-form-item>
           </el-col>
-          <el-col :span='12' :xs='24'>
+          <el-col :span='8' :xs='24'>
             <el-form-item label="终端平台：">
               <span>娃哈哈</span>
             </el-form-item>
           </el-col>
-          <el-col :span='12' :xs='24'>
+          <el-col :span='8' :xs='24'>
             <el-form-item label="类型：">
               <span>我要提问</span>
             </el-form-item>
           </el-col>
         </el-row>
+        <div style="border: 1px solid #eee">
         <el-row class="txtCenter problem" style="padding:10px 0">
           <el-col :span="6" :xs="6">
             <span>国家</span>
@@ -799,6 +791,7 @@
             <span>2019-09-12</span>
           </el-col>
         </el-row>
+        </div>
         <el-row :gutter="30">
           <el-col :span='12' :xs='24'>
             <el-form-item label="服务费用：">
@@ -808,32 +801,32 @@
         </el-row>
         <div class="modalTitle mb20 fz16">客户信息</div>
         <el-row>
-          <el-col :span='12' :xs='24'>
+          <el-col :span='8' :xs='24'>
             <el-form-item label="账号：">
               <span>kyumin</span>
             </el-form-item>
           </el-col>
-          <el-col :span='12' :xs='24'>
+          <el-col :span='8' :xs='24'>
             <el-form-item label="名称：">
               <span>kyumin</span>
             </el-form-item>
           </el-col>
-          <el-col :span='12' :xs='24'>
+          <el-col :span='8' :xs='24'>
             <el-form-item label="邮箱：">
               <span>kyumin@163.com</span>
             </el-form-item>
           </el-col>
-          <el-col :span='12' :xs='24'>
+          <el-col :span='8' :xs='24'>
             <el-form-item label="手机：">
               <span>1234242422</span>
             </el-form-item>
           </el-col>
-          <el-col :span='12' :xs='24'>
+          <el-col :span='8' :xs='24'>
             <el-form-item label="微信：">
               <span>kyumin</span>
             </el-form-item>
           </el-col>
-          <el-col :span='12' :xs='24'>
+          <el-col :span='8' :xs='24'>
             <el-form-item label="QQ：">
               <span>7043443443</span>
             </el-form-item>
@@ -841,32 +834,32 @@
         </el-row>
         <div class="modalTitle mb20 fz16">付款信息</div>
         <el-row>
-          <el-col :span='12' :xs='24'>
+          <el-col :span='8' :xs='24'>
             <el-form-item label="付款方式：">
               <span>支付宝</span>
             </el-form-item>
           </el-col>
-          <el-col :span='12' :xs='24'>
+          <el-col :span='8' :xs='24'>
             <el-form-item label="付款账号：">
               <span>7043443443</span>
             </el-form-item>
           </el-col>
-          <el-col :span='12' :xs='24'>
+          <el-col :span='8' :xs='24'>
             <el-form-item label="收款账号：">
               <span>支付宝</span>
             </el-form-item>
           </el-col>
-          <el-col :span='12' :xs='24'>
+          <el-col :span='8' :xs='24'>
             <el-form-item label="收款姓名：">
               <span>kyumin</span>
             </el-form-item>
           </el-col>
-          <el-col :span='12' :xs='24'>
+          <el-col :span='8' :xs='24'>
             <el-form-item label="交易流水：">
               <span>43253256576576</span>
             </el-form-item>
           </el-col>
-          <el-col :span='12' :xs='24'>
+          <el-col :span='8' :xs='24'>
             <el-form-item label="付款金额：">
               <span>￥70</span>
             </el-form-item>
@@ -924,7 +917,7 @@
         accountModel: false, //分配买号
         nextModal: false, //继续
         FbaOrder: true,
-        isFBA : false, //是否是FBA订单
+        isFBA: false, //是否是FBA订单
         isQA: false, //是否是QA订单
         tableData: [{
             "Numbers": "20190605105636229596",
@@ -1066,30 +1059,44 @@
         let _this = this
         _this.accountModel = false
       },
-      // 查看订单详情弹窗
+      // 查看订单详情弹窗(FBA/加购心愿订单)
       viewDetailsModelShow(index, row) {
         let _this = this
+        _this.viewDetailsModel = true
+        _this.viewLikeDateilsModel = false
+        _this.viewQADateilsModel = false
         let orderType = _this.searchForm.orderTypeValue
-        if (orderType == "1" || orderType == "2" || orderType == "3") {
-          if(orderType == "1"){
-            _this.isFBA = true
-          }else{
-            _this.isFBA = false
-          }
-          _this.viewDetailsModel = true
-          _this.viewLikeDateilsModel = false
-          _this.viewQADateilsModel = false
+        if (orderType == "1") {
+          _this.isFBA = true
+        } else {
+          _this.isFBA = false
         }
-        if (orderType == "4") {
-          _this.viewDetailsModel = false
-          _this.viewLikeDateilsModel = true
-          _this.viewQADateilsModel = false
-        }
-        if (orderType == "5") {
-          _this.viewDetailsModel = false
-          _this.viewLikeDateilsModel = false
-          _this.viewQADateilsModel = true
-        }
+        let item = _this.tableData[index]
+        let num = item.Numbers
+        _this.title = '订单：' + num + '的详情信息'
+        _this.orderViewForm.Forum = item.Forum
+        _this.orderViewForm.CountryId = item.CountryId
+      },
+
+      // 查看订单详情弹窗(点赞订单)
+      viewLikeDetailsModelShow(index, row) {
+        let _this = this
+        _this.viewDetailsModel = false
+        _this.viewLikeDateilsModel = true
+        _this.viewQADateilsModel = false
+        let item = _this.tableData[index]
+        let num = item.Numbers
+        _this.title = '订单：' + num + '的详情信息'
+        _this.orderViewForm.Forum = item.Forum
+        _this.orderViewForm.CountryId = item.CountryId
+      },
+
+      // 查看订单详情弹窗(QA订单)
+      viewQaDetailsModelShow(index, row) {
+        let _this = this
+        _this.viewDetailsModel = false
+        _this.viewLikeDateilsModel = false
+        _this.viewQADateilsModel = true
         let item = _this.tableData[index]
         let num = item.Numbers
         _this.title = '订单：' + num + '的详情信息'
