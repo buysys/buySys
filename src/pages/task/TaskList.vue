@@ -427,8 +427,11 @@
     <!--退款-->
     <el-dialog title="订单退款" :visible.sync="refundModel" :close-on-click-modal="false">
       <el-form :rules="editRules" label-width="125px" status-icon>
-        <el-form-item label="退款金额">
-          <el-input v-model="editPriceForm.exchangeRate"></el-input>
+        <el-form-item label="产品总价">
+          <el-input v-model="editPriceForm.totalPrice"></el-input>
+        </el-form-item>
+        <el-form-item label="服务费">
+          <el-input v-model="editPriceForm.addServiceFree"></el-input>
         </el-form-item>
         <el-form-item label="退款备注">
           <el-input type="textarea" v-model="editPriceForm.remark"></el-input>
@@ -1130,7 +1133,7 @@
         },
         editPriceForm: {
           addServiceFree: '',
-          exchangeRate: '',
+          totalPrice: '',
           remark: ''
         },
         editRules: {
