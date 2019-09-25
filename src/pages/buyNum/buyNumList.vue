@@ -79,17 +79,6 @@
                       <el-checkbox label="加拿大" name="type"></el-checkbox>
                       <el-checkbox label="手机测试" name="type"></el-checkbox>
                       <el-checkbox label="西班牙" name="type"></el-checkbox>
-                      <el-checkbox label="新人注册号" name="type"></el-checkbox>
-                      <el-checkbox label="加拿大" name="type"></el-checkbox>
-                      <el-checkbox label="手机测试" name="type"></el-checkbox>
-                      <el-checkbox label="西班牙" name="type"></el-checkbox>
-                      <el-checkbox label="新人注册号" name="type"></el-checkbox>
-                      <el-checkbox label="加拿大" name="type"></el-checkbox>
-                      <el-checkbox label="手机测试" name="type"></el-checkbox>
-                      <el-checkbox label="西班牙" name="type"></el-checkbox>
-                      <el-checkbox label="新人注册号" name="type"></el-checkbox>
-                      <el-checkbox label="加拿大" name="type"></el-checkbox>
-                      <el-checkbox label="手机测试" name="type"></el-checkbox>
                     </el-checkbox-group>
                 </el-collapse-transition>
                 </div>
@@ -115,8 +104,6 @@
       <el-button type="primary" size="medium" :disabled="disabled" @click="editLevel"><i class="el-icon-edit-outline"></i>修改
       </el-button>
       <el-button type="danger" size="medium" :disabled="disabled" @click="delHandel"><i class="el-icon-delete"></i>删除
-      </el-button>
-      <el-button type="primary" size="medium" :disabled="disabled" @click="buyNumLevel"><i class="el-icon-rank"></i>绑定买号等级
       </el-button>
       <el-button type="primary" size="medium" :disabled="disabled" @click="updateTab"><i class="el-icon-edit-outline"></i>修改标签
       </el-button>
@@ -163,7 +150,8 @@
         <el-table-column prop="OrderNote" label="关联刷手" align="center"></el-table-column>
         <el-table-column prop="Status" label="状态" align="center"></el-table-column>
         <el-table-column prop="OrderNote" label="是否留评" align="center"></el-table-column>
-        <el-table-column prop="OrderNote" label="亚马逊排名" align="center"></el-table-column>
+        <el-table-column prop="OrderNote" label="上周排名" align="center"></el-table-column>
+        <el-table-column prop="OrderNote" label="本周排名" align="center"></el-table-column>
         <el-table-column prop="OrderNote" label="排名涨幅" align="center"></el-table-column>
         <el-table-column label="操作" align="center" width='280'>
           <template slot-scope="scope">
@@ -294,7 +282,95 @@
             <el-checkbox label="手机测试" name="手机测试"></el-checkbox>
           </el-checkbox-group>
         </el-form-item>
-        <div class="modalTitle mb20 fz16">收货地址</div>
+        <div class="modalTitle mb20 fz16">收货地址1</div>
+        <el-row>
+          <el-col :span='12' :xs='24'>
+            <el-form-item label="姓名" class='inpWid'>
+              <el-input v-model="buyNumForm.username" placeholder='请输入姓名'></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span='12' :xs='24'>
+            <el-form-item label="电话" class='inpWid'>
+              <el-input v-model="buyNumForm.phone" placeholder='请输入电话'></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span='12' :xs='24'>
+            <el-form-item label="国家" class='inpWid'>
+              <el-input v-model="buyNumForm.receivingCountry" placeholder='请输入国家'></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span='12' :xs='24'>
+            <el-form-item label="省/州" prop="province" class='inpWid'>
+              <el-input v-model="buyNumForm.province" placeholder='请输入省州'></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span='12' :xs='24'>
+            <el-form-item label="城市" class='inpWid'>
+              <el-input v-model="buyNumForm.city" placeholder='请输入城市'></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span='12' :xs='24'>
+            <el-form-item label="邮编" class='inpWid'>
+              <el-input v-model="buyNumForm.postalCode" placeholder='请输入邮编'></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span='12' :xs='24'>
+            <el-form-item label="详细地址" class='inpWid'>
+              <el-input v-model="buyNumForm.address" placeholder='请输入详细地址'></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <div class="modalTitle mb20 fz16">收货地址2</div>
+        <el-row>
+          <el-col :span='12' :xs='24'>
+            <el-form-item label="姓名" class='inpWid'>
+              <el-input v-model="buyNumForm.username" placeholder='请输入姓名'></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span='12' :xs='24'>
+            <el-form-item label="电话" class='inpWid'>
+              <el-input v-model="buyNumForm.phone" placeholder='请输入电话'></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span='12' :xs='24'>
+            <el-form-item label="国家" class='inpWid'>
+              <el-input v-model="buyNumForm.receivingCountry" placeholder='请输入国家'></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span='12' :xs='24'>
+            <el-form-item label="省/州" prop="province" class='inpWid'>
+              <el-input v-model="buyNumForm.province" placeholder='请输入省州'></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span='12' :xs='24'>
+            <el-form-item label="城市" class='inpWid'>
+              <el-input v-model="buyNumForm.city" placeholder='请输入城市'></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col :span='12' :xs='24'>
+            <el-form-item label="邮编" class='inpWid'>
+              <el-input v-model="buyNumForm.postalCode" placeholder='请输入邮编'></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <el-row>
+          <el-col :span='12' :xs='24'>
+            <el-form-item label="详细地址" class='inpWid'>
+              <el-input v-model="buyNumForm.address" placeholder='请输入详细地址'></el-input>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <div class="modalTitle mb20 fz16">收货地址3</div>
         <el-row>
           <el-col :span='12' :xs='24'>
             <el-form-item label="姓名" class='inpWid'>
@@ -532,47 +608,6 @@
         <el-button @click="closeBuyNum">取 消</el-button>
       </div>
     </el-dialog>
-    <!-- 绑定买号等级-->
-    <el-dialog title="绑定买号等级" :visible.sync="buyNumLevelModel" :close-on-click-modal="false" custom-class="fixed-dialog">
-      <el-form :model="brushSearch" ref="brushSearch" class="demo-dynamic" label-width="100px">
-        <el-row>
-          <el-col :xs="24" :span="7" :sm="9" :md="8" :lg="10">
-            <el-form-item label="等级名称">
-              <el-input type="text" v-model="brushSearch.brush"></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :xs="24" :span="5" :sm="10" :md="8" :lg="5" class="ml20">
-            <el-button type="primary">搜索</el-button>
-            <el-button>重置</el-button>
-          </el-col>
-        </el-row>
-      </el-form>
-      <el-table :data="buyNumData" border style="width: 100%" @row-click="brushShowRow">
-        <el-table-column show-overflow-tooltip width="50px">
-          <template slot-scope="scope">
-            <el-radio class="radio" v-model="brushRadio" :label="scope.$index">&nbsp;</el-radio>
-          </template>
-        </el-table-column>
-        <el-table-column prop="CountryId" label="等级名称" align="center"></el-table-column>
-        <el-table-column prop="CountryId" label="累积购买金额" align="center"></el-table-column>
-        <el-table-column prop="Numbers" label="累积购买次数" align="center"></el-table-column>
-        <el-table-column prop="ProductPrice" label="累积留评次数" align="center"></el-table-column>
-        <el-table-column prop="Status" label="付款方式" align="center"></el-table-column>
-        <el-table-column prop="CountryId" label="价格开始区间" align="center"></el-table-column>
-        <el-table-column prop="Numbers" label="价格结束区间" align="center"></el-table-column>
-        <el-table-column prop="Status" label="排序" align="center"></el-table-column>
-        <el-table-column label="操作" align="center">
-          <template slot-scope="scope">
-            <el-button size="small" type="primary">分配信息
-            </el-button>
-          </template>
-        </el-table-column>
-      </el-table>
-      <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="editPricceModel=false">确 定</el-button>
-        <el-button @click="buyNumLevelModel = false">取 消</el-button>
-      </div>
-    </el-dialog>
     <!--选择主卡-->
     <el-dialog title="选择主卡" :visible.sync="cardModal" :close-on-click-modal="false">
       <el-form :model="cardData" ref="cardData" class="demo-dynamic" label-width="100px">
@@ -701,7 +736,7 @@
             </el-form-item>
           </el-col>
           <el-col :span='12' :xs='24'>
-            <el-form-item label="默认网关：">
+            <el-form-item label="默认网址：">
               <span>192.168.1.1</span>
             </el-form-item>
           </el-col>
@@ -771,7 +806,83 @@
             </el-form-item>
           </el-col>
           </el-row>
-          <div class="modalTitle mb20 fz16">收货地址</div>
+          <div class="modalTitle mb20 fz16">收货地址1</div>
+          <el-row>
+          <el-col :span='12' :xs='24'>
+            <el-form-item label="姓名：">
+              <span>托尼</span>
+            </el-form-item>
+          </el-col>
+          <el-col :span='12' :xs='24'>
+            <el-form-item label="电话：">
+              <span>45865441</span>
+            </el-form-item>
+          </el-col>
+          <el-col :span='12' :xs='24'>
+            <el-form-item label="国家：">
+              <span>美国</span>
+            </el-form-item>
+          </el-col>
+          <el-col :span='12' :xs='24'>
+            <el-form-item label="省/州：">
+              <span>加州</span>
+            </el-form-item>
+          </el-col>
+          <el-col :span='12' :xs='24'>
+            <el-form-item label="城市：">
+              <span>加州</span>
+            </el-form-item>
+          </el-col>
+          <el-col :span='12' :xs='24'>
+            <el-form-item label="邮编：">
+              <span>4565123</span>
+            </el-form-item>
+          </el-col>
+          <el-col :span='12' :xs='24'>
+            <el-form-item label="详细地址：">
+              <span>加州旅馆252号</span>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <div class="modalTitle mb20 fz16">收货地址2</div>
+          <el-row>
+          <el-col :span='12' :xs='24'>
+            <el-form-item label="姓名：">
+              <span>托尼</span>
+            </el-form-item>
+          </el-col>
+          <el-col :span='12' :xs='24'>
+            <el-form-item label="电话：">
+              <span>45865441</span>
+            </el-form-item>
+          </el-col>
+          <el-col :span='12' :xs='24'>
+            <el-form-item label="国家：">
+              <span>美国</span>
+            </el-form-item>
+          </el-col>
+          <el-col :span='12' :xs='24'>
+            <el-form-item label="省/州：">
+              <span>加州</span>
+            </el-form-item>
+          </el-col>
+          <el-col :span='12' :xs='24'>
+            <el-form-item label="城市：">
+              <span>加州</span>
+            </el-form-item>
+          </el-col>
+          <el-col :span='12' :xs='24'>
+            <el-form-item label="邮编：">
+              <span>4565123</span>
+            </el-form-item>
+          </el-col>
+          <el-col :span='12' :xs='24'>
+            <el-form-item label="详细地址：">
+              <span>加州旅馆252号</span>
+            </el-form-item>
+          </el-col>
+        </el-row>
+        <div class="modalTitle mb20 fz16">收货地址3</div>
           <el-row>
           <el-col :span='12' :xs='24'>
             <el-form-item label="姓名：">
@@ -934,7 +1045,6 @@
         systemTitle: '',
         remarkModal: false, //备注
         systemConfigModal: false, //系统配置
-        buyNumLevelModel: false, //绑定买号等级
         updateStatusModal: false, //修改状态弹窗
         accountStatus: '', //账号状态
         RelationBrushModal: false, //关联刷手
@@ -1178,20 +1288,6 @@
         let item = _this.buyNumData[index]
         let num = item.Numbers
         _this.systemTitle = '买号：' + num + '系统配置'
-      },
-      // 绑定买号等级
-      buyNumLevel() {
-        let _this = this
-        _this.buyNumLevelModel = true
-      },
-      // 绑定买号等级确定
-      BindBuyNumLevel() {
-        let _this = this
-        _this.buyNumLevelModel = false
-        _this.selected = {}
-        _this.brushSearch = {
-          brush: ''
-        }
       },
       // 关联刷手
       RelationBrush() {

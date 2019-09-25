@@ -142,9 +142,6 @@
 						<el-form-item label="最后登录时间："><span>{{viewForm.lastLoginTime}}</span></el-form-item>
 					</el-col>
 					<el-col :span="12" :xs="24">
-						<el-form-item label="是否修改账号："><span>{{viewForm.isEditAccount}}</span></el-form-item>
-					</el-col>
-					<el-col :span="12" :xs="24">
 						<el-form-item label="创建时间："><span>{{viewForm.createTime}}</span></el-form-item>
 					</el-col>
 					<el-col :span="24" :xs="24">

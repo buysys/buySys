@@ -43,12 +43,6 @@
 				<el-table-column prop="OrderNote" label="状态" align="center"></el-table-column>
 				<el-table-column prop="OrderNote" label="买家账号" align="center"></el-table-column>
 				<el-table-column prop="OrderNote" label="买号状态" align="center"></el-table-column>
-				<el-table-column prop="Status" label="操作" align="center">
-					<template slot-scope="scope">
-						<el-button size="small" type="primary" @click="repaymentHandle">还款
-						</el-button>
-					</template>
-				</el-table-column>
 			</el-table>
 			<div class="mt30">
 				<el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage" :page-sizes="[100, 200, 300, 500]" :page-size="10" layout="total, sizes, prev, pager, next, jumper" :total="total">
@@ -137,18 +131,6 @@
 				<el-button @click="closeQuotaModel" size="medium">取消</el-button>
 			</div>
 		</el-dialog>
-		<!--还款-->
-		<el-dialog title="请输入还款金额" :visible.sync="repaymentModel" :close-on-click-modal="false" :before-close="closeRepaymentModel" width="30%">
-			<el-form :model="repaymentForm" ref="repaymentForm" class="demo-dynamic">
-				<el-form-item prop="amount">
-					<el-input v-model="repaymentForm.amount" autofocus="true"></el-input>
-				</el-form-item>
-			</el-form>
-			<div slot="footer" class="dialog-footer">
-				<el-button type="primary" size="medium">确定</el-button>
-				<el-button @click="closeRepaymentModel" size="medium">取消</el-button>
-			</div>
-		</el-dialog>
 	</div>
 </template>
 
@@ -168,7 +150,6 @@
 				importModel: false,
 				quotaModel: false,
 				currentPage: 1,
-				repaymentModel: false,
 				pageSize: '0',
 				total: 100,
 				checkBoxData: [],
@@ -216,9 +197,6 @@
 					remark: ''
 				},
 				quotaForm: {
-					amount: ''
-				},
-				repaymentForm: {
 					amount: ''
 				},
 				editRules: {
@@ -336,21 +314,6 @@
 				_this.quotaForm = {
 					amout: ''
 				}
-			},
-			//还款弹窗
-			repaymentHandle() {
-				let _this = this;
-				//				let item = _this.checkBoxData[0];
-				_this.repaymentModel = true;
-				//				_this.repaymentForm.amount = item.amount;
-			},
-			//关闭还款弹窗
-			closeRepaymentModel() {
-				let _this = this;
-				_this.repaymentModel = false;
-				_this.repaymentForm = {
-					amount: ''
-				};
 			},
 			//是否选中
 			handleSelectionChange(val) {

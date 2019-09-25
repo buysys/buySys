@@ -50,8 +50,7 @@
     <!-- FBA订单列表 -->
     <div v-if="searchForm.orderTypeValue=='1'">
       <div class="mb20">
-        <el-button type="success" size="medium" :disabled="disabled" @click="editPrice"><i class="el-icon-edit-outline"></i>修改价格
-        </el-button>
+        <el-button type="success" size="medium" :disabled="disabled" @click="editPrice"><i class="el-icon-edit-outline"></i>修改价格</el-button>
         <el-button type="warning" size="medium"><i class="el-icon-download"></i>导入</el-button>
         <el-button type="warning" size="medium" @click="exportExcel"><i class="el-icon-upload2"></i>导出</el-button>
       </div>
@@ -61,8 +60,8 @@
           <li :class="active === 2 ? 'active':''" :data-index="2" @click="daiBuy">待付款<span>(0)</span></li>
           <li :class="active === 3 ? 'active':''" :data-index="3" @click="daifh">待确认<span>(0)</span></li>
           <li :class="active === 4 ? 'active':''" :data-index="4" @click="daicl">待处理<span>(0)</span></li>
-          <li :class="active === 7 ? 'active':''" :data-index="7" @click="ywc">已完成<span>(0)</span></li>
-          <li :class="active === 8 ? 'active':''" :data-index="8" @click="errData">已取消<span>(0)</span></li>
+          <li :class="active === 5 ? 'active':''" :data-index="5" @click="ywc">已完成<span>(0)</span></li>
+          <li :class="active === 6 ? 'active':''" :data-index="6" @click="errData">已取消<span>(0)</span></li>
         </ul>
       </div>
       <div class="mt10">
@@ -75,16 +74,17 @@
             </template>
           </el-table-column>
           <el-table-column prop="CountryId" label="平台/国家" align="center"></el-table-column>
-          <el-table-column prop="ProductByASIN" label="终端平台" align="center"></el-table-column>
+          <el-table-column prop="Forum" label="终端平台" align="center"></el-table-column>
           <el-table-column prop="ProductByASIN" label="产品ASIN" align="center"></el-table-column>
-          <el-table-column prop="ProductPrice" label="产品价格" align="center" class-name="red"></el-table-column>
-          <el-table-column prop="ServiceType" label="任务数" align="center"></el-table-column>
-          <el-table-column prop="OrderNote" label="产品总额" align="center"></el-table-column>
-          <el-table-column prop="OrderNote" label="服务费" align="center"></el-table-column>
-          <el-table-column prop="OrderNote" label="合计金额" align="center"></el-table-column>
-          <el-table-column prop="OrderNote" label="交易流水" align="center"></el-table-column>
-          <el-table-column prop="OrderNote" label="付款金额" align="center"></el-table-column>
+          <el-table-column prop="ProductPrice" label="产品价格" align="center"></el-table-column>
+          <el-table-column prop="OrderNumber" label="任务数" align="center"></el-table-column>
+          <el-table-column prop="ProductPrice" label="产品总额" align="center"></el-table-column>
+          <el-table-column prop="ProductPrice" label="服务费" align="center"></el-table-column>
+          <el-table-column prop="ProductPrice" label="合计金额" align="center"></el-table-column>
+          <el-table-column prop="Numbers" label="交易流水" align="center"></el-table-column>
+          <el-table-column prop="ProductPrice" label="付款金额" align="center"></el-table-column>
           <el-table-column prop="OrderNote" label="客户名称" align="center"></el-table-column>
+          <el-table-column prop="OrderNote" label="关联刷手" align="center"></el-table-column>
           <el-table-column prop="OrderTime" label="下单时间" align="center"></el-table-column>
           <el-table-column prop="Status" label="订单状态" align="center"></el-table-column>
           <el-table-column label="操作" align="center" width="400">
@@ -118,10 +118,8 @@
           <li :class="active === 2 ? 'active':''" :data-index="2" @click="daiBuy">待付款<span>(0)</span></li>
           <li :class="active === 3 ? 'active':''" :data-index="3" @click="daifh">待确认<span>(0)</span></li>
           <li :class="active === 4 ? 'active':''" :data-index="4" @click="daicl">待处理<span>(0)</span></li>
-          <!-- <li :class="active === 5 ? 'active':''" :data-index="5" @click="daish">待分配<span>(0)</span></li> -->
-          <!-- <li :class="active === 6 ? 'active':''" :data-index="6" @click="daipj">已分配<span>(0)</span></li> -->
-          <li :class="active === 7 ? 'active':''" :data-index="7" @click="ywc">已完成<span>(0)</span></li>
-          <li :class="active === 8 ? 'active':''" :data-index="8" @click="errData">已取消<span>(0)</span></li>
+          <li :class="active === 5 ? 'active':''" :data-index="5" @click="ywc">已完成<span>(0)</span></li>
+          <li :class="active === 6 ? 'active':''" :data-index="6" @click="errData">已取消<span>(0)</span></li>
         </ul>
       </div>
       <div class="mt10">
@@ -133,16 +131,17 @@
             </template>
           </el-table-column>
           <el-table-column prop="CountryId" label="平台/国家" align="center"></el-table-column>
-          <el-table-column prop="ProductByASIN" label="终端平台" align="center"></el-table-column>
+          <el-table-column prop="Forum" label="终端平台" align="center"></el-table-column>
           <el-table-column prop="ProductByASIN" label="产品ASIN" align="center"></el-table-column>
-          <el-table-column prop="ProductPrice" label="产品价格" align="center" class-name="red"></el-table-column>
-          <el-table-column prop="ServiceType" label="任务数" align="center"></el-table-column>
-          <el-table-column prop="OrderNote" label="产品总额" align="center"></el-table-column>
-          <el-table-column prop="OrderNote" label="服务费" align="center"></el-table-column>
-          <el-table-column prop="OrderNote" label="合计金额" align="center"></el-table-column>
-          <el-table-column prop="OrderNote" label="交易流水" align="center"></el-table-column>
-          <el-table-column prop="OrderNote" label="付款金额" align="center"></el-table-column>
-          <el-table-column prop="OrderNote" label="客户编码" align="center"></el-table-column>
+          <el-table-column prop="ProductPrice" label="产品价格" align="center"></el-table-column>
+          <el-table-column prop="OrderNumber" label="任务数" align="center"></el-table-column>
+          <el-table-column prop="ProductPrice" label="产品总额" align="center"></el-table-column>
+          <el-table-column prop="ProductPrice" label="服务费" align="center"></el-table-column>
+          <el-table-column prop="ProductPrice" label="合计金额" align="center"></el-table-column>
+          <el-table-column prop="Numbers" label="交易流水" align="center"></el-table-column>
+          <el-table-column prop="ProductPrice" label="付款金额" align="center"></el-table-column>
+          <el-table-column prop="OrderNote" label="客户名称" align="center"></el-table-column>
+          <el-table-column prop="OrderNote" label="关联刷手" align="center"></el-table-column>
           <el-table-column prop="OrderTime" label="下单时间" align="center"></el-table-column>
           <el-table-column prop="Status" label="订单状态" align="center"></el-table-column>
           <el-table-column label="操作" align="center" width="200">
@@ -173,10 +172,8 @@
           <li :class="active === 2 ? 'active':''" :data-index="2" @click="daiBuy">待付款<span>(0)</span></li>
           <li :class="active === 3 ? 'active':''" :data-index="3" @click="daifh">待确认<span>(0)</span></li>
           <li :class="active === 4 ? 'active':''" :data-index="4" @click="daicl">待处理<span>(0)</span></li>
-          <!--<li :class="active === 5 ? 'active':''" :data-index="5" @click="daish">待分配<span>(0)</span></li>
-      		<li :class="active === 6 ? 'active':''" :data-index="6" @click="daipj">已分配<span>(0)</span></li> -->
-          <li :class="active === 7 ? 'active':''" :data-index="7" @click="ywc">已完成<span>(0)</span></li>
-          <li :class="active === 8 ? 'active':''" :data-index="8" @click="errData">已取消<span>(0)</span></li>
+          <li :class="active === 5 ? 'active':''" :data-index="5" @click="ywc">已完成<span>(0)</span></li>
+          <li :class="active === 6 ? 'active':''" :data-index="6" @click="errData">已取消<span>(0)</span></li>
         </ul>
       </div>
       <div class="mt10">
@@ -188,16 +185,17 @@
             </template>
           </el-table-column>
           <el-table-column prop="CountryId" label="平台/国家" align="center"></el-table-column>
-          <el-table-column prop="ProductByASIN" label="终端平台" align="center"></el-table-column>
+          <el-table-column prop="Forum" label="终端平台" align="center"></el-table-column>
           <el-table-column prop="ProductByASIN" label="产品ASIN" align="center"></el-table-column>
-          <el-table-column prop="ProductPrice" label="产品价格" align="center" class-name="red"></el-table-column>
-          <el-table-column prop="ServiceType" label="任务数" align="center"></el-table-column>
-          <el-table-column prop="OrderNote" label="产品总额" align="center"></el-table-column>
-          <el-table-column prop="OrderNote" label="服务费" align="center"></el-table-column>
-          <el-table-column prop="OrderNote" label="合计金额" align="center"></el-table-column>
-          <el-table-column prop="OrderNote" label="交易流水" align="center"></el-table-column>
-          <el-table-column prop="OrderNote" label="付款金额" align="center"></el-table-column>
-          <el-table-column prop="OrderNote" label="客户编码" align="center"></el-table-column>
+          <el-table-column prop="ProductPrice" label="产品价格" align="center"></el-table-column>
+          <el-table-column prop="OrderNumber" label="任务数" align="center"></el-table-column>
+          <el-table-column prop="ProductPrice" label="产品总额" align="center"></el-table-column>
+          <el-table-column prop="ProductPrice" label="服务费" align="center"></el-table-column>
+          <el-table-column prop="ProductPrice" label="合计金额" align="center"></el-table-column>
+          <el-table-column prop="Numbers" label="交易流水" align="center"></el-table-column>
+          <el-table-column prop="ProductPrice" label="付款金额" align="center"></el-table-column>
+          <el-table-column prop="OrderNote" label="客户名称" align="center"></el-table-column>
+          <el-table-column prop="OrderNote" label="关联刷手" align="center"></el-table-column>
           <el-table-column prop="OrderTime" label="下单时间" align="center"></el-table-column>
           <el-table-column prop="Status" label="订单状态" align="center"></el-table-column>
           <el-table-column label="操作" align="center" width="200">
@@ -228,10 +226,8 @@
           <li :class="active === 2 ? 'active':''" :data-index="2" @click="daiBuy">待付款<span>(0)</span></li>
           <li :class="active === 3 ? 'active':''" :data-index="3" @click="daifh">待确认<span>(0)</span></li>
           <li :class="active === 4 ? 'active':''" :data-index="4" @click="daicl">待处理<span>(0)</span></li>
-          <!--<li :class="active === 5 ? 'active':''" :data-index="5" @click="daish">待分配<span>(0)</span></li>
-      		<li :class="active === 6 ? 'active':''" :data-index="6" @click="daipj">已分配<span>(0)</span></li> -->
-          <li :class="active === 7 ? 'active':''" :data-index="7" @click="ywc">已完成<span>(0)</span></li>
-          <li :class="active === 8 ? 'active':''" :data-index="8" @click="errData">已取消<span>(0)</span></li>
+          <li :class="active === 5 ? 'active':''" :data-index="5" @click="ywc">已完成<span>(0)</span></li>
+          <li :class="active === 6 ? 'active':''" :data-index="6" @click="errData">已取消<span>(0)</span></li>
         </ul>
       </div>
       <div class="mt10">
@@ -243,16 +239,17 @@
             </template>
           </el-table-column>
           <el-table-column prop="CountryId" label="平台/国家" align="center"></el-table-column>
-          <el-table-column prop="ProductByASIN" label="终端平台" align="center"></el-table-column>
+          <el-table-column prop="Forum" label="终端平台" align="center"></el-table-column>
           <el-table-column prop="ProductByASIN" label="产品ASIN" align="center"></el-table-column>
-          <el-table-column prop="ProductPrice" label="产品价格" align="center" class-name="red"></el-table-column>
-          <el-table-column prop="ServiceType" label="任务数" align="center"></el-table-column>
-          <el-table-column prop="OrderNote" label="产品总额" align="center"></el-table-column>
-          <el-table-column prop="OrderNote" label="服务费" align="center"></el-table-column>
-          <el-table-column prop="OrderNote" label="合计金额" align="center"></el-table-column>
-          <el-table-column prop="OrderNote" label="交易流水" align="center"></el-table-column>
-          <el-table-column prop="OrderNote" label="付款金额" align="center"></el-table-column>
-          <el-table-column prop="OrderNote" label="客户编码" align="center"></el-table-column>
+          <el-table-column prop="ProductPrice" label="产品价格" align="center"></el-table-column>
+          <el-table-column prop="OrderNumber" label="任务数" align="center"></el-table-column>
+          <el-table-column prop="ProductPrice" label="产品总额" align="center"></el-table-column>
+          <el-table-column prop="ProductPrice" label="服务费" align="center"></el-table-column>
+          <el-table-column prop="ProductPrice" label="合计金额" align="center"></el-table-column>
+          <el-table-column prop="Numbers" label="交易流水" align="center"></el-table-column>
+          <el-table-column prop="ProductPrice" label="付款金额" align="center"></el-table-column>
+          <el-table-column prop="OrderNote" label="客户名称" align="center"></el-table-column>
+          <el-table-column prop="OrderNote" label="关联刷手" align="center"></el-table-column>
           <el-table-column prop="OrderTime" label="下单时间" align="center"></el-table-column>
           <el-table-column prop="Status" label="订单状态" align="center"></el-table-column>
           <el-table-column label="操作" align="center" width="200">
@@ -281,11 +278,8 @@
           <li :class="active === 1 ? 'active':''" @click="getAllData()" :data-index="1">全部<span>({{allNum}})</span></li>
           <li :class="active === 2 ? 'active':''" :data-index="2" @click="daiBuy">待付款<span>(0)</span></li>
           <li :class="active === 3 ? 'active':''" :data-index="3" @click="daifh">待确认<span>(0)</span></li>
-          <!--<li :class="active === 4 ? 'active':''" :data-index="4" @click="daicl">待处理<span>(0)</span></li>-->
-          <!--<li :class="active === 5 ? 'active':''" :data-index="5" @click="daish">待分配<span>(0)</span></li>
-      		<li :class="active === 6 ? 'active':''" :data-index="6" @click="daipj">已分配<span>(0)</span></li> -->
-          <li :class="active === 7 ? 'active':''" :data-index="7" @click="ywc">已完成<span>(0)</span></li>
-          <li :class="active === 8 ? 'active':''" :data-index="8" @click="errData">已取消<span>(0)</span></li>
+          <li :class="active === 5 ? 'active':''" :data-index="5" @click="ywc">已完成<span>(0)</span></li>
+          <li :class="active === 6 ? 'active':''" :data-index="6" @click="errData">已取消<span>(0)</span></li>
         </ul>
       </div>
       <div class="mt10">
@@ -297,16 +291,17 @@
             </template>
           </el-table-column>
           <el-table-column prop="CountryId" label="平台/国家" align="center"></el-table-column>
-          <el-table-column prop="ProductByASIN" label="终端平台" align="center"></el-table-column>
+          <el-table-column prop="Forum" label="终端平台" align="center"></el-table-column>
           <el-table-column prop="ProductByASIN" label="产品ASIN" align="center"></el-table-column>
-          <el-table-column prop="ProductPrice" label="产品价格" align="center" class-name="red"></el-table-column>
-          <el-table-column prop="ServiceType" label="任务数" align="center"></el-table-column>
-          <el-table-column prop="OrderNote" label="产品总额" align="center"></el-table-column>
-          <el-table-column prop="OrderNote" label="服务费" align="center"></el-table-column>
-          <el-table-column prop="OrderNote" label="合计金额" align="center"></el-table-column>
-          <el-table-column prop="OrderNote" label="交易流水" align="center"></el-table-column>
-          <el-table-column prop="OrderNote" label="付款金额" align="center"></el-table-column>
-          <el-table-column prop="OrderNote" label="客户编码" align="center"></el-table-column>
+          <el-table-column prop="ProductPrice" label="产品价格" align="center"></el-table-column>
+          <el-table-column prop="OrderNumber" label="任务数" align="center"></el-table-column>
+          <el-table-column prop="ProductPrice" label="产品总额" align="center"></el-table-column>
+          <el-table-column prop="ProductPrice" label="服务费" align="center"></el-table-column>
+          <el-table-column prop="ProductPrice" label="合计金额" align="center"></el-table-column>
+          <el-table-column prop="Numbers" label="交易流水" align="center"></el-table-column>
+          <el-table-column prop="ProductPrice" label="付款金额" align="center"></el-table-column>
+          <el-table-column prop="OrderNote" label="客户名称" align="center"></el-table-column>
+          <el-table-column prop="OrderNote" label="关联刷手" align="center"></el-table-column>
           <el-table-column prop="OrderTime" label="下单时间" align="center"></el-table-column>
           <el-table-column prop="Status" label="订单状态" align="center"></el-table-column>
           <el-table-column label="操作" align="center" width="200">
@@ -735,62 +730,62 @@
           </el-col>
         </el-row>
         <div style="border: 1px solid #eee">
-        <el-row class="txtCenter problem" style="padding:10px 0">
-          <el-col :span="6" :xs="6">
-            <span>国家</span>
-          </el-col>
-          <el-col :span="6" :xs="6">
-            <span>产品ASIN</span>
-          </el-col>
-          <el-col :span="6" :xs="6">
-            <span>问题</span>
-          </el-col>
-          <el-col :span="6" :xs="6">
-            <span>时间</span>
-          </el-col>
-        </el-row>
-        <el-row class="txtCenter mt20 mb20">
-          <el-col :span='6' :xs="6">
-            <span>美国</span>
-          </el-col>
-          <el-col :span='6' :xs="6">
-            <span>CD145645613</span>
-          </el-col>
-          <el-col :span='6' :xs="6">
-            <span>练习时长两年半？</span>
-          </el-col>
-          <el-col :span='6' :xs="6">
-            <span>2019-09-09</span>
-          </el-col>
-        </el-row>
-        <el-row class="txtCenter" style="padding:10px 0">
-          <el-col :span="6" :xs="6">
-            <span>国家</span>
-          </el-col>
-          <el-col :span="6" :xs="6">
-            <span>问题链接</span>
-          </el-col>
-          <el-col :span="6" :xs="6">
-            <span>回答</span>
-          </el-col>
-          <el-col :span="6" :xs="6">
-            <span>时间</span>
-          </el-col>
-        </el-row>
-        <el-row class="txtCenter mt20 mb20">
-          <el-col :span='6' :xs="6">
-            <span>美国</span>
-          </el-col>
-          <el-col :span='6' :xs="6">
-            <span>https://www.prwew.com</span>
-          </el-col>
-          <el-col :span='6' :xs="6">
-            <span>是的</span>
-          </el-col>
-          <el-col :span='6' :xs="6">
-            <span>2019-09-12</span>
-          </el-col>
-        </el-row>
+          <el-row class="txtCenter problem" style="padding:10px 0">
+            <el-col :span="6" :xs="6">
+              <span>国家</span>
+            </el-col>
+            <el-col :span="6" :xs="6">
+              <span>产品ASIN</span>
+            </el-col>
+            <el-col :span="6" :xs="6">
+              <span>问题</span>
+            </el-col>
+            <el-col :span="6" :xs="6">
+              <span>时间</span>
+            </el-col>
+          </el-row>
+          <el-row class="txtCenter mt20 mb20">
+            <el-col :span='6' :xs="6">
+              <span>美国</span>
+            </el-col>
+            <el-col :span='6' :xs="6">
+              <span>CD145645613</span>
+            </el-col>
+            <el-col :span='6' :xs="6">
+              <span>练习时长两年半？</span>
+            </el-col>
+            <el-col :span='6' :xs="6">
+              <span>2019-09-09</span>
+            </el-col>
+          </el-row>
+          <el-row class="txtCenter" style="padding:10px 0">
+            <el-col :span="6" :xs="6">
+              <span>国家</span>
+            </el-col>
+            <el-col :span="6" :xs="6">
+              <span>问题链接</span>
+            </el-col>
+            <el-col :span="6" :xs="6">
+              <span>回答</span>
+            </el-col>
+            <el-col :span="6" :xs="6">
+              <span>时间</span>
+            </el-col>
+          </el-row>
+          <el-row class="txtCenter mt20 mb20">
+            <el-col :span='6' :xs="6">
+              <span>美国</span>
+            </el-col>
+            <el-col :span='6' :xs="6">
+              <span>https://www.prwew.com</span>
+            </el-col>
+            <el-col :span='6' :xs="6">
+              <span>是的</span>
+            </el-col>
+            <el-col :span='6' :xs="6">
+              <span>2019-09-12</span>
+            </el-col>
+          </el-row>
         </div>
         <el-row :gutter="30">
           <el-col :span='12' :xs='24'>
@@ -920,31 +915,31 @@
         isFBA: false, //是否是FBA订单
         isQA: false, //是否是QA订单
         tableData: [{
-            "Numbers": "20190605105636229596",
+            "Numbers": "20190605",
             "Picture": "",
             "CountryId": "美国",
             "Forum": "Amazon",
-            "ProductByASIN": "777888999a",
+            "ProductByASIN": "999B",
             "ProductPrice": 15.99,
             "ServiceType": "不留评",
-            "OrderNote": "待付款",
+            "OrderNote": "王健林",
             "Status": "已完成",
-            "OrderNumber": 1314520,
-            "OrderTime": "2019-02-03T00:00:00",
+            "OrderNumber": 131,
+            "OrderTime": "2019-02-03 10:00:00",
             "Remark": ""
           },
           {
-            "Numbers": "20190611174157617041",
+            "Numbers": "20190605",
             "Picture": "",
             "CountryId": "德国",
             "Forum": "Amazon",
-            "ProductByASIN": "B07P6KVGF8",
+            "ProductByASIN": "999B",
             "ProductPrice": 18.99,
             "ServiceType": "不留评",
-            "OrderNote": "待确认",
+            "OrderNote": "王健林",
             "Status": "已完成",
-            "OrderNumber": 7758258,
-            "OrderTime": "2019-04-02T00:00:00",
+            "OrderNumber": 775,
+            "OrderTime": "2019-04-02 03:00:00",
             "Remark": ""
           }
         ],
@@ -1206,13 +1201,13 @@
       // 已完成
       ywc() {
         let _this = this
-        _this.active = 7
+        _this.active = 5
         _this.tableData = []
       },
       // 已取消
       errData() {
         let _this = this
-        _this.active = 8
+        _this.active = 6
         _this.tableData = []
       },
       // 下单开始时间

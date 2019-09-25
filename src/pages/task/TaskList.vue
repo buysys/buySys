@@ -95,8 +95,7 @@
     <div class="mt10">
       <!-- FBA订单列表 -->
       <div v-if="searchForm.orderTypeValue=='1'">
-        <el-table :data="orderPlaceData" style="width: 100%" :header-cell-style="{background:'#fafafa'}"
-          @selection-change="handleSelectionChange">
+        <el-table :data="taskData" style="width: 100%" :header-cell-style="{background:'#fafafa'}" @selection-change="handleSelectionChange">
           <el-table-column type="selection"></el-table-column>
           <el-table-column prop="Numbers" label="FBA任务编码" align="center" width="120">
             <template slot-scope="scope">
@@ -104,24 +103,24 @@
             </template>
           </el-table-column>
           <el-table-column prop="CountryId" label="平台/国家" align="center"></el-table-column>
-          <el-table-column prop="ProductByASIN" label="终端平台" align="center"></el-table-column>
-          <el-table-column prop="ProductByASIN" label="服务类型" align="center"></el-table-column>
+          <el-table-column prop="Forum" label="终端平台" align="center"></el-table-column>
+          <el-table-column prop="Picture" label="服务类型" align="center"></el-table-column>
           <el-table-column prop="Picture" :label="times" align="center" v-if="this.active!=1 && this.active!=2"></el-table-column>
           <el-table-column prop="ProductByASIN" label="产品ASIN" align="center"></el-table-column>
           <el-table-column prop="ProductByASIN" label="产品名称" align="center"></el-table-column>
           <el-table-column prop="ProductPrice" label="产品价格" align="center"></el-table-column>
-          <el-table-column prop="ServiceType" label="买号" align="center"></el-table-column>
-          <el-table-column prop="OrderNote" label="买号状态" align="center"></el-table-column>
+          <el-table-column prop="OrderNumber" label="买号" align="center"></el-table-column>
+          <el-table-column prop="Status" label="买号状态" align="center"></el-table-column>
           <el-table-column prop="OrderNote" label="刷手" align="center"></el-table-column>
           <el-table-column prop="OrderTime" label="执行时间" align="center"></el-table-column>
           <el-table-column prop="Status" label="任务状态" align="center"></el-table-column>
           <el-table-column prop="OrderNote" label="客户名称" align="center"></el-table-column>
-          <el-table-column label="操作" align="center" width="500">
+          <el-table-column label="操作" align="center" width="400">
             <template slot-scope="scope">
               <el-button size="small" type="danger" @click="refundModelShow(scope.$index, scope.row)">退款</el-button>
               <el-button size="small" type="primary" @click="logHandel(scope.$index, scope.row)">查看日志</el-button>
               <el-button size="small" type="success" @click="confirmBuyHandel(scope.$index,scope.row)">确认购买</el-button>
-              <el-button size="small" type="primary" @click="evaluateLink(scope.$index,scope.row)">评论链接</el-button>
+              <el-button size="small" type="warning" @click="evaluateLink(scope.$index,scope.row)">评论链接</el-button>
               <el-button size="small" type="primary">打开浏览器</el-button>
               <el-button size="small" type="primary" @click='evaluateEdit(scope.$index,scope.row)'>填写评价</el-button>
               <el-button size="small" type="primary" @click="upComment(scope.$index,scope.row)">上评</el-button>
@@ -138,8 +137,7 @@
 
       <!-- 加购订单列表 -->
       <div v-if="searchForm.orderTypeValue=='2'">
-        <el-table :data="orderPlaceData" style="width: 100%" :header-cell-style="{background:'#fafafa'}"
-          @selection-change="handleSelectionChange">
+        <el-table :data="taskData" style="width: 100%" :header-cell-style="{background:'#fafafa'}" @selection-change="handleSelectionChange">
           <el-table-column type="selection"></el-table-column>
           <el-table-column prop="Numbers" label="加购任务编码" align="center" width="120">
             <template slot-scope="scope">
@@ -147,14 +145,14 @@
             </template>
           </el-table-column>
           <el-table-column prop="CountryId" label="平台/国家" align="center"></el-table-column>
-          <el-table-column prop="ProductByASIN" label="终端平台" align="center"></el-table-column>
-          <el-table-column prop="ProductByASIN" label="服务类型" align="center"></el-table-column>
+          <el-table-column prop="Forum" label="终端平台" align="center"></el-table-column>
+          <el-table-column prop="Picture" label="服务类型" align="center"></el-table-column>
           <el-table-column prop="Picture" :label="times" align="center" v-if="this.active!=1 && this.active!=2"></el-table-column>
           <el-table-column prop="ProductByASIN" label="产品ASIN" align="center"></el-table-column>
           <el-table-column prop="ProductByASIN" label="产品名称" align="center"></el-table-column>
           <el-table-column prop="ProductPrice" label="产品价格" align="center"></el-table-column>
-          <el-table-column prop="ServiceType" label="买号" align="center"></el-table-column>
-          <el-table-column prop="OrderNote" label="买号状态" align="center"></el-table-column>
+          <el-table-column prop="OrderNumber" label="买号" align="center"></el-table-column>
+          <el-table-column prop="Status" label="买号状态" align="center"></el-table-column>
           <el-table-column prop="OrderNote" label="刷手" align="center"></el-table-column>
           <el-table-column prop="OrderTime" label="执行时间" align="center"></el-table-column>
           <el-table-column prop="Status" label="任务状态" align="center"></el-table-column>
@@ -164,7 +162,7 @@
               <el-button size="small" type="danger" @click="refundModelShow(scope.$index, scope.row)">退款</el-button>
               <el-button size="small" type="primary" @click="logHandel(scope.$index, scope.row)">查看日志</el-button>
               <el-button size="small" type="success" @click="confirmBuyHandel(scope.$index,scope.row)">确认购买</el-button>
-              <el-button size="small" type="primary" @click="evaluateLink(scope.$index,scope.row)">评论链接</el-button>
+              <el-button size="small" type="warning" @click="evaluateLink(scope.$index,scope.row)">评论链接</el-button>
               <el-button size="small" type="primary">打开浏览器</el-button>
               <el-button size="small" type="primary" @click='evaluateEdit(scope.$index,scope.row)'>填写评价</el-button>
               <el-button size="small" type="primary" @click="upComment(scope.$index,scope.row)">上评</el-button>
@@ -181,8 +179,7 @@
 
       <!-- 心愿订单列表 -->
       <div v-if="searchForm.orderTypeValue=='3'">
-        <el-table :data="orderPlaceData" style="width: 100%" :header-cell-style="{background:'#fafafa'}"
-          @selection-change="handleSelectionChange">
+        <el-table :data="taskData" style="width: 100%" :header-cell-style="{background:'#fafafa'}" @selection-change="handleSelectionChange">
           <el-table-column type="selection"></el-table-column>
           <el-table-column prop="Numbers" label="心愿任务编码" align="center" width="120">
             <template slot-scope="scope">
@@ -190,14 +187,14 @@
             </template>
           </el-table-column>
           <el-table-column prop="CountryId" label="平台/国家" align="center"></el-table-column>
-          <el-table-column prop="ProductByASIN" label="终端平台" align="center"></el-table-column>
-          <el-table-column prop="ProductByASIN" label="服务类型" align="center"></el-table-column>
+          <el-table-column prop="Forum" label="终端平台" align="center"></el-table-column>
+          <el-table-column prop="Picture" label="服务类型" align="center"></el-table-column>
           <el-table-column prop="Picture" :label="times" align="center" v-if="this.active!=1 && this.active!=2"></el-table-column>
           <el-table-column prop="ProductByASIN" label="产品ASIN" align="center"></el-table-column>
           <el-table-column prop="ProductByASIN" label="产品名称" align="center"></el-table-column>
           <el-table-column prop="ProductPrice" label="产品价格" align="center"></el-table-column>
-          <el-table-column prop="ServiceType" label="买号" align="center"></el-table-column>
-          <el-table-column prop="OrderNote" label="买号状态" align="center"></el-table-column>
+          <el-table-column prop="OrderNumber" label="买号" align="center"></el-table-column>
+          <el-table-column prop="Status" label="买号状态" align="center"></el-table-column>
           <el-table-column prop="OrderNote" label="刷手" align="center"></el-table-column>
           <el-table-column prop="OrderTime" label="执行时间" align="center"></el-table-column>
           <el-table-column prop="Status" label="任务状态" align="center"></el-table-column>
@@ -207,7 +204,7 @@
               <el-button size="small" type="danger" @click="refundModelShow(scope.$index, scope.row)">退款</el-button>
               <el-button size="small" type="primary" @click="logHandel(scope.$index, scope.row)">查看日志</el-button>
               <el-button size="small" type="success" @click="confirmBuyHandel(scope.$index,scope.row)">确认购买</el-button>
-              <el-button size="small" type="primary" @click="evaluateLink(scope.$index,scope.row)">评论链接</el-button>
+              <el-button size="small" type="warning" @click="evaluateLink(scope.$index,scope.row)">评论链接</el-button>
               <el-button size="small" type="primary">打开浏览器</el-button>
               <el-button size="small" type="primary" @click='evaluateEdit(scope.$index,scope.row)'>填写评价</el-button>
               <el-button size="small" type="primary" @click="upComment(scope.$index,scope.row)">上评</el-button>
@@ -224,8 +221,7 @@
 
       <!-- 点赞订单列表 -->
       <div v-if="searchForm.orderTypeValue=='4'">
-        <el-table :data="orderPlaceData" style="width: 100%" :header-cell-style="{background:'#fafafa'}"
-          @selection-change="handleSelectionChange">
+        <el-table :data="taskData" style="width: 100%" :header-cell-style="{background:'#fafafa'}" @selection-change="handleSelectionChange">
           <el-table-column type="selection"></el-table-column>
           <el-table-column prop="Numbers" label="点赞任务编码" align="center" width="120">
             <template slot-scope="scope">
@@ -233,14 +229,14 @@
             </template>
           </el-table-column>
           <el-table-column prop="CountryId" label="平台/国家" align="center"></el-table-column>
-          <el-table-column prop="ProductByASIN" label="终端平台" align="center"></el-table-column>
-          <el-table-column prop="ProductByASIN" label="服务类型" align="center"></el-table-column>
+          <el-table-column prop="Forum" label="终端平台" align="center"></el-table-column>
+          <el-table-column prop="Picture" label="服务类型" align="center"></el-table-column>
           <el-table-column prop="Picture" :label="times" align="center" v-if="this.active!=1 && this.active!=2"></el-table-column>
           <el-table-column prop="ProductByASIN" label="产品ASIN" align="center"></el-table-column>
           <el-table-column prop="ProductByASIN" label="产品名称" align="center"></el-table-column>
           <el-table-column prop="ProductPrice" label="产品价格" align="center"></el-table-column>
-          <el-table-column prop="ServiceType" label="买号" align="center"></el-table-column>
-          <el-table-column prop="OrderNote" label="买号状态" align="center"></el-table-column>
+          <el-table-column prop="OrderNumber" label="买号" align="center"></el-table-column>
+          <el-table-column prop="Status" label="买号状态" align="center"></el-table-column>
           <el-table-column prop="OrderNote" label="刷手" align="center"></el-table-column>
           <el-table-column prop="OrderTime" label="执行时间" align="center"></el-table-column>
           <el-table-column prop="Status" label="任务状态" align="center"></el-table-column>
@@ -250,7 +246,7 @@
               <el-button size="small" type="danger" @click="refundModelShow(scope.$index, scope.row)">退款</el-button>
               <el-button size="small" type="primary" @click="logHandel(scope.$index, scope.row)">查看日志</el-button>
               <el-button size="small" type="success" @click="confirmBuyHandel(scope.$index,scope.row)">确认购买</el-button>
-              <el-button size="small" type="primary" @click="evaluateLink(scope.$index,scope.row)">评论链接</el-button>
+              <el-button size="small" type="warning" @click="evaluateLink(scope.$index,scope.row)">评论链接</el-button>
               <el-button size="small" type="primary">打开浏览器</el-button>
               <el-button size="small" type="primary" @click='evaluateEdit(scope.$index,scope.row)'>填写评价</el-button>
               <el-button size="small" type="primary" @click="upComment(scope.$index,scope.row)">上评</el-button>
@@ -267,8 +263,7 @@
 
       <!-- QA订单列表 -->
       <div v-if="searchForm.orderTypeValue=='5'">
-        <el-table :data="orderPlaceData" style="width: 100%" :header-cell-style="{background:'#fafafa'}"
-          @selection-change="handleSelectionChange">
+        <el-table :data="taskData" style="width: 100%" :header-cell-style="{background:'#fafafa'}" @selection-change="handleSelectionChange">
           <el-table-column type="selection"></el-table-column>
           <el-table-column prop="Numbers" label="QA任务编码" align="center" width="120">
             <template slot-scope="scope">
@@ -276,14 +271,14 @@
             </template>
           </el-table-column>
           <el-table-column prop="CountryId" label="平台/国家" align="center"></el-table-column>
-          <el-table-column prop="ProductByASIN" label="终端平台" align="center"></el-table-column>
-          <el-table-column prop="ProductByASIN" label="服务类型" align="center"></el-table-column>
+          <el-table-column prop="Forum" label="终端平台" align="center"></el-table-column>
+          <el-table-column prop="Picture" label="服务类型" align="center"></el-table-column>
           <el-table-column prop="Picture" :label="times" align="center" v-if="this.active!=1 && this.active!=2"></el-table-column>
           <el-table-column prop="ProductByASIN" label="产品ASIN" align="center"></el-table-column>
           <el-table-column prop="ProductByASIN" label="产品名称" align="center"></el-table-column>
           <el-table-column prop="ProductPrice" label="产品价格" align="center"></el-table-column>
-          <el-table-column prop="ServiceType" label="买号" align="center"></el-table-column>
-          <el-table-column prop="OrderNote" label="买号状态" align="center"></el-table-column>
+          <el-table-column prop="OrderNumber" label="买号" align="center"></el-table-column>
+          <el-table-column prop="Status" label="买号状态" align="center"></el-table-column>
           <el-table-column prop="OrderNote" label="刷手" align="center"></el-table-column>
           <el-table-column prop="OrderTime" label="执行时间" align="center"></el-table-column>
           <el-table-column prop="Status" label="任务状态" align="center"></el-table-column>
@@ -293,7 +288,7 @@
               <el-button size="small" type="danger" @click="refundModelShow(scope.$index, scope.row)">退款</el-button>
               <el-button size="small" type="primary" @click="logHandel(scope.$index, scope.row)">查看日志</el-button>
               <el-button size="small" type="success" @click="confirmBuyHandel(scope.$index,scope.row)">确认购买</el-button>
-              <el-button size="small" type="primary" @click="evaluateLink(scope.$index,scope.row)">评论链接</el-button>
+              <el-button size="small" type="warning" @click="evaluateLink(scope.$index,scope.row)">评论链接</el-button>
               <el-button size="small" type="primary">打开浏览器</el-button>
               <el-button size="small" type="primary" @click='evaluateEdit(scope.$index,scope.row)'>填写评价</el-button>
               <el-button size="small" type="primary" @click="upComment(scope.$index,scope.row)">上评</el-button>
@@ -311,9 +306,15 @@
     </div>
     <!--填写评价-->
     <el-dialog :title='title' :visible.sync='evaluateModal' :close-on-click-modal='false'>
-      <el-form :model='proEvaluateForm' ref='proEvaluateForm' label-width='110px' :rules='editRules'>
+      <el-form :model='proEvaluateForm' ref='proEvaluateForm' label-width='120px' :rules='editRules'>
+        <el-form-item label='Feedback评分' prop='FeedbackScore'>
+          <el-rate v-model="proEvaluateForm.FeedbackScore" style="line-height: 2.8;"></el-rate>
+        </el-form-item>
         <el-form-item label='Feedback' prop='Feedback'>
           <el-input v-model='proEvaluateForm.Feedback'></el-input>
+        </el-form-item>
+        <el-form-item label='产品评分' prop='score'>
+          <el-rate v-model="proEvaluateForm.score" style="line-height: 2.8;"></el-rate>
         </el-form-item>
         <el-form-item label='产品评论标题' prop='proTitle'>
           <el-input v-model='proEvaluateForm.proTitle'></el-input>
@@ -565,10 +566,6 @@
             </el-form-item>
           </el-col>
         </el-row>
-        <!--<el-form-item class='modelRight'>
-					<el-button type='primary'>确认</el-button>
-					<el-button @click='confirmBuyModel=false'>取消</el-button>
-				</el-form-item>-->
       </el-form>
       <div slot='footer' class='dialog-footer'>
         <el-button type='primary'>确认</el-button>
@@ -676,8 +673,8 @@
               <span>是</span>
             </el-form-item>
           </el-col>
-          </el-row>
-          <el-row style="border: 1px solid #eee;">
+        </el-row>
+        <el-row style="border: 1px solid #eee;">
           <el-col :span="8" :xs="24">
             <el-form-item label=""><span class="ml80">任务开始日期</span></el-form-item>
           </el-col>
@@ -694,12 +691,12 @@
               <el-form-item label=""><span class="ml80">00:00-15:00</span></el-form-item>
             </el-form-item>
           </el-col>
-          </el-row>
-          <el-col :span='24' :xs="24">
-            <el-form-item label="备注：">
-              <span>$23.00</span>
-            </el-form-item>
-          </el-col>
+        </el-row>
+        <el-col :span='24' :xs="24">
+          <el-form-item label="备注：">
+            <span>$23.00</span>
+          </el-form-item>
+        </el-col>
         </el-row>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -728,22 +725,22 @@
           </el-col>
         </el-row>
         <el-row style="border: 1px solid #eee;">
-        <el-col :span="8" :xs="24">
-          <el-form-item label=""><span class="ml80">链接地址</span></el-form-item>
-        </el-col>
-        <el-col :span="16" :xs="24">
-          <el-form-item label=""><span class="ml80">操作选项</span></el-form-item>
-        </el-col>
-        <el-col :span="8" :xs="24">
-          <el-form-item label="">
-            <el-form-item label=""><span class="ml80">http://www.baidu.com</span></el-form-item>
-          </el-form-item>
-        </el-col>
-        <el-col :span="16" :xs="24">
-          <el-form-item label="">
-            <el-form-item label=""><span class="ml80">点赞</span></el-form-item>
-          </el-form-item>
-        </el-col>
+          <el-col :span="8" :xs="24">
+            <el-form-item label=""><span class="ml80">链接地址</span></el-form-item>
+          </el-col>
+          <el-col :span="16" :xs="24">
+            <el-form-item label=""><span class="ml80">操作选项</span></el-form-item>
+          </el-col>
+          <el-col :span="8" :xs="24">
+            <el-form-item label="">
+              <el-form-item label=""><span class="ml80">http://www.baidu.com</span></el-form-item>
+            </el-form-item>
+          </el-col>
+          <el-col :span="16" :xs="24">
+            <el-form-item label="">
+              <el-form-item label=""><span class="ml80">点赞</span></el-form-item>
+            </el-form-item>
+          </el-col>
         </el-row>
       </el-form>
       <div slot='footer' class="dialog-footer">
@@ -968,6 +965,15 @@
     <!-- 上评-->
     <el-dialog title="温馨提示" :visible.sync="upCommentModel" :close-on-click-modal="false" center width="30%">
       <div class="del-dialog-cnt textCen">确认要上评吗？</div>
+      <div class="del-dialog-cnt textCen mt30">
+        <el-radio-group v-model="upCommentForm.radio">
+          <el-radio :label="1">立即上评</el-radio>
+          <el-radio :label="2">定时上评</el-radio>
+        </el-radio-group>
+        <span v-show="upCommentForm.radio==2" class="ml20">
+          <el-date-picker v-model="upCommentForm.time" size="small" type="datetime" placeholder="选择上评时间" class="mb10"></el-date-picker>
+        </span>
+      </div>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary">确 定</el-button>
         <el-button @click="upCommentModel=false">取 消</el-button>
@@ -987,8 +993,14 @@
         feedShow: false, //feedback
         evaluateModal: false, //填写评价
         upCommentModel: false, //上评
+        upCommentForm: {
+          radio: 1,
+          time: ''
+        },
         proEvaluateForm: {
+          FeedbackScore: '',
           Feedback: ' ',
+          score: '',
           proTitle: '',
           proDes: ''
         },
@@ -1047,32 +1059,32 @@
         disabled: true,
         editPricceModel: false,
         checkBoxData: [],
-        orderPlaceData: [{
-            "Numbers": "20190605105636229596",
-            "Picture": "",
+        taskData: [{
+            "Numbers": "20190605",
+            "Picture": "留评",
             "CountryId": "美国",
             "Forum": "Amazon",
-            "ProductByASIN": "777888999a",
+            "ProductByASIN": "999B",
             "ProductPrice": 15.99,
             "ServiceType": "不留评",
-            "OrderNote": "待付款",
+            "OrderNote": "王健林",
             "Status": "已完成",
-            "OrderNumber": 1314520,
-            "OrderTime": "2019-02-03T00:00:00",
+            "OrderNumber": 131,
+            "OrderTime": "2019-02-03 10:00:00",
             "Remark": ""
           },
           {
-            "Numbers": "20190611174157617041",
-            "Picture": "",
+            "Numbers": "20190605",
+            "Picture": "上图",
             "CountryId": "德国",
             "Forum": "Amazon",
-            "ProductByASIN": "B07P6KVGF8",
+            "ProductByASIN": "999B",
             "ProductPrice": 18.99,
             "ServiceType": "不留评",
-            "OrderNote": "待确认",
+            "OrderNote": "王健林",
             "Status": "已完成",
-            "OrderNumber": 7758258,
-            "OrderTime": "2019-04-02T00:00:00",
+            "OrderNumber": 775,
+            "OrderTime": "2019-04-02 03:00:00",
             "Remark": ""
           }
         ],
@@ -1187,7 +1199,16 @@
             message: '请输入产品评论内容',
             trigger: 'blur'
           }],
-
+          FeedbackScore: [{
+            required: true,
+            message: 'Feedback评分不能为空',
+            trigger: 'blur'
+          }],
+          score: [{
+            required: true,
+            message: '产品评分不能为空',
+            trigger: 'blur'
+          }]
         },
         activeName: 'first',
         allNum: '0',

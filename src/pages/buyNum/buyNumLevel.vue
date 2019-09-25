@@ -25,17 +25,11 @@
 			</el-button>
 		</div>
 		<div class="mt10">
-			<el-table :data="buyNumData" border style="width: 100%" @selection-change="handleSelectionChange">
+			<el-table :data="buyNumData" border @selection-change="handleSelectionChange">
 				<el-table-column type="selection"></el-table-column>
 				<el-table-column prop="Numbers" label="等级名称" align="center"></el-table-column>
-				<el-table-column prop="CountryId" label="累积购买金额" align="center"></el-table-column>
-				<el-table-column prop="ProductByASIN" label="累积购买次数" align="center"></el-table-column>
-				<el-table-column prop="ProductByASIN" label="累积留评次数" align="center"></el-table-column>
-				<!--<el-table-column prop="ProductPrice" label="付款方式" align="center"></el-table-column>-->
-				<el-table-column prop="ServiceType" label="价格开始区间(￥)" align="center"></el-table-column>
-				<el-table-column prop="OrderNote" label="价格结束区间(￥)" align="center"></el-table-column>
-				<el-table-column prop="OrderNote" label="排序" align="center"></el-table-column>
-				<el-table-column prop="OrderNote" label="备注" align="center"></el-table-column>
+				<el-table-column prop="ProductPrice" label="排名区间开始" align="center"></el-table-column>
+				<el-table-column prop="ProductPrice" label="排名区间结束" align="center"></el-table-column>
 				<el-table-column label="操作" align="center">
 					<template slot-scope="scope">
 						<el-button size="small" type="primary" @click="RedistributionAccount(scope.$index, scope.row)">分配条件
@@ -54,31 +48,19 @@
 				<el-form-item label="等级名称" prop="levelName">
 					<el-input v-model="LevelForm.levelName"></el-input>
 				</el-form-item>
-				<el-form-item label="累积购买金额" prop="allBuyMoney">
-					<el-input v-model="LevelForm.allBuyMoney"></el-input>
-				</el-form-item>
-				<el-form-item label="累积购买次数" prop="allBuyCount">
-					<el-input v-model="LevelForm.allBuyCount"></el-input>
-				</el-form-item>
-				<el-form-item label="累积留评次数" prop="allCommentNum">
-					<el-input v-model="LevelForm.allCommentNum"></el-input>
-				</el-form-item>
-				<el-form-item label="价格开始区间" prop="priceStart">
-					<el-input v-model="LevelForm.priceStart"></el-input>
-				</el-form-item>
-				<el-form-item label="价格结束区间" prop="priceEnd">
-					<el-input v-model="LevelForm.priceEnd"></el-input>
-				</el-form-item>
-				<el-form-item label="排序" prop="sort">
-					<el-input v-model="LevelForm.sort"></el-input>
-				</el-form-item>
-				<el-form-item label="备注">
-					<el-input type="textarea" v-model="LevelForm.remark"></el-input>
-				</el-form-item>
+        <el-form-item label="排名区间">
+            <el-col :span="11">
+              <el-input v-model="LevelForm.priceStart" placeholder="排名区间开始"></el-input>
+            </el-col>
+            <el-col class="line txtCenter" :span="2">-</el-col>
+            <el-col :span="11">
+              <el-input v-model="LevelForm.priceStart" placeholder="排名区间结束"></el-input>
+            </el-col>
+          </el-form-item>
 			</el-form>
       <div slot="footer" class="dialog-footer">
-      	<el-button type="primary" size="medium">确定</el-button>
-      	<el-button @click="LevelModel=false" size="medium">取消</el-button>
+      	<el-button type="primary">确定</el-button>
+      	<el-button @click="LevelModel=false">取消</el-button>
       </div>
 		</el-dialog>
 		<!-- 删除-->
@@ -92,7 +74,7 @@
 		<!-- 重新分配-->
 		<el-dialog title="买号等级分配信息" :visible.sync="accountModel" width="90%" custom-class="fixed-dialog" :close-on-click-modal="false" :before-close="closeBuyNum" :modal-append-to-body="false" :append-to-body="true">
 			<el-collapse-transition>
-				<div class="searchBox mb20" v-show="accountSearchModel">
+				<div class="searchBox mb20">
 					<el-form ref="accountSearchForm" :model="accountSearchForm" class="form-item" label-width="80px">
 						<el-row class="pt20">
 							<el-col :xs="24" :span="5" :sm="9" :md="8" :lg="5">
@@ -109,24 +91,22 @@
 				</div>
 			</el-collapse-transition>
 			<div class="mb20">
-				<el-button size="medium" type="primary" @click="editParamValue" :disabled="disabled1"><i class="el-icon-edit-outline"></i>修改参数值
-				</el-button>
-				<el-button size="medium" @click="accountSearchShow"><i class="el-icon-search"></i>检索</el-button>
+				<el-button size="medium" type="primary" @click="editParamValue" :disabled="disabled1"><i class="el-icon-edit-outline"></i>修改参数值</el-button>
 			</div>
 			<el-table :data="buyNumData" border style="width: 100%" :default-sort="{prop: 'Numbers', order: 'descending'}" @selection-change="buyHandleSelectionChange">
 				<el-table-column type="selection"></el-table-column>
-				<el-table-column prop="Numbers" label="类型" sortable align="center"></el-table-column>
-				<el-table-column prop="CountryId" label="名称" sortable align="center"></el-table-column>
-				<el-table-column prop="ProductByASIN" label="值" sortable align="center"></el-table-column>
-				<el-table-column prop="Status" label="状态" sortable align="center"></el-table-column>
+				<el-table-column prop="Numbers" label="类型" align="center"></el-table-column>
+				<el-table-column prop="CountryId" label="名称" align="center"></el-table-column>
+				<el-table-column prop="ProductByASIN" label="值" align="center"></el-table-column>
+				<el-table-column prop="Status" label="状态" align="center"></el-table-column>
 				<el-table-column prop="ProductPrice" label="备注信息" align="center"></el-table-column>
 				<el-table-column label="操作" align="center">
 					<template slot-scope="scope">
-						<el-button size="small" type="primary">禁用</el-button>
+						<el-button size="small" type="danger">禁用</el-button>
 					</template>
 				</el-table-column>
 			</el-table>
-			<div class="mt20 modelRight">
+			<div class="mt30 modelRight">
 				<el-button type="primary">确定</el-button>
 				<el-button @click="closeBuyNum">关闭</el-button>
 			</div>
@@ -161,7 +141,6 @@
 				delModel: false,
 				accountModel: false,
 				paramModel: false,
-				accountSearchModel: false,
 				checkBoxData: [],
 				buyCheckData: [],
 				searchModel: false,
@@ -270,16 +249,6 @@
 				let _this = this
 				_this.accountModel = true
 				_this.getAllData()
-			},
-			// 分配信息检索
-			accountSearchShow() {
-				let _this = this
-				let sear = _this.accountSearchModel
-				if(sear) {
-					_this.accountSearchModel = false
-				} else {
-					_this.accountSearchModel = true
-				}
 			},
 			// 新建弹窗
 			addLevel() {
