@@ -445,12 +445,12 @@
     </el-dialog>
     <!-- 确认购买-->
     <el-dialog :title="title" :visible.sync="confirmBuyModel" :close-on-click-modal="false" width='60%'>
-      <el-form :model="testForm" ref='testForm' class='demo-item' label-width='100px'>
+      <el-form :model='confirmBuyForm' ref='confirmBuyForm' label-width='100px' :rules='editRules'>
         <div class="fz16 mb20 modalTitle">任务信息</div>
         <el-row>
           <el-col :span="12" :xs="24">
             <el-form-item label="任务编码">
-              <span>{{testForm.item}}</span>
+              <span>{{confirmBuyForm.item}}</span>
             </el-form-item>
           </el-col>
           <el-col :span="12" :xs="24">
@@ -526,9 +526,7 @@
             </el-form-item>
           </el-col>
         </el-row>
-      </el-form>
       <div class="mb20 fz16 modalTitle">购买信息</div>
-      <el-form :model='confirmBuyForm' ref='confirmBuyForm' label-width='100px' :rules='editRules'>
         <el-row class="dataInp">
           <el-col :span='12' :xs='24'>
             <el-form-item label="购买时间" prop='buyTime'>
@@ -552,7 +550,6 @@
               <el-input v-model='confirmBuyForm.proFreight'></el-input>
             </el-form-item>
           </el-col>
-
         </el-row>
         <el-row>
           <el-col :span='12' :xs='24'>
@@ -998,9 +995,9 @@
           time: ''
         },
         proEvaluateForm: {
-          FeedbackScore: '',
+          FeedbackScore: 0,
           Feedback: ' ',
-          score: '',
+          score: 0,
           proTitle: '',
           proDes: ''
         },
@@ -1038,7 +1035,7 @@
         abnormalModal: false, //标记异常
         refundModel: false, //退款
         evaluateLinkModal: false, //评价链接弹窗
-        title: '填写购买信息',
+        title: '',
         orderTitle: '',
         confirmBuyModel: false,
         accountSearchModel: false,
@@ -1261,8 +1258,7 @@
       evaluateEdit(index, row) {
         let _this = this
         _this.evaluateModal = true
-        let item = _this.orderPlaceData[index]
-        let num = item.Numbers
+        let num = row.Numbers
         _this.title = '任务：' + num + '填写评论'
       },
       handleRemove(file, fileList) {
@@ -1276,8 +1272,7 @@
       evaluateLink(index, row) {
         let _this = this
         _this.evaluateLinkModal = true
-        let item = _this.orderPlaceData[index]
-        let num = item.Numbers
+        let num = row.Numbers
         _this.title = '任务：' + num + '填写评论信息'
       },
       showMessageFromChild(data) {
@@ -1292,15 +1287,13 @@
       systemConfig(index, row) {
         let _this = this
         _this.systemConfigModal = true
-        let item = _this.orderPlaceData[index]
-        let num = item.Numbers
+        let num = row.Numbers
         _this.buyNum = '买号：' + num + '系统配置'
       },
       // 确认购买
       confirmBuyHandel(index, row) {
         let _this = this
-        let item = _this.orderPlaceData[index]
-        let num = item.Numbers
+        let num = row.Numbers
         _this.title = '任务：' + num + '填写购买信息'
         _this.confirmBuyModel = true
       },
@@ -1456,24 +1449,21 @@
         } else {
           _this.isFBA = false
         }
-        let item = _this.orderPlaceData[index]
-        let num = item.Numbers
+        let num = row.Numbers
         _this.orderTitle = '任务：' + num + '的详情信息'
       },
       //点赞任务查看详情
       viewLikeTaskDetails(index, row) {
         let _this = this
         _this.viewLikeTaskDetailsModel = true
-        let item = _this.orderPlaceData[index]
-        let num = item.Numbers
+        let num = row.Numbers
         _this.orderTitle = '任务：' + num + '的详情信息'
       },
       //QA任务查看详情
       viewQATaskDetails(index, row) {
         let _this = this
         _this.viewQaTaskDetailsModel = true
-        let item = _this.orderPlaceData[index]
-        let num = item.Numbers
+        let num = row.Numbers
         _this.orderTitle = '任务：' + num + '的详情信息'
       },
       // 重置

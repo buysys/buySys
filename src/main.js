@@ -18,7 +18,7 @@ Vue.use(ElementUI, CollapseTransition.name, CollapseTransition)
 Vue.prototype.axios = Axios
 Vue.prototype.GLOBAL = global_
 if (process.env.NODE_ENV === 'production') {
-  Vue.prototype.GLOBAL.BASE_URL = 'http://192.168.111.103' // 测试接口
+  Vue.prototype.GLOBAL.BASE_URL = 'http://119.23.78.0' // 测试接口
   // Vue.prototype.GLOBAL.BASE_URL = 'http://www.handyfitness.com.cn:8094' // 正式接口
 } else {
   // Vue.prototype.GLOBAL.BASE_URL = '开发测试地址'

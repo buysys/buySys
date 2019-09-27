@@ -20,13 +20,8 @@
                 </el-form-item>
                 <el-form-item prop="verifycode" class="verifyInput">
                   <el-input v-model="accountLoginForm.verifycode" placeholder="请输入验证码"></el-input>
-                  <img src="../../build/logo.png" class="verifycode">
+                  <img :src="codeImg" class="verifycode">
                 </el-form-item>
-                <!-- <el-form-item>
-                  <el-checkbox v-model="checked">自动登录</el-checkbox>
-                  <el-button class="forgotPwd fright"><span style="color: #000000;">/</span>忘记密码</el-button>
-                  <el-button @click="GoRegister" class="forgotPwd fright">注册</el-button>
-                </el-form-item> -->
                 <el-form-item>
                   <el-button type="primary" class="submit_btn" @click="loginIn">登陆</el-button>
                 </el-form-item>
@@ -42,17 +37,12 @@
                 </el-form-item>
                 <el-form-item prop="phoneVerifyCode">
                   <el-col :span="16" :xs="24">
-                    <el-input placeholder="请输入验证码" v-model="phoneLoginForm.phoneVerifyCode"
-                      maxlength="6" onput="value=value.replace(/[^\/g,''])"></el-input>
+                    <el-input placeholder="请输入验证码" v-model="phoneLoginForm.phoneVerifyCode" maxlength="6" onput="value=value.replace(/[^\/g,''])"></el-input>
                   </el-col>
                   <el-col :span="6" class="ml28">
                     <el-button>获取验证码</el-button>
                   </el-col>
                 </el-form-item>
-                <!-- <el-form-item>
-                  <el-checkbox v-model="checked">自动登录</el-checkbox>
-                  <el-link href="javascript:;" target="_blank" class="forgotPwd fright">忘记密码</el-link>
-                </el-form-item> -->
                 <el-form-item>
                   <el-button type="primary" class="submit_btn" @click="loginIn">登陆</el-button>
                 </el-form-item>
@@ -70,6 +60,7 @@
     name: 'login',
     data() {
       return {
+        codeImg: '', //验证码图片
         accountLoginForm: {
           userName: '',
           pwd: '',
@@ -113,16 +104,29 @@
         }
       }
     },
+    created() {
+      this.getImgCode()
+    },
     methods: {
+      //获取图片验证码
+      getImgCode() {
+        let _this = this
+        let param = {
+          SessionId: sessionStorage.getItem('sessionid')
+        }
+        _this.axios.post(this.GLOBAL.BASE_URL + '/api/imageCode', param).then((res) => {
+          if (res.data.status == '200') {
+            _this.codeImg = 'data:image/png;base64,' + res.data.data.imagedata
+            _this.imgCodeNum = res.data.data.imagecode
+            let sessionid = res.data.data.sessionid
+            sessionStorage.setItem('sessionid', sessionid)
+          }
+        })
+      },
       loginIn() {
         let role = 'l4ccy33k'
         sessionStorage.setItem('token', role)
         this.$router.push('/')
-      },
-      GoRegister() {
-        this.$router.push({
-          path: '/register'
-        })
       }
     }
   }
