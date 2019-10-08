@@ -49,7 +49,7 @@
 			<salesEstimate></salesEstimate>
 		</div>
 		<div v-show="active==10">
-			<number-sys></number-sys>
+			<numberSys></numberSys>
 		</div>
 
 	</div>
@@ -65,7 +65,7 @@
 	import autoShare from './autoShare'
 	import takeMoneySet from './takeMoneySet'
 	import salesEstimate from './salesEstimate'
-	import numberSys from '../productLibrary/productList'
+	import numberSys from './productList'
 	export default {
 		name: 'systemSettings',
 		data() {

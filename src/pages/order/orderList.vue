@@ -50,9 +50,9 @@
     <!-- FBA订单列表 -->
     <div v-if="searchForm.orderTypeValue=='1'">
       <div class="mb20">
-        <el-button type="success" size="medium" :disabled="disabled" @click="editPrice"><i class="el-icon-edit-outline"></i>修改价格</el-button>
-        <el-button type="warning" size="medium"><i class="el-icon-download"></i>导入</el-button>
-        <el-button type="warning" size="medium" @click="exportExcel"><i class="el-icon-upload2"></i>导出</el-button>
+        <el-button type="danger" size="small" @click="delModelShow"><i class="el-icon-delete-solid"></i> 删除</el-button>
+        <el-button type="warning" size="small"><i class="el-icon-download"></i> 导入</el-button>
+        <el-button type="warning" size="small" @click="exportExcel"><i class="el-icon-upload2"></i> 导出</el-button>
       </div>
       <div class="tabList">
         <ul class="tabBlock">
@@ -65,9 +65,10 @@
         </ul>
       </div>
       <div class="mt10">
-        <el-table :data="tableData" id="exportOrder" style="width: 100%" :header-cell-style="{background:'#fafafa'}"
-          @selection-change="handleSelectionChange">
+        <el-table border :data="tableData" id="exportTable" style="width: 100%" :header-cell-style="{background:'#fafafa'}"
+          @selection-change="handleSelectionChange" @row-click="rowClick" ref="table">
           <el-table-column type="selection"></el-table-column>
+          <el-table-column type="index" align="center" width="50"></el-table-column>
           <el-table-column prop="Numbers" label="FBA任务编码" align="center" width="120">
             <template slot-scope="scope">
               <el-button type="text" @click="viewDetailsModelShow(scope.$index,scope.row)">{{scope.row.Numbers}}</el-button>
@@ -87,30 +88,29 @@
           <el-table-column prop="OrderNote" label="关联刷手" align="center"></el-table-column>
           <el-table-column prop="OrderTime" label="下单时间" align="center"></el-table-column>
           <el-table-column prop="Status" label="订单状态" align="center"></el-table-column>
-          <el-table-column label="操作" align="center" width="400">
-            <template slot-scope="scope">
-              <el-button size="small" type="success" @click="confirmPayHandel(scope.$index,scope.row)">确认付款</el-button>
-              <el-button size="small" type="primary" @click="logHandel(scope.$index, scope.row)">查看日志</el-button>
-              <el-button size="small" type="danger" @click="delModelShow">删除</el-button>
-              <el-button size="small" type="warning" @click="accountShow">分配买号</el-button>
-              <el-button size="small" type="success" @click="nextShow">继续</el-button>
-            </template>
-          </el-table-column>
         </el-table>
-        <div class="mt30">
-          <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage"
-            :page-sizes="[10, 20, 30, 40]" :page-size="10" layout="total, sizes, prev, pager, next, jumper" :total="total">
-          </el-pagination>
+        <div class="table-foot">
+          <div>
+            <el-button type="success" size="small" :disabled="disabled" @click="editPrice">修改价格</el-button>
+            <el-button type="success" size="small" :disabled="disabled" @click="confirmPayHandel">确认付款</el-button>
+            <el-button type="primary" size="small" :disabled="disabled" @click="logHandel">查看日志</el-button>
+            <el-button type="warning" size="small" :disabled="disabled" @click="accountShow">分配买号</el-button>
+            <el-button type="success" size="small" :disabled="disabled" @click="nextShow">继续</el-button>
+          </div>
+          <div>
+            <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage"
+              :page-sizes="[10, 20, 30, 40]" :page-size="10" layout="total, sizes, prev, pager, next, jumper" :total="total">
+            </el-pagination>
+          </div>
         </div>
       </div>
     </div>
     <!-- 加购订单列表 -->
     <div v-if="searchForm.orderTypeValue=='2'">
       <div class="mb20">
-        <el-button type="success" size="medium" :disabled="disabled" @click="editPrice"><i class="el-icon-edit-outline"></i>修改价格
-        </el-button>
-        <el-button type="warning" size="medium"><i class="el-icon-download"></i>导入</el-button>
-        <el-button type="warning" size="medium" @click="exportExcel"><i class="el-icon-upload2"></i>导出</el-button>
+        <el-button type="danger" size="small" @click="delModelShow"><i class="el-icon-delete-solid"></i> 删除</el-button>
+        <el-button type="warning" size="small"><i class="el-icon-download"></i> 导入</el-button>
+        <el-button type="warning" size="small" @click="exportExcel"><i class="el-icon-upload2"></i> 导出</el-button>
       </div>
       <div class="tabList">
         <ul class="tabBlock">
@@ -123,8 +123,10 @@
         </ul>
       </div>
       <div class="mt10">
-        <el-table :data="tableData" style="width: 100%" :header-cell-style="{background:'#fafafa'}" @selection-change="handleSelectionChange">
+        <el-table border :data="tableData" id="exportTable" style="width: 100%" :header-cell-style="{background:'#fafafa'}"
+          @selection-change="handleSelectionChange" @row-click="rowClick" ref="table">
           <el-table-column type="selection"></el-table-column>
+          <el-table-column type="index" align="center" width="50"></el-table-column>
           <el-table-column prop="Numbers" label="加购任务编码" align="center" width="120">
             <template slot-scope="scope">
               <el-button type="text" @click="viewDetailsModelShow(scope.$index,scope.row)">{{scope.row.Numbers}}</el-button>
@@ -144,27 +146,29 @@
           <el-table-column prop="OrderNote" label="关联刷手" align="center"></el-table-column>
           <el-table-column prop="OrderTime" label="下单时间" align="center"></el-table-column>
           <el-table-column prop="Status" label="订单状态" align="center"></el-table-column>
-          <el-table-column label="操作" align="center" width="200">
-            <template slot-scope="scope">
-              <el-button size="small" type="primary" @click="viewTask(scope.$index,scope.row)">查看任务</el-button>
-              <el-button size="small" @click="cancelReason(scope.$index,scope.row)">取消原因</el-button>
-              <el-button size="small" type="success" v-if="scope.row.Status==='待确认付款'" @click="confirmPayHandel(scope.$index,scope.row)">确认付款
-              </el-button>
-              <el-button size="small" type="warning" v-if="scope.row.Status ==='待确认付款'">分配买号</el-button>
-              <el-button size="small" type="danger" v-if="scope.row.Status === '待确认付款'" @click="cancelHandel(scope.$index, scope.row)">取消
-              </el-button>
-            </template>
-          </el-table-column>
         </el-table>
+        <div class="table-foot">
+          <div>
+            <el-button type="success" size="small" :disabled="disabled" @click="editPrice">修改价格</el-button>
+            <el-button type="success" size="small" :disabled="disabled" @click="confirmPayHandel">确认付款</el-button>
+            <el-button type="primary" size="small" :disabled="disabled" @click="logHandel">查看日志</el-button>
+            <el-button type="warning" size="small" :disabled="disabled" @click="accountShow">分配买号</el-button>
+            <el-button type="success" size="small" :disabled="disabled" @click="nextShow">继续</el-button>
+          </div>
+          <div>
+            <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage"
+              :page-sizes="[10, 20, 30, 40]" :page-size="10" layout="total, sizes, prev, pager, next, jumper" :total="total">
+            </el-pagination>
+          </div>
+        </div>
       </div>
     </div>
     <!-- 心愿订单列表 -->
     <div v-if="searchForm.orderTypeValue=='3'">
       <div class="mb20">
-        <el-button type="success" size="medium" :disabled="disabled" @click="editPrice"><i class="el-icon-edit-outline"></i>修改价格
-        </el-button>
-        <el-button type="warning" size="medium"><i class="el-icon-download"></i>导入</el-button>
-        <el-button type="warning" size="medium" @click="exportExcel"><i class="el-icon-upload2"></i>导出</el-button>
+        <el-button type="danger" size="small" @click="delModelShow"><i class="el-icon-delete-solid"></i> 删除</el-button>
+        <el-button type="warning" size="small"><i class="el-icon-download"></i> 导入</el-button>
+        <el-button type="warning" size="small" @click="exportExcel"><i class="el-icon-upload2"></i> 导出</el-button>
       </div>
       <div class="tabList">
         <ul class="tabBlock">
@@ -177,8 +181,10 @@
         </ul>
       </div>
       <div class="mt10">
-        <el-table :data="tableData" style="width: 100%" :header-cell-style="{background:'#fafafa'}" @selection-change="handleSelectionChange">
+        <el-table border :data="tableData" id="exportTable" style="width: 100%" :header-cell-style="{background:'#fafafa'}"
+          @selection-change="handleSelectionChange" @row-click="rowClick" ref="table">
           <el-table-column type="selection"></el-table-column>
+          <el-table-column type="index" align="center" width="50"></el-table-column>
           <el-table-column prop="Numbers" label="心愿任务编码" align="center" width="120">
             <template slot-scope="scope">
               <el-button type="text" @click="viewDetailsModelShow(scope.$index,scope.row)">{{scope.row.Numbers}}</el-button>
@@ -198,27 +204,29 @@
           <el-table-column prop="OrderNote" label="关联刷手" align="center"></el-table-column>
           <el-table-column prop="OrderTime" label="下单时间" align="center"></el-table-column>
           <el-table-column prop="Status" label="订单状态" align="center"></el-table-column>
-          <el-table-column label="操作" align="center" width="200">
-            <template slot-scope="scope">
-              <el-button size="small" type="primary" @click="viewTask(scope.$index,scope.row)">查看任务</el-button>
-              <el-button size="small" @click="cancelReason(scope.$index,scope.row)">取消原因</el-button>
-              <el-button size="small" type="success" v-if="scope.row.Status==='待确认付款'" @click="confirmPayHandel(scope.$index,scope.row)">确认付款
-              </el-button>
-              <el-button size="small" type="warning" v-if="scope.row.Status ==='待确认付款'">分配买号</el-button>
-              <el-button size="small" type="danger" v-if="scope.row.Status === '待确认付款'" @click="cancelHandel(scope.$index, scope.row)">取消
-              </el-button>
-            </template>
-          </el-table-column>
         </el-table>
+        <div class="table-foot">
+          <div>
+            <el-button type="success" size="small" :disabled="disabled" @click="editPrice">修改价格</el-button>
+            <el-button type="success" size="small" :disabled="disabled" @click="confirmPayHandel">确认付款</el-button>
+            <el-button type="primary" size="small" :disabled="disabled" @click="logHandel">查看日志</el-button>
+            <el-button type="warning" size="small" :disabled="disabled" @click="accountShow">分配买号</el-button>
+            <el-button type="success" size="small" :disabled="disabled" @click="nextShow">继续</el-button>
+          </div>
+          <div>
+            <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage"
+              :page-sizes="[10, 20, 30, 40]" :page-size="10" layout="total, sizes, prev, pager, next, jumper" :total="total">
+            </el-pagination>
+          </div>
+        </div>
       </div>
     </div>
     <!-- 点赞订单列表 -->
     <div v-if="searchForm.orderTypeValue=='4'">
       <div class="mb20">
-        <el-button type="success" size="medium" :disabled="disabled" @click="editPrice"><i class="el-icon-edit-outline"></i>修改价格
-        </el-button>
-        <el-button type="warning" size="medium"><i class="el-icon-download"></i>导入</el-button>
-        <el-button type="warning" size="medium" @click="exportExcel"><i class="el-icon-upload2"></i>导出</el-button>
+        <el-button type="danger" size="small" @click="delModelShow"><i class="el-icon-delete-solid"></i> 删除</el-button>
+        <el-button type="warning" size="small"><i class="el-icon-download"></i> 导入</el-button>
+        <el-button type="warning" size="small" @click="exportExcel"><i class="el-icon-upload2"></i> 导出</el-button>
       </div>
       <div class="tabList">
         <ul class="tabBlock">
@@ -231,8 +239,10 @@
         </ul>
       </div>
       <div class="mt10">
-        <el-table :data="tableData" style="width: 100%" :header-cell-style="{background:'#fafafa'}" @selection-change="handleSelectionChange">
+        <el-table border :data="tableData" id="exportTable" style="width: 100%" :header-cell-style="{background:'#fafafa'}"
+          @selection-change="handleSelectionChange" @row-click="rowClick" ref="table">
           <el-table-column type="selection"></el-table-column>
+          <el-table-column type="index" align="center" width="50"></el-table-column>
           <el-table-column prop="Numbers" label="点赞任务编码" align="center" width="120">
             <template slot-scope="scope">
               <el-button type="text" @click="viewLikeDetailsModelShow(scope.$index,scope.row)">{{scope.row.Numbers}}</el-button>
@@ -252,26 +262,29 @@
           <el-table-column prop="OrderNote" label="关联刷手" align="center"></el-table-column>
           <el-table-column prop="OrderTime" label="下单时间" align="center"></el-table-column>
           <el-table-column prop="Status" label="订单状态" align="center"></el-table-column>
-          <el-table-column label="操作" align="center" width="200">
-            <template slot-scope="scope">
-              <el-button size="small" type="primary" @click="viewTask(scope.$index,scope.row)">查看任务</el-button>
-              <el-button size="small" @click="cancelReason(scope.$index,scope.row)">取消原因</el-button>
-              <el-button size="small" type="success" v-if="scope.row.Status==='待确认付款'" @click="confirmPayHandel(scope.$index,scope.row)">确认付款
-              </el-button>
-              <el-button size="small" type="warning" v-if="scope.row.Status ==='待确认付款'">分配买号</el-button>
-              <el-button size="small" type="danger" v-if="scope.row.Status === '待确认付款'" @click="cancelHandel(scope.$index, scope.row)">取消
-              </el-button>
-            </template>
-          </el-table-column>
         </el-table>
+        <div class="table-foot">
+          <div>
+            <el-button type="success" size="small" :disabled="disabled" @click="editPrice">修改价格</el-button>
+            <el-button type="success" size="small" :disabled="disabled" @click="confirmPayHandel">确认付款</el-button>
+            <el-button type="primary" size="small" :disabled="disabled" @click="logHandel">查看日志</el-button>
+            <el-button type="warning" size="small" :disabled="disabled" @click="accountShow">分配买号</el-button>
+            <el-button type="success" size="small" :disabled="disabled" @click="nextShow">继续</el-button>
+          </div>
+          <div>
+            <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage"
+              :page-sizes="[10, 20, 30, 40]" :page-size="10" layout="total, sizes, prev, pager, next, jumper" :total="total">
+            </el-pagination>
+          </div>
+        </div>
       </div>
     </div>
     <!-- QA订单列表 -->
     <div v-if="searchForm.orderTypeValue=='5'">
       <div class="mb20">
-        <el-button type="success" size="medium" :disabled="disabled" @click="editPrice"><i class="el-icon-edit-outline"></i>修改价格</el-button>
-        <el-button type="warning" size="medium"><i class="el-icon-download"></i>导入</el-button>
-        <el-button type="warning" size="medium" @click="exportExcel"><i class="el-icon-upload2"></i>导出</el-button>
+        <el-button type="danger" size="small" @click="delModelShow"><i class="el-icon-delete-solid"></i> 删除</el-button>
+        <el-button type="warning" size="small"><i class="el-icon-download"></i> 导入</el-button>
+        <el-button type="warning" size="small" @click="exportExcel"><i class="el-icon-upload2"></i> 导出</el-button>
       </div>
       <div class="tabList">
         <ul class="tabBlock">
@@ -283,8 +296,10 @@
         </ul>
       </div>
       <div class="mt10">
-        <el-table :data="tableData" style="width: 100%" :header-cell-style="{background:'#fafafa'}" @selection-change="handleSelectionChange">
+        <el-table border :data="tableData" id="exportTable" style="width: 100%" :header-cell-style="{background:'#fafafa'}"
+          @selection-change="handleSelectionChange" @row-click="rowClick" ref="table">
           <el-table-column type="selection"></el-table-column>
+          <el-table-column type="index" align="center" width="50"></el-table-column>
           <el-table-column prop="Numbers" label="QA任务编码" align="center" width="120">
             <template slot-scope="scope">
               <el-button type="text" @click="viewQaDetailsModelShow(scope.$index,scope.row)">{{scope.row.Numbers}}</el-button>
@@ -304,19 +319,24 @@
           <el-table-column prop="OrderNote" label="关联刷手" align="center"></el-table-column>
           <el-table-column prop="OrderTime" label="下单时间" align="center"></el-table-column>
           <el-table-column prop="Status" label="订单状态" align="center"></el-table-column>
-          <el-table-column label="操作" align="center" width="200">
-            <template slot-scope="scope">
-              <el-button size="small" type="primary" @click="viewTask(scope.$index,scope.row)">查看任务</el-button>
-              <el-button size="small" @click="cancelReason(scope.$index,scope.row)">取消原因</el-button>
-              <el-button size="small" type="success" v-if="scope.row.Status==='待确认付款'" @click="confirmPayHandel(scope.$index,scope.row)">确认付款</el-button>
-              <el-button size="small" type="warning" v-if="scope.row.Status ==='待确认付款'">分配买号</el-button>
-              <el-button size="small" type="danger" v-if="scope.row.Status === '待确认付款'" @click="cancelHandel(scope.$index, scope.row)">取消</el-button>
-            </template>
-          </el-table-column>
         </el-table>
+        <div class="table-foot">
+          <div>
+            <el-button type="success" size="small" :disabled="disabled" @click="editPrice">修改价格</el-button>
+            <el-button type="success" size="small" :disabled="disabled" @click="confirmPayHandel">确认付款</el-button>
+            <el-button type="primary" size="small" :disabled="disabled" @click="logHandel">查看日志</el-button>
+            <el-button type="warning" size="small" :disabled="disabled" @click="accountShow">分配买号</el-button>
+            <el-button type="success" size="small" :disabled="disabled" @click="nextShow">继续</el-button>
+          </div>
+          <div>
+            <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage"
+              :page-sizes="[10, 20, 30, 40]" :page-size="10" layout="total, sizes, prev, pager, next, jumper" :total="total">
+            </el-pagination>
+          </div>
+        </div>
       </div>
     </div>
-
+    <!-- 修改价格 -->
     <el-dialog title="修改价格" :visible.sync="editPricceModel" :close-on-click-modal="false" :before-close="closeModel">
       <el-form :model="editPriceForm" :rules="editRules" label-width="125px" status-icon>
         <el-form-item label="feedback服务费" prop="fbServiceFree">
@@ -891,9 +911,10 @@
   import OrderLog from '../../common/OrderLog'
   import buyNum from '../../common/buyNum'
   export default {
-    name: 'orderPlacingManage',
+    name: 'orderList',
     data() {
       return {
+        flag: false,
         currentPage: 1,
         pageSize: '0',
         total: 100,
@@ -911,9 +932,9 @@
         delModel: false,
         accountModel: false, //分配买号
         nextModal: false, //继续
-        FbaOrder: true,
         isFBA: false, //是否是FBA订单
         isQA: false, //是否是QA订单
+        checkBoxData: [], //选中值
         tableData: [{
             "Numbers": "20190605",
             "Picture": "",
@@ -1114,30 +1135,6 @@
           countryId: ''
         }
       },
-      // 导出
-      exportExcel() {
-        var xlsxParam = {
-          raw: true
-        } // 导出的内容只做解析，不进行格式转换
-        var wb = XLSX.utils.table_to_book(document.querySelector('#exportOrder'), xlsxParam)
-
-        /* get binary string as output */
-        var wbout = XLSX.write(wb, {
-          bookType: 'xlsx',
-          bookSST: true,
-          type: 'array'
-        })
-        try {
-          FileSaver.saveAs(new Blob([wbout], {
-            type: 'application/octet-stream'
-          }), '虚拟信用卡管理.xlsx')
-        } catch (e) {
-          if (typeof console !== 'undefined') {
-            console.log(e, wbout)
-          }
-        }
-        return wbout
-      },
       // 删除弹窗
       delModelShow(index, row) {
         let _this = this
@@ -1158,6 +1155,13 @@
         let _this = this
         _this.editPricceModel = false
         _this.editPriceForm = {}
+      },
+      //选中行
+      rowClick(val) {
+        let _this = this
+        _this.$refs.table.clearSelection()
+        _this.$refs.table.toggleRowSelection(val, true);
+        _this.checkBoxData = val
       },
       // 是否有选中
       handleSelectionChange(val) {
@@ -1241,6 +1245,30 @@
       },
       handleCurrentChange(val) {
         console.log(`当前页: ${val}`)
+      },
+      // 导出
+      exportExcel() {
+        var xlsxParam = {
+          raw: true
+        } // 导出的内容只做解析，不进行格式转换
+        var wb = XLSX.utils.table_to_book(document.querySelector('#exportTable'), xlsxParam)
+
+        /* get binary string as output */
+        var wbout = XLSX.write(wb, {
+          bookType: 'xlsx',
+          bookSST: true,
+          type: 'array'
+        })
+        try {
+          FileSaver.saveAs(new Blob([wbout], {
+            type: 'application/octet-stream'
+          }), '订单管理.xlsx')
+        } catch (e) {
+          if (typeof console !== 'undefined') {
+            console.log(e, wbout)
+          }
+        }
+        return wbout
       }
     }
   }

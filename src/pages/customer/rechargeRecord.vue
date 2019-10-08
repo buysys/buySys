@@ -28,14 +28,15 @@
       </div>
     </el-collapse-transition>
     <div class="mb20">
-      <el-button type="warning" size="medium" @click="exportExcel"><i class="el-icon-upload2"></i>导出</el-button>
+      <el-button type="warning" size="small" @click="exportExcel"><i class="el-icon-upload2"></i>导出</el-button>
     </div>
     <div class="mt10">
-      <el-table :data="tableData" id="exportData" style="width: 100%" :header-cell-style="{background:'#fafafa'}">
+      <el-table border :data="tableData" id="exportTable" style="width: 100%" :header-cell-style="{background:'#fafafa'}">
+        <el-table-column type="index" align="center" width="50"></el-table-column>
         <el-table-column prop="Numbers" label="充值流水号" align="center"></el-table-column>
         <el-table-column prop="ProductByASIN" label="客户名称" align="center"></el-table-column>
         <el-table-column prop="CountryId" label="客户编号" align="center"></el-table-column>
-        <el-table-column prop="OrderNumber" label="充值金额" align="center" class-name="red"></el-table-column>
+        <el-table-column prop="OrderNumber" label="充值金额" align="center"></el-table-column>
         <el-table-column prop="OrderNumber" label="充值时间" align="center"></el-table-column>
         <el-table-column prop="Numbers" label="识别码" align="center"></el-table-column>
         <el-table-column prop="Remark" label="充值状态" align="center"></el-table-column>
@@ -45,10 +46,13 @@
           </template>
         </el-table-column>
       </el-table>
-      <div class="mt30">
-        <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage"
-          :page-sizes="[100, 200, 300, 500]" :page-size="10" layout="total, sizes, prev, pager, next, jumper" :total="total">
-        </el-pagination>
+      <div class="table-foot">
+        <div></div>
+        <div>
+          <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage"
+            :page-sizes="[10, 20, 30, 40]" :page-size="10" layout="total, sizes, prev, pager, next, jumper" :total="total">
+          </el-pagination>
+        </div>
       </div>
     </div>
     <!--充值-->
@@ -177,7 +181,7 @@
         var xlsxParam = {
           raw: true
         } // 导出的内容只做解析，不进行格式转换
-        var wb = XLSX.utils.table_to_book(document.querySelector('#exportData'), xlsxParam)
+        var wb = XLSX.utils.table_to_book(document.querySelector('#exportTable'), xlsxParam)
 
         /* get binary string as output */
         var wbout = XLSX.write(wb, {
@@ -188,7 +192,7 @@
         try {
           FileSaver.saveAs(new Blob([wbout], {
             type: 'application/octet-stream'
-          }), '充值记录表.xlsx')
+          }), '充值记录.xlsx')
         } catch (e) {
           if (typeof console !== 'undefined') {
             console.log(e, wbout)

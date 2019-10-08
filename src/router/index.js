@@ -219,7 +219,7 @@ export default new Router({
 				{
 					path: '/productList',
 					name: 'productList',
-					component: resolve => require(['../pages/productLibrary/productList.vue'], resolve),
+					component: resolve => require(['../pages/ParameterConfig/productList.vue'], resolve),
 					meta: {
 						title: '养号系统'
 					}

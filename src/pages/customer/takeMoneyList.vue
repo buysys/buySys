@@ -28,27 +28,33 @@
 			</div>
 		</el-collapse-transition>
 		<div class="mb20">
-			<el-button type="primary" size="medium" @click="okModelShow" :disabled="disabled"><i class="el-icon-circle-check"></i>确认付款</el-button>
-			<el-button type="danger" size="medium" @click="errModelShow" :disabled="disabled"><i class="el-icon-circle-close"></i>付款失败</el-button>
-			<el-button type="warning" size="medium" @click="exportExcel"><i class="el-icon-upload2"></i>导出</el-button>
+			<el-button type="primary" size="small" @click="okModelShow" :disabled="disabled"><i class="el-icon-circle-check"></i> 确认付款</el-button>
+			<el-button type="danger" size="small" @click="errModelShow" :disabled="disabled"><i class="el-icon-circle-close"></i> 付款失败</el-button>
+			<el-button type="warning" size="small" @click="exportExcel"><i class="el-icon-upload2"></i> 导出</el-button>
 		</div>
 		<div class="mt10">
-			<el-table :data="tableData" id="exportData" style="width: 100%" :header-cell-style="{background:'#fafafa'}" @selection-change="handleSelectionChange">
-				<el-table-column type="selection"></el-table-column>
+			<el-table border :data="tableData" id="exportTable" style="width: 100%" :header-cell-style="{background:'#fafafa'}"
+			  @selection-change="handleSelectionChange" @row-click="rowClick" ref="table">
+			  <el-table-column type="selection"></el-table-column>
+			  <el-table-column type="index" align="center" width="50"></el-table-column>
 				<el-table-column prop="Numbers" label="提现记录号" align="center"></el-table-column>
 				<el-table-column prop="ProductByASIN" label="客户名称" align="center"></el-table-column>
 				<el-table-column prop="CountryId" label="客户编号" align="center"></el-table-column>
 				<el-table-column prop="CountryId" label="客户手机" align="center"></el-table-column>
-				<el-table-column prop="OrderNumber" label="提现金额" align="center" class-name="red"></el-table-column>
+				<el-table-column prop="OrderNumber" label="提现金额" align="center"></el-table-column>
 				<el-table-column prop="OrderNumber" label="提现状态" align="center"></el-table-column>
 				<el-table-column prop="OrderNumber" label="提现时间" align="center"></el-table-column>
 				<el-table-column prop="OrderNumber" label="开户银行" align="center"></el-table-column>
 				<el-table-column prop="CountryId" label="开户名" align="center"></el-table-column>
 				<el-table-column prop="ProductPrice" label="开户银行账号" align="center"></el-table-column>
 			</el-table>
-			<div class="mt30">
-				<el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage" :page-sizes="[100, 200, 300, 500]" :page-size="10" layout="total, sizes, prev, pager, next, jumper" :total="total">
-				</el-pagination>
+			<div class="table-foot">
+			  <div></div>
+			  <div>
+			    <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage"
+			      :page-sizes="[10, 20, 30, 40]" :page-size="10" layout="total, sizes, prev, pager, next, jumper" :total="total">
+			    </el-pagination>
+			  </div>
 			</div>
 		</div>
 		<!-- 确认付款-->
@@ -82,7 +88,7 @@
 				errModel: false,
 				disabled: true,
 				tableData: [{
-						"Numbers": "20190605105636229596",
+						"Numbers": "20190605105",
 						"Picture": "",
 						"CountryId": "美国",
 						"Forum": "Amazon",
@@ -92,11 +98,11 @@
 						"OrderNote": "待付款",
 						"Status": "已完成",
 						"OrderNumber": 1314520,
-						"OrderTime": "2019-02-03T00:00:00",
+						"OrderTime": "2019-02-03 00:00:00",
 						"Remark": ""
 					},
 					{
-						"Numbers": "20190611174157617041",
+						"Numbers": "2019061117415",
 						"Picture": "",
 						"CountryId": "德国",
 						"Forum": "Amazon",
@@ -106,7 +112,7 @@
 						"OrderNote": "待确认",
 						"Status": "已完成",
 						"OrderNumber": 7758258,
-						"OrderTime": "2019-04-02T00:00:00",
+						"OrderTime": "2019-04-02 00:00:00",
 						"Remark": ""
 					},
 				],
@@ -162,6 +168,13 @@
 					searchkeywords: ''
 				}
 			},
+      //选中行
+      rowClick(val) {
+        let _this = this
+        _this.$refs.table.clearSelection()
+        _this.$refs.table.toggleRowSelection(val, true);
+        _this.checkBoxData = val
+      },
 			// 是否有选中
 			handleSelectionChange(val) {
 				let _this = this

@@ -1,14 +1,14 @@
 <template>
   <div class="container">
     <div class="mb20 fz14">
-		<span>首页</span>
-		<span>/</span>
-		<span>账号管理</span>
+      <span>首页</span>
+      <span>/</span>
+      <span>账号管理</span>
     </div>
     <el-collapse-transition>
       <div class="searchBox mb20 pl30">
         <el-form ref="searchForm" :model="searchForm" class="form-item" label-width="100px">
-          <el-row>
+          <el-row v-show="searchShow==true">
             <el-col :span='4' :xs='24'>
               <el-form-item label="平台" class="disInline">
                 <el-select v-model="searchForm.platform" placeholder="请选择">
@@ -47,12 +47,12 @@
                 </el-select>
               </el-form-item>
             </el-col>
-            </el-row>
-            <el-row>
+          </el-row>
+          <el-row  v-show="searchShow==true">
             <el-col :span='24' :xs='24'>
-            <el-form-item label="标签">
+              <el-form-item label="标签">
                 <div style="border: 1px solid #DCDFE6;padding-left: 10px;background: #fff;">
-                <el-collapse-transition>
+                  <el-collapse-transition>
                     <el-checkbox-group v-model="searchForm.type">
                       <el-checkbox label="西班牙" name="type"></el-checkbox>
                       <el-checkbox label="新人注册号" name="type"></el-checkbox>
@@ -80,18 +80,18 @@
                       <el-checkbox label="手机测试" name="type"></el-checkbox>
                       <el-checkbox label="西班牙" name="type"></el-checkbox>
                     </el-checkbox-group>
-                </el-collapse-transition>
+                  </el-collapse-transition>
                 </div>
-            </el-form-item>
+              </el-form-item>
             </el-col>
-            </el-row>
-            <el-row>
+          </el-row>
+          <el-row>
             <el-col :span='5' :xs='24'>
               <el-form-item label="搜索内容">
                 <el-input v-model="searchForm.searchkeywords" placeholder="请输入买家账号/姓名" class="disInline"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :xs="24" :span="4" class="ml20">
+            <el-col :span="4" :xs="24" class="ml20">
               <el-button type="primary" size="medium">查询</el-button>
               <el-button size="medium" @click="">重置</el-button>
             </el-col>
@@ -100,25 +100,12 @@
       </div>
     </el-collapse-transition>
     <div class="mb20">
-      <el-button type="success" size="medium" @click="addLevel"><i class="el-icon-plus"></i>新增</el-button>
-      <el-button type="primary" size="medium" :disabled="disabled" @click="editLevel"><i class="el-icon-edit-outline"></i>修改
-      </el-button>
-      <el-button type="danger" size="medium" :disabled="disabled" @click="delHandel"><i class="el-icon-delete"></i>删除
-      </el-button>
-      <el-button type="primary" size="medium" :disabled="disabled" @click="updateTab"><i class="el-icon-edit-outline"></i>修改标签
-      </el-button>
-      <el-button type="primary" size="medium" :disabled="disabled" @click="updateStatus"><i class="el-icon-edit-outline"></i>修改状态
-      </el-button>
-      <el-button type="primary" size="medium" :disabled="disabled" @click="RelationBrush"><i class="el-icon-sort"></i>关联刷手
-      </el-button>
-      <el-button type="primary" size="medium" @click="setBuyLevelHandel"><i class="el-icon-setting"></i>设置买号等级
-      </el-button>
-      <el-button type="primary" size="medium" @click="setBuyTagHandel"><i class="el-icon-setting"></i>买号标签管理
-      </el-button>
-      <el-button type="warning" size="medium" @click=""><i class="el-icon-download"></i>导入
-      </el-button>
-      <el-button type="warning" size="medium" @click="exportExcel"><i class="el-icon-upload2"></i>导出
-      </el-button>
+      <el-button type="success" size="small" @click="addLevel"><i class="el-icon-plus"></i> 新增</el-button>
+      <el-button type="primary" size="small" @click="editLevel"><i class="el-icon-edit-outline"></i> 修改</el-button>
+      <el-button type="danger" size="small" @click="delHandel"><i class="el-icon-delete"></i> 删除</el-button>
+      <el-button type="warning" size="small" @click=""><i class="el-icon-download"></i> 导入</el-button>
+      <el-button type="warning" size="small" @click="exportExcel"><i class="el-icon-upload2"></i> 导出</el-button>
+      <el-button size="small" @click="searchShow=!searchShow"><i class="el-icon-search"></i> 展开更多搜索</el-button>
     </div>
     <div class="tabList">
       <ul class="tabBlock">
@@ -130,8 +117,10 @@
       </ul>
     </div>
     <div class="mt10">
-      <el-table :data="buyNumData" id="exportOrder" border style="width: 100%" @selection-change="handleSelectionChange">
+      <el-table border :data="tableData" id="exportTable" style="width: 100%" :header-cell-style="{background:'#fafafa'}"
+        @selection-change="handleSelectionChange" @row-click="rowClick" ref="table">
         <el-table-column type="selection"></el-table-column>
+        <el-table-column type="index" align="center" width="50"></el-table-column>
         <el-table-column prop="Numbers" label="登录账号" align="center" width="180">
           <template slot-scope="scope">
             <el-button type="text" @click="accountViewModelShow(scope.$index,scope.row)">{{scope.row.Numbers}}</el-button>
@@ -153,24 +142,28 @@
         <el-table-column prop="OrderNote" label="上周排名" align="center"></el-table-column>
         <el-table-column prop="OrderNote" label="本周排名" align="center"></el-table-column>
         <el-table-column prop="OrderNote" label="排名涨幅" align="center"></el-table-column>
-        <el-table-column label="操作" align="center" width='280'>
-          <template slot-scope="scope">
-            <el-button size="small" type="primary" @click="">打开浏览器
-            </el-button>
-            <el-button size="small" type="primary" @click="systemConfig(scope.$index, scope.row)">系统配置
-            </el-button>
-            <el-button size='small' type="primary" @click="remark(scope.$index,scope.row)">备注</el-button>
-          </template>
-        </el-table-column>
       </el-table>
-      <div class="mt30">
-        <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage"
-          :page-sizes="[10, 20, 30, 40]" :page-size="10" layout="total, sizes, prev, pager, next, jumper" :total="total">
-        </el-pagination>
+      <div class="table-foot">
+        <div>
+          <el-button type="success" size="small" :disabled="disabled" @click="updateTab">修改标签</el-button>
+          <el-button type="primary" size="small" :disabled="disabled" @click="updateStatus">修改状态</el-button>
+          <el-button type="danger" size="small" :disabled="disabled" @click="RelationBrush">关联刷手</el-button>
+          <el-button type="warning" size="small" :disabled="disabled" @click="setBuyLevelHandel">设置买号等级</el-button>
+          <el-button type="success" size="small" :disabled="disabled" @click="setBuyTagHandel">买号标签管理</el-button>
+          <el-button type="primary" size="small" :disabled="disabled">打开浏览器</el-button>
+          <el-button type="danger" size="small" :disabled="disabled" @click="systemConfig">系统配置</el-button>
+          <el-button type="warning" size='small' :disabled="disabled" @click="remark">备注</el-button>
+        </div>
+        <div>
+          <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage"
+            :page-sizes="[10, 20, 30, 40]" :page-size="10" layout="total, sizes, prev, pager, next, jumper" :total="total">
+          </el-pagination>
+        </div>
       </div>
     </div>
     <!-- 新建、修改-->
-    <el-dialog :title="title" :visible.sync="addBuyNumModel" :close-on-click-modal="false" :before-close="closeModel" custom-class="fixed-dialog">
+    <el-dialog :title="title" :visible.sync="addBuyNumModel" :close-on-click-modal="false" :before-close="closeModel"
+      custom-class="fixed-dialog">
       <el-form :model="buyNumForm" ref="buyNumForm" :rules="editRules" class="demo-dynamic" label-width="140px"
         status-icon>
         <div class="modalTitle mb20 fz16">账号信息</div>
@@ -546,7 +539,7 @@
           </el-col>
         </el-row>
       </el-form>
-      <el-table :data="buyNumData" border style="width: 100%" @row-click="brushShowRow">
+      <el-table :data="tableData" border style="width: 100%" @row-click="brushShowRow">
         <el-table-column show-overflow-tooltip width="50px">
           <template slot-scope="scope">
             <el-radio class="radio" v-model="brushRadio" :label="scope.$index">&nbsp;</el-radio>
@@ -566,7 +559,8 @@
       </div>
     </el-dialog>
     <!-- 重新分配-->
-    <el-dialog title="买号等级分配信息" :visible.sync="accountModel" custom-class="fixed-dialog" :close-on-click-modal="false" :before-close="closeBuyNum">
+    <el-dialog title="买号等级分配信息" :visible.sync="accountModel" custom-class="fixed-dialog" :close-on-click-modal="false"
+      :before-close="closeBuyNum">
       <el-collapse-transition>
         <div class="searchBox mb20" v-show="accountSearchModel">
           <el-form ref="accountSearchForm" :model="accountSearchForm" class="form-item" label-width="80px">
@@ -589,7 +583,7 @@
         </el-button>
         <el-button size="medium" @click="accountSearchShow"><i class="el-icon-search"></i>检索</el-button>
       </div>
-      <el-table :data="buyNumData" border style="width: 100%" :default-sort="{prop: 'Numbers', order: 'descending'}"
+      <el-table :data="tableData" border style="width: 100%" :default-sort="{prop: 'Numbers', order: 'descending'}"
         @selection-change="buyHandleSelectionChange">
         <el-table-column type="selection"></el-table-column>
         <el-table-column prop="Numbers" label="类型" sortable align="center"></el-table-column>
@@ -623,7 +617,7 @@
           </el-col>
         </el-row>
       </el-form>
-      <el-table :data="buyNumData" border style="width: 100%" @row-click="showRow">
+      <el-table :data="tableData" border style="width: 100%" @row-click="showRow">
         <el-table-column show-overflow-tooltip width="50px">
           <template slot-scope="scope">
             <el-radio class="radio" v-model="radio" :label="scope.$index">&nbsp;</el-radio>
@@ -805,9 +799,9 @@
               <span>标签、标签、标签</span>
             </el-form-item>
           </el-col>
-          </el-row>
-          <div class="modalTitle mb20 fz16">收货地址1</div>
-          <el-row>
+        </el-row>
+        <div class="modalTitle mb20 fz16">收货地址1</div>
+        <el-row>
           <el-col :span='12' :xs='24'>
             <el-form-item label="姓名：">
               <span>托尼</span>
@@ -845,7 +839,7 @@
           </el-col>
         </el-row>
         <div class="modalTitle mb20 fz16">收货地址2</div>
-          <el-row>
+        <el-row>
           <el-col :span='12' :xs='24'>
             <el-form-item label="姓名：">
               <span>托尼</span>
@@ -883,7 +877,7 @@
           </el-col>
         </el-row>
         <div class="modalTitle mb20 fz16">收货地址3</div>
-          <el-row>
+        <el-row>
           <el-col :span='12' :xs='24'>
             <el-form-item label="姓名：">
               <span>托尼</span>
@@ -922,7 +916,7 @@
         </el-row>
 
         <div class="modalTitle mb20 fz16">付款信息</div>
-          <el-row>
+        <el-row>
           <el-col :span='12' :xs='24'>
             <el-form-item label="信用卡类型：">
               <span>实体信用卡</span>
@@ -941,7 +935,7 @@
         </el-row>
 
         <div class="modalTitle mb20 fz16">其他信息</div>
-          <el-row>
+        <el-row>
           <el-col :span='12' :xs='24'>
             <el-form-item label="注册时间：">
               <span>2012-01-08</span>
@@ -968,55 +962,57 @@
 
     <!-- 任务总数 -->
     <el-dialog title='任务信息' :visible.sync="taskListModel" custom-class="fixed-dialog">
-    <el-collapse-transition>
-    	<div class="searchBox mb20">
-    		<el-form ref="searchForm" :model="searchForm" class="form-item" label-width="80px">
-    			<el-row>
-    				<el-col :xs="24" :span="8">
-    					<el-form-item label="搜索内容">
-    						<el-input v-model="searchForm.searchkeywords" placeholder="请输入提任务编码/任务备注/产品名称" class="disInline"></el-input>
-    					</el-form-item>
-    				</el-col>
-    				<el-col :xs="24" :span="4">
-    					<el-form-item label="任务状态">
-    						<template>
-    							<el-select v-model="statusValue" placeholder="请选择">
-    								<el-option v-for="item in statusOptions" :key="item.value" :label="item.label" :value="item.value">
-    								</el-option>
-    							</el-select>
-    						</template>
-    					</el-form-item>
-    				</el-col>
-    				<el-col :xs="24" :span="4" class="ml20">
-    					<el-button type="primary" size="medium">查询</el-button>
-    					<el-button size="medium" @click="resetSearch">重置</el-button>
-    				</el-col>
-    			</el-row>
-    		</el-form>
-    	</div>
-    </el-collapse-transition>
-    <div class="mt10">
-    	<el-table :data="buyNumData" id="exportData" style="width: 100%" :header-cell-style="{background:'#fafafa'}" @selection-change="handleSelectionChange">
-    		<el-table-column prop="Numbers" label="任务编号" align="center" width="180"></el-table-column>
-    		<el-table-column prop="ProductByASIN" label="平台/国家" align="center"></el-table-column>
-    		<el-table-column prop="CountryId" label="产品ASIN" align="center"></el-table-column>
-    		<el-table-column prop="CountryId" label="产品名称" align="center"></el-table-column>
-    		<el-table-column prop="OrderNumber" label="产品价格" align="center"></el-table-column>
-    		<el-table-column prop="OrderNumber" label="订单备注" align="center"></el-table-column>
-    		<el-table-column prop="OrderNumber" label="买号" align="center"></el-table-column>
-    		<el-table-column prop="OrderNumber" label="刷手" align="center"></el-table-column>
-    		<el-table-column prop="CountryId" label="任务开始时间" align="center"></el-table-column>
-    		<el-table-column prop="ProductPrice" label="任务状态" align="center"></el-table-column>
-        <el-table-column prop="ProductPrice" label="备注" align="center"></el-table-column>
-    	</el-table>
-    	<div class="mt30">
-    		<el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage" :page-sizes="[100, 200, 300, 500]" :page-size="10" layout="total, sizes, prev, pager, next, jumper" :total="total">
-    		</el-pagination>
-    	</div>
-    </div>
-    <div slot="footer" class="dialog-footer">
-      <el-button @click="taskListModel = false">关 闭</el-button>
-    </div>
+      <el-collapse-transition>
+        <div class="searchBox mb20">
+          <el-form ref="searchForm" :model="searchForm" class="form-item" label-width="80px">
+            <el-row>
+              <el-col :xs="24" :span="8">
+                <el-form-item label="搜索内容">
+                  <el-input v-model="searchForm.searchkeywords" placeholder="请输入提任务编码/任务备注/产品名称" class="disInline"></el-input>
+                </el-form-item>
+              </el-col>
+              <el-col :xs="24" :span="4">
+                <el-form-item label="任务状态">
+                  <template>
+                    <el-select v-model="statusValue" placeholder="请选择">
+                      <el-option v-for="item in statusOptions" :key="item.value" :label="item.label" :value="item.value">
+                      </el-option>
+                    </el-select>
+                  </template>
+                </el-form-item>
+              </el-col>
+              <el-col :xs="24" :span="4" class="ml20">
+                <el-button type="primary" size="medium">查询</el-button>
+                <el-button size="medium" @click="resetSearch">重置</el-button>
+              </el-col>
+            </el-row>
+          </el-form>
+        </div>
+      </el-collapse-transition>
+      <div class="mt10">
+        <el-table :data="tableData" id="exportTable" style="width: 100%" :header-cell-style="{background:'#fafafa'}"
+          @selection-change="handleSelectionChange" @row-click="rowClick" ref="table">
+          <el-table-column prop="Numbers" label="任务编号" align="center" width="180"></el-table-column>
+          <el-table-column prop="ProductByASIN" label="平台/国家" align="center"></el-table-column>
+          <el-table-column prop="CountryId" label="产品ASIN" align="center"></el-table-column>
+          <el-table-column prop="CountryId" label="产品名称" align="center"></el-table-column>
+          <el-table-column prop="OrderNumber" label="产品价格" align="center"></el-table-column>
+          <el-table-column prop="OrderNumber" label="订单备注" align="center"></el-table-column>
+          <el-table-column prop="OrderNumber" label="买号" align="center"></el-table-column>
+          <el-table-column prop="OrderNumber" label="刷手" align="center"></el-table-column>
+          <el-table-column prop="CountryId" label="任务开始时间" align="center"></el-table-column>
+          <el-table-column prop="ProductPrice" label="任务状态" align="center"></el-table-column>
+          <el-table-column prop="ProductPrice" label="备注" align="center"></el-table-column>
+        </el-table>
+        <div class="mt30">
+          <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage"
+            :page-sizes="[100, 200, 300, 500]" :page-size="10" layout="total, sizes, prev, pager, next, jumper" :total="total">
+          </el-pagination>
+        </div>
+      </div>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="taskListModel = false">关 闭</el-button>
+      </div>
     </el-dialog>
   </div>
 </template>
@@ -1032,6 +1028,7 @@
     name: 'registerAccount',
     data() {
       return {
+        searchShow: false, //搜索条件
         entityShow: false,
         entityCardModal: false, //实体信用卡弹窗
         virtuaModal: false, //选择虚拟卡弹窗
@@ -1066,7 +1063,7 @@
         },
         checkBoxData: [],
         buyCheckData: [],
-        buyNumData: [{
+        tableData: [{
             "Numbers": "20190605105636229596",
             "Picture": "",
             "CountryId": "美国",
@@ -1079,8 +1076,8 @@
             "OrderNumber": 1314520,
             "OrderTime": "2019-02-03 18:00:00",
             "Remark": ""
-        },
-        {
+          },
+          {
             "Numbers": "20190611174157617041",
             "Picture": "",
             "CountryId": "德国",
@@ -1093,7 +1090,7 @@
             "OrderNumber": 7758258,
             "OrderTime": "2019-04-02 14:05:00",
             "Remark": ""
-        }
+          }
         ],
         vertuaCardData: [], //虚拟卡
         selected: {},
@@ -1209,26 +1206,26 @@
         allNum: '0',
         active: '1',
         statusOptions: [{
-        	value: '1',
-        	label: '全部'
+          value: '1',
+          label: '全部'
         }, {
-        	value: '2',
-        	label: '待购买'
+          value: '2',
+          label: '待购买'
         }, {
-        	value: '3',
-        	label: '待发货'
+          value: '3',
+          label: '待发货'
         }, {
-        	value: '4',
-        	label: '待收货'
+          value: '4',
+          label: '待收货'
         }, {
-        	value: '5',
-        	label: '待评价'
+          value: '5',
+          label: '待评价'
         }, {
-        	value: '6',
-        	label: '已完成'
+          value: '6',
+          label: '已完成'
         }, {
-        	value: '7',
-        	label: '订单异常'
+          value: '7',
+          label: '订单异常'
         }],
         statusValue: '1'
       }
@@ -1285,7 +1282,7 @@
       systemConfig(index, row) {
         let _this = this
         _this.systemConfigModal = true
-        let item = _this.buyNumData[index]
+        let item = _this.tableData[index]
         let num = item.Numbers
         _this.systemTitle = '买号：' + num + '系统配置'
       },
@@ -1312,13 +1309,13 @@
       },
       showRow(row) {
         //赋值给radio
-        this.radio = this.buyNumData.indexOf(row);
+        this.radio = this.tableData.indexOf(row);
         this.selected = row;
       },
       // 关联刷手赋值radio
       brushShowRow(row) {
         let _this = this
-        _this.brushRadio = _this.buyNumData.indexOf(row)
+        _this.brushRadio = _this.tableData.indexOf(row)
         _this.selected = row
       },
       // 选择主卡确定
@@ -1437,12 +1434,17 @@
         let _this = this
         _this.delModel = true
       },
+      //选中行
+      rowClick(val) {
+        let _this = this
+        _this.$refs.table.clearSelection()
+        _this.$refs.table.toggleRowSelection(val, true);
+        _this.checkBoxData = val
+      },
       // 是否有选中
       handleSelectionChange(val) {
         this.checkBoxData = val
-        console.log(val)
         let checkNum = this.checkBoxData.length
-        console.log(checkNum)
         if (checkNum !== 1) {
           this.disabled = true
         } else {
@@ -1487,7 +1489,7 @@
         let _this = this
         _this.active = 1
         _this.axios.get(_this.GLOBAL.BASE_URL + 'api/OrderManagement/AddOrderByType').then((res) => {
-          _this.buyNumData = res.data.data
+          _this.tableData = res.data.data
           _this.allNum = res.data.data.length
         }).catch((error) => {
           console.log(error)
@@ -1514,25 +1516,25 @@
       zc() {
         let _this = this
         _this.active = 2
-        _this.buyNumData = []
+        _this.tableData = []
       },
       //失效
       sx() {
         let _this = this
         _this.active = 3
-        _this.buyNumData = []
+        _this.tableData = []
       },
       //限评
       xp() {
         let _this = this
         _this.active = 4
-        _this.buyNumData = []
+        _this.tableData = []
       },
       //封号
       fh() {
         let _this = this
         _this.active = 5
-        _this.buyNumData = []
+        _this.tableData = []
       },
       //分页
       handleSizeChange(val) {
@@ -1546,7 +1548,7 @@
         var xlsxParam = {
           raw: true
         } // 导出的内容只做解析，不进行格式转换
-        var wb = XLSX.utils.table_to_book(document.querySelector('#exportOrder'), xlsxParam)
+        var wb = XLSX.utils.table_to_book(document.querySelector('#exportTable'), xlsxParam)
 
         /* get binary string as output */
         var wbout = XLSX.write(wb, {
@@ -1557,7 +1559,7 @@
         try {
           FileSaver.saveAs(new Blob([wbout], {
             type: 'application/octet-stream'
-          }), '下单管理表.xlsx')
+          }), '账户管理.xlsx')
         } catch (e) {
           if (typeof console !== 'undefined') {
             console.log(e, wbout)

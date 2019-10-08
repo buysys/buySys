@@ -6,38 +6,39 @@
           <el-row>
             <el-col :xs="24" :span="4">
               <el-form-item label="国家">
-                <el-input v-model="searchForm.countryId" placeholder="请输入国家" class="disInline"></el-input>
+                <el-input v-model="searchForm.countryId" placeholder="请输入国家"></el-input>
               </el-form-item>
             </el-col>
             <el-col :xs="24" :span="4" class="ml20">
               <el-button type="primary" size="medium">查询</el-button>
-              <el-button size="medium" @click='resetBtn'>重置</el-button>
+              <el-button size="medium" @click="resetSearch">重置</el-button>
             </el-col>
           </el-row>
         </el-form>
       </div>
     </el-collapse-transition>
     <div class="mb20">
-      <el-button type="success" size="medium" @click="addService"><i class="el-icon-plus"></i>新增</el-button>
-      <el-button type="primary" size="medium" :disabled="disabled" @click="editService"><i class="el-icon-edit-outline"></i>修改
-      </el-button>
-      <el-button type="warning" size="medium"><i class="el-icon-download"></i>导入</el-button>
-      <el-button type="warning" size="medium" :disabled="disabled" @click="exportExcel"><i class="el-icon-upload2"></i>导出</el-button>
+      <el-button type="success" size="small" @click="addService"><i class="el-icon-plus"></i> 新增</el-button>
+      <el-button type="primary" size="small" :disabled="disabled" @click="editService">
+        <i class="el-icon-edit-outline"></i> 修改</el-button>
+      <el-button type="warning" size="small"><i class="el-icon-download"></i> 导入</el-button>
+      <el-button type="warning" size="small" @click="exportExcel"><i class="el-icon-upload2"></i> 导出</el-button>
     </div>
     <div class="mt10">
-      <el-table :data="countryData" v-model='loading' border style="width: 100%" height='500' id='exportOrder'
-        @selection-change="handleSelectionChange">
+      <el-table border :data="tableData" id="exportTable" style="width: 100%" :header-cell-style="{background:'#fafafa'}"
+        @selection-change="handleSelectionChange" @row-click="rowClick" ref="table">
         <el-table-column type="selection"></el-table-column>
-        <el-table-column prop="CountryId" sortable label="国家名称" align="center">
+        <el-table-column type="index" align="center" width="50"></el-table-column>
+        <el-table-column prop="CountryId" label="国家名称" align="center">
           <template slot-scope="scope">
             <el-button type="text" @click="viewCountryDetails(scope.$index,scope.row)">{{scope.row.CountryId}}</el-button>
           </template>
         </el-table-column>
-        <el-table-column prop="Numbers" sortable label="国家简写" align="center"></el-table-column>
-        <el-table-column prop="ProductByASIN" sortable label="语言" align="center"></el-table-column>
-        <el-table-column prop="ProductByASIN" sortable label="时区" align="center"></el-table-column>
-        <el-table-column prop="ProductByASIN" sortable label="最小端口" align="center"></el-table-column>
-        <el-table-column prop="ProductByASIN" sortable label="最大端口" align="center"></el-table-column>
+        <el-table-column prop="Numbers" label="国家简写" align="center"></el-table-column>
+        <el-table-column prop="ProductByASIN" label="语言" align="center"></el-table-column>
+        <el-table-column prop="ProductByASIN" label="时区" align="center"></el-table-column>
+        <el-table-column prop="ProductByASIN" label="最小端口" align="center"></el-table-column>
+        <el-table-column prop="ProductByASIN" label="最大端口" align="center"></el-table-column>
         <el-table-column prop="Status" label="禁用 | 启用" align="center">
           <template slot-scope="scope">
             <el-switch active-color="#67c23a" inactive-color="#dcdfe6" active-value="1" inactive-value="0" v-model="scope.row.Status"
@@ -46,10 +47,13 @@
           </template>
         </el-table-column>
       </el-table>
-      <div class="mt30">
-        <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage"
-          :page-sizes="[10, 20, 30, 40]" :page-size="10" layout="total, sizes, prev, pager, next, jumper" :total="total">
-        </el-pagination>
+      <div class="table-foot">
+        <div></div>
+        <div>
+          <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage"
+            :page-sizes="[10, 20, 30, 40]" :page-size="10" layout="total, sizes, prev, pager, next, jumper" :total="total">
+          </el-pagination>
+        </div>
       </div>
     </div>
     <!--新增/修改-->
@@ -129,7 +133,7 @@
         viewCountryModal: false, //查看详情
         returnShow: false,
         tipMessage: '',
-        countryData: [{
+        tableData: [{
             "Numbers": "20190605105636229596",
             "Picture": "",
             "CountryId": "美国",
@@ -237,7 +241,7 @@
         })
       },
       //重置
-      resetBtn() {
+      resetSearch() {
         let _this = this
         _this.searchForm = {
           countryId: ''
@@ -246,7 +250,7 @@
       //查看详情
       viewCountryDetails(index, row) {
         let _this = this
-        let item = _this.countryData[index]
+        let item = _this.tableData[index]
         _this.countryForm.countryId = item.CountryId
         _this.viewCountryModal = true
       },
@@ -277,13 +281,13 @@
       // 切换状态
       changeStatus(index, row) {
         let _this = this
-        let item = _this.countryData[index]
+        let item = _this.tableData[index]
         console.log(item.Status)
         if (item.Status == '0') {
-          _this.countryData.Status = '1'
+          _this.tableData.Status = '1'
         }
         if (item.Status == '1') {
-          _this.countryData.Status = '0'
+          _this.tableData.Status = '0'
         }
       },
       //新建弹窗
@@ -308,11 +312,18 @@
         let _this = this
         _this.active = 1
         _this.axios.get(_this.GLOBAL.BASE_URL + 'api/OrderManagement/AddOrderByType').then((res) => {
-          _this.countryData = res.data.data
+          _this.tableData = res.data.data
           _this.loading = false
         }).catch((error) => {
           console.log(error)
         })
+      },
+      //选中行
+      rowClick(val) {
+        let _this = this
+        _this.$refs.table.clearSelection()
+        _this.$refs.table.toggleRowSelection(val, true);
+        _this.checkBoxData = val
       },
       // 是否有选中
       handleSelectionChange(val) {

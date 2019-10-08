@@ -19,13 +19,15 @@
 		</el-collapse-transition>
 
 		<div class="mb20">
-			<el-button type="success" size="medium" @click="addProductModal"><i class="el-icon-plus"></i>新增</el-button>
-			<el-button type="primary" size="medium" @click="editProductModal" :disabled="editDisabled"><i class="el-icon-edit-outline"></i>修改</el-button>
-			<el-button type="danger" size="medium" @click="deleteProductModal" :disabled="delDisabled"><i class="el-icon-delete"></i>删除</el-button>
+			<el-button type="success" size="small" @click="addProductModal"><i class="el-icon-plus"></i> 新增</el-button>
+			<el-button type="primary" size="small" @click="editProductModal" :disabled="editDisabled"><i class="el-icon-edit-outline"></i> 修改</el-button>
+			<el-button type="danger" size="small" @click="deleteProductModal" :disabled="delDisabled"><i class="el-icon-delete"></i> 删除</el-button>
 		</div>
 		<div class="mt10">
-			<el-table :data="tables.slice((currentPage - 1) * pageSize, currentPage * pageSize)" ref='tableData' style="width: 100%" :header-cell-style="{background:'#fafafa'}" @selection-change="handleSelectionChange">
-				<el-table-column type="selection"></el-table-column>
+			<el-table border :data="tableData" id="exportTable" style="width: 100%" :header-cell-style="{background:'#fafafa'}"
+			  @selection-change="handleSelectionChange" @row-click="rowClick" ref="table">
+			  <el-table-column type="selection"></el-table-column>
+			  <el-table-column type="index" align="center" width="50"></el-table-column>
 				<el-table-column prop="platform" label="平台" align="center" width="200">
 					<template slot-scope="scope">
 						<el-button type="text" @click="viewProductShow(scope.$index,scope.row)">{{scope.row.platform}}</el-button>
@@ -39,9 +41,13 @@
 				<el-table-column prop="productLink" label="产品链接" align="center"></el-table-column>
 				<el-table-column prop="productKeywords" label="产品关键词" align="center"></el-table-column>
 			</el-table>
-			<div class="mt30">
-				<el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage" :page-sizes="[100, 200, 300, 500]" :page-size="10" layout="total, sizes, prev, pager, next, jumper" :total="total">
-				</el-pagination>
+			<div class="table-foot">
+			  <div></div>
+			  <div>
+			    <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage"
+			      :page-sizes="[10, 20, 30, 40]" :page-size="10" layout="total, sizes, prev, pager, next, jumper" :total="total">
+			    </el-pagination>
+			  </div>
 			</div>
 		</div>
 		<!-- 新增修改 -->
@@ -285,6 +291,13 @@
 			handleCurrentChange(val) {
 				console.log(`当前页: ${val}`)
 			},
+      //选中行
+      rowClick(val) {
+        let _this = this
+        _this.$refs.table.clearSelection()
+        _this.$refs.table.toggleRowSelection(val, true);
+        _this.checkBoxData = val
+      },
 			// 是否有选中
 			handleSelectionChange(val) {
 				let _this = this

@@ -74,7 +74,7 @@
       </el-col>
     </el-row>
     <el-row :gutter="20" class="mt20 relative">
-       <div class="chooseDate">
+      <div class="chooseDate">
         <el-date-picker v-model="value4" type="month" placeholder="请选择月份">
         </el-date-picker>
       </div>
@@ -630,6 +630,14 @@
 </script>
 
 <style scoped>
-  .relative {position: relative;}
-  .chooseDate {position: absolute;left: 11%;top: 1%;z-index: 100;}
+  .relative {
+    position: relative;
+  }
+
+  .chooseDate {
+    position: absolute;
+    left: 11%;
+    top: 1%;
+    z-index: 100;
+  }
 </style>
