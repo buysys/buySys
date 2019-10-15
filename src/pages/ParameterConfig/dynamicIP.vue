@@ -7,7 +7,7 @@
 						<el-col :xs="24" :span="4">
 							<el-form-item label="国家">
 								<template>
-									<el-select v-model="countryValue" placeholder="请选择">
+									<el-select v-model="countryValue" placeholder="请选择" size="small">
 										<el-option v-for="item in countryOptions" :key="item.value" :label="item.label" :value="item.value">
 										</el-option>
 									</el-select>
@@ -16,19 +16,21 @@
 						</el-col>
 						<el-col :xs="24" :span="5">
 							<el-form-item label="端口">
-								<el-input v-model="searchForm.start" placeholder="开始端口" class="disInline" style="width: 100px;"></el-input>
+								<el-input v-model="searchForm.start" placeholder="开始端口" style="width: 100px;" size="small"></el-input>
 								---
-								<el-input v-model="searchForm.end" placeholder="结束端口" class="disInline" style="width: 100px;"></el-input>
+								<el-input v-model="searchForm.end" placeholder="结束端口" style="width: 100px;" size="small"></el-input>
 							</el-form-item>
 						</el-col>
 						<el-col :xs="24" :span="4">
 							<el-form-item label="搜索内容">
-								<el-input v-model="searchForm.searchkeywords" placeholder="请输入IP/端口/买家账号" class="disInline"></el-input>
+								<el-input v-model="searchForm.searchkeywords" placeholder="请输入IP/端口/买家账号" size="small"></el-input>
 							</el-form-item>
 						</el-col>
-						<el-col :xs="24" :span="5" :sm="10" :md="8" :lg="5" class="ml20">
-							<el-button type="primary" size="medium">查询</el-button>
-							<el-button size="medium" @click="resetSearch">重置</el-button>
+						<el-col :xs="24" :span="4">
+						  <el-form-item>
+						  <el-button type="primary" size="small">查询</el-button>
+						  <el-button size="small" @click="resetSearch">重置</el-button>
+						  </el-form-item>
 						</el-col>
 					</el-row>
 				</el-form>
@@ -40,8 +42,8 @@
 		<div class="mt10">
 			<el-table border :data="tableData" id="exportTable" style="width: 100%" :header-cell-style="{background:'#fafafa'}"
 			  @selection-change="handleSelectionChange" @row-click="rowClick" ref="table">
-				<el-table-column type="selection"></el-table-column>
-        <el-table-column type="index" align="center" width="50"></el-table-column>
+				<el-table-column type="selection" align="center"></el-table-column>
+				<el-table-column type="index" label="序号" align="center" width="50"></el-table-column>
 				<el-table-column prop="Numbers" label="IP" align="center"></el-table-column>
 				<el-table-column prop="ProductByASIN" label="端口" align="center"></el-table-column>
 				<el-table-column prop="CountryId" label="国家" align="center"></el-table-column>
@@ -63,7 +65,7 @@
 	import FileSaver from 'file-saver'
 	import XLSX from 'xlsx'
 	export default {
-		name: 'customer',
+		name: 'dynamicIP',
 		data() {
 			return {
 				loading: true,
@@ -156,14 +158,18 @@
       },
 			// 是否有选中
 			handleSelectionChange(val) {
-				let _this = this
-				_this.checkBoxData = val
-				let checkNum = _this.checkBoxData.length
-				if(checkNum !== 1) {
-					_this.disabled = true
-				} else {
-					_this.disabled = false
-				}
+			  this.checkBoxData = val
+			  let checkNum = this.checkBoxData.length
+			  if (checkNum == 1) {
+			    this.disabled = false
+			    this.disabledMore = false
+			  }else if(checkNum>1){
+			    this.disabled = true
+			    this.disabledMore = false
+			  }else {
+			    this.disabled = true
+			    this.disabledMore = true
+			  }
 			},
 			//分页
 			handleSizeChange(val) {

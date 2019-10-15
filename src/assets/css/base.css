@@ -2,6 +2,10 @@ body {
   background: #f2f2f9;
 }
 
+.red {
+  color: #f00;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -573,13 +577,13 @@ ul {
   cursor: pointer;
 }
 
-.table-foot{
+.table-foot {
   margin-top: 20px;
   display: flex;
   justify-content: space-between;
 }
 
 /* 鼠标移入表格行 */
-.el-table__row{
+.el-table__row {
   cursor: pointer;
 }

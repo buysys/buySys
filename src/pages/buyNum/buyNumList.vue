@@ -7,11 +7,11 @@
     </div>
     <el-collapse-transition>
       <div class="searchBox mb20 pl30">
-        <el-form ref="searchForm" :model="searchForm" class="form-item" label-width="100px">
+        <el-form ref="searchForm" :model="searchForm" class="form-item" label-width="80px">
           <el-row v-show="searchShow==true">
             <el-col :span='4' :xs='24'>
               <el-form-item label="平台" class="disInline">
-                <el-select v-model="searchForm.platform" placeholder="请选择">
+                <el-select v-model="searchForm.platform" placeholder="请选择" size="small">
                   <el-option label="全部" value="全部"></el-option>
                   <el-option label="Amazon" value="Amazon"></el-option>
                 </el-select>
@@ -19,7 +19,7 @@
             </el-col>
             <el-col :span='4' :xs='24'>
               <el-form-item label="国家" class="disInline">
-                <el-select v-model="searchForm.country" placeholder="请选择">
+                <el-select v-model="searchForm.country" placeholder="请选择" size="small">
                   <el-option label="美国" value="美国"></el-option>
                   <el-option label="加拿大" value="加拿大"></el-option>
                 </el-select>
@@ -27,7 +27,7 @@
             </el-col>
             <el-col :span="4" :xs="24">
               <el-form-item label="是否留评">
-                <el-select v-model="searchForm.isComment" placeholder="请选择">
+                <el-select v-model="searchForm.isComment" placeholder="请选择" size="small">
                   <el-option label="是" value="是"></el-option>
                   <el-option label="否" value="否"></el-option>
                 </el-select>
@@ -35,14 +35,14 @@
             </el-col>
             <el-col :span='4' :xs='24'>
               <el-form-item label="信用卡类型">
-                <el-select placeholder="请选择" v-model="searchForm.CreditCard" class="minWid">
+                <el-select placeholder="请选择" v-model="searchForm.CreditCard" size="small">
                   <el-option v-for="(item,index) in CreditCardData" :key="index" :value="index" :label="item.types"></el-option>
                 </el-select>
               </el-form-item>
             </el-col>
             <el-col :span='4' :xs='24'>
               <el-form-item label="买号等级">
-                <el-select placeholder="请选择" v-model="searchForm.buyNumberLevel" class="minWid">
+                <el-select placeholder="请选择" v-model="searchForm.buyNumberLevel" size="small">
                   <el-option v-for="(item,index) in buyNumberLevelData" :key="index" :value="index" :label="item.level"></el-option>
                 </el-select>
               </el-form-item>
@@ -88,12 +88,14 @@
           <el-row>
             <el-col :span='5' :xs='24'>
               <el-form-item label="搜索内容">
-                <el-input v-model="searchForm.searchkeywords" placeholder="请输入买家账号/姓名" class="disInline"></el-input>
+                <el-input v-model="searchForm.searchkeywords" placeholder="请输入买家账号/姓名" size="small"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="4" :xs="24" class="ml20">
-              <el-button type="primary" size="medium">查询</el-button>
-              <el-button size="medium" @click="">重置</el-button>
+            <el-col :xs="24" :span="4">
+              <el-form-item>
+              <el-button type="primary" size="small">查询</el-button>
+              <el-button size="small" @click="resetSearch">重置</el-button>
+              </el-form-item>
             </el-col>
           </el-row>
         </el-form>
@@ -101,9 +103,9 @@
     </el-collapse-transition>
     <div class="mb20">
       <el-button type="success" size="small" @click="addLevel"><i class="el-icon-plus"></i> 新增</el-button>
-      <el-button type="primary" size="small" @click="editLevel"><i class="el-icon-edit-outline"></i> 修改</el-button>
-      <el-button type="danger" size="small" @click="delHandel"><i class="el-icon-delete"></i> 删除</el-button>
-      <el-button type="warning" size="small" @click=""><i class="el-icon-download"></i> 导入</el-button>
+      <el-button type="primary" size="small" :disabled="disabled" @click="editLevel"><i class="el-icon-edit-outline"></i> 修改</el-button>
+      <el-button type="danger" size="small" :disabled="disabledMore" @click="delHandel"><i class="el-icon-delete"></i> 删除</el-button>
+      <el-button type="warning" size="small"><i class="el-icon-download"></i> 导入</el-button>
       <el-button type="warning" size="small" @click="exportExcel"><i class="el-icon-upload2"></i> 导出</el-button>
       <el-button size="small" @click="searchShow=!searchShow"><i class="el-icon-search"></i> 展开更多搜索</el-button>
     </div>
@@ -119,8 +121,8 @@
     <div class="mt10">
       <el-table border :data="tableData" id="exportTable" style="width: 100%" :header-cell-style="{background:'#fafafa'}"
         @selection-change="handleSelectionChange" @row-click="rowClick" ref="table">
-        <el-table-column type="selection"></el-table-column>
-        <el-table-column type="index" align="center" width="50"></el-table-column>
+        <el-table-column type="selection" align="center"></el-table-column>
+        <el-table-column type="index" label="序号" align="center" width="50"></el-table-column>
         <el-table-column prop="Numbers" label="登录账号" align="center" width="180">
           <template slot-scope="scope">
             <el-button type="text" @click="accountViewModelShow(scope.$index,scope.row)">{{scope.row.Numbers}}</el-button>
@@ -1025,7 +1027,7 @@
   import XLSX from 'xlsx'
 
   export default {
-    name: 'registerAccount',
+    name: 'buyNumList',
     data() {
       return {
         searchShow: false, //搜索条件
@@ -1047,7 +1049,8 @@
         RelationBrushModal: false, //关联刷手
         updateTabModal: false, //修改标签
         cardModal: false, //选择购物卡
-        disabled: true,
+        disabled: true,  //单项禁用
+        disabledMore: true, //多项禁用
         disabled1: true,
         addBuyNumModel: false, //新建
         delModel: false, //删除
@@ -1269,7 +1272,7 @@
         }
       },
       //备注
-      remark(index, row) {
+      remark() {
         let _this = this
         _this.remarkModal = true
       },
@@ -1279,12 +1282,10 @@
         _this.remarkModal = false
       },
       //系统配置
-      systemConfig(index, row) {
+      systemConfig() {
         let _this = this
         _this.systemConfigModal = true
-        let item = _this.tableData[index]
-        let num = item.Numbers
-        _this.systemTitle = '买号：' + num + '系统配置'
+        _this.systemTitle = '买号系统配置'
       },
       // 关联刷手
       RelationBrush() {
@@ -1366,7 +1367,7 @@
         _this.paramModel = true
       },
       // 分配信息
-      RedistributionAccount(index, row) {
+      RedistributionAccount() {
         let _this = this
         _this.accountModel = true
         _this.getAllData()
@@ -1445,10 +1446,15 @@
       handleSelectionChange(val) {
         this.checkBoxData = val
         let checkNum = this.checkBoxData.length
-        if (checkNum !== 1) {
-          this.disabled = true
-        } else {
+        if (checkNum == 1) {
           this.disabled = false
+          this.disabledMore = false
+        }else if(checkNum>1){
+          this.disabled = true
+          this.disabledMore = false
+        }else {
+          this.disabled = true
+          this.disabledMore = true
         }
       },
       //设置买号等级
@@ -1474,13 +1480,13 @@
       },
 
       //账号详情
-      accountViewModelShow(index, row) {
+      accountViewModelShow() {
         let _this = this
         _this.accountViewModel = true
       },
 
       //任务总数
-      taskListModelShow(index, row) {
+      taskListModelShow() {
         let _this = this
         _this.taskListModel = true
       },

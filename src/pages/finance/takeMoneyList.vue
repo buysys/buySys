@@ -6,22 +6,24 @@
 					<el-row>
 						<el-col :xs="24" :span="8">
 							<el-form-item label="搜索内容">
-								<el-input v-model="searchForm.searchkeywords" placeholder="请输入提现记录号/客户名称/客户编码/客户手机" class="disInline"></el-input>
+								<el-input v-model="searchForm.searchkeywords" placeholder="请输入提现记录号/客户名称/客户编码/客户手机" size="small"></el-input>
 							</el-form-item>
 						</el-col>
 						<el-col :xs="24" :span="4">
 							<el-form-item label="提现状态">
 								<template>
-									<el-select v-model="statusValue" placeholder="请选择">
+									<el-select v-model="statusValue" placeholder="请选择" size="small">
 										<el-option v-for="item in statusOptions" :key="item.value" :label="item.label" :value="item.value">
 										</el-option>
 									</el-select>
 								</template>
 							</el-form-item>
 						</el-col>
-						<el-col :xs="24" :span="4" class="ml20">
-							<el-button type="primary" size="medium">查询</el-button>
-							<el-button size="medium" @click="resetSearch">重置</el-button>
+						<el-col :xs="24" :span="4">
+						  <el-form-item>
+						  <el-button type="primary" size="small">查询</el-button>
+						  <el-button size="small" @click="resetSearch">重置</el-button>
+						  </el-form-item>
 						</el-col>
 					</el-row>
 				</el-form>
@@ -35,8 +37,8 @@
 		<div class="mt10">
 			<el-table border :data="tableData" id="exportTable" style="width: 100%" :header-cell-style="{background:'#fafafa'}"
 			  @selection-change="handleSelectionChange" @row-click="rowClick" ref="table">
-			  <el-table-column type="selection"></el-table-column>
-			  <el-table-column type="index" align="center" width="50"></el-table-column>
+			  <el-table-column type="selection" align="center"></el-table-column>
+			  <el-table-column type="index" label="序号" align="center" width="50"></el-table-column>
 				<el-table-column prop="Numbers" label="提现记录号" align="center"></el-table-column>
 				<el-table-column prop="ProductByASIN" label="客户名称" align="center"></el-table-column>
 				<el-table-column prop="CountryId" label="客户编号" align="center"></el-table-column>

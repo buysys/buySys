@@ -6,17 +6,19 @@
           <el-row>
             <el-col :xs="24" :span="4">
               <el-form-item label="卡号">
-                <el-input v-model="searchForm.CardNo" placeholder="请输入信用卡卡号" class="disInline"></el-input>
+                <el-input v-model="searchForm.CardNo" placeholder="请输入信用卡卡号" size="small"></el-input>
               </el-form-item>
             </el-col>
             <el-col :xs="24" :span="4">
               <el-form-item label="姓名">
-                <el-input v-model="searchForm.username" placeholder="请输入信用卡姓名" class="disInline"></el-input>
+                <el-input v-model="searchForm.username" placeholder="请输入信用卡姓名" size="small"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :xs="24" :span="4" class="ml20">
-              <el-button type="primary" size="medium">查询</el-button>
-              <el-button size="medium" @click="resetSearch">重置</el-button>
+            <el-col :xs="24" :span="4">
+              <el-form-item>
+              <el-button type="primary" size="small">查询</el-button>
+              <el-button size="small" @click="resetSearch">重置</el-button>
+              </el-form-item>
             </el-col>
           </el-row>
         </el-form>
@@ -26,20 +28,20 @@
       <el-button type="success" size="small" @click="addLevel"><i class="el-icon-plus"></i> 新增</el-button>
       <el-button type="primary" size="small" :disabled="disabled" @click="editLevel"><i class="el-icon-edit-outline"></i>
         修改</el-button>
-      <el-button type="danger" size="small" :disabled="disabled" @click="delHandel"><i class="el-icon-delete"></i> 删除</el-button>
-      <el-button type="primary" size="small" @click="reserCardHandel" :disabled="disabled"><i class="el-icon-takeaway-box"></i>
+      <el-button type="danger" size="small" :disabled="disabledMore" @click="delHandel"><i class="el-icon-delete"></i> 删除</el-button>
+      <el-button type="primary" size="small" :disabled="disabled" @click="reserCardHandel"><i class="el-icon-takeaway-box"></i>
         重置虚拟卡</el-button>
-      <el-button type="primary" size="small" @click="quotaHandle" :disabled="disabled"><i class="el-icon-edit-outline"></i>
+      <el-button type="primary" size="small" :disabled="disabled" @click="quotaHandle"><i class="el-icon-edit-outline"></i>
         修改额度</el-button>
-      <el-button type="primary" size="small" @click="repaymentHandle"><i class="el-icon-edit-outline"></i> 还款</el-button>
+      <el-button type="primary" size="small" :disabled="disabled" @click="repaymentHandle"><i class="el-icon-edit-outline"></i> 还款</el-button>
       <el-button type="warning" size="small" @click="importHandle"><i class="el-icon-download"></i> 导入</el-button>
       <el-button type="warning" size="small" @click="exportExcel"><i class="el-icon-upload2"></i> 导出</el-button>
     </div>
     <div class="mt10">
       <el-table border :data="tableData" id="exportTable" style="width: 100%" :header-cell-style="{background:'#fafafa'}"
         @selection-change="handleSelectionChange" @row-click="rowClick" ref="table">
-        <el-table-column type="selection"></el-table-column>
-        <el-table-column type="index" align="center" width="50"></el-table-column>
+        <el-table-column type="selection" align="center"></el-table-column>
+        <el-table-column type="index" label="序号" align="center" width="50"></el-table-column>
         <el-table-column prop="Numbers" label="主卡卡号" align="center">
           <template slot-scope="scope">
             <el-button type="text" @click="viewCardDetails(scope.$index,scope.row)">{{scope.row.Numbers}}</el-button>
@@ -258,8 +260,8 @@
       return {
         loading: true,
         title: '新增',
-        disabled: true,
-        disabled1: true,
+        disabled: true,  //单项禁用
+        disabledMore: true, //多项禁用
         cardModel: false,
         delModel: false,
         importModel: false,
@@ -471,11 +473,15 @@
       handleSelectionChange(val) {
         this.checkBoxData = val
         let checkNum = this.checkBoxData.length
-        console.log(checkNum)
-        if (checkNum !== 1) {
-          this.disabled = true
-        } else {
+        if (checkNum == 1) {
           this.disabled = false
+          this.disabledMore = false
+        }else if(checkNum>1){
+          this.disabled = true
+          this.disabledMore = false
+        }else {
+          this.disabled = true
+          this.disabledMore = true
         }
       },
       //获取初始数据

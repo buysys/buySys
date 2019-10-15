@@ -29,6 +29,7 @@
         <el-table-column type="index" label="序号" align="center" width="50"></el-table-column>
         <el-table-column prop="Country" label="国家名称" align="center"></el-table-column>
         <el-table-column prop="Code" label="国家简写" align="center"></el-table-column>
+        <el-table-column prop="Code" label="网址" align="center"></el-table-column>
       </el-table>
       <div class="table-foot">
         <div></div>
@@ -44,7 +45,7 @@
 
 <script>
   export default {
-    name: 'relationCountry',
+    name: 'relationWebAddress',
     data() {
       return {
         currentPage: 1,
@@ -93,10 +94,10 @@
         })
       },
 
-      passValue(){
+      passValue() {
         let _this = this
         let ids = _this.checkBoxData.map(item => item.Code)
-        _this.$emit('func',ids)
+        _this.$emit('func', ids)
         _this.checkBoxData = []
         _this.$refs.table.clearSelection()
       },

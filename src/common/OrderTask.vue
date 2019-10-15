@@ -13,7 +13,8 @@
 				<el-table-column prop="OrderNumber" label="说明" align="center"></el-table-column>
         <el-table-column prop="Status" label="禁用 | 启用" align="center">
           <template slot-scope="scope">
-            <el-switch active-color="#67c23a" inactive-color="#dcdfe6" active-value="1" inactive-value="0" v-model="scope.row.Status" @change="changeStatus(scope.$index,scope.row)">
+            <el-switch active-color="#67c23a" inactive-color="#dcdfe6" active-value="1" inactive-value="0" v-model="scope.row.Status" 
+			@change="changeStatus(scope.$index,scope.row)">
             </el-switch>
           </template>
         </el-table-column>

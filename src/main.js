@@ -4,7 +4,7 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 // import vuex from 'vuex'
-import Axios from 'axios'
+import axios from 'axios'
 import 'babel-polyfill'
 import ElementUI from 'element-ui'
 // import VueResource from 'vue-resource'
@@ -15,8 +15,12 @@ import CollapseTransition from 'element-ui/lib/transitions/collapse-transition'
 import '@/assets/css/base.css'
 Vue.config.productionTip = false
 Vue.use(ElementUI, CollapseTransition.name, CollapseTransition)
-Vue.prototype.axios = Axios
+Vue.prototype.axios = axios
 Vue.prototype.GLOBAL = global_
+
+axios.defaults.headers.post['Content-Type'] = 'application/json'
+axios.defaults.headers.common['SID'] = sessionStorage.getItem('sessionid')
+
 if (process.env.NODE_ENV === 'production') {
   Vue.prototype.GLOBAL.BASE_URL = 'http://119.23.78.0' // 测试接口
   // Vue.prototype.GLOBAL.BASE_URL = 'http://www.handyfitness.com.cn:8094' // 正式接口

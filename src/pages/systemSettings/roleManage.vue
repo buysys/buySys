@@ -21,13 +21,13 @@
     </div>
     <div class="mb20">
       <el-button type="success " size="small" @click="addRole"><i class="el-icon-plus "></i> 新增</el-button>
-      <el-button type="primary " size="small" :disabled="disabled " @click="editRole"><i class="el-icon-edit-outline "></i> 修改</el-button>
+      <el-button type="primary " size="small" :disabled="disabled" @click="editRole"><i class="el-icon-edit-outline "></i> 修改</el-button>
     </div>
     <div class="mt10 ">
       <el-table border :data="tableData" id="exportTable" style="width: 100%" :header-cell-style="{background:'#fafafa'}"
         @selection-change="handleSelectionChange" @row-click="rowClick" ref="table">
-        <el-table-column type="selection"></el-table-column>
-        <el-table-column type="index" align="center" width="50"></el-table-column>
+        <el-table-column type="selection" align="center"></el-table-column>
+        <el-table-column type="index" label="序号" align="center" width="50"></el-table-column>
         <el-table-column prop="Numbers" label="角色名称" align="center"></el-table-column>
         <el-table-column prop="CountryId" label="备注" align="center"></el-table-column>
         <el-table-column prop="Status" label="禁用 | 启用" align="center">
@@ -84,7 +84,8 @@
     name: 'roleManage',
     data() {
       return {
-        disabled: true,
+        disabled: true, //单项禁用
+        disabledMore: true, //多项禁用
         loading: false,
         tableData: [{
             "Numbers": "20190605105636229596",
@@ -758,15 +759,19 @@
         _this.$refs.table.toggleRowSelection(val, true);
         _this.checkBoxData = val
       },
-      //是否选中
+      // 是否有选中
       handleSelectionChange(val) {
         this.checkBoxData = val
         let checkNum = this.checkBoxData.length
-        console.log(checkNum)
-        if (checkNum !== 1) {
-          this.disabled = true
-        } else {
+        if (checkNum == 1) {
           this.disabled = false
+          this.disabledMore = false
+        }else if(checkNum>1){
+          this.disabled = true
+          this.disabledMore = false
+        }else {
+          this.disabled = true
+          this.disabledMore = true
         }
       },
       //获取表格数据

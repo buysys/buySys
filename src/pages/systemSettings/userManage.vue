@@ -12,19 +12,21 @@
             <el-row>
               <el-col :xs="24" :span="6">
                 <el-form-item label="搜索内容">
-                  <el-input v-model="searchForm.searchkeywords" placeholder="请输入用户姓名/邮箱/手机" class="disInline"></el-input>
+                  <el-input v-model="searchForm.searchkeywords" placeholder="请输入用户姓名/邮箱/手机" size="small"></el-input>
                 </el-form-item>
               </el-col>
-              <el-col :xs="24" :span="4" class="ml20">
-                <el-button type="primary" size="medium">查询</el-button>
-                <el-button size="medium" @click="resetSearch">重置</el-button>
+              <el-col :xs="24" :span="4">
+                <el-form-item>
+                  <el-button type="primary" size="small">查询</el-button>
+                  <el-button size="small" @click="resetSearch">重置</el-button>
+                </el-form-item>
               </el-col>
             </el-row>
           </el-form>
         </div>
       </el-collapse-transition>
       <div class="mb20">
-        <el-button type="success" size="small" @click="addUser "><i class="el-icon-plus"></i> 新增</el-button>
+        <el-button type="success" size="small" @click="addUser"><i class="el-icon-plus"></i> 新增</el-button>
         <el-button type="primary" size="small" :disabled="disabled" @click="editUser"><i class="el-icon-edit-outline"></i>
           修改</el-button>
         <el-button type="warning" size="small" @click="importHandle"><i class="el-icon-download"></i> 导入</el-button>
@@ -34,8 +36,8 @@
       <div class="mt10">
         <el-table border :data="tableData" id="exportTable" style="width: 100%" :header-cell-style="{background:'#fafafa'}"
           @selection-change="handleSelectionChange" @row-click="rowClick" ref="table">
-          <el-table-column type="selection"></el-table-column>
-          <el-table-column type="index" align="center" width="50"></el-table-column>
+          <el-table-column type="selection" align="center"></el-table-column>
+          <el-table-column type="index" label="序号" align="center" width="50"></el-table-column>
           <el-table-column prop="ProductByASIN" label="姓名" align="center"></el-table-column>
           <el-table-column prop="CountryId" label="邮箱" align="center"></el-table-column>
           <el-table-column prop="ProductByASIN" label="手机" align="center"></el-table-column>
@@ -152,7 +154,8 @@
     name: 'userManage',
     data() {
       return {
-        disabled: true,
+        disabled: true, //单项禁用
+        disabledMore: true, //多项禁用
         loading: true,
         importModel: false,
         roleModel: false,
@@ -332,15 +335,19 @@
         _this.$refs.table.toggleRowSelection(val, true);
         _this.checkBoxData = val
       },
-      //是否选中
+      // 是否有选中
       handleSelectionChange(val) {
         this.checkBoxData = val
         let checkNum = this.checkBoxData.length
-        console.log(checkNum)
-        if (checkNum !== 1) {
-          this.disabled = true
-        } else {
+        if (checkNum == 1) {
           this.disabled = false
+          this.disabledMore = false
+        } else if (checkNum > 1) {
+          this.disabled = true
+          this.disabledMore = false
+        } else {
+          this.disabled = true
+          this.disabledMore = true
         }
       },
       //获取表格数据

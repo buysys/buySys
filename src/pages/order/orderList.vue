@@ -12,7 +12,7 @@
             <el-col :xs="24" :span="4">
               <el-form-item label="平台">
                 <template>
-                  <el-select v-model="searchForm.platform" placeholder="请选择">
+                  <el-select v-model="searchForm.platform" placeholder="请选择" size="small">
                     <el-option v-for="(item,index) in platformOptions" :key="index" :value="item.value" :label="item.label"></el-option>
                   </el-select>
                 </template>
@@ -21,7 +21,7 @@
             <el-col :xs="24" :span="4">
               <el-form-item label="任务类型">
                 <template>
-                  <el-select v-model="searchForm.orderTypeValue" placeholder="请选择">
+                  <el-select v-model="searchForm.orderTypeValue" placeholder="请选择" size="small">
                     <el-option v-for="(item,index) in orderTypeOptions" :key="index" :value="item.value" :label="item.label"></el-option>
                   </el-select>
                 </template>
@@ -29,19 +29,21 @@
             </el-col>
             <el-col :xs="24" :span="4">
               <el-form-item label="国家">
-                <el-select placeholder="请选择" v-model="searchForm.countryId" class="minWid">
+                <el-select v-model="searchForm.countryId" placeholder="请选择" size="small">
                   <el-option v-for="(item,index) in countryData" :key="index" :value="index" :label="item.country"></el-option>
                 </el-select>
               </el-form-item>
             </el-col>
             <el-col :xs="24" :span="4">
               <el-form-item label="关键字">
-                <el-input v-model="searchForm.searchkeywords" placeholder="请输入关键字" class="disInline"></el-input>
+                <el-input v-model="searchForm.searchkeywords" placeholder="请输入关键字" size="small"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :xs="24" :span="4" class="ml20">
-              <el-button type="primary" size="medium">查询</el-button>
-              <el-button size="medium" @click="resetSearch">重置</el-button>
+            <el-col :xs="24" :span="4">
+              <el-form-item>
+              <el-button type="primary" size="small">查询</el-button>
+              <el-button size="small" @click="resetSearch">重置</el-button>
+              </el-form-item>
             </el-col>
           </el-row>
         </el-form>
@@ -50,7 +52,7 @@
     <!-- FBA订单列表 -->
     <div v-if="searchForm.orderTypeValue=='1'">
       <div class="mb20">
-        <el-button type="danger" size="small" @click="delModelShow"><i class="el-icon-delete-solid"></i> 删除</el-button>
+        <el-button type="danger" size="small" :disabled="disabledMore" @click="delModelShow"><i class="el-icon-delete-solid"></i> 删除</el-button>
         <el-button type="warning" size="small"><i class="el-icon-download"></i> 导入</el-button>
         <el-button type="warning" size="small" @click="exportExcel"><i class="el-icon-upload2"></i> 导出</el-button>
       </div>
@@ -67,8 +69,8 @@
       <div class="mt10">
         <el-table border :data="tableData" id="exportTable" style="width: 100%" :header-cell-style="{background:'#fafafa'}"
           @selection-change="handleSelectionChange" @row-click="rowClick" ref="table">
-          <el-table-column type="selection"></el-table-column>
-          <el-table-column type="index" align="center" width="50"></el-table-column>
+          <el-table-column type="selection" align="center"></el-table-column>
+          <el-table-column type="index" label="序号" align="center" width="50"></el-table-column>
           <el-table-column prop="Numbers" label="FBA任务编码" align="center" width="120">
             <template slot-scope="scope">
               <el-button type="text" @click="viewDetailsModelShow(scope.$index,scope.row)">{{scope.row.Numbers}}</el-button>
@@ -108,7 +110,7 @@
     <!-- 加购订单列表 -->
     <div v-if="searchForm.orderTypeValue=='2'">
       <div class="mb20">
-        <el-button type="danger" size="small" @click="delModelShow"><i class="el-icon-delete-solid"></i> 删除</el-button>
+        <el-button type="danger" size="small" :disabled="disabledMore" @click="delModelShow"><i class="el-icon-delete-solid"></i> 删除</el-button>
         <el-button type="warning" size="small"><i class="el-icon-download"></i> 导入</el-button>
         <el-button type="warning" size="small" @click="exportExcel"><i class="el-icon-upload2"></i> 导出</el-button>
       </div>
@@ -125,8 +127,8 @@
       <div class="mt10">
         <el-table border :data="tableData" id="exportTable" style="width: 100%" :header-cell-style="{background:'#fafafa'}"
           @selection-change="handleSelectionChange" @row-click="rowClick" ref="table">
-          <el-table-column type="selection"></el-table-column>
-          <el-table-column type="index" align="center" width="50"></el-table-column>
+          <el-table-column type="selection" align="center"></el-table-column>
+          <el-table-column type="index" label="序号" align="center" width="50"></el-table-column>
           <el-table-column prop="Numbers" label="加购任务编码" align="center" width="120">
             <template slot-scope="scope">
               <el-button type="text" @click="viewDetailsModelShow(scope.$index,scope.row)">{{scope.row.Numbers}}</el-button>
@@ -166,7 +168,7 @@
     <!-- 心愿订单列表 -->
     <div v-if="searchForm.orderTypeValue=='3'">
       <div class="mb20">
-        <el-button type="danger" size="small" @click="delModelShow"><i class="el-icon-delete-solid"></i> 删除</el-button>
+        <el-button type="danger" size="small" :disabled="disabledMore" @click="delModelShow"><i class="el-icon-delete-solid"></i> 删除</el-button>
         <el-button type="warning" size="small"><i class="el-icon-download"></i> 导入</el-button>
         <el-button type="warning" size="small" @click="exportExcel"><i class="el-icon-upload2"></i> 导出</el-button>
       </div>
@@ -183,8 +185,8 @@
       <div class="mt10">
         <el-table border :data="tableData" id="exportTable" style="width: 100%" :header-cell-style="{background:'#fafafa'}"
           @selection-change="handleSelectionChange" @row-click="rowClick" ref="table">
-          <el-table-column type="selection"></el-table-column>
-          <el-table-column type="index" align="center" width="50"></el-table-column>
+          <el-table-column type="selection" align="center"></el-table-column>
+          <el-table-column type="index" label="序号" align="center" width="50"></el-table-column>
           <el-table-column prop="Numbers" label="心愿任务编码" align="center" width="120">
             <template slot-scope="scope">
               <el-button type="text" @click="viewDetailsModelShow(scope.$index,scope.row)">{{scope.row.Numbers}}</el-button>
@@ -224,7 +226,7 @@
     <!-- 点赞订单列表 -->
     <div v-if="searchForm.orderTypeValue=='4'">
       <div class="mb20">
-        <el-button type="danger" size="small" @click="delModelShow"><i class="el-icon-delete-solid"></i> 删除</el-button>
+        <el-button type="danger" size="small" :disabled="disabledMore" @click="delModelShow"><i class="el-icon-delete-solid"></i> 删除</el-button>
         <el-button type="warning" size="small"><i class="el-icon-download"></i> 导入</el-button>
         <el-button type="warning" size="small" @click="exportExcel"><i class="el-icon-upload2"></i> 导出</el-button>
       </div>
@@ -241,8 +243,8 @@
       <div class="mt10">
         <el-table border :data="tableData" id="exportTable" style="width: 100%" :header-cell-style="{background:'#fafafa'}"
           @selection-change="handleSelectionChange" @row-click="rowClick" ref="table">
-          <el-table-column type="selection"></el-table-column>
-          <el-table-column type="index" align="center" width="50"></el-table-column>
+          <el-table-column type="selection" align="center"></el-table-column>
+          <el-table-column type="index" label="序号" align="center" width="50"></el-table-column>
           <el-table-column prop="Numbers" label="点赞任务编码" align="center" width="120">
             <template slot-scope="scope">
               <el-button type="text" @click="viewLikeDetailsModelShow(scope.$index,scope.row)">{{scope.row.Numbers}}</el-button>
@@ -282,7 +284,7 @@
     <!-- QA订单列表 -->
     <div v-if="searchForm.orderTypeValue=='5'">
       <div class="mb20">
-        <el-button type="danger" size="small" @click="delModelShow"><i class="el-icon-delete-solid"></i> 删除</el-button>
+        <el-button type="danger" size="small" :disabled="disabledMore" @click="delModelShow"><i class="el-icon-delete-solid"></i> 删除</el-button>
         <el-button type="warning" size="small"><i class="el-icon-download"></i> 导入</el-button>
         <el-button type="warning" size="small" @click="exportExcel"><i class="el-icon-upload2"></i> 导出</el-button>
       </div>
@@ -298,8 +300,8 @@
       <div class="mt10">
         <el-table border :data="tableData" id="exportTable" style="width: 100%" :header-cell-style="{background:'#fafafa'}"
           @selection-change="handleSelectionChange" @row-click="rowClick" ref="table">
-          <el-table-column type="selection"></el-table-column>
-          <el-table-column type="index" align="center" width="50"></el-table-column>
+          <el-table-column type="selection" align="center"></el-table-column>
+          <el-table-column type="index" label="序号" align="center" width="50"></el-table-column>
           <el-table-column prop="Numbers" label="QA任务编码" align="center" width="120">
             <template slot-scope="scope">
               <el-button type="text" @click="viewQaDetailsModelShow(scope.$index,scope.row)">{{scope.row.Numbers}}</el-button>
@@ -887,7 +889,7 @@
     </el-dialog>
     <!-- 删除-->
     <el-dialog title="温馨提示" :visible.sync="delModel" :close-on-click-modal="false" center width="30%">
-      <div class="del-dialog-cnt textCen">是否要删除该订单吗？</div>
+      <div class="del-dialog-cnt textCen">是否要删除选中的订单吗？</div>
       <span slot="footer" class="dialog-footer">
         <el-button type="primary" size="medium">是</el-button>
         <el-button @click="delModel=false" size="medium">否</el-button>
@@ -895,7 +897,7 @@
     </el-dialog>
     <!--继续-->
     <el-dialog title="温馨提示" :visible.sync="nextModal" :close-on-click-modal="false" center width="30%">
-      <div class="del-dialog-cnt textCen">是否要继续订单吗？</div>
+      <div class="del-dialog-cnt textCen">是否要继续该订单吗？</div>
       <span slot="footer" class="dialog-footer">
         <el-button type="primary" size="medium">是</el-button>
         <el-button @click="nextModal=false" size="medium">否</el-button>
@@ -914,7 +916,6 @@
     name: 'orderList',
     data() {
       return {
-        flag: false,
         currentPage: 1,
         pageSize: '0',
         total: 100,
@@ -925,7 +926,8 @@
         confirmPaymentModel: false,
         cancelPaymentModel: false,
         loading: true,
-        disabled: true,
+        disabled: true,  //单项禁用
+        disabledMore: true, //多项禁用
         reasonModel: false,
         editPricceModel: false,
         logModel: false,
@@ -1076,7 +1078,7 @@
         _this.accountModel = false
       },
       // 查看订单详情弹窗(FBA/加购心愿订单)
-      viewDetailsModelShow(index, row) {
+      viewDetailsModelShow() {
         let _this = this
         _this.viewDetailsModel = true
         _this.viewLikeDateilsModel = false
@@ -1087,40 +1089,34 @@
         } else {
           _this.isFBA = false
         }
-        let item = _this.tableData[index]
-        let num = item.Numbers
-        _this.title = '订单：' + num + '的详情信息'
+        _this.title = '详情信息'
         _this.orderViewForm.Forum = item.Forum
         _this.orderViewForm.CountryId = item.CountryId
       },
 
       // 查看订单详情弹窗(点赞订单)
-      viewLikeDetailsModelShow(index, row) {
+      viewLikeDetailsModelShow() {
         let _this = this
         _this.viewDetailsModel = false
         _this.viewLikeDateilsModel = true
         _this.viewQADateilsModel = false
-        let item = _this.tableData[index]
-        let num = item.Numbers
-        _this.title = '订单：' + num + '的详情信息'
+        _this.title = '详情信息'
         _this.orderViewForm.Forum = item.Forum
         _this.orderViewForm.CountryId = item.CountryId
       },
 
       // 查看订单详情弹窗(QA订单)
-      viewQaDetailsModelShow(index, row) {
+      viewQaDetailsModelShow() {
         let _this = this
         _this.viewDetailsModel = false
         _this.viewLikeDateilsModel = false
         _this.viewQADateilsModel = true
-        let item = _this.tableData[index]
-        let num = item.Numbers
-        _this.title = '订单：' + num + '的详情信息'
+        _this.title = '详情信息'
         _this.orderViewForm.Forum = item.Forum
         _this.orderViewForm.CountryId = item.CountryId
       },
       // 日志弹窗
-      logHandel(index, row) {
+      logHandel() {
         let _this = this
         _this.logModel = true
       },
@@ -1136,12 +1132,12 @@
         }
       },
       // 删除弹窗
-      delModelShow(index, row) {
+      delModelShow() {
         let _this = this
         _this.delModel = true
       },
       // 确认付款弹窗
-      confirmPayHandel(index, row) {
+      confirmPayHandel() {
         let _this = this
         _this.confirmPaymentModel = true
       },
@@ -1167,10 +1163,15 @@
       handleSelectionChange(val) {
         this.checkBoxData = val
         let checkNum = this.checkBoxData.length
-        if (checkNum !== 1) {
-          this.disabled = true
-        } else {
+        if (checkNum == 1) {
           this.disabled = false
+          this.disabledMore = false
+        }else if(checkNum>1){
+          this.disabled = true
+          this.disabledMore = false
+        }else {
+          this.disabled = true
+          this.disabledMore = true
         }
       },
       getAllData() {
@@ -1274,8 +1275,6 @@
   }
 </script>
 
-<style scoped>
-  .red {
-    color: #f00;
-  }
+<style>
+
 </style>

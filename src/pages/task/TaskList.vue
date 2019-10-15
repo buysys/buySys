@@ -12,7 +12,7 @@
             <el-col :xs="24" :span="4">
               <el-form-item label="平台">
                 <template>
-                  <el-select v-model="searchForm.platform" placeholder="请选择">
+                  <el-select v-model="searchForm.platform" placeholder="请选择" size="small">
                     <el-option v-for="(item,index) in platformOptions" :key="index" :value="item.value" :label="item.label"></el-option>
                   </el-select>
                 </template>
@@ -21,7 +21,7 @@
             <el-col :xs="24" :span="4">
               <el-form-item label="任务类型">
                 <template>
-                  <el-select v-model="searchForm.orderTypeValue" placeholder="请选择">
+                  <el-select v-model="searchForm.orderTypeValue" placeholder="请选择" size="small">
                     <el-option v-for="(item,index) in orderTypeOptions" :key="index" :value="item.value" :label="item.label"></el-option>
                   </el-select>
                 </template>
@@ -29,27 +29,29 @@
             </el-col>
             <el-col :xs="24" :span="4">
               <el-form-item label="国家">
-                <el-select placeholder="请选择" v-model="searchForm.countryId" class="minWid">
+                <el-select v-model="searchForm.countryId"  placeholder="请选择" size="small">
                   <el-option v-for="(item,index) in countryData" :key="index" :value="index" :label="item.country"></el-option>
                 </el-select>
               </el-form-item>
             </el-col>
             <el-col :xs="24" :span="4">
               <el-form-item label="关键字">
-                <el-input v-model="searchForm.searchkeywords" placeholder="请输入关键字" class="disInline"></el-input>
+                <el-input v-model="searchForm.searchkeywords" placeholder="请输入关键字" size="small"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :xs="24" :span="4" class="ml20">
-              <el-button type="primary" size="medium">查询</el-button>
-              <el-button size="medium" @click="resetSearch">重置</el-button>
+            <el-col :xs="24" :span="4">
+              <el-form-item>
+              <el-button type="primary" size="small">查询</el-button>
+              <el-button size="small" @click="resetSearch">重置</el-button>
+              </el-form-item>
             </el-col>
           </el-row>
         </el-form>
       </div>
     </el-collapse-transition>
     <div class="mb20">
-      <el-button type="warning" size="small" @click='deliver'><i class="el-icon-truck"></i> 确认发货</el-button>
-      <el-button type="success" size="small" @click='receiving'><i class="el-icon-check"></i> 确认收货</el-button>
+      <el-button type="warning" size="small" :disabled="disabledMore" @click='deliver'><i class="el-icon-truck"></i> 确认发货</el-button>
+      <el-button type="success" size="small" :disabled="disabledMore" @click='receiving'><i class="el-icon-check"></i> 确认收货</el-button>
       <el-button type="warning" size="small"><i class="el-icon-download"></i> 导入</el-button>
       <el-button type="warning" size="small"><i class="el-icon-upload2"></i> 导出</el-button>
     </div>
@@ -78,8 +80,8 @@
       <div v-if="searchForm.orderTypeValue=='1'">
         <el-table border :data="tableData" id="exportTable" style="width: 100%" :header-cell-style="{background:'#fafafa'}"
           @selection-change="handleSelectionChange" @row-click="rowClick" ref="table">
-          <el-table-column type="selection"></el-table-column>
-          <el-table-column type="index" align="center" width="50"></el-table-column>
+          <el-table-column type="selection" align="center"></el-table-column>
+          <el-table-column type="index" label="序号" align="center" width="50"></el-table-column>
           <el-table-column prop="Numbers" label="FBA任务编码" align="center" width="120">
             <template slot-scope="scope">
               <el-button type="text" @click="viewTaskDetails(scope.$index,scope.row)">{{scope.row.Numbers}}</el-button>
@@ -127,8 +129,8 @@
       <div v-if="searchForm.orderTypeValue=='2'">
         <el-table border :data="tableData" id="exportTable" style="width: 100%" :header-cell-style="{background:'#fafafa'}"
           @selection-change="handleSelectionChange" @row-click="rowClick" ref="table">
-          <el-table-column type="selection"></el-table-column>
-          <el-table-column type="index" align="center" width="50"></el-table-column>
+          <el-table-column type="selection" align="center"></el-table-column>
+          <el-table-column type="index" label="序号" align="center" width="50"></el-table-column>
           <el-table-column prop="Numbers" label="加购任务编码" align="center" width="120">
             <template slot-scope="scope">
               <el-button type="text" @click="viewTaskDetails(scope.$index,scope.row)">{{scope.row.Numbers}}</el-button>
@@ -176,8 +178,8 @@
       <div v-if="searchForm.orderTypeValue=='3'">
         <el-table border :data="tableData" id="exportTable" style="width: 100%" :header-cell-style="{background:'#fafafa'}"
           @selection-change="handleSelectionChange" @row-click="rowClick" ref="table">
-          <el-table-column type="selection"></el-table-column>
-          <el-table-column type="index" align="center" width="50"></el-table-column>
+          <el-table-column type="selection" align="center"></el-table-column>
+          <el-table-column type="index" label="序号" align="center" width="50"></el-table-column>
           <el-table-column prop="Numbers" label="心愿任务编码" align="center" width="120">
             <template slot-scope="scope">
               <el-button type="text" @click="viewTaskDetails(scope.$index,scope.row)">{{scope.row.Numbers}}</el-button>
@@ -225,8 +227,8 @@
       <div v-if="searchForm.orderTypeValue=='4'">
         <el-table border :data="tableData" id="exportTable" style="width: 100%" :header-cell-style="{background:'#fafafa'}"
           @selection-change="handleSelectionChange" @row-click="rowClick" ref="table">
-          <el-table-column type="selection"></el-table-column>
-          <el-table-column type="index" align="center" width="50"></el-table-column>
+          <el-table-column type="selection" align="center"></el-table-column>
+          <el-table-column type="index" label="序号" align="center" width="50"></el-table-column>
           <el-table-column prop="Numbers" label="点赞任务编码" align="center" width="120">
             <template slot-scope="scope">
               <el-button type="text" @click="viewLikeTaskDetails(scope.$index,scope.row)">{{scope.row.Numbers}}</el-button>
@@ -274,8 +276,8 @@
       <div v-if="searchForm.orderTypeValue=='5'">
         <el-table border :data="tableData" id="exportTable" style="width: 100%" :header-cell-style="{background:'#fafafa'}"
           @selection-change="handleSelectionChange" @row-click="rowClick" ref="table">
-          <el-table-column type="selection"></el-table-column>
-          <el-table-column type="index" align="center" width="50"></el-table-column>
+          <el-table-column type="selection" align="center"></el-table-column>
+          <el-table-column type="index" label="序号" align="center" width="50"></el-table-column>
           <el-table-column prop="Numbers" label="QA任务编码" align="center" width="120">
             <template slot-scope="scope">
               <el-button type="text" @click="viewQATaskDetails(scope.$index,scope.row)">{{scope.row.Numbers}}</el-button>
@@ -384,8 +386,7 @@
     <el-dialog title='修改执行时间' :visible.sync='updateTimeModal' :close-on-click-modal='false' width='30%'>
       <el-form :model='timeForm'>
         <el-form-item label='执行时间'>
-          <el-date-picker v-model='timeForm.times' type='date' placeholder='请选择时间' :picker-options="pickerUpdateDate"
-            value-format="yyyy-MM-dd"></el-date-picker>
+          <el-date-picker v-model='timeForm.times' type='datetime' placeholder='请选择时间' :picker-options="pickerUpdateDate"></el-date-picker>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -1000,7 +1001,7 @@
   import buyNum from '../../common/buyNum'
   import OrderLog from '../../common/OrderLog'
   export default {
-    name: 'placeOrderTask',
+    name: 'TaskList',
     data() {
       return {
         feedShow: false, //feedback
@@ -1068,7 +1069,8 @@
         },
         selected: {},
         times: '',
-        disabled: true,
+        disabled: true,  //单项禁用
+        disabledMore: true, //多项禁用
         editPricceModel: false,
         checkBoxData: [],
         tableData: [{
@@ -1270,11 +1272,10 @@
         })
       },
       //填写评价
-      evaluateEdit(index, row) {
+      evaluateEdit() {
         let _this = this
         _this.evaluateModal = true
-        let num = row.Numbers
-        _this.title = '任务：' + num + '填写评论'
+        _this.title = '填写评论'
       },
       handleRemove(file, fileList) {
         console.log(file, fileList);
@@ -1284,32 +1285,30 @@
         this.dialogVisible = true;
       },
       //评价链接
-      evaluateLink(index, row) {
+      evaluateLink() {
         let _this = this
         _this.evaluateLinkModal = true
-        let num = row.Numbers
-        _this.title = '任务：' + num + '填写评论信息'
+        _this.title = '填写评论信息'
       },
       showMessageFromChild(data) {
         console.log(data.CountryId)
       },
       // 日志弹窗
-      logHandel(index, row) {
+      logHandel() {
         let _this = this
         _this.logModel = true
       },
       // 系统配置
-      systemConfig(index, row) {
+      systemConfig() {
         let _this = this
         _this.systemConfigModal = true
         let num = row.Numbers
-        _this.buyNum = '买号：' + num + '系统配置'
+        _this.buyNum = '系统配置'
       },
       // 确认购买
-      confirmBuyHandel(index, row) {
+      confirmBuyHandel() {
         let _this = this
-        let num = row.Numbers
-        _this.title = '任务：' + num + '填写购买信息'
+        _this.title = '填写购买信息'
         _this.confirmBuyModel = true
       },
       // 确认发货
@@ -1439,7 +1438,7 @@
         _this.accountModel = false
       },
       // 查看任务详情弹窗
-      viewTaskDetails(index, row) {
+      viewTaskDetails() {
         let _this = this
         _this.viewTaskDetailsModel = true
         let orderType = _this.searchForm.orderTypeValue
@@ -1449,21 +1448,21 @@
           _this.isFBA = false
         }
         let num = row.Numbers
-        _this.orderTitle = '任务：' + num + '的详情信息'
+        _this.orderTitle = '详情信息'
       },
       //点赞任务查看详情
-      viewLikeTaskDetails(index, row) {
+      viewLikeTaskDetails() {
         let _this = this
         _this.viewLikeTaskDetailsModel = true
         let num = row.Numbers
-        _this.orderTitle = '任务：' + num + '的详情信息'
+        _this.orderTitle = '详情信息'
       },
       //QA任务查看详情
-      viewQATaskDetails(index, row) {
+      viewQATaskDetails() {
         let _this = this
         _this.viewQaTaskDetailsModel = true
         let num = row.Numbers
-        _this.orderTitle = '任务：' + num + '的详情信息'
+        _this.orderTitle = '详情信息'
       },
       // 重置
       resetSearch() {
@@ -1498,13 +1497,17 @@
       },
       // 是否有选中
       handleSelectionChange(val) {
-        let _this = this
-        _this.checkBoxData = val
-        let checkNum = _this.checkBoxData.length
-        if (checkNum !== 1) {
-          _this.disabled = true
-        } else {
-          _this.disabled = false
+        this.checkBoxData = val
+        let checkNum = this.checkBoxData.length
+        if (checkNum == 1) {
+          this.disabled = false
+          this.disabledMore = false
+        }else if(checkNum>1){
+          this.disabled = true
+          this.disabledMore = false
+        }else {
+          this.disabled = true
+          this.disabledMore = true
         }
       },
       getAllData() {

@@ -3,16 +3,22 @@
 		<div class="mb20">
 			<el-button type="success" size="medium" @click="addHandle"><i class="el-icon-plus"></i>新增</el-button>
 			<el-button type="primary" size="medium" :disabled="disabled" @click="editHandle"><i class="el-icon-edit-outline"></i>修改</el-button>
-			<el-button type="danger" size="medium" :disabled="disabled" @click="delHandle"><i class="el-icon-delete"></i>删除</el-button>
+			<el-button type="danger" size="medium" :disabled="disabledMore" @click="delHandle"><i class="el-icon-delete"></i>删除</el-button>
 		</div>
 		<div class="mt10">
-			<el-table :data="tagData" border style="width: 100%" @selection-change="handleSelectionChange">
-				<el-table-column type="selection"></el-table-column>
+			<el-table border :data="tableData" id="exportTable" style="width: 100%" :header-cell-style="{background:'#fafafa'}"
+			  @selection-change="handleSelectionChange" @row-click="rowClick" ref="table">
+			  <el-table-column type="selection" align="center"></el-table-column>
+			  <el-table-column type="index" label="序号" align="center" width="50"></el-table-column>
 				<el-table-column prop="Numbers" label="标签" align="center"></el-table-column>
 			</el-table>
-			<div class="mt30">
-				<el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage" :page-sizes="[10, 20, 30, 40]" :page-size="10" layout="total, sizes, prev, pager, next, jumper" :total="total">
-				</el-pagination>
+			<div class="table-foot">
+			  <div></div>
+			  <div>
+			    <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage"
+			      :page-sizes="[10, 20, 30, 40]" :page-size="10" layout="total, sizes, prev, pager, next, jumper" :total="total">
+			    </el-pagination>
+			  </div>
 			</div>
 		</div>
 		<!--新建、修改标签-->
@@ -43,8 +49,9 @@
 		name: 'buyTagList',
 		data() {
 			return{
-				disabled: true,
-				tagData: [{
+				disabled: true, //单项禁用
+				disabledMore: true, //多项禁用
+				tableData: [{
             "Numbers": "20190605105636229596",
             "Picture": "",
             "CountryId": "美国",
@@ -92,16 +99,20 @@
 			}
 		},
 		methods: {
-			//是否选中
+			// 是否有选中
 			handleSelectionChange(val) {
-				this.checkBoxData = val
-				let checkNum = this.checkBoxData.length
-				console.log(checkNum)
-				if(checkNum !== 1) {
-					this.disabled = true
-				} else {
-					this.disabled = false
-				}
+			  this.checkBoxData = val
+			  let checkNum = this.checkBoxData.length
+			  if (checkNum == 1) {
+			    this.disabled = false
+			    this.disabledMore = false
+			  }else if(checkNum>1){
+			    this.disabled = true
+			    this.disabledMore = false
+			  }else {
+			    this.disabled = true
+			    this.disabledMore = true
+			  }
 			},
 			//新建弹窗
 			addHandle() {
@@ -138,7 +149,7 @@
 			getAllData() {
 				let _this = this
 				_this.axios.get(_this.GLOBAL.BASE_URL + 'api/OrderManagement/AddOrderByType').then((res) => {
-					_this.tagData = res.data.data
+					_this.tableData = res.data.data
 				}).catch((error) => {
 					console.log(error)
 				})

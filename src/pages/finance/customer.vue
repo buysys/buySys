@@ -1,10 +1,5 @@
 <template>
-  <div class="container">
-    <div class="mb20 fz14">
-      <span>首页</span>
-      <span>/</span>
-      <span>客户管理</span>
-    </div>
+  <div>
     <el-collapse-transition>
       <div class="searchBox mb20">
         <el-form ref="searchForm" :model="searchForm" class="form-item" label-width="80px">
@@ -25,10 +20,12 @@
       </div>
     </el-collapse-transition>
     <div class="mb20">
-      <el-button type="success" size="small" @click="addModelShow"><i class="el-icon-plus"></i> 新增</el-button>
-      <el-button type="primary" size="small" :disabled="disabled" @click="editModelShow"><i class="el-icon-edit-outline"></i> 修改</el-button>
+      <el-button type="success" size="small" :disabled="disabled" @click="RechargeModelShow"><i class="el-icon-plus"></i> 充值</el-button>
       <el-button type="danger" size="small" :disabled="disabled" @click="LogModelShow"><i class="el-icon-search"></i> 日志</el-button>
+      <el-button type="primary" size="small" @click="CzModelShow">充值申请</el-button>
+      <el-button type="danger" size="small" @click="TxModelShow">提现记录</el-button>
       <el-button type="warning" size="small" @click="exportExcel"><i class="el-icon-upload2"></i> 导出</el-button>
+
     </div>
     <div class="mt10">
       <el-table border :data="tableData" id="exportTable" style="width: 100%" :header-cell-style="{background:'#fafafa'}"
@@ -41,18 +38,8 @@
           </template>
         </el-table-column>
         <el-table-column prop="CountryId" label="姓名" align="center"></el-table-column>
-        <el-table-column prop="OrderNumber" label="手机" align="center"></el-table-column>
-        <el-table-column prop="OrderNumber" label="邮箱" align="center"></el-table-column>
-        <el-table-column prop="OrderNumber" label="微信" align="center"></el-table-column>
-        <el-table-column prop="OrderNumber" label="QQ" align="center"></el-table-column>
         <el-table-column prop="CountryId" label="所属业务员" align="center"></el-table-column>
-        <el-table-column prop="Status" label="禁用 | 启用" align="center">
-          <template slot-scope="scope">
-            <el-switch active-color="#67c23a" inactive-color="#dcdfe6" active-value="1" inactive-value="0" v-model="scope.row.Status"
-              @change="changeStatus(scope.$index,scope.row)">
-            </el-switch>
-          </template>
-        </el-table-column>
+        <el-table-column prop="ProductPrice" label="余额" align="center"></el-table-column>
       </el-table>
       <div class="table-foot">
         <div></div>
@@ -75,7 +62,7 @@
         <el-form-item label="确认密码" prop="password2">
           <el-input v-model="editForm.password2"></el-input>
         </el-form-item>
-        <el-form-item label="所属业务员" prop="ssUser">
+        <el-form-item label="所属用户" prop="ssUser">
           <el-select v-model="editForm.ssUser" placeholder="请选择所属用户" style="width: 100%;">
             <el-option v-for="item in ssUserOptions" :key="item.value" :label="item.label" :value="item.value">
             </el-option>
@@ -111,7 +98,7 @@
             <el-form-item label="客户编码："><span>{{viewForm.userNo}}</span></el-form-item>
           </el-col>
           <el-col :span="12" :xs="24">
-            <el-form-item label="所属业务员："><span>{{viewForm.ssUser}}</span></el-form-item>
+            <el-form-item label="所属用户："><span>{{viewForm.ssUser}}</span></el-form-item>
           </el-col>
           <el-col :span="12" :xs="24">
             <el-form-item label="姓名："><span>{{viewForm.name}}</span></el-form-item>
@@ -154,6 +141,32 @@
       </div>
     </el-dialog>
     </el-dialog>
+    <!-- 提现记录 -->
+    <el-dialog title="提现记录" :visible.sync="TxModel" :close-on-click-modal="false" width="90%">
+      <takeMoneyList></takeMoneyList>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="TxModel = false">关 闭</el-button>
+      </div>
+    </el-dialog>
+    <!--充值-->
+    <el-dialog title="请输入充值金额" :visible.sync="RechargeModel" :close-on-click-modal="false" width="30%">
+      <el-form :rules="editRules" :model="editForm" ref="repaymentForm" class="demo-dynamic">
+        <el-form-item prop="money">
+          <el-input v-model="editForm.money" autofocus="true"></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button type="primary" size="medium">确定</el-button>
+        <el-button @click="RechargeModel=false" size="medium">取消</el-button>
+      </div>
+    </el-dialog>
+    <!-- 充值记录 -->
+    <el-dialog title="充值记录" :visible.sync="CzModel" :close-on-click-modal="false" width="90%">
+      <rechargeRecord></rechargeRecord>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="CzModel = false">关 闭</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -163,6 +176,8 @@
 
   import validate from '../../components/validate'
   import OrderLog from '../../common/OrderLog'
+  import takeMoneyList from './takeMoneyList'
+  import rechargeRecord from './rechargeRecord'
 
   export default {
     name: 'customerList',
@@ -172,6 +187,9 @@
         editModel: false,
         viewModel: false,
         logModel: false, //日志
+        TxModel: false, //提现记录
+        RechargeModel: false, //充值
+        CzModel: false, //充值记录
         disabled: true,  //单项禁用
         disabledMore: true, //多项禁用
         tableData: [{
@@ -290,7 +308,9 @@
       }
     },
     components: {
-      OrderLog
+      OrderLog,
+      takeMoneyList,
+      rechargeRecord
     },
     created() {
       //			this.getAllData()
@@ -308,7 +328,11 @@
           console.log(error)
         })
       },
-
+      //充值
+      RechargeModelShow() {
+        let _this = this
+        _this.RechargeModel = true
+      },
       // 重置
       resetSearch() {
         let _this = this
@@ -317,7 +341,6 @@
           searchkeywords: ''
         }
       },
-
       //选中行
       rowClick(val) {
         let _this = this
@@ -406,7 +429,16 @@
         let _this = this
         _this.logModel = true
       },
-
+      // 提现记录
+      TxModelShow() {
+        let _this = this
+        _this.TxModel = true
+      },
+      // 提现记录
+      CzModelShow() {
+        let _this = this
+        _this.CzModel = true
+      },
       //关闭新增修改弹窗
       closeModel() {
         let _this = this

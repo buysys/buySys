@@ -6,12 +6,14 @@
           <el-row>
             <el-col :xs="24" :span="4">
               <el-form-item label="类型">
-                <el-input v-model="searchForm.searchkeywords" placeholder="请输入类型" class="disInline"></el-input>
+                <el-input v-model="searchForm.searchkeywords" placeholder="请输入类型" size="small"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :xs="24" :span="4" class="ml20">
-              <el-button type="primary" size="medium">查询</el-button>
-              <el-button size="medium" @click="resetSearch">重置</el-button>
+            <el-col :xs="24" :span="4">
+              <el-form-item>
+              <el-button type="primary" size="small">查询</el-button>
+              <el-button size="small" @click="resetSearch">重置</el-button>
+              </el-form-item>
             </el-col>
           </el-row>
         </el-form>
@@ -19,7 +21,7 @@
     </el-collapse-transition>
     <div class="mb20">
       <el-button type="success" size="small" @click="addModelShow"><i class="el-icon-plus"></i> 新增</el-button>
-      <el-button type="primary" size="small" @click="editModelShow" :disabled="editDisabled"><i class="el-icon-edit-outline"></i>
+      <el-button type="primary" size="small" @click="editModelShow" :disabled="disabled"><i class="el-icon-edit-outline"></i>
         修改</el-button>
       <el-button type="warning" size="small" @click="drModelShow"><i class="el-icon-download"></i> 导入</el-button>
       <el-button type="warning" size="small" @click="exportExcel"><i class="el-icon-upload2"></i> 导出</el-button>
@@ -27,8 +29,8 @@
     <div class="mt10">
       <el-table border :data="tableData" id="exportTable" style="width: 100%" :header-cell-style="{background:'#fafafa'}"
         @selection-change="handleSelectionChange" @row-click="rowClick" ref="table">
-        <el-table-column type="selection"></el-table-column>
-        <el-table-column type="index" align="center" width="50"></el-table-column>
+        <el-table-column type="selection" align="center"></el-table-column>
+        <el-table-column type="index" label="序号" align="center" width="50"></el-table-column>
         <el-table-column prop="Numbers" label="类型" align="center" width="200">
           <template slot-scope="scope">
             <el-button type="text" @click="viewModelShow(scope.$index,scope.row)">{{scope.row.Numbers}}</el-button>
@@ -111,8 +113,8 @@
         viewModel: false,
         editModel: false,
         drModel: false,
-        editDisabled: true,
-        delDisabled: true,
+        disabled: true,  //单项禁用
+        disabledMore: true, //多项禁用
         tableData: [{
             "Numbers": "20190605105636229596",
             "Picture": "",
@@ -219,18 +221,17 @@
       },
       // 是否有选中
       handleSelectionChange(val) {
-        let _this = this
-        _this.checkBoxData = val
-        let checkNum = _this.checkBoxData.length
+        this.checkBoxData = val
+        let checkNum = this.checkBoxData.length
         if (checkNum == 1) {
-          _this.editDisabled = false
-          _this.delDisabled = false
-        } else if (checkNum > 1) {
-          _this.editDisabled = true
-          _this.delDisabled = false
-        } else {
-          _this.editDisabled = true
-          _this.delDisabled = true
+          this.disabled = false
+          this.disabledMore = false
+        }else if(checkNum>1){
+          this.disabled = true
+          this.disabledMore = false
+        }else {
+          this.disabled = true
+          this.disabledMore = true
         }
       },
       // 新增
