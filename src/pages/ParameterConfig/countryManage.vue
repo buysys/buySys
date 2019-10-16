@@ -5,11 +5,11 @@
         <el-form ref="searchForm" :model="searchForm" class="form-item" label-width="80px">
           <el-row>
             <el-col :xs="24" :span="4">
-              <el-form-item label="国家">
-                <el-input v-model="searchForm.searchkeywords" placeholder="请输入国家" size="small"></el-input>
+              <el-form-item label="国家名称">
+                <el-input v-model="searchForm.searchkeywords" placeholder="请输入国家名称" size="small"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :xs="24" :span="4">
+            <el-col :xs="24" :span="20">
               <el-form-item>
                 <el-button type="primary" size="small" @click="getAllData">查询</el-button>
                 <el-button size="small" @click="resetSearch">重置</el-button>
@@ -183,22 +183,18 @@
         let _this = this
         _this.$refs.editForm.validate((valid) => {
           if (valid) {
-            _this.$refs.editForm.validate((valid) => {
-              if (valid) {
-                let param = Object.assign({}, this.editForm)
-                let SessionId = sessionStorage.getItem('sessionid')
-                param.SessionId = SessionId
-                _this.axios.post(_this.GLOBAL.BASE_URL + '/api/doBCountryNew', param).then((res) => {
-                  _this.$alert(res.data.message, '信息提示', {
-                    confirmButtonText: '确定',
-                    callback: action => {
-                      _this.$refs['editForm'].resetFields()
-                      _this.editModal = false
-                      _this.getAllData()
-                    }
-                  })
-                })
-              }
+            let param = Object.assign({}, this.editForm)
+            let SessionId = sessionStorage.getItem('sessionid')
+            param.SessionId = SessionId
+            _this.axios.post(_this.GLOBAL.BASE_URL + '/api/doBCountryNew', param).then((res) => {
+              _this.$alert(res.data.message, '信息提示', {
+                confirmButtonText: '确定',
+                callback: action => {
+                  _this.$refs['editForm'].resetFields()
+                  _this.editModal = false
+                  _this.getAllData()
+                }
+              })
             })
           }
         })

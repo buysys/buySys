@@ -9,7 +9,7 @@
                 <el-input v-model="searchForm.searchkeywords" placeholder="请输入国家" size="small"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :xs="24" :span="8">
+            <el-col :xs="24" :span="16">
               <el-form-item>
                 <el-button type="primary" size="small" @click="getAllData">查询</el-button>
                 <el-button size="small" @click="resetSearch">重置</el-button>
@@ -93,12 +93,17 @@
         })
       },
 
-      passValue(){
+      //确定往父组件传值
+      passValue() {
         let _this = this
-        let ids = _this.checkBoxData.map(item => item.Code)
-        _this.$emit('func',ids)
-        _this.checkBoxData = []
-        _this.$refs.table.clearSelection()
+        _this.$confirm('确认要关联选中的国家吗？', '信息提示', {
+          type: 'warning'
+        }).then(() => {
+          let ids = _this.checkBoxData.map(item => item.Code)
+          _this.$emit('func', ids)
+          _this.checkBoxData = []
+          _this.$refs.table.clearSelection()
+        }).catch(() => {})
       },
 
       //重置

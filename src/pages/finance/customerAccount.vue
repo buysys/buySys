@@ -6,10 +6,10 @@
           <el-row>
             <el-col :xs="24" :span="6">
               <el-form-item label="搜索内容">
-                <el-input v-model="searchForm.searchkeywords" placeholder="请输入客户账号/编码/名称/手机号码/邮箱/微信/QQ" size="small"></el-input>
+                <el-input v-model="searchForm.searchkeywords" placeholder="请输入客户编码/名称" size="small"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :xs="24" :span="4">
+            <el-col :xs="24" :span="18">
               <el-form-item>
               <el-button type="primary" size="small">查询</el-button>
               <el-button size="small" @click="resetSearch">重置</el-button>
@@ -20,25 +20,24 @@
       </div>
     </el-collapse-transition>
     <div class="mb20">
-      <el-button type="success" size="small" :disabled="disabled" @click="RechargeModelShow"><i class="el-icon-plus"></i> 充值</el-button>
-      <el-button type="danger" size="small" :disabled="disabled" @click="LogModelShow"><i class="el-icon-search"></i> 日志</el-button>
-      <el-button type="primary" size="small" @click="CzModelShow">充值申请</el-button>
-      <el-button type="danger" size="small" @click="TxModelShow">提现记录</el-button>
+      <el-button type="success" size="small" :disabled="disabled" @click="LogModelShow"><i class="el-icon-tickets"></i> 账户明细</el-button>
+      <el-button type="primary" size="small" :disabled="disabled" @click="CzModelShow"><i class="el-icon-circle-plus-outline"></i> 充值</el-button>
+      <el-button type="danger" size="small" :disabled="disabled" @click="TxModelShow"><i class="el-icon-remove-outline"></i> 提现</el-button>
       <el-button type="warning" size="small" @click="exportExcel"><i class="el-icon-upload2"></i> 导出</el-button>
-
     </div>
     <div class="mt10">
       <el-table border :data="tableData" id="exportTable" style="width: 100%" :header-cell-style="{background:'#fafafa'}"
         @selection-change="handleSelectionChange" @row-click="rowClick" ref="table">
         <el-table-column type="selection" align="center"></el-table-column>
         <el-table-column type="index" label="序号" align="center" width="50"></el-table-column>
-        <el-table-column prop="Numbers" label="编码" align="center" width="200">
+        <el-table-column prop="Numbers" label="客户编码" align="center">
           <template slot-scope="scope">
             <el-button type="text" @click="viewModelShow(scope.$index,scope.row)">{{scope.row.Numbers}}</el-button>
           </template>
         </el-table-column>
         <el-table-column prop="CountryId" label="姓名" align="center"></el-table-column>
-        <el-table-column prop="CountryId" label="所属业务员" align="center"></el-table-column>
+        <el-table-column prop="ProductPrice" label="收益总额" align="center"></el-table-column>
+        <el-table-column prop="ProductPrice" label="支出总额" align="center"></el-table-column>
         <el-table-column prop="ProductPrice" label="余额" align="center"></el-table-column>
       </el-table>
       <div class="table-foot">
@@ -50,46 +49,6 @@
         </div>
       </div>
     </div>
-    <!-- 新增修改 -->
-    <el-dialog :title="title" :visible.sync="editModel" :close-on-click-modal="false" :before-close="closeModel">
-      <el-form :model="editForm" :rules="editRules" label-width="125px" status-icon>
-        <el-form-item label="姓名">
-          <el-input v-model="editForm.name"></el-input>
-        </el-form-item>
-        <el-form-item label="密码" prop="password">
-          <el-input v-model="editForm.password"></el-input>
-        </el-form-item>
-        <el-form-item label="确认密码" prop="password2">
-          <el-input v-model="editForm.password2"></el-input>
-        </el-form-item>
-        <el-form-item label="所属用户" prop="ssUser">
-          <el-select v-model="editForm.ssUser" placeholder="请选择所属用户" style="width: 100%;">
-            <el-option v-for="item in ssUserOptions" :key="item.value" :label="item.label" :value="item.value">
-            </el-option>
-          </el-select>
-        </el-form-item>
-        </el-form-item>
-        <el-form-item label="手机号" prop="phone">
-          <el-input v-model="editForm.phone"></el-input>
-        </el-form-item>
-        <el-form-item label="邮箱">
-          <el-input v-model="editForm.email"></el-input>
-        </el-form-item>
-        <el-form-item label="微信">
-          <el-input v-model="editForm.weixin"></el-input>
-        </el-form-item>
-        <el-form-item label="QQ">
-          <el-input v-model="editForm.qq"></el-input>
-        </el-form-item>
-        <el-form-item label="备注">
-          <el-input type="textarea" v-model="editForm.remark"></el-input>
-        </el-form-item>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="editModel=false">确 定</el-button>
-        <el-button @click="editModel=false">取 消</el-button>
-      </div>
-    </el-dialog>
     <!-- 查看 -->
     <el-dialog :title="title" :visible.sync="viewModel" :close-on-click-modal="false">
       <el-form :model="viewForm" status-icon class="demo-item">
@@ -134,37 +93,25 @@
       </div>
     </el-dialog>
     <!--日志-->
-    <el-dialog title="订单日志" :visible.sync="logModel" :close-on-click-modal="false" width="90%" custom-class="fixed-dialog">
+    <el-dialog title="账户明细" :visible.sync="logModel" :close-on-click-modal="false" width="90%" custom-class="fixed-dialog">
       <OrderLog></OrderLog>
       <div slot="footer" class="dialog-footer">
         <el-button @click="logModel = false">关 闭</el-button>
       </div>
     </el-dialog>
     </el-dialog>
-    <!-- 提现记录 -->
-    <el-dialog title="提现记录" :visible.sync="TxModel" :close-on-click-modal="false" width="90%">
-      <takeMoneyList></takeMoneyList>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="TxModel = false">关 闭</el-button>
-      </div>
-    </el-dialog>
-    <!--充值-->
-    <el-dialog title="请输入充值金额" :visible.sync="RechargeModel" :close-on-click-modal="false" width="30%">
-      <el-form :rules="editRules" :model="editForm" ref="repaymentForm" class="demo-dynamic">
-        <el-form-item prop="money">
-          <el-input v-model="editForm.money" autofocus="true"></el-input>
-        </el-form-item>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button type="primary" size="medium">确定</el-button>
-        <el-button @click="RechargeModel=false" size="medium">取消</el-button>
-      </div>
-    </el-dialog>
     <!-- 充值记录 -->
-    <el-dialog title="充值记录" :visible.sync="CzModel" :close-on-click-modal="false" width="90%">
+    <el-dialog title="待确认充值" :visible.sync="CzModel" :close-on-click-modal="false" width="90%">
       <rechargeRecord></rechargeRecord>
       <div slot="footer" class="dialog-footer">
         <el-button @click="CzModel = false">关 闭</el-button>
+      </div>
+    </el-dialog>
+    <!-- 提现记录 -->
+    <el-dialog title="待确认提现" :visible.sync="TxModel" :close-on-click-modal="false" width="90%">
+      <takeMoneyList></takeMoneyList>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="TxModel = false">关 闭</el-button>
       </div>
     </el-dialog>
   </div>
@@ -180,16 +127,15 @@
   import rechargeRecord from './rechargeRecord'
 
   export default {
-    name: 'customerList',
+    name: 'customerAccount',
     data() {
       return {
         loading: true,
         editModel: false,
         viewModel: false,
         logModel: false, //日志
-        TxModel: false, //提现记录
-        RechargeModel: false, //充值
-        CzModel: false, //充值记录
+        TxModel: false, //待提现
+        CzModel: false, //待充值
         disabled: true,  //单项禁用
         disabledMore: true, //多项禁用
         tableData: [{
@@ -328,11 +274,7 @@
           console.log(error)
         })
       },
-      //充值
-      RechargeModelShow() {
-        let _this = this
-        _this.RechargeModel = true
-      },
+
       // 重置
       resetSearch() {
         let _this = this
@@ -363,29 +305,6 @@
           this.disabledMore = true
         }
       },
-      // 新增
-      addModelShow() {
-        let _this = this
-        _this.editModel = true
-        _this.title = '客户新增'
-      },
-      // 修改
-      editModelShow() {
-        let _this = this
-        _this.editModel = true
-        let item = _this.checkBoxData[0]
-        let num = item.Numbers
-        _this.title = '客户：' + num + ' 信息修改'
-        _this.editForm.name = item.CountryId;
-        _this.editForm.password = item.CountryId;
-        _this.editForm.password2 = item.CountryId;
-        _this.editForm.phone = item.CountryId;
-        _this.editForm.email = item.CountryId;
-        _this.editForm.weixin = item.CountryId;
-        _this.editForm.qq = item.CountryId;
-        _this.editForm.canLogin = '1';
-        _this.editForm.remark = item.CountryId;
-      },
       // 查看
       viewModelShow(index, row) {
         let _this = this;
@@ -412,38 +331,20 @@
           _this.viewForm.remark = item.CountryId,
           _this.viewForm.ssUser = "张三"
       },
-      // 切换状态
-      changeStatus(index, row) {
-        let _this = this
-        let item = _this.tableData[index]
-        console.log(item.Status)
-        if (item.Status == '0') {
-          _this.tableData.Status = '1'
-        }
-        if (item.Status == '1') {
-          _this.tableData.Status = '0'
-        }
-      },
       // 日志
       LogModelShow() {
         let _this = this
         _this.logModel = true
       },
-      // 提现记录
-      TxModelShow() {
-        let _this = this
-        _this.TxModel = true
-      },
-      // 提现记录
+      // 待充值
       CzModelShow() {
         let _this = this
         _this.CzModel = true
       },
-      //关闭新增修改弹窗
-      closeModel() {
+      // 待提现
+      TxModelShow() {
         let _this = this
-        _this.editModel = false
-        _this.editForm = {}
+        _this.TxModel = true
       },
       //分页
       handleSizeChange(val) {
@@ -456,10 +357,8 @@
       exportExcel() {
         var xlsxParam = {
           raw: true
-        } // 导出的内容只做解析，不进行格式转换
+        }
         var wb = XLSX.utils.table_to_book(document.querySelector('#exportData'), xlsxParam)
-
-        /* get binary string as output */
         var wbout = XLSX.write(wb, {
           bookType: 'xlsx',
           bookSST: true,
@@ -468,14 +367,14 @@
         try {
           FileSaver.saveAs(new Blob([wbout], {
             type: 'application/octet-stream'
-          }), '下单管理表.xlsx')
+          }), '客户账户.xlsx')
         } catch (e) {
           if (typeof console !== 'undefined') {
             console.log(e, wbout)
           }
         }
         return wbout
-      },
+      }
     }
   }
 </script>

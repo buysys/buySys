@@ -9,7 +9,7 @@
                 <el-input v-model="searchForm.searchkeywords" placeholder="请输入国家" size="small"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :xs="24" :span="8">
+            <el-col :xs="24" :span="16">
               <el-form-item>
                 <el-button type="primary" size="small" @click="getAllData">查询</el-button>
                 <el-button size="small" @click="resetSearch">重置</el-button>
@@ -29,7 +29,11 @@
         <el-table-column type="index" label="序号" align="center" width="50"></el-table-column>
         <el-table-column prop="Country" label="国家名称" align="center"></el-table-column>
         <el-table-column prop="Code" label="国家简写" align="center"></el-table-column>
-        <el-table-column prop="Code" label="网址" align="center"></el-table-column>
+        <el-table-column prop="address" label="网址" width="300">
+          <template slot-scope="scope">
+            <el-input size="small" v-model="scope.row.address" placeholder="请输入网址"></el-input>
+          </template>
+        </el-table-column>
       </el-table>
       <div class="table-foot">
         <div></div>
@@ -85,7 +89,16 @@
               }
             })
           } else {
-            _this.tableData = res.data.data.BCountris
+            let array = []
+            let list = res.data.data.BCountris
+            list.map((item, index) => {
+              array.push(
+                Object.assign({}, item, {
+                  address: ''
+                })
+              )
+            });
+            _this.tableData = array
             _this.total = res.data.data.TotalRecords
             _this.loading = false
           }
@@ -94,12 +107,20 @@
         })
       },
 
+      //确定往父组件传值
       passValue() {
         let _this = this
-        let ids = _this.checkBoxData.map(item => item.Code)
-        _this.$emit('func', ids)
-        _this.checkBoxData = []
-        _this.$refs.table.clearSelection()
+        _this.$confirm('确认要关联选中的国家吗？', '信息提示', {
+          type: 'warning'
+        }).then(() => {
+          let ids = _this.checkBoxData.map(item => ({
+            CountryCode: item.Code,
+            URL: item.address
+          }))
+          _this.$emit('func', ids)
+          _this.checkBoxData = []
+          _this.$refs.table.clearSelection()
+        }).catch(() => {})
       },
 
       //重置

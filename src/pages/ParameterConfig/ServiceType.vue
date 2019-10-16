@@ -19,7 +19,7 @@
                 <el-input v-model="searchForm.searchkeywords" placeholder="请输入服务类型" size="small"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :xs="24" :span="4">
+            <el-col :xs="24" :span="16">
               <el-form-item>
                 <el-button type="primary" size="small" @click="getAllData">查询</el-button>
                 <el-button size="small" @click="resetSearch">重置</el-button>

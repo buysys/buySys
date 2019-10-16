@@ -50,7 +50,7 @@
       </div>
     </el-collapse-transition>
     <div class="mb20">
-      <el-button type="warning" size="small" :disabled="disabledMore" @click='deliver'><i class="el-icon-truck"></i> 确认发货</el-button>
+      <el-button type="danger" size="small" :disabled="disabledMore" @click='deliver'><i class="el-icon-truck"></i> 确认发货</el-button>
       <el-button type="success" size="small" :disabled="disabledMore" @click='receiving'><i class="el-icon-check"></i> 确认收货</el-button>
       <el-button type="warning" size="small"><i class="el-icon-download"></i> 导入</el-button>
       <el-button type="warning" size="small"><i class="el-icon-upload2"></i> 导出</el-button>
@@ -74,7 +74,6 @@
         <span>今日限评数</span><span class="txtCol ml10 mr30">23</span>
       </div>
     </div>
-
     <div class="mt10">
       <!-- FBA订单列表 -->
       <div v-if="searchForm.orderTypeValue=='1'">
@@ -124,7 +123,6 @@
           </div>
         </div>
       </div>
-
       <!-- 加购订单列表 -->
       <div v-if="searchForm.orderTypeValue=='2'">
         <el-table border :data="tableData" id="exportTable" style="width: 100%" :header-cell-style="{background:'#fafafa'}"
@@ -173,7 +171,6 @@
           </div>
         </div>
       </div>
-
       <!-- 心愿订单列表 -->
       <div v-if="searchForm.orderTypeValue=='3'">
         <el-table border :data="tableData" id="exportTable" style="width: 100%" :header-cell-style="{background:'#fafafa'}"
@@ -222,7 +219,6 @@
           </div>
         </div>
       </div>
-
       <!-- 点赞订单列表 -->
       <div v-if="searchForm.orderTypeValue=='4'">
         <el-table border :data="tableData" id="exportTable" style="width: 100%" :header-cell-style="{background:'#fafafa'}"
@@ -320,7 +316,6 @@
           </div>
         </div>
       </div>
-
     </div>
     <!--填写评价-->
     <el-dialog :title='title' :visible.sync='evaluateModal' :close-on-click-modal='false'>
@@ -328,17 +323,27 @@
         <el-form-item label='Feedback评分' prop='FeedbackScore'>
           <el-rate v-model="proEvaluateForm.FeedbackScore" style="line-height: 2.8;"></el-rate>
         </el-form-item>
-        <el-form-item label='Feedback' prop='Feedback'>
+        <el-form-item label='Feedback评价' prop='Feedback'>
           <el-input v-model='proEvaluateForm.Feedback'></el-input>
         </el-form-item>
         <el-form-item label='产品评分' prop='score'>
           <el-rate v-model="proEvaluateForm.score" style="line-height: 2.8;"></el-rate>
         </el-form-item>
-        <el-form-item label='产品评论标题' prop='proTitle'>
+        <el-form-item label='产品评价标题' prop='proTitle'>
           <el-input v-model='proEvaluateForm.proTitle'></el-input>
         </el-form-item>
-        <el-form-item label='产品评论内容' prop='proDes'>
+        <el-form-item label='产品评价内容' prop='proDes'>
           <el-input :autosize="{ minRows: 4, maxRows: 8}" type='textarea' v-model='proEvaluateForm.proDes'></el-input>
+        </el-form-item>
+        <el-form-item label='上传图片' prop='proTitle'>
+          <el-upload action="https://jsonplaceholder.typicode.com/posts/" list-type="picture-card" :on-preview="handlePictureCardPreview" :on-remove="handleRemove">
+            <i class="el-icon-plus"></i>
+          </el-upload>
+        </el-form-item>
+        <el-form-item label='上传视频' prop='proTitle'>
+          <el-upload action="https://jsonplaceholder.typicode.com/posts/" list-type="picture-card" :on-preview="handlePictureCardPreview" :on-remove="handleRemove">
+            <i class="el-icon-plus"></i>
+          </el-upload>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -975,7 +980,6 @@
         <el-button @click='evaluateLinkModal=false'>关闭</el-button>
       </div>
     </el-dialog>
-
     <!-- 上评-->
     <el-dialog title="温馨提示" :visible.sync="upCommentModel" :close-on-click-modal="false" center width="30%">
       <div class="del-dialog-cnt textCen">确认要上评吗？</div>
@@ -1275,7 +1279,7 @@
       evaluateEdit() {
         let _this = this
         _this.evaluateModal = true
-        _this.title = '填写评论'
+        _this.title = '填写评价'
       },
       handleRemove(file, fileList) {
         console.log(file, fileList);

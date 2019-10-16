@@ -9,7 +9,7 @@
                 <el-input v-model="searchForm.searchkeywords" placeholder="请输入平台名称" size="small"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :xs="24" :span="4">
+            <el-col :xs="24" :span="20">
               <el-form-item>
                 <el-button type="primary" size="small" @click="getAllData">查询</el-button>
                 <el-button size="small" @click="resetSearch">重置</el-button>
@@ -24,8 +24,8 @@
       <el-button type="primary" size="small" :disabled="disabled" @click="editModalShow"><i class="el-icon-edit-outline"></i>修改</el-button>
       <el-button type="danger" size="small" :disabled="disabled" @click="glAllCountry"><i class="el-icon-sort"></i>
         关联国家</el-button>
-      <el-button type="success" size="small" :disabled="disabled" @click=""><i class="el-icon-search"></i>
-        查看任务</el-button>
+      <el-button type="success" size="small" :disabled="disabled" @click="viewTaskModalShow"><i class="el-icon-document"></i>
+        平台任务</el-button>
       <el-button type="warning" size="small" @click="drModalShow"><i class="el-icon-download"></i> 导入</el-button>
       <el-button type="warning" size="small" @click="exportExcel"><i class="el-icon-upload2"></i> 导出</el-button>
     </div>
@@ -59,7 +59,7 @@
     </div>
     <!-- 新增修改 -->
     <el-dialog :title="title" :visible.sync="editModal" :close-on-click-modal="false" :before-close="closeModal" width="30%">
-      <el-form :model='editForm' ref='editForm' :rules='Rules' label-width='120px' status-icon>
+      <el-form :model='editForm' ref='editForm' :rules='Rules' label-width='80px' status-icon>
         <el-form-item label="平台名称" prop="Platform">
           <el-input v-model="editForm.Platform" autofocus="true"></el-input>
         </el-form-item>
@@ -98,8 +98,8 @@
       <div class="mb20">
         <el-button type="danger" size="small" :disabled="disabledMore1" @click="removeBind"><i class="el-icon-close"></i>
           解除关联</el-button>
-        <el-button type="danger" size="small" :disabled="disabled1" @click="bindWebAddress"><i class="el-icon-close"></i>
-          绑定网址</el-button>
+        <el-button type="warning" size="small" :disabled="disabled1" @click="editWebAddress"><i class="el-icon-check"></i>
+          确认编辑</el-button>
       </div>
       <div class="mt10">
         <el-table border :data="countryData" style="width: 100%" :header-cell-style="{background:'#fafafa'}"
@@ -107,16 +107,18 @@
           <el-table-column type="selection" align="center"></el-table-column>
           <el-table-column type="index" label="序号" align="center" width="50"></el-table-column>
           <el-table-column prop="Country" label="国家名称" align="center"></el-table-column>
-          <el-table-column prop="Currency" label="国家简写" align="center"></el-table-column>
+          <el-table-column prop="Code" label="国家简写" align="center"></el-table-column>
+          <el-table-column prop="address" label="网址" width="300">
+            <template slot-scope="scope">
+              <el-input size="small" v-model="scope.row.address" placeholder="请输入网址"></el-input>
+            </template>
+          </el-table-column>
         </el-table>
       </div>
     </el-dialog>
-    <!-- 查看任务 -->
-    <el-dialog title="查看任务" :visible.sync="OrderTaskModel" :close-on-click-modal="false" width="90%" custom-class="fixed-dialog">
-      <OrderTask></OrderTask>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="OrderTaskModel=false" size="medium">关闭</el-button>
-      </div>
+    <!-- 平台任务 -->
+    <el-dialog :title='title' :visible.sync="OrderTaskModel" :close-on-click-modal="false" width="60%">
+      <OrderTask :funv='passValueToSon'></OrderTask>
     </el-dialog>
     <!-- 导入-->
     <el-dialog title="导入数据" :visible.sync="drModal" :close-on-click-modal="false" center width="30%">
@@ -161,12 +163,13 @@
         checkBoxData: [],
         countryData: [],
         countryCheckBoxData: [], //国家列表选中信息
+        passValueToSon:'', //准备传往子组件的数据
         webAddres: '',
         searchForm: {
           searchkeywords: ''
         },
         searchForm2: {
-          searchkeywords2: ''
+          searchkeywords: ''
         },
         editForm: {
           Platform: ''
@@ -251,7 +254,7 @@
       editModalShow() {
         let _this = this
         _this.editModal = true
-        _this.title = '货币汇率修改'
+        _this.title = '平台修改'
         _this.disabledEdit = true
         _this.doType = 'edit'
         let data = _this.checkBoxData[0]
@@ -279,6 +282,24 @@
               })
             })
           }
+        })
+      },
+
+      // 更改状态
+      changeStatus(index, row) {
+        let _this = this
+        let param = {
+          SessionId: sessionStorage.getItem('sessionid'),
+          PlatformId: row.Id,
+          Enabled: row.Enabled
+        }
+        _this.axios.post(_this.GLOBAL.BASE_URL + '/api/doBPlatformEnable', param).then((res) => {
+          _this.$alert(res.data.message, '信息提示', {
+            confirmButtonText: '确定',
+            callback: action => {
+              _this.getAllData()
+            }
+          })
         })
       },
 
@@ -334,37 +355,32 @@
       //获取子组件的值关联
       getValueFormSon(ids) {
         let _this = this
-        _this.$confirm('确认要关联选中的国家吗？', '信息提示', {
-          type: 'warning'
-        }).then(() => {
-          let param = {
-            SessionId: sessionStorage.getItem('sessionid'),
-            CurrencyId: Number(_this.checkBoxData[0].Id),
-            CountryCode: ids
-          }
-          _this.axios.post(_this.GLOBAL.BASE_URL + '/api/doBPlatformCountryBind', param).then((res) => {
-            _this.$alert(res.data.message, '信息提示', {
-              confirmButtonText: '确定',
-              callback: action => {
-                _this.allCountryModal = false
-                _this.getAllData()
-              }
-            })
+        let param = {
+          SessionId: sessionStorage.getItem('sessionid'),
+          PlatformId: Number(_this.checkBoxData[0].Id),
+          CountryIds: ids
+        }
+        _this.axios.post(_this.GLOBAL.BASE_URL + '/api/doBPlatformCountryBind', param).then((res) => {
+          _this.$alert(res.data.message, '信息提示', {
+            confirmButtonText: '确定',
+            callback: action => {
+              _this.allCountryModal = false
+              _this.getAllData()
+            }
           })
-        }).catch(() => {})
+        })
       },
 
-      //关联国家弹窗（该货币关联国家）
+      //关联国家弹窗（该平台关联国家）
       glCountry(index, row) {
         let _this = this
-        _this.title = '货币关联国家'
         _this.countryModal = true
         let txt = row.Platform
         _this.title = '【' + txt + '】 已关联国家'
         _this.getCountryForCurrency()
       },
 
-      //获取该货币关联的国家数据
+      //获取该平台关联的国家数据
       getCountryForCurrency() {
         let _this = this
         let param = {
@@ -393,7 +409,7 @@
         })
       },
 
-      //重置该货币关联国家搜索条件
+      //重置该平台关联国家搜索条件
       resetSearch2() {
         let _this = this
         _this.searchForm2 = {
@@ -402,7 +418,7 @@
         _this.getCountryForCurrency()
       },
 
-      //选中行(货币关联的国家)
+      //选中行(平台关联的国家)
       rowClick2(val) {
         let _this = this
         _this.$refs.table2.clearSelection()
@@ -410,7 +426,7 @@
         _this.countryCheckBoxData[0] = val
       },
 
-      // 是否有选中（货币关联的国家）
+      // 是否有选中（平台关联的国家）
       handleSelectionChange2(val) {
         let _this = this
         _this.countryCheckBoxData = val
@@ -439,7 +455,7 @@
             CurrencyId: Number(_this.countryCheckBoxData[0].Id),
             CountryId: ids
           }
-          _this.axios.post(_this.GLOBAL.BASE_URL + '/api/doBExRateCountryUnBind', param).then((res) => {
+          _this.axios.post(_this.GLOBAL.BASE_URL + '/api/doBPlatformCountryUnBind', param).then((res) => {
             _this.$alert(res.data.message, '信息提示', {
               confirmButtonText: '确定',
               callback: action => {
@@ -451,9 +467,18 @@
         }).catch(() => {})
       },
 
-      // 绑定网址
-      bindWebAddress() {
+      // 确认编辑网址
+      editWebAddress() {
 
+      },
+
+      //平台任务
+      viewTaskModalShow(){
+        let _this = this
+        _this.OrderTaskModel = true
+        let txt = _this.checkBoxData[0].Platform
+        _this.title = '【' + txt + '】 任务'
+        _this.passValueToSon = _this.checkBoxData[0].Id
       },
 
       //翻页

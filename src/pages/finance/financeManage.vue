@@ -9,7 +9,7 @@
     </div>
     <div class="tabList mb20">
       <ul class="tabBlock">
-        <li :class="active === 1 ? 'active':''" @click="kehu">客户管理</li>
+        <li :class="active === 1 ? 'active':''" @click="kehu">客户账户</li>
       </ul>
     </div>
     <div v-if="TabKeHu">
@@ -19,13 +19,13 @@
 </template>
 
 <script>
-  import customer from './customer'
+  import customer from './customerAccount'
 
   export default {
     name: 'financeManage',
     data() {
       return {
-        title: '客户管理',
+        title: '客户账户',
         TabKeHu: true,
         active: 1
       }
@@ -37,7 +37,7 @@
       kehu() {
         let _this = this
         _this.active = 1
-        _this.title = '客户管理'
+        _this.title = '客户账户'
       }
     }
   }

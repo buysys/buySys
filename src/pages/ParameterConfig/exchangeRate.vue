@@ -9,7 +9,7 @@
                 <el-input v-model="searchForm.searchkeywords" placeholder="请输入货币名称" size="small"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :xs="24" :span="4">
+            <el-col :xs="24" :span="20">
               <el-form-item>
                 <el-button type="primary" size="small" @click="getAllData">查询</el-button>
                 <el-button size="small" @click="resetSearch">重置</el-button>
@@ -40,12 +40,12 @@
         <el-table-column prop="CurCode" label="货币编码" align="center"></el-table-column>
         <el-table-column prop="CurSymbol" label="货币符号" align="center"></el-table-column>
         <el-table-column prop="ExRate" label="汇率" align="center"></el-table-column>
-        <el-table-column prop="Memo" label="备注" align="center"></el-table-column>
         <el-table-column prop="CountryNumber" label="国家数量" align="center">
           <template slot-scope="scope">
             <el-button type="text" @click="glCountry(scope.$index,scope.row)">{{scope.row.CountryNumber}}</el-button>
           </template>
         </el-table-column>
+        <el-table-column prop="Memo" label="备注" align="center"></el-table-column>
       </el-table>
       <div class="table-foot">
         <div></div>
@@ -405,24 +405,20 @@
       //获取子组件的值关联
       getValueFormSon(ids) {
         let _this = this
-        _this.$confirm('确认要关联选中的国家吗？', '信息提示', {
-          type: 'warning'
-        }).then(() => {
-          let param = {
-            SessionId: sessionStorage.getItem('sessionid'),
-            CurrencyId: Number(_this.checkBoxData[0].Id),
-            CountryIds: ids
-          }
-          _this.axios.post(_this.GLOBAL.BASE_URL + '/api/doBExRateCountryBind', param).then((res) => {
-            _this.$alert(res.data.message, '信息提示', {
-              confirmButtonText: '确定',
-              callback: action => {
-                _this.allCountryModal = false
-                _this.getAllData()
-              }
-            })
+        let param = {
+          SessionId: sessionStorage.getItem('sessionid'),
+          CurrencyId: Number(_this.checkBoxData[0].Id),
+          CountryIds: ids
+        }
+        _this.axios.post(_this.GLOBAL.BASE_URL + '/api/doBExRateCountryBind', param).then((res) => {
+          _this.$alert(res.data.message, '信息提示', {
+            confirmButtonText: '确定',
+            callback: action => {
+              _this.allCountryModal = false
+              _this.getAllData()
+            }
           })
-        }).catch(() => {})
+        })
       },
 
       //关联国家弹窗（该货币关联国家）
