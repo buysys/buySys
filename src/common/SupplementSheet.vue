@@ -47,7 +47,7 @@
         tableData: [{
             "Numbers": "20190605105636229596",
             "Picture": "",
-            "CountryId": "美国",
+            "CountryId": "美国1",
             "Forum": "Amazon",
             "ProductByASIN": "777888999a",
             "ProductPrice": 15.99,
@@ -60,7 +60,7 @@
           {
             "Numbers": "20190605105636229596",
             "Picture": "",
-            "CountryId": "美国",
+            "CountryId": "美国2",
             "Forum": "Amazon",
             "ProductByASIN": "777888999a",
             "ProductPrice": 15.99,

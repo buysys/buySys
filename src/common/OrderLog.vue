@@ -47,7 +47,7 @@
         pageSize: '0',
         total: 100,
         searchForm: {
-          platform: '',
+          platform: '0',
           searchkeywords: ''
         }
       }
