@@ -60,10 +60,8 @@
         <ul class="tabBlock">
           <li :class="active === 1 ? 'active':''" @click="getAllData()" :data-index="1">全部<span>({{allNum}})</span></li>
           <li :class="active === 2 ? 'active':''" :data-index="2" @click="daiBuy">待付款<span>(0)</span></li>
-          <li :class="active === 3 ? 'active':''" :data-index="3" @click="daifh">待确认<span>(0)</span></li>
-          <li :class="active === 4 ? 'active':''" :data-index="4" @click="daicl">待处理<span>(0)</span></li>
-          <li :class="active === 5 ? 'active':''" :data-index="5" @click="ywc">已完成<span>(0)</span></li>
-          <li :class="active === 6 ? 'active':''" :data-index="6" @click="errData">已取消<span>(0)</span></li>
+          <li :class="active === 3 ? 'active':''" :data-index="3" @click="ywc">已完成<span>(0)</span></li>
+          <li :class="active === 4 ? 'active':''" :data-index="4" @click="errData">已取消<span>(0)</span></li>
         </ul>
       </div>
       <div class="mt10">
@@ -118,10 +116,8 @@
         <ul class="tabBlock">
           <li :class="active === 1 ? 'active':''" @click="getAllData()" :data-index="1">全部<span>({{allNum}})</span></li>
           <li :class="active === 2 ? 'active':''" :data-index="2" @click="daiBuy">待付款<span>(0)</span></li>
-          <li :class="active === 3 ? 'active':''" :data-index="3" @click="daifh">待确认<span>(0)</span></li>
-          <li :class="active === 4 ? 'active':''" :data-index="4" @click="daicl">待处理<span>(0)</span></li>
-          <li :class="active === 5 ? 'active':''" :data-index="5" @click="ywc">已完成<span>(0)</span></li>
-          <li :class="active === 6 ? 'active':''" :data-index="6" @click="errData">已取消<span>(0)</span></li>
+          <li :class="active === 3 ? 'active':''" :data-index="3" @click="ywc">已完成<span>(0)</span></li>
+          <li :class="active === 4 ? 'active':''" :data-index="4" @click="errData">已取消<span>(0)</span></li>
         </ul>
       </div>
       <div class="mt10">
@@ -176,10 +172,8 @@
         <ul class="tabBlock">
           <li :class="active === 1 ? 'active':''" @click="getAllData()" :data-index="1">全部<span>({{allNum}})</span></li>
           <li :class="active === 2 ? 'active':''" :data-index="2" @click="daiBuy">待付款<span>(0)</span></li>
-          <li :class="active === 3 ? 'active':''" :data-index="3" @click="daifh">待确认<span>(0)</span></li>
-          <li :class="active === 4 ? 'active':''" :data-index="4" @click="daicl">待处理<span>(0)</span></li>
-          <li :class="active === 5 ? 'active':''" :data-index="5" @click="ywc">已完成<span>(0)</span></li>
-          <li :class="active === 6 ? 'active':''" :data-index="6" @click="errData">已取消<span>(0)</span></li>
+          <li :class="active === 3 ? 'active':''" :data-index="3" @click="ywc">已完成<span>(0)</span></li>
+          <li :class="active === 4 ? 'active':''" :data-index="4" @click="errData">已取消<span>(0)</span></li>
         </ul>
       </div>
       <div class="mt10">
@@ -234,10 +228,8 @@
         <ul class="tabBlock">
           <li :class="active === 1 ? 'active':''" @click="getAllData()" :data-index="1">全部<span>({{allNum}})</span></li>
           <li :class="active === 2 ? 'active':''" :data-index="2" @click="daiBuy">待付款<span>(0)</span></li>
-          <li :class="active === 3 ? 'active':''" :data-index="3" @click="daifh">待确认<span>(0)</span></li>
-          <li :class="active === 4 ? 'active':''" :data-index="4" @click="daicl">待处理<span>(0)</span></li>
-          <li :class="active === 5 ? 'active':''" :data-index="5" @click="ywc">已完成<span>(0)</span></li>
-          <li :class="active === 6 ? 'active':''" :data-index="6" @click="errData">已取消<span>(0)</span></li>
+          <li :class="active === 3 ? 'active':''" :data-index="3" @click="ywc">已完成<span>(0)</span></li>
+          <li :class="active === 4 ? 'active':''" :data-index="4" @click="errData">已取消<span>(0)</span></li>
         </ul>
       </div>
       <div class="mt10">
@@ -292,9 +284,8 @@
         <ul class="tabBlock">
           <li :class="active === 1 ? 'active':''" @click="getAllData()" :data-index="1">全部<span>({{allNum}})</span></li>
           <li :class="active === 2 ? 'active':''" :data-index="2" @click="daiBuy">待付款<span>(0)</span></li>
-          <li :class="active === 3 ? 'active':''" :data-index="3" @click="daifh">待确认<span>(0)</span></li>
-          <li :class="active === 5 ? 'active':''" :data-index="5" @click="ywc">已完成<span>(0)</span></li>
-          <li :class="active === 6 ? 'active':''" :data-index="6" @click="errData">已取消<span>(0)</span></li>
+          <li :class="active === 3 ? 'active':''" :data-index="3" @click="ywc">已完成<span>(0)</span></li>
+          <li :class="active === 4 ? 'active':''" :data-index="4" @click="errData">已取消<span>(0)</span></li>
         </ul>
       </div>
       <div class="mt10">
@@ -364,7 +355,7 @@
     </el-dialog>
     <!--日志-->
     <el-dialog title="订单日志" :visible.sync="logModel" custom-class="fixed-dialog">
-      <OrderLog></OrderLog>
+      <orderLog></orderLog>
       <div slot="footer" class="dialog-footer">
         <el-button @click="logModel = false">关 闭</el-button>
       </div>
@@ -910,10 +901,10 @@
   import FileSaver from 'file-saver'
   import XLSX from 'xlsx'
 
-  import OrderLog from '../../common/OrderLog'
+  import orderLog from '../../common/orderLog'
   import buyNum from '../../common/buyNum'
   export default {
-    name: 'orderList',
+    name: 'order',
     data() {
       return {
         currentPage: 1,
@@ -1051,7 +1042,7 @@
       }
     },
     components: {
-      OrderLog,
+      orderLog,
       buyNum
     },
     created() {
@@ -1191,28 +1182,16 @@
         _this.active = 2
         _this.tableData = []
       },
-      // 待确认
-      daifh() {
-        let _this = this
-        _this.active = 3
-        _this.tableData = []
-      },
-      // 待处理
-      daicl() {
-        let _this = this
-        _this.active = 4
-        _this.tableData = []
-      },
       // 已完成
       ywc() {
         let _this = this
-        _this.active = 5
+        _this.active = 3
         _this.tableData = []
       },
       // 已取消
       errData() {
         let _this = this
-        _this.active = 6
+        _this.active = 4
         _this.tableData = []
       },
       // 下单开始时间

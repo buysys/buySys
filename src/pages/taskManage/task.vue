@@ -67,6 +67,7 @@
           <li :class="active === 6 ? 'active':''" :data-index="6" @click="refund">待退款<span>(0)</span></li>
           <li :class="active === 7 ? 'active':''" :data-index="7" @click="ywc">已完成<span>(0)</span></li>
           <li :class="active === 8 ? 'active':''" :data-index="8" @click="errData">异常<span>(0)</span></li>
+          <li :class="active === 9 ? 'active':''" :data-index="9" @click="dcl">待处理<span>(0)</span></li>
         </ul>
       <div class="tabStatus" style="position:absolute;right:50px;top:250px">
         <span>今日未完成</span><span class="txtCol ml10 mr30">23</span>
@@ -442,7 +443,7 @@
     </el-dialog>
     <!--日志-->
     <el-dialog title="订单日志" :visible.sync="logModel" :close-on-click-modal="false" width="90%" custom-class="fixed-dialog">
-      <OrderLog></OrderLog>
+      <orderLog></orderLog>
       <div slot="footer" class="dialog-footer">
         <el-button @click="logModel=false">关 闭</el-button>
       </div>
@@ -1003,9 +1004,9 @@
 <script>
   import SupplementSheet from '../../common/SupplementSheet'
   import buyNum from '../../common/buyNum'
-  import OrderLog from '../../common/OrderLog'
+  import orderLog from '../../common/orderLog'
   export default {
-    name: 'TaskList',
+    name: 'task',
     data() {
       return {
         feedShow: false, //feedback
@@ -1237,7 +1238,7 @@
     components: {
       SupplementSheet,
       buyNum,
-      OrderLog
+      orderLog
     },
     created() {
       // this.getAllData()
@@ -1570,6 +1571,13 @@
         let _this = this
         _this.active = 8
         _this.times = '异常时间'
+        //				_this.orderPlaceData = []
+      },
+      // 待处理
+      dcl() {
+        let _this = this
+        _this.active = 9
+        _this.times = '购买时间'
         //				_this.orderPlaceData = []
       },
       //已填评价

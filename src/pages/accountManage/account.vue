@@ -1020,14 +1020,14 @@
 </template>
 
 <script>
-  import systemConfig from '../../common/systemConfig'
-  import buyNumLevel from './buyNumLevel'
-  import buyTagList from './buyTagList'
+  // import systemConfig from '../../common/systemConfig'
+  // import buyNumLevel from './buyNumLevel'
+  // import buyTagList from './buyTagList'
   import FileSaver from 'file-saver'
   import XLSX from 'xlsx'
 
   export default {
-    name: 'buyNumList',
+    name: 'account',
     data() {
       return {
         searchShow: false, //搜索条件

@@ -135,7 +135,7 @@
       </el-dialog>
       <!--角色管理-->
       <el-dialog title="角色管理" :visible.sync="roleModel" :close-on-click-modal="false" width="90%" custom-class="fixed-dialog">
-        <roleManage></roleManage>
+        <role></role>
         <div slot="footer" class="dialog-footer">
           <el-button type="primary" size="medium">确 定</el-button>
           <el-button @click="roleModel=false" size="medium">取 消</el-button>
@@ -149,9 +149,9 @@
   import FileSaver from 'file-saver'
   import XLSX from 'xlsx'
 
-  import roleManage from './roleManage'
+  import role from './role'
   export default {
-    name: 'userManage',
+    name: 'user',
     data() {
       return {
         disabled: true, //单项禁用
@@ -253,7 +253,7 @@
       };
     },
     components: {
-      roleManage
+      role
     },
     created() {
       //			this.getAllData()

@@ -8,8 +8,7 @@
               <el-form-item label="平台">
                 <template>
                   <el-select v-model="searchForm.PlatformId" placeholder="请选择平台" size="small">
-                    <el-option v-for="item in PlatformIdData" :key="item.value" :label="item.label" :value="item.value">
-                    </el-option>
+                    <el-option v-for="item in PlatformIdData" :key="item.value" :label="item.label" :value="item.value"></el-option>
                   </el-select>
                 </template>
               </el-form-item>
@@ -127,23 +126,23 @@
   import FileSaver from 'file-saver'
   import XLSX from 'xlsx'
   export default {
-    name: 'ServiceType',
+    name: 'serviceType',
     data() {
       return {
-        loading: true,
+        title: '',
+        currentPage: 1,
+        pageSize: 10,
+        total: 0,
+        doType: '', //操作类型
         editModal: false, //新增修改
         drModal: false, //导入
         show: true, //显示与隐藏
         disabled: true, //单项禁用
         disabledMore: true, //多项禁用
-        doType: '', //操作类型
+        loading: true,
         tableData: [],
         checkBoxData: [], //选中数据
         countryData: [], //国家数据
-        title: '',
-        currentPage: 1,
-        pageSize: 10,
-        total: 0,
         searchForm: {
           PlatformId: '',
           searchkeywords: ''

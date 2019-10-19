@@ -10,7 +10,7 @@
     <div class="tabList mb20">
       <ul class="tabBlock">
         <li :class="active === 1 ? 'active':''" @click="serviceHandle">服务类型</li>
-        <li :class="active === 2 ? 'active':''" @click="ParameterHandle">增值服务费</li>
+        <li :class="active === 2 ? 'active':''" @click="parameterHandle">增值服务费</li>
         <li :class="active === 3 ? 'active':''" @click="exchangeHandle">货币汇率</li>
         <li :class="active === 4 ? 'active':''" @click="countryHandle">国家管理</li>
         <li :class="active === 5 ? 'active':''" @click="platformHandle">平台管理</li>
@@ -18,14 +18,14 @@
         <li :class="active === 7 ? 'active':''" @click="autoShareHandle">自动分配</li>
         <li :class="active === 8 ? 'active':''" @click="takeMoneyHandle">提现配置</li>
         <li :class="active === 9 ? 'active':''" @click="salesEstimateHandle">销量预估</li>
-        <li :class="active === 10 ? 'active':''" @click="numberSystemHandle">养号系统</li>
+        <li :class="active === 10 ? 'active':''" @click="feedNumberHandle">养号系统</li>
       </ul>
     </div>
     <div v-if="active==1">
       <serviceType></serviceType>
     </div>
     <div v-if="active==2">
-      <ParameterService></ParameterService>
+      <parameterService></parameterService>
     </div>
     <div v-if="active==3">
       <exchangeRate></exchangeRate>
@@ -49,7 +49,7 @@
       <salesEstimate></salesEstimate>
     </div>
     <div v-if="active==10">
-      <numberSys></numberSys>
+      <feedNumber></feedNumber>
     </div>
 
   </div>
@@ -57,7 +57,7 @@
 
 <script>
   import serviceType from './serviceType'
-  import ParameterService from './ParameterService'
+  import parameterService from './parameterService'
   import exchangeRate from './exchangeRate'
   import countryManage from './countryManage'
   import platform from './platform'
@@ -65,9 +65,9 @@
   import autoShare from './autoShare'
   import takeMoneySet from './takeMoneySet'
   import salesEstimate from './salesEstimate'
-  import numberSys from './productList'
+  import feedNumber from './feedNumber'
   export default {
-    name: 'systemSettings',
+    name: 'system',
     data() {
       return {
         active: 1,
@@ -76,7 +76,7 @@
     },
     components: {
       serviceType,
-      ParameterService,
+      parameterService,
       exchangeRate,
       countryManage,
       platform,
@@ -84,7 +84,7 @@
       autoShare,
       takeMoneySet,
       salesEstimate,
-      numberSys
+      feedNumber
     },
     methods: {
       serviceHandle() {
@@ -92,7 +92,7 @@
         _this.active = 1
         _this.title = '服务类型'
       },
-      ParameterHandle() {
+      parameterHandle() {
         let _this = this
         _this.active = 2
         _this.title = '增值服务费'
@@ -133,7 +133,7 @@
         _this.title = '销量预估'
       },
       //养号系统
-      numberSystemHandle() {
+      feedNumberHandle() {
         let _this = this
         _this.active = 10
         _this.title = '养号系统'

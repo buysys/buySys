@@ -53,7 +53,7 @@
 
 <script>
   export default {
-    name: 'ParameterService',
+    name: 'parameterService',
     data() {
       return {
         title: '',

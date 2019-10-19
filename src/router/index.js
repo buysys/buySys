@@ -21,17 +21,17 @@ export default new Router({
           }
         },
         {
-          path: '/orderList',
-          name: 'orderList',
-          component: resolve => require(['../pages/order/orderList.vue'], resolve),
+          path: '/order',
+          name: 'order',
+          component: resolve => require(['../pages/orderManage/order.vue'], resolve),
           meta: {
             title: '订单管理'
           }
         },
         {
-          path: '/TaskList',
-          name: 'TaskList',
-          component: resolve => require(['../pages/task/TaskList.vue'], resolve),
+          path: '/task',
+          name: 'task',
+          component: resolve => require(['../pages/taskManage/task.vue'], resolve),
           meta: {
             title: '任务管理'
           }
@@ -45,49 +45,49 @@ export default new Router({
           }
         },
         {
-          path: '/CardManage',
-          name: 'CardManage',
-          component: resolve => require(['../pages/card/CardManage.vue'], resolve),
+          path: '/card',
+          name: 'card',
+          component: resolve => require(['../pages/cardManage/card.vue'], resolve),
           meta: {
             title: '卡片管理'
           }
         },
         {
-          path: '/customerList',
-          name: 'customerList',
-          component: resolve => require(['../pages/customer/customerList.vue'], resolve),
+          path: '/customer',
+          name: 'customer',
+          component: resolve => require(['../pages/customerManage/customer.vue'], resolve),
           meta: {
             title: '客户管理'
           }
         },
         {
-          path: '/userManage',
-          name: 'userManage',
-          component: resolve => require(['../pages/systemSettings/userManage.vue'], resolve),
+          path: '/user',
+          name: 'user',
+          component: resolve => require(['../pages/userManage/user.vue'], resolve),
           meta: {
             title: '用户管理'
           }
         },
         {
-          path: '/financeManage',
-          name: 'financeManage',
-          component: resolve => require(['../pages/finance/financeManage.vue'], resolve),
+          path: '/finance',
+          name: 'finance',
+          component: resolve => require(['../pages/financeManage/finance.vue'], resolve),
           meta: {
             title: '财务管理'
           }
         },
         {
-          path: '/systemSettings',
-          name: 'systemSettings',
-          component: resolve => require(['../pages/ParameterConfig/systemSettings.vue'], resolve),
+          path: '/system',
+          name: 'system',
+          component: resolve => require(['../pages/systemManage/system.vue'], resolve),
           meta: {
             title: '系统设置'
           }
         },
         {
-          path: '/personalData',
-          name: 'personalData',
-          component: resolve => require(['../pages/personalData.vue'], resolve),
+          path: '/userInfo',
+          name: 'userInfo',
+          component: resolve => require(['../pages/userInfo.vue'], resolve),
           meta: {
             title: '个人资料'
           }

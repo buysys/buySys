@@ -37,7 +37,7 @@
       <el-form :model="editForm" ref='editForm' :rules="Rules" label-width="120px" status-icon>
         <el-form-item label="任务类型" prop="TaskType">
           <template>
-            <el-select v-model="editForm.TaskType" placeholder="请选择任务类型" style="width: 100%;" @change="getOtherInfo">
+            <el-select v-model="editForm.TaskType" placeholder="请选择任务类型" style="width: 100%;" :disabled='disabledEditType' @change="getOtherInfo">
               <el-option v-for="item in taskTypeData" :key="item.TaskType" :label="item.TaskName" :value="item.TaskType"></el-option>
             </el-select>
           </template>
@@ -46,7 +46,7 @@
           <el-input v-model="editForm.MinPrice" disabled></el-input>
         </el-form-item>
         <el-form-item label="说明" prop="Description">
-          <el-input type="textarea" :rows="3" v-model="editForm.Description" disabled></el-input>
+          <el-input type="textarea" :rows="3" v-model="editForm.Description" :disabled='disabledEditMemo'></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -62,7 +62,7 @@
   import FileSaver from 'file-saver'
   import XLSX from 'xlsx'
   export default {
-    name: 'OrderTask',
+    name: 'orderTask',
     data() {
       return {
         title: '',
@@ -72,6 +72,8 @@
         doType: '',
         disabled: true, //单项禁用
         disabledMore: true, //多项禁用
+        disabledEditType: true, //禁止修改任务类型
+        disabledEditMemo: true, //禁止修改描述
         loading: true,
         editModal: false, //新增修改
         tableData: [],
@@ -153,6 +155,8 @@
         _this.editModal = true
         _this.title = '任务新增'
         _this.doType = 'add'
+        _this.disabledEditType = false
+        _this.disabledEditMemo = true
         _this.getTaskTypeData()
       },
 
@@ -163,7 +167,7 @@
           if (valid) {
             let param = {
               SessionId : sessionStorage.getItem('sessionid'),
-              PlatformId : _this.funv,
+              PlatformId : Number(_this.funv),
               BaseTaskId : Number(_this.editForm.TaskType)
             }
             _this.axios.post(_this.GLOBAL.BASE_URL + '/api/doBPlatformTaskNew', param).then((res) => {
@@ -186,6 +190,8 @@
         _this.editModal = true
         _this.title = '任务修改'
         _this.doType = 'edit'
+        _this.disabledEditType = true
+        _this.disabledEditMemo = false
         _this.getTaskTypeData()
         _this.checkBoxData[0].TaskType = Number(_this.checkBoxData[0].TaskType)
         _this.editForm = Object.assign({}, _this.checkBoxData[0])
@@ -198,13 +204,12 @@
           if (valid) {
             let param = {
               SessionId : sessionStorage.getItem('sessionid'),
-              PlatformId: _this.funv,
-              BaseTaskId: _this.editForm.TaskType,
+              PlatformId: Number(_this.funv),
+              BaseTaskId: Number(_this.editForm.TaskType),
+              Action: 2,
               Memo: _this.editForm.Description
             }
-            param.
-            param.Id = _this.checkBoxData[0].Id
-            _this.axios.post(_this.GLOBAL.BASE_URL + '/api/doBCountryUpdate', param).then((res) => {
+            _this.axios.post(_this.GLOBAL.BASE_URL + '/api/doBPlatformTaskUpdate', param).then((res) => {
               _this.$alert(res.data.message, '信息提示', {
                 confirmButtonText: '确定',
                 callback: action => {
@@ -222,11 +227,13 @@
       changeStatus(index, row) {
         let _this = this
         let param = {
-          SessionId: sessionStorage.getItem('sessionid'),
-          CountryCode: row.Code,
-          Enabled: row.Enabled
+          SessionId : sessionStorage.getItem('sessionid'),
+          PlatformId: Number(_this.funv),
+          BaseTaskId: Number(row.TaskType),
+          Action: 1,
+          Status: row.Status
         }
-        _this.axios.post(_this.GLOBAL.BASE_URL + '/api/doBCountryEnable', param).then((res) => {
+        _this.axios.post(_this.GLOBAL.BASE_URL + '/api/doBPlatformTaskUpdate', param).then((res) => {
           _this.$alert(res.data.message, '信息提示', {
             confirmButtonText: '确定',
             callback: action => {

@@ -139,7 +139,7 @@
 <script>
 	import vali from '../../components/validate'
 	export default {
-		name: 'productList',
+		name: 'feedNumber',
 		data() {
 			return {
 				title: '',

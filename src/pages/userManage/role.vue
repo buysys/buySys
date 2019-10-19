@@ -81,7 +81,7 @@
 
 <script>
   export default {
-    name: 'roleManage',
+    name: 'role',
     data() {
       return {
         disabled: true, //单项禁用

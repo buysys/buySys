@@ -49,7 +49,7 @@
 
 <script>
   export default {
-    name: 'relationWebAddress',
+    name: 'relationUrl',
     data() {
       return {
         currentPage: 1,

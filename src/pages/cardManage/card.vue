@@ -17,17 +17,17 @@
       <practicalCard></practicalCard>
     </div>
     <div v-show="TabXuNi">
-      <VirtualCard></VirtualCard>
+      <virtualCard></virtualCard>
     </div>
   </div>
 </template>
 
 <script>
   import practicalCard from './practicalCard'
-  import VirtualCard from './VirtualCard'
+  import virtualCard from './virtualCard'
 
   export default {
-    name: 'CardManage',
+    name: 'card',
     data() {
       return {
         title: '实体信用卡',
@@ -38,7 +38,7 @@
     },
     components: {
       practicalCard,
-      VirtualCard
+      virtualCard
     },
     methods: {
       shiti() {

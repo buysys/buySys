@@ -12,26 +12,25 @@
         <li :class="active === 1 ? 'active':''" @click="kehu">客户账户</li>
       </ul>
     </div>
-    <div v-if="TabKeHu">
-      <customer></customer>
+    <div v-if="active==1">
+      <customerAccount></customerAccount>
     </div>
   </div>
 </template>
 
 <script>
-  import customer from './customerAccount'
+  import customerAccount from './customerAccount'
 
   export default {
-    name: 'financeManage',
+    name: 'finance',
     data() {
       return {
         title: '客户账户',
-        TabKeHu: true,
         active: 1
       }
     },
     components: {
-      customer
+      customerAccount
     },
     methods: {
       kehu() {

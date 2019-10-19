@@ -97,7 +97,7 @@
 
 <script>
   export default {
-    name: 'personalData',
+    name: 'userInfo',
     data() {
       return {
         showFileList: false,

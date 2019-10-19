@@ -5,8 +5,8 @@
         <el-form ref="searchForm" :model="searchForm" class="form-item" label-width="80px">
           <el-row>
             <el-col :xs="24" :span="4">
-              <el-form-item label="平台名称">
-                <el-input v-model="searchForm.searchkeywords" placeholder="请输入平台名称" size="small"></el-input>
+              <el-form-item label="货币名称">
+                <el-input v-model="searchForm.searchkeywords" placeholder="请输入货币名称" size="small"></el-input>
               </el-form-item>
             </el-col>
             <el-col :xs="24" :span="20">
@@ -21,11 +21,13 @@
     </el-collapse-transition>
     <div class="mb20">
       <el-button type="success" size="small" @click="addModalShow"><i class="el-icon-plus"></i> 新增</el-button>
-      <el-button type="primary" size="small" :disabled="disabled" @click="editModalShow"><i class="el-icon-edit-outline"></i>修改</el-button>
+      <el-button type="primary" size="small" :disabled="disabled" @click="editModalShow"><i class="el-icon-edit-outline"></i>
+        修改</el-button>
+      <el-button type="danger" size="small" :disabled="disabledMore" @click="delData"><i class="el-icon-delete"></i> 删除</el-button>
       <el-button type="danger" size="small" :disabled="disabled" @click="glAllCountry"><i class="el-icon-sort"></i>
         关联国家</el-button>
-      <el-button type="success" size="small" :disabled="disabled" @click="viewTaskModalShow"><i class="el-icon-document"></i>
-        平台任务</el-button>
+      <el-button type='primary' size='small' :disabled="disabled" @click='editRate'><i class="el-icon-edit-outline"></i>
+        调整汇率</el-button>
       <el-button type="warning" size="small" @click="drModalShow"><i class="el-icon-download"></i> 导入</el-button>
       <el-button type="warning" size="small" @click="exportExcel"><i class="el-icon-upload2"></i> 导出</el-button>
     </div>
@@ -34,19 +36,16 @@
         @selection-change="handleSelectionChange" @row-click="rowClick" ref="table">
         <el-table-column type="selection" align="center"></el-table-column>
         <el-table-column type="index" label="序号" align="center" width="50"></el-table-column>
-        <el-table-column prop="Platform" label="平台名称" align="center"></el-table-column>
-        <el-table-column prop="countryNum" label="国家数量" align="center">
+        <el-table-column prop="CurName" label="货币名称" align="center"></el-table-column>
+        <el-table-column prop="CurCode" label="货币编码" align="center"></el-table-column>
+        <el-table-column prop="CurSymbol" label="货币符号" align="center"></el-table-column>
+        <el-table-column prop="ExRate" label="汇率" align="center"></el-table-column>
+        <el-table-column prop="CountryNumber" label="国家数量" align="center">
           <template slot-scope="scope">
-            <el-button type="text" @click="glCountry(scope.$index,scope.row)">{{scope.row.countryNum}}</el-button>
+            <el-button type="text" @click="glCountry(scope.$index,scope.row)">{{scope.row.CountryNumber}}</el-button>
           </template>
         </el-table-column>
-        <el-table-column prop="Status" label="禁用 | 启用" align="center">
-          <template slot-scope="scope">
-            <el-switch active-color="#67c23a" inactive-color="#dcdfe6" :active-value="1" :inactive-value="0" v-model="scope.row.Status"
-              @change="changeStatus(scope.$index,scope.row)">
-            </el-switch>
-          </template>
-        </el-table-column>
+        <el-table-column prop="Memo" label="备注" align="center"></el-table-column>
       </el-table>
       <div class="table-foot">
         <div></div>
@@ -57,11 +56,29 @@
         </div>
       </div>
     </div>
-    <!-- 新增修改 -->
-    <el-dialog :title="title" :visible.sync="editModal" :close-on-click-modal="false" :before-close="closeModal" width="30%">
-      <el-form :model='editForm' ref='editForm' :rules='Rules' label-width='80px' status-icon>
-        <el-form-item label="平台名称" prop="Platform">
-          <el-input v-model="editForm.Platform" autofocus="true"></el-input>
+    <!--新增/修改-->
+    <el-dialog :title='title' :visible.sync='editModal' :close-on-click-modal='false'>
+      <el-form :model='editForm' ref='editForm' :rules='Rules' label-width='120px' status-icon>
+        <el-form-item label="货币名称" prop="CurName">
+          <template>
+            <el-select v-model="editForm.CurName" placeholder="请选择货币名称" style="width: 100%;" @change="getCurrencyInfo()"
+              :disabled="disabledEdit">
+              <el-option v-for="item in currencyData" :key="item.CurrencyName" :label="item.CurrencyName" :value="item.CurrencyName">
+              </el-option>
+            </el-select>
+          </template>
+        </el-form-item>
+        <el-form-item label='货币编码' prop="CurCode">
+          <el-input v-model='editForm.CurCode' :disabled="true"></el-input>
+        </el-form-item>
+        <el-form-item label='货币符号' prop="CurSymbol">
+          <el-input v-model='editForm.CurSymbol' :disabled="true"></el-input>
+        </el-form-item>
+        <el-form-item label='汇率' prop="ExRate">
+          <el-input v-model='editForm.Rate'></el-input>
+        </el-form-item>
+        <el-form-item label='备注' prop="Memo">
+          <el-input type="textarea" :rows="3" v-model='editForm.Memo'></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -72,7 +89,7 @@
     </el-dialog>
     <!--关联国家-->
     <el-dialog :title='title' :visible.sync='allCountryModal' :close-on-click-modal='false'>
-      <WebAddress @func="getValueFormSon"></WebAddress>
+      <country @func="getValueFormSon"></country>
     </el-dialog>
     <!--关联国家列表-->
     <el-dialog :title='title' :visible.sync='countryModal' :close-on-click-modal='false'>
@@ -96,10 +113,8 @@
         </div>
       </el-collapse-transition>
       <div class="mb20">
-        <el-button type="danger" size="small" :disabled="disabledMore1" @click="removeBind"><i class="el-icon-close"></i>
-          解除关联</el-button>
-        <el-button type="warning" size="small" :disabled="disabled1" @click="editWebAddress"><i class="el-icon-check"></i>
-          确认编辑</el-button>
+        <el-button type="danger" size="small" :disabled="disabledOther" @click="removeBind">
+          <i class="el-icon-close"></i> 解除</el-button>
       </div>
       <div class="mt10">
         <el-table border :data="countryData" style="width: 100%" :header-cell-style="{background:'#fafafa'}"
@@ -107,18 +122,9 @@
           <el-table-column type="selection" align="center"></el-table-column>
           <el-table-column type="index" label="序号" align="center" width="50"></el-table-column>
           <el-table-column prop="Country" label="国家名称" align="center"></el-table-column>
-          <el-table-column prop="Code" label="国家简写" align="center"></el-table-column>
-          <el-table-column prop="address" label="网址" width="300">
-            <template slot-scope="scope">
-              <el-input size="small" v-model="scope.row.address" placeholder="请输入网址"></el-input>
-            </template>
-          </el-table-column>
+          <el-table-column prop="Currency" label="国家简写" align="center"></el-table-column>
         </el-table>
       </div>
-    </el-dialog>
-    <!-- 平台任务 -->
-    <el-dialog :title='title' :visible.sync="OrderTaskModel" :close-on-click-modal="false" width="60%">
-      <OrderTask :funv='passValueToSon'></OrderTask>
     </el-dialog>
     <!-- 导入-->
     <el-dialog title="导入数据" :visible.sync="drModal" :close-on-click-modal="false" center width="30%">
@@ -134,13 +140,9 @@
 </template>
 
 <script>
-  import FileSaver from 'file-saver'
-  import XLSX from 'xlsx'
-
-  import WebAddress from '../../common/relationWebAddress'
-  import OrderTask from '../../common/OrderTask'
+  import country from '../../common/relationCountry'
   export default {
-    name: 'platform',
+    name: 'exchangeRate',
     data() {
       return {
         title: '',
@@ -152,40 +154,52 @@
         disabledMore: true, //多项禁用
         loading: true,
         editModal: false, //新增修改
-        drModal: false, //导入弹框
+        tableData: [],
+        checkBoxData: [], //选中数据
+        drModal: false, //导入
+        currencyData: [], //货币数据
         allCountryModal: false, //关联(所有国家)
         countryModal: false, //关联国家列表
-        bindModel: false, //绑定网址弹框
-        OrderTaskModel: false, //订单任务
-        disabled1: true,
-        disabledMore1: true,
-        tableData: [],
-        checkBoxData: [],
-        countryData: [],
+        countryData: [], //该货币关联国家数据
         countryCheckBoxData: [], //国家列表选中信息
-        passValueToSon:'', //准备传往子组件的数据
-        webAddres: '',
+        disabledEdit: false, //禁止修改
+        disabledOther: true, //解绑按钮禁用
         searchForm: {
           searchkeywords: ''
         },
         searchForm2: {
           searchkeywords: ''
         },
+
         editForm: {
-          Platform: ''
+          CurName: '',
+          CurCode: '',
+          CurSymbol: '',
+          Rate: '',
+          Memo: ''
         },
         Rules: {
-          Platform: [{
+          CurName: [{
             required: true,
-            message: '请输入平台名称',
+            message: '请选择货币名称',
             trigger: 'blur'
-          }]
-        },
+          }],
+          Rate: [{
+              required: true,
+              message: '请输入汇率',
+              trigger: 'blur'
+            },
+            {
+              pattern: /^[0-9]+([.]{1}[0-9]+){0,1}$/,
+              message: '汇率格式不正确',
+              trigger: 'change'
+            }
+          ]
+        }
       }
     },
     components: {
-      WebAddress,
-      OrderTask
+      country
     },
     created() {
       this.getAllData()
@@ -200,7 +214,7 @@
           Page: _this.currentPage,
           OffSet: _this.pageSize,
         }
-        _this.axios.post(_this.GLOBAL.BASE_URL + '/api/doBPlatformList', param).then((res) => {
+        _this.axios.post(_this.GLOBAL.BASE_URL + '/api/doBExRateList', param).then((res) => {
           if (res.data.status == 400) {
             _this.$alert(res.data.message, '信息提示', {
               confirmButtonText: '确定',
@@ -211,10 +225,38 @@
               }
             })
           } else {
-            _this.tableData = res.data.data.Platforms
+            _this.tableData = res.data.data.ExRates
             _this.total = res.data.data.TotalRecords
             _this.loading = false
           }
+        }).catch((error) => {
+          console.log(error)
+        })
+      },
+
+      //获取货币名称
+      getCurrencyData() {
+        let _this = this
+        let param = {
+          SessionId: sessionStorage.getItem('sessionid'),
+        }
+        _this.axios.post(_this.GLOBAL.BASE_URL + '/api/doBExRateNewIn', param).then((res) => {
+          _this.currencyData = res.data.data.CurrencyList
+        }).catch((error) => {
+          console.log(error)
+        })
+      },
+
+      //根据货币名称获取货币名称
+      getCurrencyInfo() {
+        let _this = this
+        let param = {
+          SessionId: sessionStorage.getItem('sessionid'),
+          Currency: _this.editForm.CurName
+        }
+        _this.axios.post(_this.GLOBAL.BASE_URL + '/api/doBCurrencyDetais', param).then((res) => {
+          _this.editForm.CurCode = res.data.data.Currency.CurrencyCode,
+          _this.editForm.CurSymbol = res.data.data.Currency.CurrencySymbal
         }).catch((error) => {
           console.log(error)
         })
@@ -224,8 +266,10 @@
       addModalShow() {
         let _this = this
         _this.editModal = true
-        _this.title = '平台新增'
+        _this.title = '货币汇率新增'
+        _this.disabledEdit = false
         _this.doType = 'add'
+        _this.getCurrencyData()
       },
 
       // 新增
@@ -236,7 +280,8 @@
             let param = Object.assign({}, this.editForm)
             let SessionId = sessionStorage.getItem('sessionid')
             param.SessionId = SessionId
-            _this.axios.post(_this.GLOBAL.BASE_URL + '/api/doBPlatformNew', param).then((res) => {
+            param.Rate = Number(_this.editForm.Rate)
+            _this.axios.post(_this.GLOBAL.BASE_URL + '/api/doBExRateNew', param).then((res) => {
               _this.$alert(res.data.message, '信息提示', {
                 confirmButtonText: '确定',
                 callback: action => {
@@ -254,10 +299,11 @@
       editModalShow() {
         let _this = this
         _this.editModal = true
-        _this.title = '平台修改'
+        _this.title = '货币汇率修改'
         _this.disabledEdit = true
         _this.doType = 'edit'
         let data = _this.checkBoxData[0]
+        data.Rate = data.ExRate
         _this.editForm = Object.assign({}, data)
       },
 
@@ -268,10 +314,11 @@
           if (valid) {
             let param = {
               SessionId: sessionStorage.getItem('sessionid'),
-              Platform: _this.editForm.Platform,
-              PlatformId: _this.checkBoxData[0].Id
+              CurId: Number(_this.checkBoxData[0].Id),
+              Rate: Number(_this.editForm.Rate),
+              Memo: _this.editForm.Memo
             }
-            _this.axios.post(_this.GLOBAL.BASE_URL + '/api/doBPlatformUpdate', param).then((res) => {
+            _this.axios.post(_this.GLOBAL.BASE_URL + '/api/doBExRateUpdate', param).then((res) => {
               _this.$alert(res.data.message, '信息提示', {
                 confirmButtonText: '确定',
                 callback: action => {
@@ -285,22 +332,26 @@
         })
       },
 
-      // 更改状态
-      changeStatus(index, row) {
+      // 删除
+      delData() {
         let _this = this
-        let param = {
-          SessionId: sessionStorage.getItem('sessionid'),
-          PlatformId: row.Id,
-          Enabled: row.Enabled
-        }
-        _this.axios.post(_this.GLOBAL.BASE_URL + '/api/doBPlatformEnable', param).then((res) => {
-          _this.$alert(res.data.message, '信息提示', {
-            confirmButtonText: '确定',
-            callback: action => {
-              _this.getAllData()
-            }
+        var ids = _this.checkBoxData.map(item => item.Id)
+        _this.$confirm('确认删除选中的数据吗？', '信息提示', {
+          type: 'warning'
+        }).then(() => {
+          let param = {
+            SessionId: sessionStorage.getItem('sessionid'),
+            RateIds: ids
+          }
+          _this.axios.post(_this.GLOBAL.BASE_URL + '/api/doBExRateDel', param).then((res) => {
+            _this.$alert(res.data.message, '信息提示', {
+              confirmButtonText: '确定',
+              callback: action => {
+                _this.getAllData()
+              }
+            })
           })
-        })
+        }).catch(() => {})
       },
 
       //选中行
@@ -348,7 +399,7 @@
       glAllCountry() {
         let _this = this
         _this.allCountryModal = true
-        let txt = _this.checkBoxData[0].Platform
+        let txt = _this.checkBoxData[0].CurName
         _this.title = '【' + txt + '】 关联国家'
       },
 
@@ -357,10 +408,10 @@
         let _this = this
         let param = {
           SessionId: sessionStorage.getItem('sessionid'),
-          PlatformId: Number(_this.checkBoxData[0].Id),
+          CurrencyId: Number(_this.checkBoxData[0].Id),
           CountryIds: ids
         }
-        _this.axios.post(_this.GLOBAL.BASE_URL + '/api/doBPlatformCountryBind', param).then((res) => {
+        _this.axios.post(_this.GLOBAL.BASE_URL + '/api/doBExRateCountryBind', param).then((res) => {
           _this.$alert(res.data.message, '信息提示', {
             confirmButtonText: '确定',
             callback: action => {
@@ -371,25 +422,27 @@
         })
       },
 
-      //关联国家弹窗（该平台关联国家）
+      //关联国家弹窗（该货币关联国家）
       glCountry(index, row) {
         let _this = this
+        _this.title = '货币关联国家'
         _this.countryModal = true
-        let txt = row.Platform
+        let txt = row.CurName
         _this.title = '【' + txt + '】 已关联国家'
-        _this.getCountryForCurrency()
+        _this.getCountryForCurrency(row.CurCode)
       },
 
-      //获取该平台关联的国家数据
-      getCountryForCurrency() {
+      //获取该货币关联的国家数据
+      getCountryForCurrency(CurCode) {
         let _this = this
         let param = {
           SessionId: sessionStorage.getItem('sessionid'),
           SearchTerm: _this.searchForm2.searchkeywords,
           Page: _this.currentPage,
           OffSet: _this.pageSize,
+          CurCode: CurCode
         }
-        _this.axios.post(_this.GLOBAL.BASE_URL + '/api/doBPlatformCountryList', param).then((res) => {
+        _this.axios.post(_this.GLOBAL.BASE_URL + '/api/doBExRateCountryList', param).then((res) => {
           if (res.data.status == 400) {
             _this.$alert(res.data.message, '信息提示', {
               confirmButtonText: '确定',
@@ -400,7 +453,7 @@
               }
             })
           } else {
-            _this.countryData = res.data.data.Countries
+            _this.countryData = res.data.data.ExCountris
             _this.total = res.data.data.TotalRecords
             _this.loading = false
           }
@@ -409,7 +462,7 @@
         })
       },
 
-      //重置该平台关联国家搜索条件
+      //重置该货币关联国家搜索条件
       resetSearch2() {
         let _this = this
         _this.searchForm2 = {
@@ -418,7 +471,7 @@
         _this.getCountryForCurrency()
       },
 
-      //选中行(平台关联的国家)
+      //选中行(货币关联的国家)
       rowClick2(val) {
         let _this = this
         _this.$refs.table2.clearSelection()
@@ -426,20 +479,15 @@
         _this.countryCheckBoxData[0] = val
       },
 
-      // 是否有选中（平台关联的国家）
+      // 是否有选中（货币关联的国家）
       handleSelectionChange2(val) {
         let _this = this
         _this.countryCheckBoxData = val
         let checkNum = _this.countryCheckBoxData.length
-        if (checkNum == 1) {
-          _this.disabled1 = false
-          _this.disabledMore1 = false
-        } else if (checkNum > 1) {
-          _this.disabled1 = true
-          _this.disabledMore1 = false
+        if (checkNum >= 1) {
+          _this.disabledOther = false
         } else {
-          _this.disabled1 = true
-          _this.disabledMore1 = true
+          _this.disabledOther = true
         }
       },
 
@@ -455,7 +503,7 @@
             CurrencyId: Number(_this.countryCheckBoxData[0].Id),
             CountryId: ids
           }
-          _this.axios.post(_this.GLOBAL.BASE_URL + '/api/doBPlatformCountryUnBind', param).then((res) => {
+          _this.axios.post(_this.GLOBAL.BASE_URL + '/api/doBExRateCountryUnBind', param).then((res) => {
             _this.$alert(res.data.message, '信息提示', {
               confirmButtonText: '确定',
               callback: action => {
@@ -467,18 +515,30 @@
         }).catch(() => {})
       },
 
-      // 确认编辑网址
-      editWebAddress() {
-
-      },
-
-      //平台任务
-      viewTaskModalShow(){
+      //调整汇率
+      editRate() {
         let _this = this
-        _this.OrderTaskModel = true
-        let txt = _this.checkBoxData[0].Platform
-        _this.title = '【' + txt + '】 任务'
-        _this.passValueToSon = _this.checkBoxData[0].Id
+        this.$prompt('请输入汇率', '信息提示', {
+          confirmButtonText: '确定',
+          inputPattern: /^[0-9]+([.]{1}[0-9]+){0,1}$/,
+          inputErrorMessage: '汇率格式不正确'
+        }).then(({
+          value
+        }) => {
+          let param = {
+            SessionId: sessionStorage.getItem('sessionid'),
+            CurId: Number(_this.checkBoxData[0].Id),
+            AdjustRate: Number(value)
+          }
+          _this.axios.post(_this.GLOBAL.BASE_URL + '/api/doBExRateAdjust', param).then((res) => {
+            _this.$alert(res.data.message, '信息提示', {
+              confirmButtonText: '确定',
+              callback: action => {
+                _this.getAllData()
+              }
+            })
+          })
+        }).catch(() => {})
       },
 
       //翻页
@@ -513,7 +573,7 @@
         try {
           FileSaver.saveAs(new Blob([wbout], {
             type: 'application/octet-stream'
-          }), '平台管理.xlsx')
+          }), '货币汇率.xlsx')
         } catch (e) {
           if (typeof console !== 'undefined') {
             console.log(e, wbout)
