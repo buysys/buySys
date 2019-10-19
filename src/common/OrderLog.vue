@@ -36,6 +36,7 @@
     name: 'orderLog',
     data() {
       return {
+        disabled:true,
         loading: true,
         pickerEndDate: this.pickerOptionsEnd(),
         pickerStartDate: this.searchStartDate(),
@@ -53,7 +54,7 @@
       }
     },
     created() {
-      //			this.getAllData()
+      //this.getAllData()
     },
     methods: {
       //获取数据
