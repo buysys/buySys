@@ -8,8 +8,8 @@
 					</el-form-item>
 				</el-col>
 				<el-col :xs="24" :span="5" :sm="10" :md="8" :lg="5" class="ml20">
-					<el-button type="primary">搜索</el-button>
-					<el-button>重置</el-button>
+					<el-button type="primary">搜 索</el-button>
+					<el-button>重 置</el-button>
 				</el-col>
 			</el-row>
 		</el-form>
