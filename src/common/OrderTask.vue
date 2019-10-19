@@ -70,7 +70,7 @@
         pageSize: 10,
         total: 0,
         doType: '',
-        disabled: true, //单项禁用
+        disabled: true,  //单项禁用
         disabledMore: true, //多项禁用
         disabledEditType: true, //禁止修改任务类型
         disabledEditMemo: true, //禁止修改描述

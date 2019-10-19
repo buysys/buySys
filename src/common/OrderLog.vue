@@ -47,7 +47,7 @@
         pageSize: '0',
         total: 100,
         searchForm: {
-          platform: '全部',
+          platform: '',
           searchkeywords: ''
         }
       }
