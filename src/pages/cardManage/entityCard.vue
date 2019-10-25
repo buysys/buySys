@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-collapse-transition>
-      <div class="searchBox mb20 pl30">
+      <div class="searchBox mb20">
         <el-form ref="searchForm" :model="searchForm" class="form-item" label-width="80px">
           <el-row>
             <el-col :xs="24" :span="4">
@@ -55,7 +55,7 @@
         <div></div>
         <div>
           <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage"
-            :page-sizes="[10, 20, 30, 40]" :page-size="10" layout="total, sizes, prev, pager, next, jumper" :total="total">
+            :page-sizes="[10, 20, 50, 100]" :page-size="10" layout="total, sizes, prev, pager, next, jumper" :total="total">
           </el-pagination>
         </div>
       </div>
@@ -106,7 +106,7 @@
   import XLSX from 'xlsx'
 
   export default {
-    name: 'practicalCard',
+    name: 'entityCard',
     data() {
       return {
         title: '',
@@ -135,9 +135,6 @@
           AccountName: '',
           Memo: ''
         },
-        quotaForm: {
-          amount: ''
-        },
         Rules: {
           CardNo: [{
             required: true,
@@ -163,6 +160,7 @@
           SessionId: sessionStorage.getItem('sessionid'),
           Page: _this.currentPage,
           OffSet: _this.pageSize,
+          CardType: 3,
           CardNo: _this.searchForm.cardNo,
           CardName: _this.searchForm.cardName
         }
@@ -210,8 +208,7 @@
                   _this.$alert(res.data.message, '信息提示', {
                     confirmButtonText: '确定',
                     callback: action => {
-                      _this.$refs['editForm'].resetFields()
-                      _this.editModal = false
+                      _this.closeModal()
                       _this.getAllData()
                     }
                   })
@@ -230,10 +227,14 @@
         _this.doType = 'edit'
         _this.disabledEdit = true
         let data = _this.checkBoxData[0]
-        data.CardNo = data.CardNumber
-        data.CardName = data.Name
-        data.AccountName = data.AountName
-        _this.editForm = Object.assign({}, data)
+        _this.editForm = {
+          CardNo: data.CardNumber,
+          CardName: data.Name,
+          Expire: data.Expire,
+          Security: data.Security,
+          AccountName: data.AountName,
+          Memo: data.Memo
+        }
       },
 
       // 修改
@@ -253,8 +254,7 @@
               _this.$alert(res.data.message, '信息提示', {
                 confirmButtonText: '确定',
                 callback: action => {
-                  _this.$refs['editForm'].resetFields()
-                  _this.editModal = false
+                  _this.closeModal()
                   _this.getAllData()
                 }
               })
@@ -351,6 +351,14 @@
         let _this = this
         _this.editModal = false
         _this.$refs['editForm'].resetFields()
+        _this.editForm = {
+          CardNo: '',
+          CardName: '',
+          Expire: '',
+          Security: '',
+          AccountName: '',
+          Memo: ''
+        }
       },
 
       //翻页

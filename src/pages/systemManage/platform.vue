@@ -35,7 +35,7 @@
         <el-table-column type="selection" align="center"></el-table-column>
         <el-table-column type="index" label="序号" align="center" width="50"></el-table-column>
         <el-table-column prop="Platform" label="平台名称" align="center"></el-table-column>
-        <el-table-column prop="countryNum" label="国家数量" align="center">
+        <el-table-column prop="countryNum" label="已关联国家" align="center">
           <template slot-scope="scope">
             <el-button type="text" @click="glCountry(scope.$index,scope.row)">{{scope.row.countryNum}}</el-button>
           </template>
@@ -72,7 +72,7 @@
     </el-dialog>
     <!--关联国家-->
     <el-dialog :title='title' :visible.sync='allCountryModal' :close-on-click-modal='false'>
-      <WebAddress @func="getValueFormSon"></WebAddress>
+      <relationUrl @func="getValueFormSon"></relationUrl>
     </el-dialog>
     <!--关联国家列表-->
     <el-dialog :title='title' :visible.sync='countryModal' :close-on-click-modal='false'>
@@ -118,7 +118,7 @@
     </el-dialog>
     <!-- 平台任务 -->
     <el-dialog :title='title' :visible.sync="platformTaskModel" :close-on-click-modal="false" width="60%">
-      <orderTask :funv='passValueToSon'></orderTask>
+      <orderTask :funv='passValueToSon' :key='passValueToSon'></orderTask>
     </el-dialog>
     <!-- 导入-->
     <el-dialog title="导入数据" :visible.sync="drModal" :close-on-click-modal="false" center width="30%">
@@ -240,8 +240,7 @@
               _this.$alert(res.data.message, '信息提示', {
                 confirmButtonText: '确定',
                 callback: action => {
-                  _this.$refs['editForm'].resetFields()
-                  _this.editModal = false
+                  _this.closeModal()
                   _this.getAllData()
                 }
               })
@@ -258,7 +257,9 @@
         _this.disabledEdit = true
         _this.doType = 'edit'
         let data = _this.checkBoxData[0]
-        _this.editForm = Object.assign({}, data)
+        _this.editForm = {
+          Platform: data.Platform
+        }
       },
 
       // 修改
@@ -275,8 +276,7 @@
               _this.$alert(res.data.message, '信息提示', {
                 confirmButtonText: '确定',
                 callback: action => {
-                  _this.$refs['editForm'].resetFields()
-                  _this.editModal = false
+                  _this.closeModal()
                   _this.getAllData()
                 }
               })
@@ -341,7 +341,9 @@
       closeModal() {
         let _this = this
         _this.editModal = false
-        _this.$refs['editForm'].resetFields()
+        _this.editForm = {
+          Platform: ''
+        }
       },
 
       //关联国家弹框（展示所有国家）

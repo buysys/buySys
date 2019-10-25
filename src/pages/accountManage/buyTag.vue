@@ -12,10 +12,7 @@
         @selection-change="handleSelectionChange" @row-click="rowClick" ref="table">
         <el-table-column type="selection" align="center"></el-table-column>
         <el-table-column type="index" label="序号" align="center" width="50"></el-table-column>
-        <el-table-column prop="MinVal" label="开始区间($)" align="center"></el-table-column>
-        <el-table-column prop="MaxVal" label="结束区间($)" align="center"></el-table-column>
-        <el-table-column prop="UnitPrice" label="增值服务费($)" align="center"></el-table-column>
-        <el-table-column prop="Memo" label="备注" align="center"></el-table-column>
+        <el-table-column prop="TagName" label="标签" align="center"></el-table-column>
       </el-table>
       <div class="table-foot">
         <div></div>
@@ -27,19 +24,11 @@
       </div>
     </div>
     <!--新增/修改-->
-    <el-dialog :title="title" :visible.sync="editModal" :close-on-click-modal="false" :before-close="closeModal">
-      <el-form :model='editForm' ref='editForm' :rules='Rules' label-width='120px' status-icon>
-        <el-form-item label='开始区间$' prop='MinValue'>
-          <el-input v-model='editForm.MinValue'></el-input>
-        </el-form-item>
-        <el-form-item label='结束区间$' prop='MaxValue'>
-          <el-input v-model='editForm.MaxValue'></el-input>
-        </el-form-item>
-        <el-form-item label='增值服务费(￥)' prop='Price'>
-          <el-input v-model='editForm.Price'></el-input>
-        </el-form-item>
-        <el-form-item label='备注' prop="Memo">
-          <el-input type="textarea" :rows="3" v-model='editForm.Memo'></el-input>
+    <el-dialog :title="title" :visible.sync="editModal" :close-on-click-modal="false" :before-close="closeModal"
+      :modal-append-to-body="false" :append-to-body="true" width="30%">
+      <el-form :model='editForm' ref='editForm' :rules='Rules' label-width='80px' status-icon>
+        <el-form-item label='标签' prop='TagName'>
+          <el-input v-model='editForm.TagName'></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -53,7 +42,7 @@
 
 <script>
   export default {
-    name: 'parameterService',
+    name: 'buyTag',
     data() {
       return {
         title: '',
@@ -68,33 +57,14 @@
         tableData: [],
         checkBoxData: [], //选中数据
         editForm: {
-          MinValue: '',
-          MaxValue: '',
-          Price: '',
-          Memo: ''
+          TagName: ''
         },
         Rules: {
-          MinValue: [{
+          TagName: [{
             required: true,
-            message: '请输入开始区间',
+            message: '请输入标签',
             trigger: 'blur'
-          }],
-          MaxValue: [{
-            required: true,
-            message: '请输入结束区间',
-            trigger: 'blur'
-          }],
-          Price: [{
-              required: true,
-              message: '请输入增值服务费',
-              trigger: 'blur'
-            },
-            {
-              pattern: /^[0-9]+([.]{1}[0-9]+){0,1}$/,
-              message: '增值服务费格式不正确',
-              trigger: ['blur', 'change']
-            }
-          ]
+          }]
         }
       }
     },
@@ -110,7 +80,7 @@
           Page: _this.currentPage,
           OffSet: _this.pageSize,
         }
-        _this.axios.post(_this.GLOBAL.BASE_URL + '/api/doBValueAddList', param).then((res) => {
+        _this.axios.post(_this.GLOBAL.BASE_URL + '/api/doBBuyerAccountTagsList', param).then((res) => {
           if (res.data.status == 400) {
             _this.$alert(res.data.message, '信息提示', {
               confirmButtonText: '确定',
@@ -121,7 +91,7 @@
               }
             })
           } else {
-            _this.tableData = res.data.data.ValueAdds
+            _this.tableData = res.data.data.BuyerTagsList
             _this.total = res.data.data.TotalRecords
             _this.loading = false
           }
@@ -134,7 +104,7 @@
       addModalShow() {
         let _this = this
         _this.editModal = true
-        _this.title = '增值服务费新增'
+        _this.title = '标签新增'
         _this.doType = 'add'
       },
 
@@ -148,7 +118,7 @@
                 let param = Object.assign({}, this.editForm)
                 let SessionId = sessionStorage.getItem('sessionid')
                 param.SessionId = SessionId
-                _this.axios.post(_this.GLOBAL.BASE_URL + '/api/doBValueAddNew', param).then((res) => {
+                _this.axios.post(_this.GLOBAL.BASE_URL + '/api/doBBuyerAccountTagsNew', param).then((res) => {
                   _this.$alert(res.data.message, '信息提示', {
                     confirmButtonText: '确定',
                     callback: action => {
@@ -167,15 +137,10 @@
       editModalShow() {
         let _this = this
         _this.editModal = true
-        _this.title = '增值服务费修改'
+        _this.title = '标签修改'
         _this.doType = 'edit'
         let data = _this.checkBoxData[0]
-        _this.editForm = {
-          MinValue: data.MinVal,
-          MaxValue: data.MaxVal,
-          Price: data.UnitPrice,
-          Memo: data.Memo
-        }
+        _this.editForm = Object.assign({}, data)
       },
 
       // 修改
@@ -183,10 +148,9 @@
         let _this = this
         _this.$refs.editForm.validate((valid) => {
           if (valid) {
-            let param = Object.assign({}, _this.editForm)
+            let param = Object.assign({}, this.editForm)
             param.SessionId = sessionStorage.getItem('sessionid')
-            param.Id = _this.checkBoxData[0].Id
-            _this.axios.post(_this.GLOBAL.BASE_URL + '/api/doBValueAddUpdateSave', param).then((res) => {
+            _this.axios.post(_this.GLOBAL.BASE_URL + '/api/doBBuyerAccountTagsMod', param).then((res) => {
               _this.$alert(res.data.message, '信息提示', {
                 confirmButtonText: '确定',
                 callback: action => {
@@ -202,15 +166,15 @@
       // 删除
       delData() {
         let _this = this
-        var ids = _this.checkBoxData.map(item => item.Id)
+        var ids = _this.checkBoxData.map(item => item.TagId)
         _this.$confirm('确认删除选中的数据吗？', '信息提示', {
           type: 'warning'
         }).then(() => {
           let param = {
             SessionId: sessionStorage.getItem('sessionid'),
-            ValueAddIds: ids
+            TagIds: ids
           }
-          _this.axios.post(_this.GLOBAL.BASE_URL + '/api/doBValueAddDel', param).then((res) => {
+          _this.axios.post(_this.GLOBAL.BASE_URL + '/api/doBBuyerAccountTagsDel', param).then((res) => {
             _this.$alert(res.data.message, '信息提示', {
               confirmButtonText: '确定',
               callback: action => {
@@ -252,10 +216,7 @@
         _this.editModal = false
         _this.$refs['editForm'].resetFields()
         _this.editForm = {
-          MinValue: '',
-          MaxValue: '',
-          Price: '',
-          Memo: ''
+          TagName:''
         }
       },
 

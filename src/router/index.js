@@ -37,9 +37,9 @@ export default new Router({
           }
         },
         {
-          path: '/buyNumList',
-          name: 'buyNumList',
-          component: resolve => require(['../pages/buyNum/buyNumList.vue'], resolve),
+          path: '/account',
+          name: 'account',
+          component: resolve => require(['../pages/accountManage/account.vue'], resolve),
           meta: {
             title: '账号管理'
           }

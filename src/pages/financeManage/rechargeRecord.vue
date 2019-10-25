@@ -36,8 +36,8 @@
         <el-table-column prop="DealId" label="交易流水号" align="center"></el-table-column>
         <el-table-column prop="Amount" label="充值金额" align="center"></el-table-column>
         <el-table-column prop="ActionTime" label="充值申请时间" align="center"></el-table-column>
-        <el-table-column prop="" label="识别码" align="center"></el-table-column>
-        <el-table-column prop="DealStatus" label="状态" align="center" :formatter="toTxt"></el-table-column>
+        <el-table-column prop="DealVerifyCode" label="识别码" align="center"></el-table-column>
+        <el-table-column prop="Status" label="状态" align="center" :formatter="toTxt"></el-table-column>
       </el-table>
       <div class="table-foot">
         <div></div>
@@ -85,7 +85,7 @@
       //状态转文字
       toTxt(val) {
         let _this = this
-        let arr = _this.statusData.filter(item => item.Value == val.DealStatus)
+        let arr = _this.statusData.filter(item => item.Value == val.Status)
         if (arr.length > 0) {
           return arr[0].Display
         } else {
@@ -132,7 +132,8 @@
         this.$prompt('请输入充值金额', '信息提示', {
           confirmButtonText: '确定',
           inputPattern: /^[0-9]+([.]{1}[0-9]+){0,1}$/,
-          inputErrorMessage: '金额格式不正确'
+          inputErrorMessage: '金额格式不正确',
+          inputValue: _this.checkBoxData[0].Amount
         }).then(({
           value
         }) => {

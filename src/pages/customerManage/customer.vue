@@ -105,42 +105,26 @@
     <!-- 查看 -->
     <el-dialog :title="title" :visible.sync="viewModal" :close-on-click-modal="false">
       <el-form :model="viewForm" status-icon class="demo-item">
-        <el-row>
-          <el-col :span="12" :xs="24">
+        <el-row :gutter="30">
+          <el-col :span="11" :xs="24" class="right-line">
             <el-form-item label="编码："><span>{{viewForm.ClientCode}}</span></el-form-item>
-          </el-col>
-          <el-col :span="12" :xs="24">
             <el-form-item label="姓名："><span>{{viewForm.Name}}</span></el-form-item>
-          </el-col>
-          <el-col :span="12" :xs="24">
             <el-form-item label="手机："><span>{{viewForm.PhoneNumber}}</span></el-form-item>
-          </el-col>
-          <el-col :span="12" :xs="24">
             <el-form-item label="邮箱："><span>{{viewForm.Email}}</span></el-form-item>
-          </el-col>
-          <el-col :span="12" :xs="24">
             <el-form-item label="密码："><span>{{viewForm.Password}}</span></el-form-item>
-          </el-col>
-          <el-col :span="12" :xs="24">
             <el-form-item label="所属业务员："><span>{{viewForm.UserId}}</span></el-form-item>
-          </el-col>
-          <el-col :span="12" :xs="24">
             <el-form-item label="微信："><span>{{viewForm.WeChat}}</span></el-form-item>
-          </el-col>
-          <el-col :span="12" :xs="24">
             <el-form-item label="QQ："><span>{{viewForm.QQ}}</span></el-form-item>
           </el-col>
-          <el-col :span="24" :xs="24">
-            <el-form-item label="备注："><label>{{viewForm.Memo}}</label></el-form-item>
-          </el-col>
-          <el-col :span="12" :xs="24">
+          <el-col :span="13" :xs="24">
+            <el-form-item label="客户创建时间："><span>{{viewForm.CreateTime}}</span></el-form-item>
             <el-form-item label="最后登录IP："><span>{{viewForm.LastLoginAddress}}</span></el-form-item>
-          </el-col>
-          <el-col :span="12" :xs="24">
             <el-form-item label="最后登录时间："><span>{{viewForm.LastLoginTime}}</span></el-form-item>
           </el-col>
-          <el-col :span="12" :xs="24">
-            <el-form-item label="创建时间："><span>{{viewForm.CreateTime}}</span></el-form-item>
+        </el-row>
+        <el-row>
+          <el-col :span="24" :xs="24">
+            <el-form-item label="备注："><label>{{viewForm.Memo}}</label></el-form-item>
           </el-col>
         </el-row>
       </el-form>
@@ -342,8 +326,7 @@
               _this.$alert(res.data.message, '信息提示', {
                 confirmButtonText: '确定',
                 callback: action => {
-                  _this.$refs['editForm'].resetFields()
-                  _this.editModal = false
+                  _this.closeModal()
                   _this.getAllData()
                 }
               })
@@ -359,10 +342,17 @@
         _this.title = '客户修改'
         _this.doType = 'edit'
         let data = _this.checkBoxData[0]
-        data.Mobile = data.PhoneNumber
-        data.BUserId = data.UserId
         _this.getBUserData()
-        _this.editForm = Object.assign({}, data)
+        _this.editForm = {
+          Name: data.Name,
+          Password: data.Password,
+          Email: data.Email,
+          BUserId: data.UserId,
+          Mobile: data.PhoneNumber,
+          WeChat: data.WeChat,
+          QQ: data.QQ,
+          Memo: data.Memo
+        }
       },
 
       // 修改
@@ -370,24 +360,14 @@
         let _this = this
         _this.$refs.editForm.validate((valid) => {
           if (valid) {
-            let param = {
-              UserId: _this.checkBoxData[0].Id,
-              Name: this.editForm.Name,
-              Mobile: this.editForm.Mobile,
-              Email: this.editForm.Email,
-              Password: this.editForm.Password,
-              BUserId: this.editForm.BUserId,
-              WeChat: this.editForm.WeChat,
-              QQ: this.editForm.QQ,
-              Memo: this.editForm.Memo
-            }
+            let param = Object.assign({}, _this.editForm)
             param.SessionId = sessionStorage.getItem('sessionid')
+            param.UserId = _this.checkBoxData[0].Id
             _this.axios.post(_this.GLOBAL.BASE_URL + '/api/doBClientUpdate', param).then((res) => {
               _this.$alert(res.data.message, '信息提示', {
                 confirmButtonText: '确定',
                 callback: action => {
-                  _this.$refs['editForm'].resetFields()
-                  _this.editModal = false
+                  _this.closeModal()
                   _this.getAllData()
                 }
               })
@@ -501,6 +481,16 @@
         let _this = this
         _this.editModal = false
         _this.$refs['editForm'].resetFields()
+        _this.editForm = {
+          Name: '',
+          Password: '',
+          Email: '',
+          BUserId: '',
+          Mobile: '',
+          WeChat: '',
+          QQ: '',
+          Memo: ''
+        }
       },
 
       //翻页
@@ -584,5 +574,7 @@
 </script>
 
 <style>
-
+  .right-line .el-form-item {
+    border-right: 1px solid #f1f1f1;
+  }
 </style>

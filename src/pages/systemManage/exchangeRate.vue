@@ -40,7 +40,7 @@
         <el-table-column prop="CurCode" label="货币编码" align="center"></el-table-column>
         <el-table-column prop="CurSymbol" label="货币符号" align="center"></el-table-column>
         <el-table-column prop="ExRate" label="汇率" align="center"></el-table-column>
-        <el-table-column prop="CountryNumber" label="国家数量" align="center">
+        <el-table-column prop="CountryNumber" label="已关联国家" align="center">
           <template slot-scope="scope">
             <el-button type="text" @click="glCountry(scope.$index,scope.row)">{{scope.row.CountryNumber}}</el-button>
           </template>
@@ -57,7 +57,7 @@
       </div>
     </div>
     <!--新增/修改-->
-    <el-dialog :title='title' :visible.sync='editModal' :close-on-click-modal='false'>
+    <el-dialog :title='title' :visible.sync='editModal' :close-on-click-modal='false' :before-close="closeModal">
       <el-form :model='editForm' ref='editForm' :rules='Rules' label-width='120px' status-icon>
         <el-form-item label="货币名称" prop="CurName">
           <template>
@@ -74,7 +74,7 @@
         <el-form-item label='货币符号' prop="CurSymbol">
           <el-input v-model='editForm.CurSymbol' :disabled="true"></el-input>
         </el-form-item>
-        <el-form-item label='汇率' prop="ExRate">
+        <el-form-item label='汇率' prop="Rate">
           <el-input v-model='editForm.Rate'></el-input>
         </el-form-item>
         <el-form-item label='备注' prop="Memo">
@@ -89,7 +89,7 @@
     </el-dialog>
     <!--关联国家-->
     <el-dialog :title='title' :visible.sync='allCountryModal' :close-on-click-modal='false'>
-      <country @func="getValueFormSon"></country>
+      <relationCountry @func="getValueFormSon"></relationCountry>
     </el-dialog>
     <!--关联国家列表-->
     <el-dialog :title='title' :visible.sync='countryModal' :close-on-click-modal='false'>
@@ -140,7 +140,7 @@
 </template>
 
 <script>
-  import country from '../../common/relationCountry'
+  import relationCountry from '../../common/relationCountry'
   export default {
     name: 'exchangeRate',
     data() {
@@ -170,7 +170,6 @@
         searchForm2: {
           searchkeywords: ''
         },
-
         editForm: {
           CurName: '',
           CurCode: '',
@@ -192,14 +191,14 @@
             {
               pattern: /^[0-9]+([.]{1}[0-9]+){0,1}$/,
               message: '汇率格式不正确',
-              trigger: 'change'
+              trigger: ['blur', 'change']
             }
           ]
         }
       }
     },
     components: {
-      country
+      relationCountry
     },
     created() {
       this.getAllData()
@@ -256,7 +255,7 @@
         }
         _this.axios.post(_this.GLOBAL.BASE_URL + '/api/doBCurrencyDetais', param).then((res) => {
           _this.editForm.CurCode = res.data.data.Currency.CurrencyCode,
-          _this.editForm.CurSymbol = res.data.data.Currency.CurrencySymbal
+            _this.editForm.CurSymbol = res.data.data.Currency.CurrencySymbal
         }).catch((error) => {
           console.log(error)
         })
@@ -285,8 +284,7 @@
               _this.$alert(res.data.message, '信息提示', {
                 confirmButtonText: '确定',
                 callback: action => {
-                  _this.$refs['editForm'].resetFields()
-                  _this.editModal = false
+                  _this.closeModal()
                   _this.getAllData()
                 }
               })
@@ -303,8 +301,13 @@
         _this.disabledEdit = true
         _this.doType = 'edit'
         let data = _this.checkBoxData[0]
-        data.Rate = data.ExRate
-        _this.editForm = Object.assign({}, data)
+        _this.editForm = {
+          CurName: data.CurName,
+          CurCode: data.CurCode,
+          CurSymbol: data.CurSymbol,
+          Rate: data.ExRate,
+          Memo: data.Memo
+        }
       },
 
       // 修改
@@ -322,8 +325,7 @@
               _this.$alert(res.data.message, '信息提示', {
                 confirmButtonText: '确定',
                 callback: action => {
-                  _this.$refs['editForm'].resetFields()
-                  _this.editModal = false
+                  _this.closeModal()
                   _this.getAllData()
                 }
               })
@@ -393,6 +395,13 @@
         let _this = this
         _this.editModal = false
         _this.$refs['editForm'].resetFields()
+        _this.editForm = {
+          CurName: '',
+          CurCode: '',
+          CurSymbol: '',
+          Rate: '',
+          Memo: ''
+        }
       },
 
       //关联国家弹框（展示所有国家）
@@ -494,13 +503,13 @@
       //解除国家关联
       removeBind() {
         let _this = this
-        var ids = _this.countryCheckBoxData.map(item => item.Id)
+        var ids = _this.countryCheckBoxData.map(item => item.Code)
         _this.$confirm('确认要解除选中的国家吗？', '信息提示', {
           type: 'warning'
         }).then(() => {
           let param = {
             SessionId: sessionStorage.getItem('sessionid'),
-            CurrencyId: Number(_this.countryCheckBoxData[0].Id),
+            CurrencyId: Number(_this.checkBoxData[0].Id),
             CountryId: ids
           }
           _this.axios.post(_this.GLOBAL.BASE_URL + '/api/doBExRateCountryUnBind', param).then((res) => {

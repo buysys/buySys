@@ -10,7 +10,7 @@
         <el-menu-item index="index" style="border: none;"><i class="el-icon-files"></i>首页</el-menu-item>
         <el-menu-item index="order"><i class="el-icon-document-checked"></i>订单管理</el-menu-item>
         <el-menu-item index="task"><i class="el-icon-document"></i>任务管理</el-menu-item>
-        <el-menu-item index="buyNumList"><i class="el-icon-set-up"></i>账号管理</el-menu-item>
+        <el-menu-item index="account"><i class="el-icon-set-up"></i>账号管理</el-menu-item>
         <el-menu-item index="card"><i class="el-icon-bank-card"></i>卡片管理</el-menu-item>
         <el-menu-item index="customer"><i class="el-icon-news"></i>客户管理</el-menu-item>
         <el-menu-item index="user"><i class="el-icon-user"></i>用户管理</el-menu-item>

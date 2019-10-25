@@ -8,7 +8,7 @@
               <el-form-item label="平台">
                 <template>
                   <el-select v-model="searchForm.PlatformId" placeholder="请选择平台" size="small">
-                    <el-option v-for="item in PlatformIdData" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                    <el-option v-for="item in platformData" :key="Number(item.Id)" :label="item.Platform" :value="Number(item.Id)"></el-option>
                   </el-select>
                 </template>
               </el-form-item>
@@ -74,8 +74,7 @@
           <el-form-item label="平台" prop="PlatformId" v-if="show">
             <template>
               <el-select v-model="editForm.PlatformId" placeholder="请选择平台" style="width: 100%;">
-                <el-option v-for="item in PlatformIdData" :key="item.value" :label="item.label" :value="item.value">
-                </el-option>
+                <el-option v-for="item in platformData" :key="Number(item.Id)" :label="item.Platform" :value="Number(item.Id)"></el-option>
               </el-select>
             </template>
           </el-form-item>
@@ -143,6 +142,7 @@
         tableData: [],
         checkBoxData: [], //选中数据
         countryData: [], //国家数据
+        platformData: [], //平台数据
         searchForm: {
           PlatformId: '',
           searchkeywords: ''
@@ -187,13 +187,6 @@
             trigger: 'blur'
           }]
         },
-        PlatformIdData: [{
-          value: 1,
-          label: '全部'
-        }, {
-          value: 2,
-          label: 'Amazon'
-        }],
         //新增修改归属类型下拉框
         ServiceTypeData: [{
           value: 1,
@@ -226,6 +219,7 @@
     },
     created() {
       this.getAllData()
+      this.getPlatformData() //获取平台数据
     },
     methods: {
       //归属类型数字转文字
@@ -239,11 +233,12 @@
       },
       //平台数字转文字
       toTxt2(val) {
-        if (val.PlatformId == 1) {
-          return '全部'
-        }
-        if (val.PlatformId == 2) {
-          return 'Amazon'
+        let _this = this
+        let arr = _this.platformData.filter(item => item.Id == val.PlatformId)
+        if (arr.length > 0) {
+          return arr[0].Platform
+        } else {
+          return '未知'
         }
       },
 
@@ -272,6 +267,19 @@
             _this.total = res.data.data.TotalRecords
             _this.loading = false
           }
+        }).catch((error) => {
+          console.log(error)
+        })
+      },
+
+      //获取平台数据
+      getPlatformData() {
+        let _this = this
+        let param = {
+          SessionId: sessionStorage.getItem('sessionid'),
+        }
+        _this.axios.post(_this.GLOBAL.BASE_URL + '/api/doBPlatformList', param).then((res) => {
+          _this.platformData = res.data.data.Platforms
         }).catch((error) => {
           console.log(error)
         })
@@ -324,8 +332,7 @@
               _this.$alert(res.data.message, '信息提示', {
                 confirmButtonText: '确定',
                 callback: action => {
-                  _this.$refs['editForm'].resetFields()
-                  _this.editModal = false
+                  _this.closeModal()
                   _this.getAllData()
                 }
               })
@@ -347,8 +354,14 @@
         } else {
           _this.show = false
         }
-        data.Fee = data.UnitPrice
-        _this.editForm = Object.assign({}, data)
+        _this.editForm = {
+          ServiceType: data.ServiceType,
+          PlatformId: data.PlatformId,
+          Country: data.Country,
+          Service: data.Service,
+          CommentRate: data.CommentRate,
+          Fee: data.UnitPrice
+        }
       },
 
       // 修改
@@ -357,9 +370,8 @@
         _this.$refs.editForm.validate((valid) => {
           if (valid) {
             let param = ''
-            let param1 = Object.assign({}, this.editForm)
+            let param1 = Object.assign({}, _this.editForm)
             let param2 = {
-              ServiceId: _this.editForm.ServiceId,
               ServiceType: _this.editForm.ServiceType,
               Service: _this.editForm.Service,
               Fee: _this.editForm.Fee,
@@ -375,8 +387,7 @@
               _this.$alert(res.data.message, '信息提示', {
                 confirmButtonText: '确定',
                 callback: action => {
-                  _this.$refs['editForm'].resetFields()
-                  _this.editModal = false
+                  _this.closeModal()
                   _this.getAllData()
                 }
               })
@@ -447,7 +458,16 @@
         let _this = this
         _this.editModal = false
         _this.$refs['editForm'].resetFields()
+        _this.editForm = {
+          ServiceType: 1,
+          PlatformId: '',
+          Country: '',
+          Service: '',
+          CommentRate: '',
+          Fee: ''
+        }
       },
+
       //翻页
       handleSizeChange(val) {
         let _this = this

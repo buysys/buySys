@@ -38,11 +38,20 @@
         <el-table-column prop="DealId" label="交易流水号" align="center"></el-table-column>
         <el-table-column prop="Amount" label="提现金额" align="center"></el-table-column>
         <el-table-column prop="ActionTime" label="提现申请时间" align="center"></el-table-column>
-        <el-table-column prop="DealStatus" label="状态" align="center"></el-table-column>
-        <el-table-column prop="" label="客户手机" align="center"></el-table-column>
-        <el-table-column prop="" label="开户银行" align="center"></el-table-column>
-        <el-table-column prop="" label="开户名" align="center"></el-table-column>
-        <el-table-column prop="" label="开户银行账号" align="center"></el-table-column>
+        <el-table-column prop="AccountBank" label="开户银行" align="center"></el-table-column>
+        <el-table-column prop="AccountName" label="开户名" align="center"></el-table-column>
+        <el-table-column prop="AcountNumber" label="开户银行账号" align="center"></el-table-column>
+        <el-table-column prop="Status" label="状态" align="center" :formatter="toTxt"></el-table-column>
+        <el-table-column label="" width="80" align="center">
+          <template slot-scope="scope">
+            <el-popover trigger="hover" placement="top" v-show="scope.row.Status==3">
+              <p>{{ scope.row.FailReason }}</p>
+              <div slot="reference" class="name-wrapper">
+                <el-button type="text" size="mini">查看原因</i></el-button>
+              </div>
+            </el-popover>
+          </template>
+        </el-table-column>
       </el-table>
       <div class="table-foot">
         <div></div>
@@ -89,7 +98,7 @@
       //状态转文字
       toTxt(val) {
         let _this = this
-        let arr = _this.statusData.filter(item => item.Value == val.DealStatus)
+        let arr = _this.statusData.filter(item => item.Value == val.Status)
         if (arr.length > 0) {
           return arr[0].Display
         } else {
@@ -136,7 +145,8 @@
         this.$prompt('请输入提现金额', '信息提示', {
           confirmButtonText: '确定',
           inputPattern: /^[0-9]+([.]{1}[0-9]+){0,1}$/,
-          inputErrorMessage: '金额格式不正确'
+          inputErrorMessage: '金额格式不正确',
+          inputValue: _this.checkBoxData[0].Amount
         }).then(({
           value
         }) => {
@@ -163,19 +173,17 @@
         let _this = this
         this.$prompt('请输入提现失败原因', '信息提示', {
           confirmButtonText: '确定',
-          inputPattern: /\S/,
-          inputErrorMessage: '请输入提现失败原因'
+          inputValue: '提现失败，请联系客服人员'
         }).then(({
           value
         }) => {
           let param = {
             SessionId: sessionStorage.getItem('sessionid'),
             UserId: Number(_this.funv),
-            DealType: 2,
             LogId: Number(_this.checkBoxData[0].Id),
-            Memo: value
+            FailReason: value
           }
-          _this.axios.post(_this.GLOBAL.BASE_URL + '/api/doBAccountAction', param).then((res) => {
+          _this.axios.post(_this.GLOBAL.BASE_URL + '/api/doBAccountRefundFail', param).then((res) => {
             _this.$alert(res.data.message, '信息提示', {
               confirmButtonText: '确定',
               callback: action => {

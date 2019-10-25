@@ -37,7 +37,9 @@
         <el-table-column prop="Name" label="姓名" align="center"></el-table-column>
         <el-table-column prop="AllInAccount" label="收益总额" align="center"></el-table-column>
         <el-table-column prop="AllOutAccount" label="支出总额" align="center"></el-table-column>
-        <el-table-column prop="" label="余额" align="center"></el-table-column>
+        <el-table-column prop="" label="余额" align="center">
+          <template slot-scope="scope">{{scope.row.AllInAccount - scope.row.AllOutAccount}}</template>
+        </el-table-column>
       </el-table>
       <div class="table-foot">
         <div></div>
@@ -76,9 +78,9 @@
         <el-table border :data="detailData" style="width: 100%" :header-cell-style="{background:'#fafafa'}">
           <el-table-column type="index" label="序号" align="center" width="50"></el-table-column>
           <el-table-column prop="DealId" label="交易流水号" align="center"></el-table-column>
-          <el-table-column prop="PayAction" label="操作类型" align="center" :formatter="toTxt1"></el-table-column>
+          <el-table-column prop="Action" label="操作类型" align="center" :formatter="toTxt1"></el-table-column>
           <el-table-column prop="Amount" label="金额" align="center"></el-table-column>
-          <el-table-column prop="DealStatus" label="状态" align="center" :formatter="toTxt2"></el-table-column>
+          <el-table-column prop="Status" label="状态" align="center" :formatter="toTxt2"></el-table-column>
           <el-table-column prop="ActionTime" label="时间" align="center"></el-table-column>
         </el-table>
       </div>
@@ -96,14 +98,14 @@
     </el-dialog>
     <!-- 充值申请 -->
     <el-dialog :title="title" :visible.sync="CzModal" :close-on-click-modal="false" width="90%">
-      <rechargeRecord :funv='passValueToSon'></rechargeRecord>
+      <rechargeRecord :funv='passValueToSon' :key='passValueToSon'></rechargeRecord>
       <div slot="footer" class="dialog-footer">
         <el-button @click="CzModal = false">关 闭</el-button>
       </div>
     </el-dialog>
     <!-- 提现申请 -->
     <el-dialog :title="title" :visible.sync="TxModal" :close-on-click-modal="false" width="90%">
-      <takeMoneyList :funv='passValueToSon'></takeMoneyList>
+      <takeMoneyList :funv='passValueToSon' :key='passValueToSon'></takeMoneyList>
       <div slot="footer" class="dialog-footer">
         <el-button @click="TxModal = false">关 闭</el-button>
       </div>
@@ -162,7 +164,7 @@
       //账户明细操作类型数字转文字
       toTxt1(val) {
         let _this = this
-        let arr = _this.actionData.filter(item => item.Value == val.PayAction)
+        let arr = _this.actionData.filter(item => item.Value == val.Action)
         if (arr.length > 0) {
           return arr[0].Display
         } else {
@@ -172,7 +174,7 @@
       //账户明细状态转文字
       toTxt2(val) {
         let _this = this
-        let arr = _this.statusData.filter(item => item.Value == val.DealStatus)
+        let arr = _this.statusData.filter(item => item.Value == val.Status)
         if (arr.length > 0) {
           return arr[0].Display
         } else {

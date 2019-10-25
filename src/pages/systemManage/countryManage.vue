@@ -56,7 +56,7 @@
       </div>
     </div>
     <!--新增/修改-->
-    <el-dialog :title='title' :visible.sync='editModal' :close-on-click-modal='false'>
+    <el-dialog :title='title' :visible.sync='editModal' :close-on-click-modal='false' :before-close="closeModal">
       <el-form :model='editForm' ref='editForm' :rules='Rules' label-width='120px' status-icon>
         <el-form-item label='国家名称' prop='CountryName'>
           <el-input v-model='editForm.CountryName'></el-input>
@@ -190,8 +190,7 @@
               _this.$alert(res.data.message, '信息提示', {
                 confirmButtonText: '确定',
                 callback: action => {
-                  _this.$refs['editForm'].resetFields()
-                  _this.editModal = false
+                  _this.closeModal()
                   _this.getAllData()
                 }
               })
@@ -207,9 +206,16 @@
         _this.title = '国家修改'
         _this.doType = 'edit'
         let data = _this.checkBoxData[0]
-        data.CountryName = data.Country
-        data.CountryCode = data.Code
-        _this.editForm = Object.assign({}, data)
+        _this.editForm = {
+          CountryName: data.Country,
+          CountryCode: data.Code,
+          Language: data.Language,
+          TimeZone: data.TimeZone,
+          GMT: data.GMT,
+          minPort: dataminPort,
+          maxPort: data.maxPort
+        }
+
       },
 
       // 修改
@@ -217,15 +223,14 @@
         let _this = this
         _this.$refs.editForm.validate((valid) => {
           if (valid) {
-            let param = Object.assign({}, this.editForm)
+            let param = Object.assign({}, _this.editForm)
             param.SessionId = sessionStorage.getItem('sessionid')
             param.Id = _this.checkBoxData[0].Id
             _this.axios.post(_this.GLOBAL.BASE_URL + '/api/doBCountryUpdate', param).then((res) => {
               _this.$alert(res.data.message, '信息提示', {
                 confirmButtonText: '确定',
                 callback: action => {
-                  _this.$refs['editForm'].resetFields()
-                  _this.editModal = false
+                  _this.closeModal()
                   _this.getAllData()
                 }
               })
@@ -291,6 +296,15 @@
         let _this = this
         _this.editModal = false
         _this.$refs['editForm'].resetFields()
+        _this.editForm = {
+          CountryName: '',
+          CountryCode: '',
+          Language: '',
+          TimeZone: '',
+          GMT: '',
+          minPort: '',
+          maxPort: ''
+        }
       },
 
       //翻页

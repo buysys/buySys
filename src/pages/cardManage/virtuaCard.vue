@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-collapse-transition>
-      <div class="searchBox mb20 pl30">
+      <div class="searchBox mb20">
         <el-form ref="searchForm" :model="searchForm" class="form-item" label-width="80px">
           <el-row>
             <el-col :xs="24" :span="4">
@@ -16,8 +16,8 @@
             </el-col>
             <el-col :xs="24" :span="4">
               <el-form-item>
-              <el-button type="primary" size="small">查询</el-button>
-              <el-button size="small" @click="resetSearch">重置</el-button>
+                <el-button type="primary" size="small">查询</el-button>
+                <el-button size="small" @click="resetSearch">重置</el-button>
               </el-form-item>
             </el-col>
           </el-row>
@@ -28,12 +28,14 @@
       <el-button type="success" size="small" @click="addLevel"><i class="el-icon-plus"></i> 新增</el-button>
       <el-button type="primary" size="small" :disabled="disabled" @click="editLevel"><i class="el-icon-edit-outline"></i>
         修改</el-button>
-      <el-button type="danger" size="small" :disabled="disabledMore" @click="delHandel"><i class="el-icon-delete"></i> 删除</el-button>
+      <el-button type="danger" size="small" :disabled="disabledMore" @click="delHandel"><i class="el-icon-delete"></i>
+        删除</el-button>
       <el-button type="primary" size="small" :disabled="disabled" @click="reserCardHandel"><i class="el-icon-takeaway-box"></i>
         重置虚拟卡</el-button>
       <el-button type="primary" size="small" :disabled="disabled" @click="quotaHandle"><i class="el-icon-edit-outline"></i>
         修改额度</el-button>
-      <el-button type="primary" size="small" :disabled="disabled" @click="repaymentHandle"><i class="el-icon-edit-outline"></i> 还款</el-button>
+      <el-button type="primary" size="small" :disabled="disabled" @click="repaymentHandle"><i class="el-icon-edit-outline"></i>
+        还款</el-button>
       <el-button type="warning" size="small" @click="importHandle"><i class="el-icon-download"></i> 导入</el-button>
       <el-button type="warning" size="small" @click="exportExcel"><i class="el-icon-upload2"></i> 导出</el-button>
     </div>
@@ -255,12 +257,12 @@
   import XLSX from 'xlsx'
 
   export default {
-    name: 'virtualCard',
+    name: 'virtuaCard',
     data() {
       return {
         loading: true,
         title: '新增',
-        disabled: true,  //单项禁用
+        disabled: true, //单项禁用
         disabledMore: true, //多项禁用
         cardModel: false,
         delModel: false,
@@ -476,10 +478,10 @@
         if (checkNum == 1) {
           this.disabled = false
           this.disabledMore = false
-        }else if(checkNum>1){
+        } else if (checkNum > 1) {
           this.disabled = true
           this.disabledMore = false
-        }else {
+        } else {
           this.disabled = true
           this.disabledMore = true
         }

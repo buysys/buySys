@@ -37,7 +37,8 @@
       <el-form :model="editForm" ref='editForm' :rules="Rules" label-width="120px" status-icon>
         <el-form-item label="任务类型" prop="TaskType">
           <template>
-            <el-select v-model="editForm.TaskType" placeholder="请选择任务类型" style="width: 100%;" :disabled='disabledEditType' @change="getOtherInfo">
+            <el-select v-model="editForm.TaskType" placeholder="请选择任务类型" style="width: 100%;" :disabled='disabledEditType'
+              @change="getOtherInfo">
               <el-option v-for="item in taskTypeData" :key="item.TaskType" :label="item.TaskName" :value="item.TaskType"></el-option>
             </el-select>
           </template>
@@ -61,7 +62,7 @@
 <script>
   import FileSaver from 'file-saver'
   import XLSX from 'xlsx'
-  
+
   export default {
     name: 'orderTask',
     data() {
@@ -94,7 +95,7 @@
         }
       }
     },
-    props:["funv"],
+    props: ["funv"],
     created() {
       this.getAllData()
     },
@@ -167,16 +168,15 @@
         _this.$refs.editForm.validate((valid) => {
           if (valid) {
             let param = {
-              SessionId : sessionStorage.getItem('sessionid'),
-              PlatformId : Number(_this.funv),
-              BaseTaskId : Number(_this.editForm.TaskType)
+              SessionId: sessionStorage.getItem('sessionid'),
+              PlatformId: Number(_this.funv),
+              BaseTaskId: Number(_this.editForm.TaskType)
             }
             _this.axios.post(_this.GLOBAL.BASE_URL + '/api/doBPlatformTaskNew', param).then((res) => {
               _this.$alert(res.data.message, '信息提示', {
                 confirmButtonText: '确定',
                 callback: action => {
-                  _this.$refs['editForm'].resetFields()
-                  _this.editModal = false
+                  _this.closeModal()
                   _this.getAllData()
                 }
               })
@@ -204,7 +204,7 @@
         _this.$refs.editForm.validate((valid) => {
           if (valid) {
             let param = {
-              SessionId : sessionStorage.getItem('sessionid'),
+              SessionId: sessionStorage.getItem('sessionid'),
               PlatformId: Number(_this.funv),
               BaseTaskId: Number(_this.editForm.TaskType),
               Action: 2,
@@ -214,8 +214,7 @@
               _this.$alert(res.data.message, '信息提示', {
                 confirmButtonText: '确定',
                 callback: action => {
-                  _this.$refs['editForm'].resetFields()
-                  _this.editModal = false
+                  _this.closeModal()
                   _this.getAllData()
                 }
               })
@@ -228,7 +227,7 @@
       changeStatus(index, row) {
         let _this = this
         let param = {
-          SessionId : sessionStorage.getItem('sessionid'),
+          SessionId: sessionStorage.getItem('sessionid'),
           PlatformId: Number(_this.funv),
           BaseTaskId: Number(row.TaskType),
           Action: 1,
@@ -283,6 +282,11 @@
         let _this = this
         _this.editModal = false
         _this.$refs['editForm'].resetFields()
+        _this.editForm = {
+          TaskType: '',
+          MinPrice: '',
+          Description: ''
+        }
       },
 
       //翻页

@@ -587,3 +587,7 @@ ul {
 .el-table__row {
   cursor: pointer;
 }
+
+.pointer{
+  cursor: pointer;
+}
