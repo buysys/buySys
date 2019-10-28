@@ -7,7 +7,7 @@
     </div>
     <el-collapse-transition>
       <div class="searchBox mb20">
-        <el-form ref="searchForm" :model="searchForm" class="form-item" label-width="80px">
+        <el-form ref="searchForm" :model="searchForm" class="form-item" label-width="90px">
           <el-row>
             <el-col :xs="24" :span="4">
               <el-form-item label="平台">
@@ -16,6 +16,13 @@
                     <el-option v-for="(item,index) in platformOptions" :key="index" :value="item.value" :label="item.label"></el-option>
                   </el-select>
                 </template>
+              </el-form-item>
+            </el-col>
+            <el-col :xs="24" :span="4">
+              <el-form-item label="国家">
+                <el-select v-model="searchForm.countryId" placeholder="请选择" size="small">
+                  <el-option v-for="(item,index) in countryData" :key="index" :value="index" :label="item.country"></el-option>
+                </el-select>
               </el-form-item>
             </el-col>
             <el-col :xs="24" :span="4">
@@ -28,21 +35,14 @@
               </el-form-item>
             </el-col>
             <el-col :xs="24" :span="4">
-              <el-form-item label="国家">
-                <el-select v-model="searchForm.countryId"  placeholder="请选择" size="small">
-                  <el-option v-for="(item,index) in countryData" :key="index" :value="index" :label="item.country"></el-option>
-                </el-select>
-              </el-form-item>
-            </el-col>
-            <el-col :xs="24" :span="4">
               <el-form-item label="关键字">
                 <el-input v-model="searchForm.searchkeywords" placeholder="请输入关键字" size="small"></el-input>
               </el-form-item>
             </el-col>
             <el-col :xs="24" :span="4">
               <el-form-item>
-              <el-button type="primary" size="small">查询</el-button>
-              <el-button size="small" @click="resetSearch">重置</el-button>
+                <el-button type="primary" size="small">查询</el-button>
+                <el-button size="small" @click="resetSearch">重置</el-button>
               </el-form-item>
             </el-col>
           </el-row>
@@ -50,29 +50,37 @@
       </div>
     </el-collapse-transition>
     <div class="mb20">
-      <el-button type="danger" size="small" :disabled="disabledMore" @click='deliver'><i class="el-icon-truck"></i> 确认发货</el-button>
-      <el-button type="success" size="small" :disabled="disabledMore" @click='receiving'><i class="el-icon-check"></i> 确认收货</el-button>
+      <el-button type="danger" size="small" :disabled="disabledMore" @click='deliver'><i class="el-icon-truck"></i>
+        确认发货</el-button>
+      <el-button type="success" size="small" :disabled="disabledMore" @click='receiving'><i class="el-icon-check"></i>
+        确认收货</el-button>
+      <el-button type="primary" size="small" :disabled="disabledMore" @click='sellerCancel'><i class="el-icon-close"></i>
+        卖家取消</el-button>
+      <el-button type="danger" size="small" :disabled="disabledMore" @click="confirmBuyHandel"><i class="el-icon-circle-check"></i>
+        确认购买</el-button>
+      <el-button type="success" size="small" :disabled="disabledMore" @click="confirmBuyHandel"><i class="el-icon-warning-outline"></i>
+        忽略</el-button>
       <el-button type="warning" size="small"><i class="el-icon-download"></i> 导入</el-button>
       <el-button type="warning" size="small"><i class="el-icon-upload2"></i> 导出</el-button>
     </div>
     <div class="tabList">
-        <ul class="tabBlock">
-          <li :class="active === 1 ? 'active':''" @click="getAllData()" :data-index="1">全部<span>({{allNum}})</span></li>
-          <li :class="active === 2 ? 'active':''" :data-index="2" @click="daiBuy">待购买<span>(0)</span></li>
-          <li :class="active === 3 ? 'active':''" :data-index="3" @click="daifh">待发货<span>(0)</span></li>
-          <li :class="active === 4 ? 'active':''" :data-index="4" @click="daish">待收货<span>(0)</span></li>
-          <li :class="active === 5 ? 'active':''" :data-index="5" @click="daipj">待评价<span>(0)</span></li>
-          <li :class="active === 51 ? 'active':''" :data-index="51" @click="Evaluated">已填评价<span>(0)</span></li>
-          <li :class="active === 52 ? 'active':''" :data-index="52" @click="toEvaluated">待填评价<span>(0)</span></li>
-          <li :class="active === 6 ? 'active':''" :data-index="6" @click="refund">待退款<span>(0)</span></li>
-          <li :class="active === 7 ? 'active':''" :data-index="7" @click="ywc">已完成<span>(0)</span></li>
-          <li :class="active === 8 ? 'active':''" :data-index="8" @click="errData">异常<span>(0)</span></li>
-          <li :class="active === 9 ? 'active':''" :data-index="9" @click="dcl">待处理<span>(0)</span></li>
-        </ul>
+      <ul class="tabBlock">
+        <li :class="active === 1 ? 'active':''" @click="getAllData()" :data-index="1">全部<span>({{allNum}})</span></li>
+        <li :class="active === 2 ? 'active':''" :data-index="2" @click="daiBuy">待购买<span>(0)</span></li>
+        <li :class="active === 3 ? 'active':''" :data-index="3" @click="daifh">待发货<span>(0)</span></li>
+        <li :class="active === 4 ? 'active':''" :data-index="4" @click="daish">待收货<span>(0)</span></li>
+        <li :class="active === 5 ? 'active':''" :data-index="5" @click="daipj">待评价<span>(0)</span></li>
+        <li :class="active === 51 ? 'active':''" :data-index="51" @click="Evaluated">已填评价<span>(0)</span></li>
+        <li :class="active === 52 ? 'active':''" :data-index="52" @click="toEvaluated">待填评价<span>(0)</span></li>
+        <li :class="active === 6 ? 'active':''" :data-index="6" @click="refund">待退款<span>(0)</span></li>
+        <li :class="active === 7 ? 'active':''" :data-index="7" @click="ywc">已完成<span>(0)</span></li>
+        <li :class="active === 8 ? 'active':''" :data-index="8" @click="errData">异常<span>(0)</span></li>
+        <li :class="active === 9 ? 'active':''" :data-index="9" @click="dcl">待处理<span>(0)</span></li>
+      </ul>
       <div class="tabStatus" style="position:absolute;right:50px;top:250px">
-        <span>今日未完成</span><span class="txtCol ml10 mr30">23</span>
-        <span>逾期未完成</span><span class="txtCol ml10 mr30">23</span>
-        <span>今日限评数</span><span class="txtCol ml10 mr30">23</span>
+        <span>今日未完成</span><span class="red ml10 mr30">23</span>
+        <span>逾期未完成</span><span class="red ml10 mr30">23</span>
+        <span>今日限评数</span><span class="red ml10 mr30">23</span>
       </div>
     </div>
     <div class="mt10">
@@ -104,22 +112,20 @@
         <div class="table-foot">
           <div>
             <el-button type="danger" size="small" :disabled="disabled" @click='abnormal'>标记异常</el-button>
-            <el-button type="warning" size="small" :disabled="disabled" @click='sellerCancel'>卖家取消</el-button>
             <el-button type="success" size="small" :disabled="disabled" @click="account">重新分配买号</el-button>
             <el-button type="primary" size="small" :disabled="disabled" @click='supplementSheet'>补单</el-button>
             <el-button type="danger" size="small" :disabled="disabled" @click='updateTime'>修改执行时间</el-button>
-            <el-button type="danger" size="small" :disabled="disabled" @click="refundModelShow">退款</el-button>
-            <el-button type="primary" size="small" :disabled="disabled" @click="logHandel">查看日志</el-button>
-            <el-button type="success" size="small" :disabled="disabled" @click="confirmBuyHandel">确认购买</el-button>
-            <el-button type="warning" size="small" :disabled="disabled" @click="evaluateLink">评论链接</el-button>
+            <el-button type="success" size="small" :disabled="disabled" @click="evaluateLink">评论链接</el-button>
             <el-button type="primary" size="small" :disabled="disabled">打开浏览器</el-button>
-            <el-button type="primary" size="small" :disabled="disabled" @click='evaluateEdit'>填写评价</el-button>
-            <el-button type="primary" size="small" :disabled="disabled" @click="upComment">上评</el-button>
+            <el-button type="danger" size="small" :disabled="disabled" @click='evaluateEdit'>填写评价</el-button>
+            <el-button type="success" size="small" :disabled="disabled" @click="upComment">上评</el-button>
             <el-button type="primary" size="small" :disabled="disabled" @click="confirmBuyHandel">重新购买</el-button>
+            <el-button type="danger" size="small" :disabled="disabled" @click="refundModelShow">退款</el-button>
+            <el-button type="success" size="small" :disabled="disabled" @click="logHandel">查看日志</el-button>
           </div>
           <div>
             <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage"
-              :page-sizes="[10, 20, 30, 40]" :page-size="10" layout="total, sizes, prev, pager, next, jumper" :total="total">
+              :page-sizes="[10, 20, 50, 100]" :page-size="10" layout="total, sizes, prev, pager, next, jumper" :total="total">
             </el-pagination>
           </div>
         </div>
@@ -152,18 +158,16 @@
         <div class="table-foot">
           <div>
             <el-button type="danger" size="small" :disabled="disabled" @click='abnormal'>标记异常</el-button>
-            <el-button type="warning" size="small" :disabled="disabled" @click='sellerCancel'>卖家取消</el-button>
             <el-button type="success" size="small" :disabled="disabled" @click="account">重新分配买号</el-button>
             <el-button type="primary" size="small" :disabled="disabled" @click='supplementSheet'>补单</el-button>
             <el-button type="danger" size="small" :disabled="disabled" @click='updateTime'>修改执行时间</el-button>
-            <el-button type="danger" size="small" :disabled="disabled" @click="refundModelShow">退款</el-button>
-            <el-button type="primary" size="small" :disabled="disabled" @click="logHandel">查看日志</el-button>
-            <el-button type="success" size="small" :disabled="disabled" @click="confirmBuyHandel">确认购买</el-button>
-            <el-button type="warning" size="small" :disabled="disabled" @click="evaluateLink">评论链接</el-button>
+            <el-button type="success" size="small" :disabled="disabled" @click="evaluateLink">评论链接</el-button>
             <el-button type="primary" size="small" :disabled="disabled">打开浏览器</el-button>
-            <el-button type="primary" size="small" :disabled="disabled" @click='evaluateEdit'>填写评价</el-button>
-            <el-button type="primary" size="small" :disabled="disabled" @click="upComment">上评</el-button>
+            <el-button type="danger" size="small" :disabled="disabled" @click='evaluateEdit'>填写评价</el-button>
+            <el-button type="success" size="small" :disabled="disabled" @click="upComment">上评</el-button>
             <el-button type="primary" size="small" :disabled="disabled" @click="confirmBuyHandel">重新购买</el-button>
+            <el-button type="danger" size="small" :disabled="disabled" @click="refundModelShow">退款</el-button>
+            <el-button type="success" size="small" :disabled="disabled" @click="logHandel">查看日志</el-button>
           </div>
           <div>
             <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage"
@@ -200,18 +204,16 @@
         <div class="table-foot">
           <div>
             <el-button type="danger" size="small" :disabled="disabled" @click='abnormal'>标记异常</el-button>
-            <el-button type="warning" size="small" :disabled="disabled" @click='sellerCancel'>卖家取消</el-button>
             <el-button type="success" size="small" :disabled="disabled" @click="account">重新分配买号</el-button>
             <el-button type="primary" size="small" :disabled="disabled" @click='supplementSheet'>补单</el-button>
             <el-button type="danger" size="small" :disabled="disabled" @click='updateTime'>修改执行时间</el-button>
-            <el-button type="danger" size="small" :disabled="disabled" @click="refundModelShow">退款</el-button>
-            <el-button type="primary" size="small" :disabled="disabled" @click="logHandel">查看日志</el-button>
-            <el-button type="success" size="small" :disabled="disabled" @click="confirmBuyHandel">确认购买</el-button>
-            <el-button type="warning" size="small" :disabled="disabled" @click="evaluateLink">评论链接</el-button>
+            <el-button type="success" size="small" :disabled="disabled" @click="evaluateLink">评论链接</el-button>
             <el-button type="primary" size="small" :disabled="disabled">打开浏览器</el-button>
-            <el-button type="primary" size="small" :disabled="disabled" @click='evaluateEdit'>填写评价</el-button>
-            <el-button type="primary" size="small" :disabled="disabled" @click="upComment">上评</el-button>
+            <el-button type="danger" size="small" :disabled="disabled" @click='evaluateEdit'>填写评价</el-button>
+            <el-button type="success" size="small" :disabled="disabled" @click="upComment">上评</el-button>
             <el-button type="primary" size="small" :disabled="disabled" @click="confirmBuyHandel">重新购买</el-button>
+            <el-button type="danger" size="small" :disabled="disabled" @click="refundModelShow">退款</el-button>
+            <el-button type="success" size="small" :disabled="disabled" @click="logHandel">查看日志</el-button>
           </div>
           <div>
             <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage"
@@ -248,18 +250,16 @@
         <div class="table-foot">
           <div>
             <el-button type="danger" size="small" :disabled="disabled" @click='abnormal'>标记异常</el-button>
-            <el-button type="warning" size="small" :disabled="disabled" @click='sellerCancel'>卖家取消</el-button>
             <el-button type="success" size="small" :disabled="disabled" @click="account">重新分配买号</el-button>
             <el-button type="primary" size="small" :disabled="disabled" @click='supplementSheet'>补单</el-button>
             <el-button type="danger" size="small" :disabled="disabled" @click='updateTime'>修改执行时间</el-button>
-            <el-button type="danger" size="small" :disabled="disabled" @click="refundModelShow">退款</el-button>
-            <el-button type="primary" size="small" :disabled="disabled" @click="logHandel">查看日志</el-button>
-            <el-button type="success" size="small" :disabled="disabled" @click="confirmBuyHandel">确认购买</el-button>
-            <el-button type="warning" size="small" :disabled="disabled" @click="evaluateLink">评论链接</el-button>
+            <el-button type="success" size="small" :disabled="disabled" @click="evaluateLink">评论链接</el-button>
             <el-button type="primary" size="small" :disabled="disabled">打开浏览器</el-button>
-            <el-button type="primary" size="small" :disabled="disabled" @click='evaluateEdit'>填写评价</el-button>
-            <el-button type="primary" size="small" :disabled="disabled" @click="upComment">上评</el-button>
+            <el-button type="danger" size="small" :disabled="disabled" @click='evaluateEdit'>填写评价</el-button>
+            <el-button type="success" size="small" :disabled="disabled" @click="upComment">上评</el-button>
             <el-button type="primary" size="small" :disabled="disabled" @click="confirmBuyHandel">重新购买</el-button>
+            <el-button type="danger" size="small" :disabled="disabled" @click="refundModelShow">退款</el-button>
+            <el-button type="success" size="small" :disabled="disabled" @click="logHandel">查看日志</el-button>
           </div>
           <div>
             <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage"
@@ -297,18 +297,16 @@
         <div class="table-foot">
           <div>
             <el-button type="danger" size="small" :disabled="disabled" @click='abnormal'>标记异常</el-button>
-            <el-button type="warning" size="small" :disabled="disabled" @click='sellerCancel'>卖家取消</el-button>
             <el-button type="success" size="small" :disabled="disabled" @click="account">重新分配买号</el-button>
             <el-button type="primary" size="small" :disabled="disabled" @click='supplementSheet'>补单</el-button>
             <el-button type="danger" size="small" :disabled="disabled" @click='updateTime'>修改执行时间</el-button>
-            <el-button type="danger" size="small" :disabled="disabled" @click="refundModelShow">退款</el-button>
-            <el-button type="primary" size="small" :disabled="disabled" @click="logHandel">查看日志</el-button>
-            <el-button type="success" size="small" :disabled="disabled" @click="confirmBuyHandel">确认购买</el-button>
-            <el-button type="warning" size="small" :disabled="disabled" @click="evaluateLink">评论链接</el-button>
+            <el-button type="success" size="small" :disabled="disabled" @click="evaluateLink">评论链接</el-button>
             <el-button type="primary" size="small" :disabled="disabled">打开浏览器</el-button>
-            <el-button type="primary" size="small" :disabled="disabled" @click='evaluateEdit'>填写评价</el-button>
-            <el-button type="primary" size="small" :disabled="disabled" @click="upComment">上评</el-button>
+            <el-button type="danger" size="small" :disabled="disabled" @click='evaluateEdit'>填写评价</el-button>
+            <el-button type="success" size="small" :disabled="disabled" @click="upComment">上评</el-button>
             <el-button type="primary" size="small" :disabled="disabled" @click="confirmBuyHandel">重新购买</el-button>
+            <el-button type="danger" size="small" :disabled="disabled" @click="refundModelShow">退款</el-button>
+            <el-button type="success" size="small" :disabled="disabled" @click="logHandel">查看日志</el-button>
           </div>
           <div>
             <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage"
@@ -337,12 +335,14 @@
           <el-input :autosize="{ minRows: 4, maxRows: 8}" type='textarea' v-model='proEvaluateForm.proDes'></el-input>
         </el-form-item>
         <el-form-item label='上传图片' prop='proTitle'>
-          <el-upload action="https://jsonplaceholder.typicode.com/posts/" list-type="picture-card" :on-preview="handlePictureCardPreview" :on-remove="handleRemove">
+          <el-upload action="https://jsonplaceholder.typicode.com/posts/" list-type="picture-card" :on-preview="handlePictureCardPreview"
+            :on-remove="handleRemove">
             <i class="el-icon-plus"></i>
           </el-upload>
         </el-form-item>
         <el-form-item label='上传视频' prop='proTitle'>
-          <el-upload action="https://jsonplaceholder.typicode.com/posts/" list-type="picture-card" :on-preview="handlePictureCardPreview" :on-remove="handleRemove">
+          <el-upload action="https://jsonplaceholder.typicode.com/posts/" list-type="picture-card" :on-preview="handlePictureCardPreview"
+            :on-remove="handleRemove">
             <i class="el-icon-plus"></i>
           </el-upload>
         </el-form-item>
@@ -1074,7 +1074,7 @@
         },
         selected: {},
         times: '',
-        disabled: true,  //单项禁用
+        disabled: true, //单项禁用
         disabledMore: true, //多项禁用
         editPricceModel: false,
         checkBoxData: [],
@@ -1507,10 +1507,10 @@
         if (checkNum == 1) {
           this.disabled = false
           this.disabledMore = false
-        }else if(checkNum>1){
+        } else if (checkNum > 1) {
           this.disabled = true
           this.disabledMore = false
-        }else {
+        } else {
           this.disabled = true
           this.disabledMore = true
         }

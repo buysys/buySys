@@ -7,22 +7,13 @@
     </div>
     <el-collapse-transition>
       <div class="searchBox mb20">
-        <el-form ref="searchForm" :model="searchForm" class="form-item" label-width="80px">
+        <el-form ref="searchForm" :model="searchForm" class="form-item" label-width="90px">
           <el-row>
             <el-col :xs="24" :span="4">
               <el-form-item label="平台">
                 <template>
                   <el-select v-model="searchForm.platform" placeholder="请选择" size="small">
                     <el-option v-for="(item,index) in platformOptions" :key="index" :value="item.value" :label="item.label"></el-option>
-                  </el-select>
-                </template>
-              </el-form-item>
-            </el-col>
-            <el-col :xs="24" :span="4">
-              <el-form-item label="任务类型">
-                <template>
-                  <el-select v-model="searchForm.orderTypeValue" placeholder="请选择" size="small">
-                    <el-option v-for="(item,index) in orderTypeOptions" :key="index" :value="item.value" :label="item.label"></el-option>
                   </el-select>
                 </template>
               </el-form-item>
@@ -35,24 +26,35 @@
               </el-form-item>
             </el-col>
             <el-col :xs="24" :span="4">
+              <el-form-item label="任务类型">
+                <template>
+                  <el-select v-model="searchForm.orderTypeValue" placeholder="请选择" size="small">
+                    <el-option v-for="(item,index) in orderTypeOptions" :key="index" :value="item.value" :label="item.label"></el-option>
+                  </el-select>
+                </template>
+              </el-form-item>
+            </el-col>
+            <el-col :xs="24" :span="4">
               <el-form-item label="关键字">
                 <el-input v-model="searchForm.searchkeywords" placeholder="请输入关键字" size="small"></el-input>
               </el-form-item>
             </el-col>
             <el-col :xs="24" :span="4">
               <el-form-item>
-              <el-button type="primary" size="small">查询</el-button>
-              <el-button size="small" @click="resetSearch">重置</el-button>
+                <el-button type="primary" size="small">查询</el-button>
+                <el-button size="small" @click="resetSearch">重置</el-button>
               </el-form-item>
             </el-col>
           </el-row>
         </el-form>
       </div>
     </el-collapse-transition>
-    <!-- FBA订单列表 -->
-    <div v-if="searchForm.orderTypeValue=='1'">
+    <!-- 订单列表 -->
+    <div>
       <div class="mb20">
-        <el-button type="danger" size="small" :disabled="disabledMore" @click="delModelShow"><i class="el-icon-delete-solid"></i> 删除</el-button>
+        <el-button type="success" size="small" :disabled="disabledMore" @click="confirmPayHandel"><i class="el-icon-check"></i> 确认付款</el-button>
+        <el-button type="danger" size="small" :disabled="disabledMore" @click="delModelShow"><i class="el-icon-delete-solid"></i>
+          删除</el-button>
         <el-button type="warning" size="small"><i class="el-icon-download"></i> 导入</el-button>
         <el-button type="warning" size="small" @click="exportExcel"><i class="el-icon-upload2"></i> 导出</el-button>
       </div>
@@ -69,7 +71,7 @@
           @selection-change="handleSelectionChange" @row-click="rowClick" ref="table">
           <el-table-column type="selection" align="center"></el-table-column>
           <el-table-column type="index" label="序号" align="center" width="50"></el-table-column>
-          <el-table-column prop="Numbers" label="FBA任务编码" align="center" width="120">
+          <el-table-column prop="Numbers" label="任务编码" align="center" width="120">
             <template slot-scope="scope">
               <el-button type="text" @click="viewDetailsModelShow(scope.$index,scope.row)">{{scope.row.Numbers}}</el-button>
             </template>
@@ -92,234 +94,8 @@
         <div class="table-foot">
           <div>
             <el-button type="success" size="small" :disabled="disabled" @click="editPrice">修改价格</el-button>
-            <el-button type="success" size="small" :disabled="disabled" @click="confirmPayHandel">确认付款</el-button>
-            <el-button type="primary" size="small" :disabled="disabled" @click="logHandel">查看日志</el-button>
-            <el-button type="warning" size="small" :disabled="disabled" @click="accountShow">分配买号</el-button>
-            <el-button type="success" size="small" :disabled="disabled" @click="nextShow">继续</el-button>
-          </div>
-          <div>
-            <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage"
-              :page-sizes="[10, 20, 30, 40]" :page-size="10" layout="total, sizes, prev, pager, next, jumper" :total="total">
-            </el-pagination>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- 加购订单列表 -->
-    <div v-if="searchForm.orderTypeValue=='2'">
-      <div class="mb20">
-        <el-button type="danger" size="small" :disabled="disabledMore" @click="delModelShow"><i class="el-icon-delete-solid"></i> 删除</el-button>
-        <el-button type="warning" size="small"><i class="el-icon-download"></i> 导入</el-button>
-        <el-button type="warning" size="small" @click="exportExcel"><i class="el-icon-upload2"></i> 导出</el-button>
-      </div>
-      <div class="tabList">
-        <ul class="tabBlock">
-          <li :class="active === 1 ? 'active':''" @click="getAllData()" :data-index="1">全部<span>({{allNum}})</span></li>
-          <li :class="active === 2 ? 'active':''" :data-index="2" @click="daiBuy">待付款<span>(0)</span></li>
-          <li :class="active === 3 ? 'active':''" :data-index="3" @click="ywc">已完成<span>(0)</span></li>
-          <li :class="active === 4 ? 'active':''" :data-index="4" @click="errData">已取消<span>(0)</span></li>
-        </ul>
-      </div>
-      <div class="mt10">
-        <el-table border :data="tableData" id="exportTable" style="width: 100%" :header-cell-style="{background:'#fafafa'}"
-          @selection-change="handleSelectionChange" @row-click="rowClick" ref="table">
-          <el-table-column type="selection" align="center"></el-table-column>
-          <el-table-column type="index" label="序号" align="center" width="50"></el-table-column>
-          <el-table-column prop="Numbers" label="加购任务编码" align="center" width="120">
-            <template slot-scope="scope">
-              <el-button type="text" @click="viewDetailsModelShow(scope.$index,scope.row)">{{scope.row.Numbers}}</el-button>
-            </template>
-          </el-table-column>
-          <el-table-column prop="CountryId" label="平台/国家" align="center"></el-table-column>
-          <el-table-column prop="Forum" label="终端平台" align="center"></el-table-column>
-          <el-table-column prop="ProductByASIN" label="产品ASIN" align="center"></el-table-column>
-          <el-table-column prop="ProductPrice" label="产品价格" align="center"></el-table-column>
-          <el-table-column prop="OrderNumber" label="任务数" align="center"></el-table-column>
-          <el-table-column prop="ProductPrice" label="产品总额" align="center"></el-table-column>
-          <el-table-column prop="ProductPrice" label="服务费" align="center"></el-table-column>
-          <el-table-column prop="ProductPrice" label="合计金额" align="center"></el-table-column>
-          <el-table-column prop="Numbers" label="交易流水" align="center"></el-table-column>
-          <el-table-column prop="ProductPrice" label="付款金额" align="center"></el-table-column>
-          <el-table-column prop="OrderNote" label="客户名称" align="center"></el-table-column>
-          <el-table-column prop="OrderNote" label="关联刷手" align="center"></el-table-column>
-          <el-table-column prop="OrderTime" label="下单时间" align="center"></el-table-column>
-          <el-table-column prop="Status" label="订单状态" align="center"></el-table-column>
-        </el-table>
-        <div class="table-foot">
-          <div>
-            <el-button type="success" size="small" :disabled="disabled" @click="editPrice">修改价格</el-button>
-            <el-button type="success" size="small" :disabled="disabled" @click="confirmPayHandel">确认付款</el-button>
-            <el-button type="primary" size="small" :disabled="disabled" @click="logHandel">查看日志</el-button>
-            <el-button type="warning" size="small" :disabled="disabled" @click="accountShow">分配买号</el-button>
-            <el-button type="success" size="small" :disabled="disabled" @click="nextShow">继续</el-button>
-          </div>
-          <div>
-            <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage"
-              :page-sizes="[10, 20, 30, 40]" :page-size="10" layout="total, sizes, prev, pager, next, jumper" :total="total">
-            </el-pagination>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- 心愿订单列表 -->
-    <div v-if="searchForm.orderTypeValue=='3'">
-      <div class="mb20">
-        <el-button type="danger" size="small" :disabled="disabledMore" @click="delModelShow"><i class="el-icon-delete-solid"></i> 删除</el-button>
-        <el-button type="warning" size="small"><i class="el-icon-download"></i> 导入</el-button>
-        <el-button type="warning" size="small" @click="exportExcel"><i class="el-icon-upload2"></i> 导出</el-button>
-      </div>
-      <div class="tabList">
-        <ul class="tabBlock">
-          <li :class="active === 1 ? 'active':''" @click="getAllData()" :data-index="1">全部<span>({{allNum}})</span></li>
-          <li :class="active === 2 ? 'active':''" :data-index="2" @click="daiBuy">待付款<span>(0)</span></li>
-          <li :class="active === 3 ? 'active':''" :data-index="3" @click="ywc">已完成<span>(0)</span></li>
-          <li :class="active === 4 ? 'active':''" :data-index="4" @click="errData">已取消<span>(0)</span></li>
-        </ul>
-      </div>
-      <div class="mt10">
-        <el-table border :data="tableData" id="exportTable" style="width: 100%" :header-cell-style="{background:'#fafafa'}"
-          @selection-change="handleSelectionChange" @row-click="rowClick" ref="table">
-          <el-table-column type="selection" align="center"></el-table-column>
-          <el-table-column type="index" label="序号" align="center" width="50"></el-table-column>
-          <el-table-column prop="Numbers" label="心愿任务编码" align="center" width="120">
-            <template slot-scope="scope">
-              <el-button type="text" @click="viewDetailsModelShow(scope.$index,scope.row)">{{scope.row.Numbers}}</el-button>
-            </template>
-          </el-table-column>
-          <el-table-column prop="CountryId" label="平台/国家" align="center"></el-table-column>
-          <el-table-column prop="Forum" label="终端平台" align="center"></el-table-column>
-          <el-table-column prop="ProductByASIN" label="产品ASIN" align="center"></el-table-column>
-          <el-table-column prop="ProductPrice" label="产品价格" align="center"></el-table-column>
-          <el-table-column prop="OrderNumber" label="任务数" align="center"></el-table-column>
-          <el-table-column prop="ProductPrice" label="产品总额" align="center"></el-table-column>
-          <el-table-column prop="ProductPrice" label="服务费" align="center"></el-table-column>
-          <el-table-column prop="ProductPrice" label="合计金额" align="center"></el-table-column>
-          <el-table-column prop="Numbers" label="交易流水" align="center"></el-table-column>
-          <el-table-column prop="ProductPrice" label="付款金额" align="center"></el-table-column>
-          <el-table-column prop="OrderNote" label="客户名称" align="center"></el-table-column>
-          <el-table-column prop="OrderNote" label="关联刷手" align="center"></el-table-column>
-          <el-table-column prop="OrderTime" label="下单时间" align="center"></el-table-column>
-          <el-table-column prop="Status" label="订单状态" align="center"></el-table-column>
-        </el-table>
-        <div class="table-foot">
-          <div>
-            <el-button type="success" size="small" :disabled="disabled" @click="editPrice">修改价格</el-button>
-            <el-button type="success" size="small" :disabled="disabled" @click="confirmPayHandel">确认付款</el-button>
-            <el-button type="primary" size="small" :disabled="disabled" @click="logHandel">查看日志</el-button>
-            <el-button type="warning" size="small" :disabled="disabled" @click="accountShow">分配买号</el-button>
-            <el-button type="success" size="small" :disabled="disabled" @click="nextShow">继续</el-button>
-          </div>
-          <div>
-            <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage"
-              :page-sizes="[10, 20, 30, 40]" :page-size="10" layout="total, sizes, prev, pager, next, jumper" :total="total">
-            </el-pagination>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- 点赞订单列表 -->
-    <div v-if="searchForm.orderTypeValue=='4'">
-      <div class="mb20">
-        <el-button type="danger" size="small" :disabled="disabledMore" @click="delModelShow"><i class="el-icon-delete-solid"></i> 删除</el-button>
-        <el-button type="warning" size="small"><i class="el-icon-download"></i> 导入</el-button>
-        <el-button type="warning" size="small" @click="exportExcel"><i class="el-icon-upload2"></i> 导出</el-button>
-      </div>
-      <div class="tabList">
-        <ul class="tabBlock">
-          <li :class="active === 1 ? 'active':''" @click="getAllData()" :data-index="1">全部<span>({{allNum}})</span></li>
-          <li :class="active === 2 ? 'active':''" :data-index="2" @click="daiBuy">待付款<span>(0)</span></li>
-          <li :class="active === 3 ? 'active':''" :data-index="3" @click="ywc">已完成<span>(0)</span></li>
-          <li :class="active === 4 ? 'active':''" :data-index="4" @click="errData">已取消<span>(0)</span></li>
-        </ul>
-      </div>
-      <div class="mt10">
-        <el-table border :data="tableData" id="exportTable" style="width: 100%" :header-cell-style="{background:'#fafafa'}"
-          @selection-change="handleSelectionChange" @row-click="rowClick" ref="table">
-          <el-table-column type="selection" align="center"></el-table-column>
-          <el-table-column type="index" label="序号" align="center" width="50"></el-table-column>
-          <el-table-column prop="Numbers" label="点赞任务编码" align="center" width="120">
-            <template slot-scope="scope">
-              <el-button type="text" @click="viewLikeDetailsModelShow(scope.$index,scope.row)">{{scope.row.Numbers}}</el-button>
-            </template>
-          </el-table-column>
-          <el-table-column prop="CountryId" label="平台/国家" align="center"></el-table-column>
-          <el-table-column prop="Forum" label="终端平台" align="center"></el-table-column>
-          <el-table-column prop="ProductByASIN" label="产品ASIN" align="center"></el-table-column>
-          <el-table-column prop="ProductPrice" label="产品价格" align="center"></el-table-column>
-          <el-table-column prop="OrderNumber" label="任务数" align="center"></el-table-column>
-          <el-table-column prop="ProductPrice" label="产品总额" align="center"></el-table-column>
-          <el-table-column prop="ProductPrice" label="服务费" align="center"></el-table-column>
-          <el-table-column prop="ProductPrice" label="合计金额" align="center"></el-table-column>
-          <el-table-column prop="Numbers" label="交易流水" align="center"></el-table-column>
-          <el-table-column prop="ProductPrice" label="付款金额" align="center"></el-table-column>
-          <el-table-column prop="OrderNote" label="客户名称" align="center"></el-table-column>
-          <el-table-column prop="OrderNote" label="关联刷手" align="center"></el-table-column>
-          <el-table-column prop="OrderTime" label="下单时间" align="center"></el-table-column>
-          <el-table-column prop="Status" label="订单状态" align="center"></el-table-column>
-        </el-table>
-        <div class="table-foot">
-          <div>
-            <el-button type="success" size="small" :disabled="disabled" @click="editPrice">修改价格</el-button>
-            <el-button type="success" size="small" :disabled="disabled" @click="confirmPayHandel">确认付款</el-button>
-            <el-button type="primary" size="small" :disabled="disabled" @click="logHandel">查看日志</el-button>
-            <el-button type="warning" size="small" :disabled="disabled" @click="accountShow">分配买号</el-button>
-            <el-button type="success" size="small" :disabled="disabled" @click="nextShow">继续</el-button>
-          </div>
-          <div>
-            <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage"
-              :page-sizes="[10, 20, 30, 40]" :page-size="10" layout="total, sizes, prev, pager, next, jumper" :total="total">
-            </el-pagination>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- QA订单列表 -->
-    <div v-if="searchForm.orderTypeValue=='5'">
-      <div class="mb20">
-        <el-button type="danger" size="small" :disabled="disabledMore" @click="delModelShow"><i class="el-icon-delete-solid"></i> 删除</el-button>
-        <el-button type="warning" size="small"><i class="el-icon-download"></i> 导入</el-button>
-        <el-button type="warning" size="small" @click="exportExcel"><i class="el-icon-upload2"></i> 导出</el-button>
-      </div>
-      <div class="tabList">
-        <ul class="tabBlock">
-          <li :class="active === 1 ? 'active':''" @click="getAllData()" :data-index="1">全部<span>({{allNum}})</span></li>
-          <li :class="active === 2 ? 'active':''" :data-index="2" @click="daiBuy">待付款<span>(0)</span></li>
-          <li :class="active === 3 ? 'active':''" :data-index="3" @click="ywc">已完成<span>(0)</span></li>
-          <li :class="active === 4 ? 'active':''" :data-index="4" @click="errData">已取消<span>(0)</span></li>
-        </ul>
-      </div>
-      <div class="mt10">
-        <el-table border :data="tableData" id="exportTable" style="width: 100%" :header-cell-style="{background:'#fafafa'}"
-          @selection-change="handleSelectionChange" @row-click="rowClick" ref="table">
-          <el-table-column type="selection" align="center"></el-table-column>
-          <el-table-column type="index" label="序号" align="center" width="50"></el-table-column>
-          <el-table-column prop="Numbers" label="QA任务编码" align="center" width="120">
-            <template slot-scope="scope">
-              <el-button type="text" @click="viewQaDetailsModelShow(scope.$index,scope.row)">{{scope.row.Numbers}}</el-button>
-            </template>
-          </el-table-column>
-          <el-table-column prop="CountryId" label="平台/国家" align="center"></el-table-column>
-          <el-table-column prop="Forum" label="终端平台" align="center"></el-table-column>
-          <el-table-column prop="ProductByASIN" label="产品ASIN" align="center"></el-table-column>
-          <el-table-column prop="ProductPrice" label="产品价格" align="center"></el-table-column>
-          <el-table-column prop="OrderNumber" label="任务数" align="center"></el-table-column>
-          <el-table-column prop="ProductPrice" label="产品总额" align="center"></el-table-column>
-          <el-table-column prop="ProductPrice" label="服务费" align="center"></el-table-column>
-          <el-table-column prop="ProductPrice" label="合计金额" align="center"></el-table-column>
-          <el-table-column prop="Numbers" label="交易流水" align="center"></el-table-column>
-          <el-table-column prop="ProductPrice" label="付款金额" align="center"></el-table-column>
-          <el-table-column prop="OrderNote" label="客户名称" align="center"></el-table-column>
-          <el-table-column prop="OrderNote" label="关联刷手" align="center"></el-table-column>
-          <el-table-column prop="OrderTime" label="下单时间" align="center"></el-table-column>
-          <el-table-column prop="Status" label="订单状态" align="center"></el-table-column>
-        </el-table>
-        <div class="table-foot">
-          <div>
-            <el-button type="success" size="small" :disabled="disabled" @click="editPrice">修改价格</el-button>
-            <el-button type="success" size="small" :disabled="disabled" @click="confirmPayHandel">确认付款</el-button>
-            <el-button type="primary" size="small" :disabled="disabled" @click="logHandel">查看日志</el-button>
-            <el-button type="warning" size="small" :disabled="disabled" @click="accountShow">分配买号</el-button>
-            <el-button type="success" size="small" :disabled="disabled" @click="nextShow">继续</el-button>
+            <el-button type="primary" size="small" :disabled="disabled" @click="accountShow">分配买号</el-button>
+            <el-button type="warning" size="small" :disabled="disabled" @click="logHandel">查看日志</el-button>
           </div>
           <div>
             <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage"
@@ -917,7 +693,7 @@
         confirmPaymentModel: false,
         cancelPaymentModel: false,
         loading: true,
-        disabled: true,  //单项禁用
+        disabled: true, //单项禁用
         disabledMore: true, //多项禁用
         reasonModel: false,
         editPricceModel: false,
@@ -1157,10 +933,10 @@
         if (checkNum == 1) {
           this.disabled = false
           this.disabledMore = false
-        }else if(checkNum>1){
+        } else if (checkNum > 1) {
           this.disabled = true
           this.disabledMore = false
-        }else {
+        } else {
           this.disabled = true
           this.disabledMore = true
         }

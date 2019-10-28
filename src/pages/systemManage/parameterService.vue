@@ -8,8 +8,8 @@
         <i class="el-icon-delete"></i> 删除</el-button>
     </div>
     <div class="mt10">
-      <el-table border :data="tableData" id="exportTable" style="width: 100%" :header-cell-style="{background:'#fafafa'}"
-        @selection-change="handleSelectionChange" @row-click="rowClick" ref="table">
+      <el-table v-loading="loading" element-loading-text="拼命加载中" border :data="tableData" id="exportTable" style="width: 100%"
+        :header-cell-style="{background:'#fafafa'}" @selection-change="handleSelectionChange" @row-click="rowClick" ref="table">
         <el-table-column type="selection" align="center"></el-table-column>
         <el-table-column type="index" label="序号" align="center" width="50"></el-table-column>
         <el-table-column prop="MinVal" label="开始区间($)" align="center"></el-table-column>

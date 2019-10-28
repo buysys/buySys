@@ -34,8 +34,9 @@
         <!-- <el-button type="danger" size="small" @click="roleModalShow" style="float: right;"><i class="el-icon-s-custom"></i>角色管理</el-button> -->
       </div>
       <div class="mt10">
-        <el-table border :data="tableData" id="exportTable" style="width: 100%" :header-cell-style="{background:'#fafafa'}"
-          @selection-change="handleSelectionChange" @row-click="rowClick" ref="table">
+        <el-table v-loading="loading" element-loading-text="拼命加载中" border :data="tableData" id="exportTable" style="width: 100%"
+          :header-cell-style="{background:'#fafafa'}" @selection-change="handleSelectionChange" @row-click="rowClick"
+          ref="table">
           <el-table-column type="selection" align="center"></el-table-column>
           <el-table-column type="index" label="序号" align="center" width="50"></el-table-column>
           <el-table-column prop="Name" label="姓名" align="center"></el-table-column>

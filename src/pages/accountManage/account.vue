@@ -91,8 +91,8 @@
       </ul>
     </div>
     <div class="mt10">
-      <el-table border :data="tableData" id="exportTable" style="width: 100%" :header-cell-style="{background:'#fafafa'}"
-        @selection-change="handleSelectionChange" @row-click="rowClick" ref="table">
+      <el-table v-loading="loading" element-loading-text="拼命加载中" border :data="tableData" id="exportTable" style="width: 100%"
+        :header-cell-style="{background:'#fafafa'}" @selection-change="handleSelectionChange" @row-click="rowClick" ref="table">
         <el-table-column type="selection" align="center"></el-table-column>
         <el-table-column type="index" label="序号" align="center" width="50"></el-table-column>
         <el-table-column prop="BAcountId" label="登录账号" align="center" width="180">
@@ -253,7 +253,9 @@
             </el-col>
             <el-col :span='12' :xs='24'>
               <el-form-item label="国家">
-                <el-input v-model="item.CountryCode" placeholder='请输入国家'></el-input>
+                <el-select v-model="item.CountryCode" placeholder="请选择国家" style="width: 100%;">
+                  <el-option v-for="item in countryData" :key="item.Code" :label="item.Country" :value="item.Code"></el-option>
+                </el-select>
               </el-form-item>
             </el-col>
             <el-col :span='12' :xs='24'>
@@ -444,7 +446,7 @@
             </el-col>
             <el-col :span='12' :xs='24'>
               <el-form-item label="国家：">
-                <span>{{item.CountryCode}}</span>
+                <span>{{toCountryTxt(item.CountryCode)}}</span>
               </el-form-item>
             </el-col>
             <el-col :span='12' :xs='24'>
@@ -481,7 +483,7 @@
         <el-row v-show="editForm.CardType=='1'">
           <el-col :span='12' :xs='24'>
             <el-form-item label="实体信用卡：">
-              <span>{{editForm.CardId}}</span>
+              <span>{{selectCardViewText}}</span>
             </el-form-item>
           </el-col>
         </el-row>
@@ -968,6 +970,7 @@
             TagIdArry.push(dataTag[x].TagId)
           }
           let dataAddress = res.data.data.BuyerAddressList //收货地址数据
+          let dataLinkedCard = res.data.data.LinkedCard //已选择的信用卡数据
           _this.editForm = {
             PlatformId: dataAccount.PlatformId,
             CountryCode: dataAccount.CountryCode,
@@ -985,12 +988,14 @@
             FBAExpire: dataAccount.FBAExpire,
             StudentExpire: dataAccount.StudentExpire,
             CardType: dataAccount.CardType,
-            CardId: '',
+            CardId: dataLinkedCard.Id,
             IP: dataAccount.IP,
             Memo: dataAccount.Memo,
             TagIds: TagIdArry,
             Address: dataAddress
           }
+          _this.selectCardViewText = dataLinkedCard.Name + ' / ' + dataLinkedCard.AountName + ' / ' +
+            dataLinkedCard.CardNumber
         })
       },
 
@@ -1013,8 +1018,9 @@
         _this.$refs.editForm.validate((valid) => {
           if (valid) {
             let param = Object.assign({}, _this.editForm)
-            param.CardId = Number(param.CardId)
             param.SessionId = sessionStorage.getItem('sessionid')
+            param.BuyerAccountId = _this.checkBoxData[0].BAcountId
+            param.CardId = Number(param.CardId)
             _this.axios.post(_this.GLOBAL.BASE_URL + '/api/doBBuyerAccountUpdate', param).then((res) => {
               _this.$alert(res.data.message, '信息提示', {
                 confirmButtonText: '确定',
@@ -1103,7 +1109,7 @@
       selectCardOK() {
         let _this = this
         let checkData = _this.checkBoxCardData[0]
-        _this.selectCardViewText = checkData.Name + ' / ' + checkData.CardNumber
+        _this.selectCardViewText = checkData.Name + ' / ' + checkData.AountName + ' / ' + checkData.CardNumber
         _this.editForm.CardId = checkData.Id
         _this.closeModal2()
       },
