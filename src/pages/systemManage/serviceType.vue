@@ -65,7 +65,7 @@
         <el-form :model='editForm' ref='editForm' :rules='Rules' label-width='120px' status-icon>
           <el-form-item label="归属类型" prop="ServiceType">
             <template>
-              <el-select v-model="editForm.ServiceType" placeholder="请选择归属类型" @change="show=!show" style="width: 100%;">
+              <el-select v-model="editForm.ServiceType" placeholder="请选择归属类型" @change="typeShow" style="width: 100%;">
                 <el-option v-for="item in ServiceTypeData" :key="item.value" :label="item.label" :value="item.value">
                 </el-option>
               </el-select>
@@ -98,7 +98,7 @@
             </template>
           </el-form-item>
           <el-form-item label="服务费" prop="Fee">
-            <el-input type="number" v-model.number="editForm.Fee"></el-input>
+            <el-input v-model="editForm.Fee"></el-input>
           </el-form-item>
         </el-form>
       </div>
@@ -124,6 +124,7 @@
 <script>
   import FileSaver from 'file-saver'
   import XLSX from 'xlsx'
+
   export default {
     name: 'serviceType',
     data() {
@@ -182,10 +183,16 @@
             trigger: 'blur'
           }],
           Fee: [{
-            required: true,
-            message: '请输入服务费',
-            trigger: 'blur'
-          }]
+              required: true,
+              message: '请输入服务费',
+              trigger: 'blur'
+            },
+            {
+              pattern: /^[0-9]+([.]{1}[0-9]+){0,1}$/,
+              message: '服务费格式不正确',
+              trigger: ['blur', 'change']
+            }
+          ]
         },
         //新增修改归属类型下拉框
         ServiceTypeData: [{
@@ -298,6 +305,17 @@
         })
       },
 
+      //留评类型切换
+      typeShow() {
+        let _this = this
+        let v = _this.editForm.ServiceType
+        if (v == 1) {
+          _this.show = true
+        } else {
+          _this.show = false
+        }
+      },
+
       // 新增弹框
       addModalShow() {
         let _this = this
@@ -326,8 +344,7 @@
             } else {
               param = param2
             }
-            let SessionId = sessionStorage.getItem('sessionid')
-            param.SessionId = SessionId
+            param.SessionId = sessionStorage.getItem('sessionid')
             _this.axios.post(_this.GLOBAL.BASE_URL + '/api/doBServiceNew', param).then((res) => {
               _this.$alert(res.data.message, '信息提示', {
                 confirmButtonText: '确定',
@@ -348,20 +365,27 @@
         _this.title = '服务类型修改'
         _this.doType = 'edit'
         _this.getCountryData()
-        let data = _this.checkBoxData[0]
-        if (data.ServiceType == 1) {
+        let checkData = _this.checkBoxData[0]
+        if (checkData.ServiceType == 1) {
           _this.show = true
         } else {
           _this.show = false
         }
-        _this.editForm = {
-          ServiceType: data.ServiceType,
-          PlatformId: data.PlatformId,
-          Country: data.Country,
-          Service: data.Service,
-          CommentRate: data.CommentRate,
-          Fee: data.UnitPrice
+        let param = {
+          SessionId: sessionStorage.getItem('sessionid'),
+          ServiceId: checkData.Id
         }
+        _this.axios.post(_this.GLOBAL.BASE_URL + '/api/doBServiceUpdateIn', param).then((res) => {
+          let data = res.data.data.Service
+          _this.editForm = {
+            ServiceType: data.ServiceType,
+            PlatformId: data.PlatformId,
+            Country: data.Country,
+            Service: data.Service,
+            CommentRate: data.CommentRate,
+            Fee: data.UnitPrice
+          }
+        })
       },
 
       // 修改
@@ -374,7 +398,7 @@
             let param2 = {
               ServiceType: _this.editForm.ServiceType,
               Service: _this.editForm.Service,
-              Fee: _this.editForm.Fee,
+              Fee: _this.editForm.Fee
             }
             if (_this.editForm.ServiceType == 1) {
               param = param1

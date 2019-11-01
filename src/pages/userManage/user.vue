@@ -12,7 +12,7 @@
             <el-row>
               <el-col :xs="24" :span="4">
                 <el-form-item label="搜索内容">
-                  <el-input v-model="searchForm.searchkeywords" placeholder="请输入姓名/手机/邮箱" size="small"></el-input>
+                  <el-input v-model="searchForm.searchkeywords" placeholder="请输入姓名/手机" size="small"></el-input>
                 </el-form-item>
               </el-col>
               <el-col :xs="24" :span="20">
@@ -41,7 +41,6 @@
           <el-table-column type="index" label="序号" align="center" width="50"></el-table-column>
           <el-table-column prop="Name" label="姓名" align="center"></el-table-column>
           <el-table-column prop="Mobile" label="手机" align="center"></el-table-column>
-          <el-table-column prop="Email" label="邮箱" align="center"></el-table-column>
           <el-table-column prop="Password" label="密码" align="center"></el-table-column>
           <el-table-column prop="Role" label="角色" align="center" :formatter="toTxt"></el-table-column>
           <el-table-column prop="Memo" label="备注" align="center"></el-table-column>
@@ -71,9 +70,6 @@
           </el-form-item>
           <el-form-item label="手机" prop="Mobile">
             <el-input v-model="editForm.Mobile"></el-input>
-          </el-form-item>
-          <el-form-item label="邮箱" prop="Email">
-            <el-input v-model="editForm.Email"></el-input>
           </el-form-item>
           <el-form-item label="密码" prop="Password">
             <el-input v-model="editForm.Password"></el-input>
@@ -146,7 +142,6 @@
         editForm: {
           Name: '',
           Mobile: '',
-          Email: '',
           Password: '',
           RoleId: '',
           Memo: ''
@@ -165,17 +160,6 @@
             {
               pattern: /^[1][3,4,5,6,7,8,9][0-9]{9}$/,
               message: '请输入正确的手机号',
-              trigger: ['blur', 'change']
-            }
-          ],
-          Email: [{
-              required: true,
-              message: '请输入邮箱地址',
-              trigger: 'blur'
-            },
-            {
-              type: 'email',
-              message: '请输入正确的邮箱地址',
               trigger: ['blur', 'change']
             }
           ],
@@ -292,7 +276,6 @@
         _this.editForm = {
           Name: data.Name,
           Mobile: data.Mobile,
-          Email: data.Email,
           Password: data.Password,
           RoleId: data.Role,
           Memo: data.Memo
@@ -379,7 +362,6 @@
         _this.editForm = {
           Name: '',
           Mobile: '',
-          Email: '',
           Password: '',
           RoleId: '',
           Memo: ''

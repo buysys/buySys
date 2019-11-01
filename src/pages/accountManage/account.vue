@@ -81,13 +81,13 @@
     </div>
     <div class="tabList">
       <ul class="tabBlock">
-        <li :class="active === 0 ? 'active':''" :data-index="0" @click="sumCount">全部
-          <span>({{Number(sumData.TotalValid+sumData.TotalInValid+sumData.TotalLimit+sumData.TotalStopped)}})</span>
+        <li :class="active === 0 ? 'active':''" :data-index="0" @click="sumCount">
+          全部<span>（{{Number(sumData.TotalValid+sumData.TotalInValid+sumData.TotalLimit+sumData.TotalStopped)}}）</span>
         </li>
-        <li :class="active === 1 ? 'active':''" :data-index="1" @click="validCount">正常 <span>({{sumData.TotalValid}})</span></li>
-        <li :class="active === 2 ? 'active':''" :data-index="2" @click="inValidCount">失效 <span>({{sumData.TotalInValid}})</span></li>
-        <li :class="active === 3 ? 'active':''" :data-index="3" @click="limitCount">限评 <span>({{sumData.TotalLimit}})</span></li>
-        <li :class="active === 4 ? 'active':''" :data-index="4" @click="stoppedCount">封号 <span>({{sumData.TotalStopped}})</span></li>
+        <li :class="active === 1 ? 'active':''" :data-index="1" @click="validCount">正常<span>（{{sumData.TotalValid}}）</span></li>
+        <li :class="active === 2 ? 'active':''" :data-index="2" @click="inValidCount">失效<span>（{{sumData.TotalInValid}}）</span></li>
+        <li :class="active === 3 ? 'active':''" :data-index="3" @click="limitCount">限评<span>（{{sumData.TotalLimit}}）</span></li>
+        <li :class="active === 4 ? 'active':''" :data-index="4" @click="stoppedCount">封号<span>（{{sumData.TotalStopped}}）</span></li>
       </ul>
     </div>
     <div class="mt10">
@@ -664,11 +664,11 @@
 </template>
 
 <script>
-  import buyTag from './buyTag'
-  import sysConfig from './sysConfig'
-
   import FileSaver from 'file-saver'
   import XLSX from 'xlsx'
+
+  import buyTag from './buyTag'
+  import sysConfig from './sysConfig'
 
   export default {
     name: 'account',

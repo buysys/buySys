@@ -100,6 +100,9 @@
 </template>
 
 <script>
+  import FileSaver from 'file-saver'
+  import XLSX from 'xlsx'
+  
   export default {
     name: 'countryManage',
     data() {

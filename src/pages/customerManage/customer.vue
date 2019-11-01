@@ -11,7 +11,7 @@
           <el-row>
             <el-col :xs="24" :span="6">
               <el-form-item label="搜索内容">
-                <el-input v-model="searchForm.searchkeywords" placeholder="请输入客户编码/姓名/手机号/邮箱/微信/QQ" size="small"></el-input>
+                <el-input v-model="searchForm.searchkeywords" placeholder="请输入客户编码/姓名/手机号/微信/QQ" size="small"></el-input>
               </el-form-item>
             </el-col>
             <el-col :xs="24" :span="18">
@@ -44,7 +44,6 @@
         </el-table-column>
         <el-table-column prop="Name" label="姓名" align="center"></el-table-column>
         <el-table-column prop="PhoneNumber" label="手机" align="center"></el-table-column>
-        <el-table-column prop="Email" label="邮箱" align="center"></el-table-column>
         <el-table-column prop="WeChat" label="微信" align="center"></el-table-column>
         <el-table-column prop="QQ" label="QQ" align="center"></el-table-column>
         <el-table-column prop="UserId" label="所属业务员" align="center"></el-table-column>
@@ -73,9 +72,6 @@
         </el-form-item>
         <el-form-item label="手机" prop="Mobile">
           <el-input v-model="editForm.Mobile"></el-input>
-        </el-form-item>
-        <el-form-item label="邮箱" prop="Email">
-          <el-input v-model="editForm.Email"></el-input>
         </el-form-item>
         <el-form-item label="密码" prop="Password">
           <el-input v-model="editForm.Password"></el-input>
@@ -110,7 +106,6 @@
             <el-form-item label="编码："><span>{{viewForm.ClientCode}}</span></el-form-item>
             <el-form-item label="姓名："><span>{{viewForm.Name}}</span></el-form-item>
             <el-form-item label="手机："><span>{{viewForm.PhoneNumber}}</span></el-form-item>
-            <el-form-item label="邮箱："><span>{{viewForm.Email}}</span></el-form-item>
             <el-form-item label="密码："><span>{{viewForm.Password}}</span></el-form-item>
             <el-form-item label="所属业务员："><span>{{viewForm.UserId}}</span></el-form-item>
             <el-form-item label="微信："><span>{{viewForm.WeChat}}</span></el-form-item>
@@ -235,17 +230,6 @@
               trigger: ['blur', 'change']
             }
           ],
-          Email: [{
-              required: true,
-              message: '请输入邮箱地址',
-              trigger: 'blur'
-            },
-            {
-              type: 'email',
-              message: '请输入正确的邮箱地址',
-              trigger: ['blur', 'change']
-            }
-          ],
           Password: [{
             required: true,
             message: '请输入密码',
@@ -346,7 +330,6 @@
         _this.editForm = {
           Name: data.Name,
           Password: data.Password,
-          Email: data.Email,
           BUserId: data.UserId,
           Mobile: data.PhoneNumber,
           WeChat: data.WeChat,
@@ -484,7 +467,6 @@
         _this.editForm = {
           Name: '',
           Password: '',
-          Email: '',
           BUserId: '',
           Mobile: '',
           WeChat: '',

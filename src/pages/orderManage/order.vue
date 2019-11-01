@@ -95,7 +95,7 @@
           <div>
             <el-button type="success" size="small" :disabled="disabled" @click="editPrice">修改价格</el-button>
             <el-button type="primary" size="small" :disabled="disabled" @click="accountShow">分配买号</el-button>
-            <el-button type="warning" size="small" :disabled="disabled" @click="logHandel">查看日志</el-button>
+            <el-button type="danger" size="small" :disabled="disabled" @click="logHandel">查看日志</el-button>
           </div>
           <div>
             <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage"

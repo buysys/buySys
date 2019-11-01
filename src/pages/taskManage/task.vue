@@ -58,7 +58,7 @@
         卖家取消</el-button>
       <el-button type="danger" size="small" :disabled="disabledMore" @click="confirmBuyHandel"><i class="el-icon-circle-check"></i>
         确认购买</el-button>
-      <el-button type="success" size="small" :disabled="disabledMore" @click="confirmBuyHandel"><i class="el-icon-warning-outline"></i>
+      <el-button type="success" size="small" :disabled="disabledMore" @click=""><i class="el-icon-warning-outline"></i>
         忽略</el-button>
       <el-button type="warning" size="small"><i class="el-icon-download"></i> 导入</el-button>
       <el-button type="warning" size="small"><i class="el-icon-upload2"></i> 导出</el-button>

@@ -140,7 +140,11 @@
 </template>
 
 <script>
+  import FileSaver from 'file-saver'
+  import XLSX from 'xlsx'
+
   import relationCountry from '../../common/relationCountry'
+
   export default {
     name: 'exchangeRate',
     data() {

@@ -139,6 +139,7 @@
 
   import relationUrl from '../../common/relationUrl'
   import orderTask from '../../common/orderTask'
+  
   export default {
     name: 'platform',
     data() {
