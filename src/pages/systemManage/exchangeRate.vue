@@ -42,7 +42,7 @@
         <el-table-column prop="ExRate" label="汇率" align="center"></el-table-column>
         <el-table-column prop="CountryNumber" label="已关联国家" align="center">
           <template slot-scope="scope">
-            <el-button type="text" @click="glCountry(scope.$index,scope.row)">{{scope.row.CountryNumber}}</el-button>
+            <el-tag size="small" @click="glCountry(scope.$index,scope.row)">{{scope.row.CountryNumber}}</el-tag>
           </template>
         </el-table-column>
         <el-table-column prop="Memo" label="备注" align="center"></el-table-column>

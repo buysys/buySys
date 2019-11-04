@@ -37,7 +37,7 @@
         <el-table-column prop="Platform" label="平台名称" align="center"></el-table-column>
         <el-table-column prop="countryNum" label="已关联国家" align="center">
           <template slot-scope="scope">
-            <el-button type="text" @click="glCountry(scope.$index,scope.row)">{{scope.row.countryNum}}</el-button>
+            <el-tag size="small" @click="glCountry(scope.$index,scope.row)">{{scope.row.countryNum}}</el-tag>
           </template>
         </el-table-column>
         <el-table-column prop="Status" label="禁用 | 启用" align="center">
@@ -139,7 +139,7 @@
 
   import relationUrl from '../../common/relationUrl'
   import orderTask from '../../common/orderTask'
-  
+
   export default {
     name: 'platform',
     data() {
